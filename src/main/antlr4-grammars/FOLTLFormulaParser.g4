@@ -7,7 +7,7 @@ start
     ;
 
 acrossQuantifiedFormula
-		:		((FORALL | EXISTS) VARIABLE)? temporalFormula
+		:		((FORALL | EXISTS) VARIABLE)? LPAREN? temporalFormula RPAREN?
 		;
 
 temporalFormula
