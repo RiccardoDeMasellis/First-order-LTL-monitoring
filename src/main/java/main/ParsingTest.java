@@ -29,7 +29,7 @@ public class ParsingTest {
 
 		//FOLTL parsing test
 
-		String foltlInput = "Forall ?z ( G ( P(?z) ) )";
+		String foltlInput = "Forall ?z ( [] ( G(?z) ) )";
 
 		FOLTLFormulaParserLexer foltlLexer = new FOLTLFormulaParserLexer(new ANTLRInputStream(foltlInput));
 		FOLTLFormulaParserParser foltlParser = new FOLTLFormulaParserParser(new CommonTokenStream(foltlLexer));

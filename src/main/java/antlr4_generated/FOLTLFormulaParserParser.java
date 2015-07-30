@@ -22,12 +22,12 @@ public class FOLTLFormulaParserParser extends Parser {
 		T__0=1, LAST=2, WEAKUNTIL=3, UNTIL=4, RELEASE=5, GLOBALLY=6, EVENTUALLY=7, 
 		WEAKNEXT=8, NEXT=9, LPAREN=10, RPAREN=11, DOUBLEIMPLY=12, IMPLY=13, AND=14, 
 		OR=15, NOT=16, FORALL=17, EXISTS=18, EQUAL=19, VARIABLE=20, CONSTANT=21, 
-		PREPOSITION=22, WS=23, LSEPARATOR=24, RSEPARATOR=25;
+		PREPOSITION=22, WS=23;
 	public static final String[] tokenNames = {
 		"<INVALID>", "','", "LAST", "WEAKUNTIL", "UNTIL", "RELEASE", "GLOBALLY", 
 		"EVENTUALLY", "WEAKNEXT", "NEXT", "'('", "')'", "'<->'", "'->'", "AND", 
 		"OR", "'!'", "'Forall'", "'Exists'", "'='", "VARIABLE", "CONSTANT", "PREPOSITION", 
-		"WS", "LSEPARATOR", "RSEPARATOR"
+		"WS"
 	};
 	public static final int
 		RULE_start = 0, RULE_acrossQuantifiedFormula = 1, RULE_temporalFormula = 2, 
@@ -105,8 +105,6 @@ public class FOLTLFormulaParserParser extends Parser {
 
 	public static class AcrossQuantifiedFormulaContext extends ParserRuleContext {
 		public TerminalNode EXISTS() { return getToken(FOLTLFormulaParserParser.EXISTS, 0); }
-		public TerminalNode LPAREN() { return getToken(FOLTLFormulaParserParser.LPAREN, 0); }
-		public TerminalNode RPAREN() { return getToken(FOLTLFormulaParserParser.RPAREN, 0); }
 		public TerminalNode FORALL() { return getToken(FOLTLFormulaParserParser.FORALL, 0); }
 		public TemporalFormulaContext temporalFormula() {
 			return getRuleContext(TemporalFormulaContext.class,0);
@@ -144,23 +142,7 @@ public class FOLTLFormulaParserParser extends Parser {
 				}
 				break;
 			}
-			setState(60);
-			switch ( getInterpreter().adaptivePredict(_input,1,_ctx) ) {
-			case 1:
-				{
-				setState(59); match(LPAREN);
-				}
-				break;
-			}
-			setState(62); temporalFormula();
-			setState(64);
-			_la = _input.LA(1);
-			if (_la==RPAREN) {
-				{
-				setState(63); match(RPAREN);
-				}
-			}
-
+			setState(59); temporalFormula();
 			}
 		}
 		catch (RecognitionException re) {
@@ -195,7 +177,7 @@ public class FOLTLFormulaParserParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(66); temporalDoubleImplication();
+			setState(61); temporalDoubleImplication();
 			}
 		}
 		catch (RecognitionException re) {
@@ -238,18 +220,18 @@ public class FOLTLFormulaParserParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(68); temporalImplication();
-			setState(73);
+			setState(63); temporalImplication();
+			setState(68);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
 			while (_la==DOUBLEIMPLY) {
 				{
 				{
-				setState(69); match(DOUBLEIMPLY);
-				setState(70); temporalImplication();
+				setState(64); match(DOUBLEIMPLY);
+				setState(65); temporalImplication();
 				}
 				}
-				setState(75);
+				setState(70);
 				_errHandler.sync(this);
 				_la = _input.LA(1);
 			}
@@ -295,18 +277,18 @@ public class FOLTLFormulaParserParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(76); temporalDisjunction();
-			setState(81);
+			setState(71); temporalDisjunction();
+			setState(76);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
 			while (_la==IMPLY) {
 				{
 				{
-				setState(77); match(IMPLY);
-				setState(78); temporalDisjunction();
+				setState(72); match(IMPLY);
+				setState(73); temporalDisjunction();
 				}
 				}
-				setState(83);
+				setState(78);
 				_errHandler.sync(this);
 				_la = _input.LA(1);
 			}
@@ -352,18 +334,18 @@ public class FOLTLFormulaParserParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(84); temporalConjunction();
-			setState(89);
+			setState(79); temporalConjunction();
+			setState(84);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
 			while (_la==OR) {
 				{
 				{
-				setState(85); match(OR);
-				setState(86); temporalConjunction();
+				setState(80); match(OR);
+				setState(81); temporalConjunction();
 				}
 				}
-				setState(91);
+				setState(86);
 				_errHandler.sync(this);
 				_la = _input.LA(1);
 			}
@@ -409,18 +391,18 @@ public class FOLTLFormulaParserParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(92); weakUntil();
-			setState(97);
+			setState(87); weakUntil();
+			setState(92);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
 			while (_la==AND) {
 				{
 				{
-				setState(93); match(AND);
-				setState(94); weakUntil();
+				setState(88); match(AND);
+				setState(89); weakUntil();
 				}
 				}
-				setState(99);
+				setState(94);
 				_errHandler.sync(this);
 				_la = _input.LA(1);
 			}
@@ -466,18 +448,18 @@ public class FOLTLFormulaParserParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(100); release();
-			setState(105);
+			setState(95); release();
+			setState(100);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
 			while (_la==WEAKUNTIL) {
 				{
 				{
-				setState(101); match(WEAKUNTIL);
-				setState(102); release();
+				setState(96); match(WEAKUNTIL);
+				setState(97); release();
 				}
 				}
-				setState(107);
+				setState(102);
 				_errHandler.sync(this);
 				_la = _input.LA(1);
 			}
@@ -523,18 +505,18 @@ public class FOLTLFormulaParserParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(108); until();
-			setState(113);
+			setState(103); until();
+			setState(108);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
 			while (_la==RELEASE) {
 				{
 				{
-				setState(109); match(RELEASE);
-				setState(110); until();
+				setState(104); match(RELEASE);
+				setState(105); until();
 				}
 				}
-				setState(115);
+				setState(110);
 				_errHandler.sync(this);
 				_la = _input.LA(1);
 			}
@@ -580,18 +562,18 @@ public class FOLTLFormulaParserParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(116); globally();
-			setState(121);
+			setState(111); globally();
+			setState(116);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
 			while (_la==UNTIL) {
 				{
 				{
-				setState(117); match(UNTIL);
-				setState(118); globally();
+				setState(112); match(UNTIL);
+				setState(113); globally();
 				}
 				}
-				setState(123);
+				setState(118);
 				_errHandler.sync(this);
 				_la = _input.LA(1);
 			}
@@ -631,15 +613,15 @@ public class FOLTLFormulaParserParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(125);
+			setState(120);
 			_la = _input.LA(1);
 			if (_la==GLOBALLY) {
 				{
-				setState(124); match(GLOBALLY);
+				setState(119); match(GLOBALLY);
 				}
 			}
 
-			setState(127); eventually();
+			setState(122); eventually();
 			}
 		}
 		catch (RecognitionException re) {
@@ -676,15 +658,15 @@ public class FOLTLFormulaParserParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(130);
+			setState(125);
 			_la = _input.LA(1);
 			if (_la==EVENTUALLY) {
 				{
-				setState(129); match(EVENTUALLY);
+				setState(124); match(EVENTUALLY);
 				}
 			}
 
-			setState(132); weakNext();
+			setState(127); weakNext();
 			}
 		}
 		catch (RecognitionException re) {
@@ -721,15 +703,15 @@ public class FOLTLFormulaParserParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(135);
+			setState(130);
 			_la = _input.LA(1);
 			if (_la==WEAKNEXT) {
 				{
-				setState(134); match(WEAKNEXT);
+				setState(129); match(WEAKNEXT);
 				}
 			}
 
-			setState(137); next();
+			setState(132); next();
 			}
 		}
 		catch (RecognitionException re) {
@@ -766,15 +748,15 @@ public class FOLTLFormulaParserParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(140);
+			setState(135);
 			_la = _input.LA(1);
 			if (_la==NEXT) {
 				{
-				setState(139); match(NEXT);
+				setState(134); match(NEXT);
 				}
 			}
 
-			setState(142); notTemp();
+			setState(137); notTemp();
 			}
 		}
 		catch (RecognitionException re) {
@@ -790,11 +772,11 @@ public class FOLTLFormulaParserParser extends Parser {
 
 	public static class NotTempContext extends ParserRuleContext {
 		public TerminalNode NOT() { return getToken(FOLTLFormulaParserParser.NOT, 0); }
-		public TerminalNode RSEPARATOR() { return getToken(FOLTLFormulaParserParser.RSEPARATOR, 0); }
-		public TerminalNode LSEPARATOR() { return getToken(FOLTLFormulaParserParser.LSEPARATOR, 0); }
+		public TerminalNode LPAREN() { return getToken(FOLTLFormulaParserParser.LPAREN, 0); }
 		public LtlfAtomContext ltlfAtom() {
 			return getRuleContext(LtlfAtomContext.class,0);
 		}
+		public TerminalNode RPAREN() { return getToken(FOLTLFormulaParserParser.RPAREN, 0); }
 		public TemporalFormulaContext temporalFormula() {
 			return getRuleContext(TemporalFormulaContext.class,0);
 		}
@@ -814,29 +796,29 @@ public class FOLTLFormulaParserParser extends Parser {
 		enterRule(_localctx, 28, RULE_notTemp);
 		int _la;
 		try {
-			setState(152);
-			switch ( getInterpreter().adaptivePredict(_input,15,_ctx) ) {
+			setState(147);
+			switch ( getInterpreter().adaptivePredict(_input,13,_ctx) ) {
 			case 1:
 				enterOuterAlt(_localctx, 1);
 				{
-				setState(144); ltlfAtom();
+				setState(139); ltlfAtom();
 				}
 				break;
 
 			case 2:
 				enterOuterAlt(_localctx, 2);
 				{
-				setState(146);
+				setState(141);
 				_la = _input.LA(1);
 				if (_la==NOT) {
 					{
-					setState(145); match(NOT);
+					setState(140); match(NOT);
 					}
 				}
 
-				setState(148); match(LSEPARATOR);
-				setState(149); temporalFormula();
-				setState(150); match(RSEPARATOR);
+				setState(143); match(LPAREN);
+				setState(144); temporalFormula();
+				setState(145); match(RPAREN);
 				}
 				break;
 			}
@@ -872,12 +854,12 @@ public class FOLTLFormulaParserParser extends Parser {
 		LtlfAtomContext _localctx = new LtlfAtomContext(_ctx, getState());
 		enterRule(_localctx, 30, RULE_ltlfAtom);
 		try {
-			setState(156);
+			setState(151);
 			switch (_input.LA(1)) {
 			case LAST:
 				enterOuterAlt(_localctx, 1);
 				{
-				setState(154); match(LAST);
+				setState(149); match(LAST);
 				}
 				break;
 			case LPAREN:
@@ -889,7 +871,7 @@ public class FOLTLFormulaParserParser extends Parser {
 			case PREPOSITION:
 				enterOuterAlt(_localctx, 2);
 				{
-				setState(155); localQuantifiedFormula();
+				setState(150); localQuantifiedFormula();
 				}
 				break;
 			default:
@@ -932,21 +914,21 @@ public class FOLTLFormulaParserParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(160);
+			setState(155);
 			_la = _input.LA(1);
 			if (_la==FORALL || _la==EXISTS) {
 				{
-				setState(158);
+				setState(153);
 				_la = _input.LA(1);
 				if ( !(_la==FORALL || _la==EXISTS) ) {
 				_errHandler.recoverInline(this);
 				}
 				consume();
-				setState(159); match(VARIABLE);
+				setState(154); match(VARIABLE);
 				}
 			}
 
-			setState(162); localDoubleImplication();
+			setState(157); localDoubleImplication();
 			}
 		}
 		catch (RecognitionException re) {
@@ -989,22 +971,22 @@ public class FOLTLFormulaParserParser extends Parser {
 			int _alt;
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(164); localImplication();
-			setState(169);
+			setState(159); localImplication();
+			setState(164);
 			_errHandler.sync(this);
-			_alt = getInterpreter().adaptivePredict(_input,18,_ctx);
+			_alt = getInterpreter().adaptivePredict(_input,16,_ctx);
 			while ( _alt!=2 && _alt!=org.antlr.v4.runtime.atn.ATN.INVALID_ALT_NUMBER ) {
 				if ( _alt==1 ) {
 					{
 					{
-					setState(165); match(DOUBLEIMPLY);
-					setState(166); localImplication();
+					setState(160); match(DOUBLEIMPLY);
+					setState(161); localImplication();
 					}
 					} 
 				}
-				setState(171);
+				setState(166);
 				_errHandler.sync(this);
-				_alt = getInterpreter().adaptivePredict(_input,18,_ctx);
+				_alt = getInterpreter().adaptivePredict(_input,16,_ctx);
 			}
 			}
 		}
@@ -1048,22 +1030,22 @@ public class FOLTLFormulaParserParser extends Parser {
 			int _alt;
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(172); localDisjunction();
-			setState(177);
+			setState(167); localDisjunction();
+			setState(172);
 			_errHandler.sync(this);
-			_alt = getInterpreter().adaptivePredict(_input,19,_ctx);
+			_alt = getInterpreter().adaptivePredict(_input,17,_ctx);
 			while ( _alt!=2 && _alt!=org.antlr.v4.runtime.atn.ATN.INVALID_ALT_NUMBER ) {
 				if ( _alt==1 ) {
 					{
 					{
-					setState(173); match(IMPLY);
-					setState(174); localDisjunction();
+					setState(168); match(IMPLY);
+					setState(169); localDisjunction();
 					}
 					} 
 				}
-				setState(179);
+				setState(174);
 				_errHandler.sync(this);
-				_alt = getInterpreter().adaptivePredict(_input,19,_ctx);
+				_alt = getInterpreter().adaptivePredict(_input,17,_ctx);
 			}
 			}
 		}
@@ -1107,22 +1089,22 @@ public class FOLTLFormulaParserParser extends Parser {
 			int _alt;
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(180); localConjunction();
-			setState(185);
+			setState(175); localConjunction();
+			setState(180);
 			_errHandler.sync(this);
-			_alt = getInterpreter().adaptivePredict(_input,20,_ctx);
+			_alt = getInterpreter().adaptivePredict(_input,18,_ctx);
 			while ( _alt!=2 && _alt!=org.antlr.v4.runtime.atn.ATN.INVALID_ALT_NUMBER ) {
 				if ( _alt==1 ) {
 					{
 					{
-					setState(181); match(OR);
-					setState(182); localConjunction();
+					setState(176); match(OR);
+					setState(177); localConjunction();
 					}
 					} 
 				}
-				setState(187);
+				setState(182);
 				_errHandler.sync(this);
-				_alt = getInterpreter().adaptivePredict(_input,20,_ctx);
+				_alt = getInterpreter().adaptivePredict(_input,18,_ctx);
 			}
 			}
 		}
@@ -1166,22 +1148,22 @@ public class FOLTLFormulaParserParser extends Parser {
 			int _alt;
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(188); localNegation();
-			setState(193);
+			setState(183); localNegation();
+			setState(188);
 			_errHandler.sync(this);
-			_alt = getInterpreter().adaptivePredict(_input,21,_ctx);
+			_alt = getInterpreter().adaptivePredict(_input,19,_ctx);
 			while ( _alt!=2 && _alt!=org.antlr.v4.runtime.atn.ATN.INVALID_ALT_NUMBER ) {
 				if ( _alt==1 ) {
 					{
 					{
-					setState(189); match(AND);
-					setState(190); localNegation();
+					setState(184); match(AND);
+					setState(185); localNegation();
 					}
 					} 
 				}
-				setState(195);
+				setState(190);
 				_errHandler.sync(this);
-				_alt = getInterpreter().adaptivePredict(_input,21,_ctx);
+				_alt = getInterpreter().adaptivePredict(_input,19,_ctx);
 			}
 			}
 		}
@@ -1224,28 +1206,28 @@ public class FOLTLFormulaParserParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(197);
+			setState(192);
 			_la = _input.LA(1);
 			if (_la==NOT) {
 				{
-				setState(196); match(NOT);
+				setState(191); match(NOT);
 				}
 			}
 
-			setState(204);
+			setState(199);
 			switch (_input.LA(1)) {
 			case VARIABLE:
 			case CONSTANT:
 			case PREPOSITION:
 				{
-				setState(199); predicate();
+				setState(194); predicate();
 				}
 				break;
 			case LPAREN:
 				{
-				setState(200); match(LPAREN);
-				setState(201); localQuantifiedFormula();
-				setState(202); match(RPAREN);
+				setState(195); match(LPAREN);
+				setState(196); localQuantifiedFormula();
+				setState(197); match(RPAREN);
 				}
 				break;
 			default:
@@ -1287,20 +1269,20 @@ public class FOLTLFormulaParserParser extends Parser {
 		PredicateContext _localctx = new PredicateContext(_ctx, getState());
 		enterRule(_localctx, 44, RULE_predicate);
 		try {
-			setState(209);
+			setState(204);
 			switch (_input.LA(1)) {
 			case PREPOSITION:
 				enterOuterAlt(_localctx, 1);
 				{
-				setState(206); match(PREPOSITION);
-				setState(207); predicateTuple();
+				setState(201); match(PREPOSITION);
+				setState(202); predicateTuple();
 				}
 				break;
 			case VARIABLE:
 			case CONSTANT:
 				enterOuterAlt(_localctx, 2);
 				{
-				setState(208); equality();
+				setState(203); equality();
 				}
 				break;
 			default:
@@ -1343,9 +1325,9 @@ public class FOLTLFormulaParserParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(211); term();
-			setState(212); match(EQUAL);
-			setState(213); term();
+			setState(206); term();
+			setState(207); match(EQUAL);
+			setState(208); term();
 			}
 		}
 		catch (RecognitionException re) {
@@ -1386,23 +1368,23 @@ public class FOLTLFormulaParserParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(215); match(LPAREN);
-			setState(216); term();
-			setState(221);
+			setState(210); match(LPAREN);
+			setState(211); term();
+			setState(216);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
 			while (_la==T__0) {
 				{
 				{
-				setState(217); match(T__0);
-				setState(218); term();
+				setState(212); match(T__0);
+				setState(213); term();
 				}
 				}
-				setState(223);
+				setState(218);
 				_errHandler.sync(this);
 				_la = _input.LA(1);
 			}
-			setState(224); match(RPAREN);
+			setState(219); match(RPAREN);
 			}
 		}
 		catch (RecognitionException re) {
@@ -1437,7 +1419,7 @@ public class FOLTLFormulaParserParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(226);
+			setState(221);
 			_la = _input.LA(1);
 			if ( !(_la==VARIABLE || _la==CONSTANT) ) {
 			_errHandler.recoverInline(this);
@@ -1457,78 +1439,76 @@ public class FOLTLFormulaParserParser extends Parser {
 	}
 
 	public static final String _serializedATN =
-		"\3\u0430\ud6d1\u8206\uad2d\u4417\uaef1\u8d80\uaadd\3\33\u00e7\4\2\t\2"+
+		"\3\u0430\ud6d1\u8206\uad2d\u4417\uaef1\u8d80\uaadd\3\31\u00e2\4\2\t\2"+
 		"\4\3\t\3\4\4\t\4\4\5\t\5\4\6\t\6\4\7\t\7\4\b\t\b\4\t\t\t\4\n\t\n\4\13"+
 		"\t\13\4\f\t\f\4\r\t\r\4\16\t\16\4\17\t\17\4\20\t\20\4\21\t\21\4\22\t\22"+
 		"\4\23\t\23\4\24\t\24\4\25\t\25\4\26\t\26\4\27\t\27\4\30\t\30\4\31\t\31"+
-		"\4\32\t\32\4\33\t\33\3\2\3\2\3\2\3\3\3\3\5\3<\n\3\3\3\5\3?\n\3\3\3\3\3"+
-		"\5\3C\n\3\3\4\3\4\3\5\3\5\3\5\7\5J\n\5\f\5\16\5M\13\5\3\6\3\6\3\6\7\6"+
-		"R\n\6\f\6\16\6U\13\6\3\7\3\7\3\7\7\7Z\n\7\f\7\16\7]\13\7\3\b\3\b\3\b\7"+
-		"\bb\n\b\f\b\16\be\13\b\3\t\3\t\3\t\7\tj\n\t\f\t\16\tm\13\t\3\n\3\n\3\n"+
-		"\7\nr\n\n\f\n\16\nu\13\n\3\13\3\13\3\13\7\13z\n\13\f\13\16\13}\13\13\3"+
-		"\f\5\f\u0080\n\f\3\f\3\f\3\r\5\r\u0085\n\r\3\r\3\r\3\16\5\16\u008a\n\16"+
-		"\3\16\3\16\3\17\5\17\u008f\n\17\3\17\3\17\3\20\3\20\5\20\u0095\n\20\3"+
-		"\20\3\20\3\20\3\20\5\20\u009b\n\20\3\21\3\21\5\21\u009f\n\21\3\22\3\22"+
-		"\5\22\u00a3\n\22\3\22\3\22\3\23\3\23\3\23\7\23\u00aa\n\23\f\23\16\23\u00ad"+
-		"\13\23\3\24\3\24\3\24\7\24\u00b2\n\24\f\24\16\24\u00b5\13\24\3\25\3\25"+
-		"\3\25\7\25\u00ba\n\25\f\25\16\25\u00bd\13\25\3\26\3\26\3\26\7\26\u00c2"+
-		"\n\26\f\26\16\26\u00c5\13\26\3\27\5\27\u00c8\n\27\3\27\3\27\3\27\3\27"+
-		"\3\27\5\27\u00cf\n\27\3\30\3\30\3\30\5\30\u00d4\n\30\3\31\3\31\3\31\3"+
-		"\31\3\32\3\32\3\32\3\32\7\32\u00de\n\32\f\32\16\32\u00e1\13\32\3\32\3"+
-		"\32\3\33\3\33\3\33\2\2\34\2\4\6\b\n\f\16\20\22\24\26\30\32\34\36 \"$&"+
-		"(*,.\60\62\64\2\4\3\2\23\24\3\2\26\27\u00e6\2\66\3\2\2\2\4;\3\2\2\2\6"+
-		"D\3\2\2\2\bF\3\2\2\2\nN\3\2\2\2\fV\3\2\2\2\16^\3\2\2\2\20f\3\2\2\2\22"+
-		"n\3\2\2\2\24v\3\2\2\2\26\177\3\2\2\2\30\u0084\3\2\2\2\32\u0089\3\2\2\2"+
-		"\34\u008e\3\2\2\2\36\u009a\3\2\2\2 \u009e\3\2\2\2\"\u00a2\3\2\2\2$\u00a6"+
-		"\3\2\2\2&\u00ae\3\2\2\2(\u00b6\3\2\2\2*\u00be\3\2\2\2,\u00c7\3\2\2\2."+
-		"\u00d3\3\2\2\2\60\u00d5\3\2\2\2\62\u00d9\3\2\2\2\64\u00e4\3\2\2\2\66\67"+
-		"\5\4\3\2\678\7\2\2\38\3\3\2\2\29:\t\2\2\2:<\7\26\2\2;9\3\2\2\2;<\3\2\2"+
-		"\2<>\3\2\2\2=?\7\f\2\2>=\3\2\2\2>?\3\2\2\2?@\3\2\2\2@B\5\6\4\2AC\7\r\2"+
-		"\2BA\3\2\2\2BC\3\2\2\2C\5\3\2\2\2DE\5\b\5\2E\7\3\2\2\2FK\5\n\6\2GH\7\16"+
-		"\2\2HJ\5\n\6\2IG\3\2\2\2JM\3\2\2\2KI\3\2\2\2KL\3\2\2\2L\t\3\2\2\2MK\3"+
-		"\2\2\2NS\5\f\7\2OP\7\17\2\2PR\5\f\7\2QO\3\2\2\2RU\3\2\2\2SQ\3\2\2\2ST"+
-		"\3\2\2\2T\13\3\2\2\2US\3\2\2\2V[\5\16\b\2WX\7\21\2\2XZ\5\16\b\2YW\3\2"+
-		"\2\2Z]\3\2\2\2[Y\3\2\2\2[\\\3\2\2\2\\\r\3\2\2\2][\3\2\2\2^c\5\20\t\2_"+
-		"`\7\20\2\2`b\5\20\t\2a_\3\2\2\2be\3\2\2\2ca\3\2\2\2cd\3\2\2\2d\17\3\2"+
-		"\2\2ec\3\2\2\2fk\5\22\n\2gh\7\5\2\2hj\5\22\n\2ig\3\2\2\2jm\3\2\2\2ki\3"+
-		"\2\2\2kl\3\2\2\2l\21\3\2\2\2mk\3\2\2\2ns\5\24\13\2op\7\7\2\2pr\5\24\13"+
-		"\2qo\3\2\2\2ru\3\2\2\2sq\3\2\2\2st\3\2\2\2t\23\3\2\2\2us\3\2\2\2v{\5\26"+
-		"\f\2wx\7\6\2\2xz\5\26\f\2yw\3\2\2\2z}\3\2\2\2{y\3\2\2\2{|\3\2\2\2|\25"+
-		"\3\2\2\2}{\3\2\2\2~\u0080\7\b\2\2\177~\3\2\2\2\177\u0080\3\2\2\2\u0080"+
-		"\u0081\3\2\2\2\u0081\u0082\5\30\r\2\u0082\27\3\2\2\2\u0083\u0085\7\t\2"+
-		"\2\u0084\u0083\3\2\2\2\u0084\u0085\3\2\2\2\u0085\u0086\3\2\2\2\u0086\u0087"+
-		"\5\32\16\2\u0087\31\3\2\2\2\u0088\u008a\7\n\2\2\u0089\u0088\3\2\2\2\u0089"+
-		"\u008a\3\2\2\2\u008a\u008b\3\2\2\2\u008b\u008c\5\34\17\2\u008c\33\3\2"+
-		"\2\2\u008d\u008f\7\13\2\2\u008e\u008d\3\2\2\2\u008e\u008f\3\2\2\2\u008f"+
-		"\u0090\3\2\2\2\u0090\u0091\5\36\20\2\u0091\35\3\2\2\2\u0092\u009b\5 \21"+
-		"\2\u0093\u0095\7\22\2\2\u0094\u0093\3\2\2\2\u0094\u0095\3\2\2\2\u0095"+
-		"\u0096\3\2\2\2\u0096\u0097\7\32\2\2\u0097\u0098\5\6\4\2\u0098\u0099\7"+
-		"\33\2\2\u0099\u009b\3\2\2\2\u009a\u0092\3\2\2\2\u009a\u0094\3\2\2\2\u009b"+
-		"\37\3\2\2\2\u009c\u009f\7\4\2\2\u009d\u009f\5\"\22\2\u009e\u009c\3\2\2"+
-		"\2\u009e\u009d\3\2\2\2\u009f!\3\2\2\2\u00a0\u00a1\t\2\2\2\u00a1\u00a3"+
-		"\7\26\2\2\u00a2\u00a0\3\2\2\2\u00a2\u00a3\3\2\2\2\u00a3\u00a4\3\2\2\2"+
-		"\u00a4\u00a5\5$\23\2\u00a5#\3\2\2\2\u00a6\u00ab\5&\24\2\u00a7\u00a8\7"+
-		"\16\2\2\u00a8\u00aa\5&\24\2\u00a9\u00a7\3\2\2\2\u00aa\u00ad\3\2\2\2\u00ab"+
-		"\u00a9\3\2\2\2\u00ab\u00ac\3\2\2\2\u00ac%\3\2\2\2\u00ad\u00ab\3\2\2\2"+
-		"\u00ae\u00b3\5(\25\2\u00af\u00b0\7\17\2\2\u00b0\u00b2\5(\25\2\u00b1\u00af"+
-		"\3\2\2\2\u00b2\u00b5\3\2\2\2\u00b3\u00b1\3\2\2\2\u00b3\u00b4\3\2\2\2\u00b4"+
-		"\'\3\2\2\2\u00b5\u00b3\3\2\2\2\u00b6\u00bb\5*\26\2\u00b7\u00b8\7\21\2"+
-		"\2\u00b8\u00ba\5*\26\2\u00b9\u00b7\3\2\2\2\u00ba\u00bd\3\2\2\2\u00bb\u00b9"+
-		"\3\2\2\2\u00bb\u00bc\3\2\2\2\u00bc)\3\2\2\2\u00bd\u00bb\3\2\2\2\u00be"+
-		"\u00c3\5,\27\2\u00bf\u00c0\7\20\2\2\u00c0\u00c2\5,\27\2\u00c1\u00bf\3"+
-		"\2\2\2\u00c2\u00c5\3\2\2\2\u00c3\u00c1\3\2\2\2\u00c3\u00c4\3\2\2\2\u00c4"+
-		"+\3\2\2\2\u00c5\u00c3\3\2\2\2\u00c6\u00c8\7\22\2\2\u00c7\u00c6\3\2\2\2"+
-		"\u00c7\u00c8\3\2\2\2\u00c8\u00ce\3\2\2\2\u00c9\u00cf\5.\30\2\u00ca\u00cb"+
-		"\7\f\2\2\u00cb\u00cc\5\"\22\2\u00cc\u00cd\7\r\2\2\u00cd\u00cf\3\2\2\2"+
-		"\u00ce\u00c9\3\2\2\2\u00ce\u00ca\3\2\2\2\u00cf-\3\2\2\2\u00d0\u00d1\7"+
-		"\30\2\2\u00d1\u00d4\5\62\32\2\u00d2\u00d4\5\60\31\2\u00d3\u00d0\3\2\2"+
-		"\2\u00d3\u00d2\3\2\2\2\u00d4/\3\2\2\2\u00d5\u00d6\5\64\33\2\u00d6\u00d7"+
-		"\7\25\2\2\u00d7\u00d8\5\64\33\2\u00d8\61\3\2\2\2\u00d9\u00da\7\f\2\2\u00da"+
-		"\u00df\5\64\33\2\u00db\u00dc\7\3\2\2\u00dc\u00de\5\64\33\2\u00dd\u00db"+
-		"\3\2\2\2\u00de\u00e1\3\2\2\2\u00df\u00dd\3\2\2\2\u00df\u00e0\3\2\2\2\u00e0"+
-		"\u00e2\3\2\2\2\u00e1\u00df\3\2\2\2\u00e2\u00e3\7\r\2\2\u00e3\63\3\2\2"+
-		"\2\u00e4\u00e5\t\3\2\2\u00e5\65\3\2\2\2\34;>BKS[cks{\177\u0084\u0089\u008e"+
-		"\u0094\u009a\u009e\u00a2\u00ab\u00b3\u00bb\u00c3\u00c7\u00ce\u00d3\u00df";
+		"\4\32\t\32\4\33\t\33\3\2\3\2\3\2\3\3\3\3\5\3<\n\3\3\3\3\3\3\4\3\4\3\5"+
+		"\3\5\3\5\7\5E\n\5\f\5\16\5H\13\5\3\6\3\6\3\6\7\6M\n\6\f\6\16\6P\13\6\3"+
+		"\7\3\7\3\7\7\7U\n\7\f\7\16\7X\13\7\3\b\3\b\3\b\7\b]\n\b\f\b\16\b`\13\b"+
+		"\3\t\3\t\3\t\7\te\n\t\f\t\16\th\13\t\3\n\3\n\3\n\7\nm\n\n\f\n\16\np\13"+
+		"\n\3\13\3\13\3\13\7\13u\n\13\f\13\16\13x\13\13\3\f\5\f{\n\f\3\f\3\f\3"+
+		"\r\5\r\u0080\n\r\3\r\3\r\3\16\5\16\u0085\n\16\3\16\3\16\3\17\5\17\u008a"+
+		"\n\17\3\17\3\17\3\20\3\20\5\20\u0090\n\20\3\20\3\20\3\20\3\20\5\20\u0096"+
+		"\n\20\3\21\3\21\5\21\u009a\n\21\3\22\3\22\5\22\u009e\n\22\3\22\3\22\3"+
+		"\23\3\23\3\23\7\23\u00a5\n\23\f\23\16\23\u00a8\13\23\3\24\3\24\3\24\7"+
+		"\24\u00ad\n\24\f\24\16\24\u00b0\13\24\3\25\3\25\3\25\7\25\u00b5\n\25\f"+
+		"\25\16\25\u00b8\13\25\3\26\3\26\3\26\7\26\u00bd\n\26\f\26\16\26\u00c0"+
+		"\13\26\3\27\5\27\u00c3\n\27\3\27\3\27\3\27\3\27\3\27\5\27\u00ca\n\27\3"+
+		"\30\3\30\3\30\5\30\u00cf\n\30\3\31\3\31\3\31\3\31\3\32\3\32\3\32\3\32"+
+		"\7\32\u00d9\n\32\f\32\16\32\u00dc\13\32\3\32\3\32\3\33\3\33\3\33\2\2\34"+
+		"\2\4\6\b\n\f\16\20\22\24\26\30\32\34\36 \"$&(*,.\60\62\64\2\4\3\2\23\24"+
+		"\3\2\26\27\u00df\2\66\3\2\2\2\4;\3\2\2\2\6?\3\2\2\2\bA\3\2\2\2\nI\3\2"+
+		"\2\2\fQ\3\2\2\2\16Y\3\2\2\2\20a\3\2\2\2\22i\3\2\2\2\24q\3\2\2\2\26z\3"+
+		"\2\2\2\30\177\3\2\2\2\32\u0084\3\2\2\2\34\u0089\3\2\2\2\36\u0095\3\2\2"+
+		"\2 \u0099\3\2\2\2\"\u009d\3\2\2\2$\u00a1\3\2\2\2&\u00a9\3\2\2\2(\u00b1"+
+		"\3\2\2\2*\u00b9\3\2\2\2,\u00c2\3\2\2\2.\u00ce\3\2\2\2\60\u00d0\3\2\2\2"+
+		"\62\u00d4\3\2\2\2\64\u00df\3\2\2\2\66\67\5\4\3\2\678\7\2\2\38\3\3\2\2"+
+		"\29:\t\2\2\2:<\7\26\2\2;9\3\2\2\2;<\3\2\2\2<=\3\2\2\2=>\5\6\4\2>\5\3\2"+
+		"\2\2?@\5\b\5\2@\7\3\2\2\2AF\5\n\6\2BC\7\16\2\2CE\5\n\6\2DB\3\2\2\2EH\3"+
+		"\2\2\2FD\3\2\2\2FG\3\2\2\2G\t\3\2\2\2HF\3\2\2\2IN\5\f\7\2JK\7\17\2\2K"+
+		"M\5\f\7\2LJ\3\2\2\2MP\3\2\2\2NL\3\2\2\2NO\3\2\2\2O\13\3\2\2\2PN\3\2\2"+
+		"\2QV\5\16\b\2RS\7\21\2\2SU\5\16\b\2TR\3\2\2\2UX\3\2\2\2VT\3\2\2\2VW\3"+
+		"\2\2\2W\r\3\2\2\2XV\3\2\2\2Y^\5\20\t\2Z[\7\20\2\2[]\5\20\t\2\\Z\3\2\2"+
+		"\2]`\3\2\2\2^\\\3\2\2\2^_\3\2\2\2_\17\3\2\2\2`^\3\2\2\2af\5\22\n\2bc\7"+
+		"\5\2\2ce\5\22\n\2db\3\2\2\2eh\3\2\2\2fd\3\2\2\2fg\3\2\2\2g\21\3\2\2\2"+
+		"hf\3\2\2\2in\5\24\13\2jk\7\7\2\2km\5\24\13\2lj\3\2\2\2mp\3\2\2\2nl\3\2"+
+		"\2\2no\3\2\2\2o\23\3\2\2\2pn\3\2\2\2qv\5\26\f\2rs\7\6\2\2su\5\26\f\2t"+
+		"r\3\2\2\2ux\3\2\2\2vt\3\2\2\2vw\3\2\2\2w\25\3\2\2\2xv\3\2\2\2y{\7\b\2"+
+		"\2zy\3\2\2\2z{\3\2\2\2{|\3\2\2\2|}\5\30\r\2}\27\3\2\2\2~\u0080\7\t\2\2"+
+		"\177~\3\2\2\2\177\u0080\3\2\2\2\u0080\u0081\3\2\2\2\u0081\u0082\5\32\16"+
+		"\2\u0082\31\3\2\2\2\u0083\u0085\7\n\2\2\u0084\u0083\3\2\2\2\u0084\u0085"+
+		"\3\2\2\2\u0085\u0086\3\2\2\2\u0086\u0087\5\34\17\2\u0087\33\3\2\2\2\u0088"+
+		"\u008a\7\13\2\2\u0089\u0088\3\2\2\2\u0089\u008a\3\2\2\2\u008a\u008b\3"+
+		"\2\2\2\u008b\u008c\5\36\20\2\u008c\35\3\2\2\2\u008d\u0096\5 \21\2\u008e"+
+		"\u0090\7\22\2\2\u008f\u008e\3\2\2\2\u008f\u0090\3\2\2\2\u0090\u0091\3"+
+		"\2\2\2\u0091\u0092\7\f\2\2\u0092\u0093\5\6\4\2\u0093\u0094\7\r\2\2\u0094"+
+		"\u0096\3\2\2\2\u0095\u008d\3\2\2\2\u0095\u008f\3\2\2\2\u0096\37\3\2\2"+
+		"\2\u0097\u009a\7\4\2\2\u0098\u009a\5\"\22\2\u0099\u0097\3\2\2\2\u0099"+
+		"\u0098\3\2\2\2\u009a!\3\2\2\2\u009b\u009c\t\2\2\2\u009c\u009e\7\26\2\2"+
+		"\u009d\u009b\3\2\2\2\u009d\u009e\3\2\2\2\u009e\u009f\3\2\2\2\u009f\u00a0"+
+		"\5$\23\2\u00a0#\3\2\2\2\u00a1\u00a6\5&\24\2\u00a2\u00a3\7\16\2\2\u00a3"+
+		"\u00a5\5&\24\2\u00a4\u00a2\3\2\2\2\u00a5\u00a8\3\2\2\2\u00a6\u00a4\3\2"+
+		"\2\2\u00a6\u00a7\3\2\2\2\u00a7%\3\2\2\2\u00a8\u00a6\3\2\2\2\u00a9\u00ae"+
+		"\5(\25\2\u00aa\u00ab\7\17\2\2\u00ab\u00ad\5(\25\2\u00ac\u00aa\3\2\2\2"+
+		"\u00ad\u00b0\3\2\2\2\u00ae\u00ac\3\2\2\2\u00ae\u00af\3\2\2\2\u00af\'\3"+
+		"\2\2\2\u00b0\u00ae\3\2\2\2\u00b1\u00b6\5*\26\2\u00b2\u00b3\7\21\2\2\u00b3"+
+		"\u00b5\5*\26\2\u00b4\u00b2\3\2\2\2\u00b5\u00b8\3\2\2\2\u00b6\u00b4\3\2"+
+		"\2\2\u00b6\u00b7\3\2\2\2\u00b7)\3\2\2\2\u00b8\u00b6\3\2\2\2\u00b9\u00be"+
+		"\5,\27\2\u00ba\u00bb\7\20\2\2\u00bb\u00bd\5,\27\2\u00bc\u00ba\3\2\2\2"+
+		"\u00bd\u00c0\3\2\2\2\u00be\u00bc\3\2\2\2\u00be\u00bf\3\2\2\2\u00bf+\3"+
+		"\2\2\2\u00c0\u00be\3\2\2\2\u00c1\u00c3\7\22\2\2\u00c2\u00c1\3\2\2\2\u00c2"+
+		"\u00c3\3\2\2\2\u00c3\u00c9\3\2\2\2\u00c4\u00ca\5.\30\2\u00c5\u00c6\7\f"+
+		"\2\2\u00c6\u00c7\5\"\22\2\u00c7\u00c8\7\r\2\2\u00c8\u00ca\3\2\2\2\u00c9"+
+		"\u00c4\3\2\2\2\u00c9\u00c5\3\2\2\2\u00ca-\3\2\2\2\u00cb\u00cc\7\30\2\2"+
+		"\u00cc\u00cf\5\62\32\2\u00cd\u00cf\5\60\31\2\u00ce\u00cb\3\2\2\2\u00ce"+
+		"\u00cd\3\2\2\2\u00cf/\3\2\2\2\u00d0\u00d1\5\64\33\2\u00d1\u00d2\7\25\2"+
+		"\2\u00d2\u00d3\5\64\33\2\u00d3\61\3\2\2\2\u00d4\u00d5\7\f\2\2\u00d5\u00da"+
+		"\5\64\33\2\u00d6\u00d7\7\3\2\2\u00d7\u00d9\5\64\33\2\u00d8\u00d6\3\2\2"+
+		"\2\u00d9\u00dc\3\2\2\2\u00da\u00d8\3\2\2\2\u00da\u00db\3\2\2\2\u00db\u00dd"+
+		"\3\2\2\2\u00dc\u00da\3\2\2\2\u00dd\u00de\7\r\2\2\u00de\63\3\2\2\2\u00df"+
+		"\u00e0\t\3\2\2\u00e0\65\3\2\2\2\32;FNV^fnvz\177\u0084\u0089\u008f\u0095"+
+		"\u0099\u009d\u00a6\u00ae\u00b6\u00be\u00c2\u00c9\u00ce\u00da";
 	public static final ATN _ATN =
 		new ATNDeserializer().deserialize(_serializedATN.toCharArray());
 	static {

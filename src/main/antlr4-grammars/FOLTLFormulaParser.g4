@@ -7,7 +7,7 @@ start
     ;
 
 acrossQuantifiedFormula
-		:		((FORALL | EXISTS) VARIABLE)? LPAREN? temporalFormula RPAREN?
+		:		((FORALL | EXISTS) VARIABLE)? temporalFormula
 		;
 
 temporalFormula
@@ -60,7 +60,7 @@ next
 
 notTemp
     :   ltlfAtom
-    |   NOT? LSEPARATOR temporalFormula RSEPARATOR
+    |   NOT? LPAREN temporalFormula RPAREN
     ;
 
 ltlfAtom
@@ -71,16 +71,18 @@ ltlfAtom
 
 LAST : ('Last')|('LAST')|('last');
 
-WEAKUNTIL : ('WU'|'W');
+WEAKUNTIL : TEMPOP ('WU'|'W');
 
-UNTIL : ('U');
+UNTIL : TEMPOP ('U');
 
-RELEASE : ('R');
+RELEASE : TEMPOP ('R');
 
-GLOBALLY : ('[]'|'G');
+GLOBALLY : TEMPOP ('[]'|'G') | '[]';
 
-EVENTUALLY : ('<>'|'F');
+EVENTUALLY : TEMPOP ('<>'|'F') | '<>';
 
-WEAKNEXT : ('WX');
+WEAKNEXT : TEMPOP ('WX');
 
-NEXT : ('X');
+NEXT : TEMPOP ('X');
+
+fragment TEMPOP : '°';
