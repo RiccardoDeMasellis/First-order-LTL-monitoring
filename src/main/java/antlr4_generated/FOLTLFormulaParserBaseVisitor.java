@@ -108,6 +108,14 @@ public class FOLTLFormulaParserBaseVisitor<T> extends AbstractParseTreeVisitor<T
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
+	@Override public T visitTemporalNegation(@NotNull FOLTLFormulaParserParser.TemporalNegationContext ctx) { return visitChildren(ctx); }
+
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation returns the result of calling
+	 * {@link #visitChildren} on {@code ctx}.</p>
+	 */
 	@Override public T visitTerm(@NotNull FOLTLFormulaParserParser.TermContext ctx) { return visitChildren(ctx); }
 
 	/**
@@ -149,14 +157,6 @@ public class FOLTLFormulaParserBaseVisitor<T> extends AbstractParseTreeVisitor<T
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
 	@Override public T visitAcrossQuantifiedFormula(@NotNull FOLTLFormulaParserParser.AcrossQuantifiedFormulaContext ctx) { return visitChildren(ctx); }
-
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation returns the result of calling
-	 * {@link #visitChildren} on {@code ctx}.</p>
-	 */
-	@Override public T visitNotTemp(@NotNull FOLTLFormulaParserParser.NotTempContext ctx) { return visitChildren(ctx); }
 
 	/**
 	 * {@inheritDoc}

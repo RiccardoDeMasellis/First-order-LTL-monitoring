@@ -7,6 +7,7 @@ import antlr4_generated.FOLTLFormulaParserParser;
 import org.antlr.v4.runtime.ANTLRInputStream;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.tree.ParseTree;
+import visitors.FOLTLVisitors.FOLTLVisitor;
 import visitors.FOLVisitors.LocalFOLVisitor;
 
 /**
@@ -17,8 +18,8 @@ public class ParsingTest {
 	public static void main(String[] args) {
 
 		//FOL parsing test
-		//String folInput = "Forall ?x ( (P(a) && !(Exists ?y Q(?x,a,?y))) -> (a = ?x) )";
-		String folInput = "P(a) | P(b) & !P(c) -> R(s)";
+		String folInput = "Forall ?x ( (P(a) && !(Exists ?y Q(?x,a,?y))) -> (a = ?x) )";
+		//String folInput = "P(a) | P(b) & !P(c) -> R(s)";
 
 		FOFormulaParserLexer foLexer = new FOFormulaParserLexer(new ANTLRInputStream(folInput));
 		FOFormulaParserParser foParser = new FOFormulaParserParser(new CommonTokenStream(foLexer));
@@ -47,6 +48,12 @@ public class ParsingTest {
 		System.out.println("\n");
 		output = tree.toStringTree(foltlParser);
 		System.out.println("\n" + output + "\n" );
+		System.out.println();
+
+		//Testing our own visitor
+		FOLTLVisitor temporalVisitor = new FOLTLVisitor();
+		System.out.println("Custom visitor test:\n");
+		System.out.println("\n" + temporalVisitor.visit(tree));
 
 	}
 

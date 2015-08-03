@@ -55,10 +55,10 @@ weakNext
     ;
 
 next
-    :   NEXT? notTemp
+    :   NEXT? temporalNegation
     ;
 
-notTemp
+temporalNegation
     :   ltlfAtom
     |   NOT? LPAREN temporalFormula RPAREN
     ;

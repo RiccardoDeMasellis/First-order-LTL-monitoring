@@ -91,6 +91,13 @@ public interface FOLTLFormulaParserVisitor<T> extends ParseTreeVisitor<T> {
 	T visitPredicate(@NotNull FOLTLFormulaParserParser.PredicateContext ctx);
 
 	/**
+	 * Visit a parse tree produced by {@link FOLTLFormulaParserParser#temporalNegation}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitTemporalNegation(@NotNull FOLTLFormulaParserParser.TemporalNegationContext ctx);
+
+	/**
 	 * Visit a parse tree produced by {@link FOLTLFormulaParserParser#term}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
@@ -131,13 +138,6 @@ public interface FOLTLFormulaParserVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitAcrossQuantifiedFormula(@NotNull FOLTLFormulaParserParser.AcrossQuantifiedFormulaContext ctx);
-
-	/**
-	 * Visit a parse tree produced by {@link FOLTLFormulaParserParser#notTemp}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitNotTemp(@NotNull FOLTLFormulaParserParser.NotTempContext ctx);
 
 	/**
 	 * Visit a parse tree produced by {@link FOLTLFormulaParserParser#start}.

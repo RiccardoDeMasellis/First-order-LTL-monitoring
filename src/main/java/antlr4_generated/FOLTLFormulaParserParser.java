@@ -34,14 +34,14 @@ public class FOLTLFormulaParserParser extends Parser {
 		RULE_temporalDoubleImplication = 3, RULE_temporalImplication = 4, RULE_temporalDisjunction = 5, 
 		RULE_temporalConjunction = 6, RULE_weakUntil = 7, RULE_release = 8, RULE_until = 9, 
 		RULE_globally = 10, RULE_eventually = 11, RULE_weakNext = 12, RULE_next = 13, 
-		RULE_notTemp = 14, RULE_ltlfAtom = 15, RULE_localQuantifiedFormula = 16, 
+		RULE_temporalNegation = 14, RULE_ltlfAtom = 15, RULE_localQuantifiedFormula = 16, 
 		RULE_localDoubleImplication = 17, RULE_localImplication = 18, RULE_localDisjunction = 19, 
 		RULE_localConjunction = 20, RULE_localNegation = 21, RULE_predicate = 22, 
 		RULE_equality = 23, RULE_predicateTuple = 24, RULE_term = 25;
 	public static final String[] ruleNames = {
 		"start", "acrossQuantifiedFormula", "temporalFormula", "temporalDoubleImplication", 
 		"temporalImplication", "temporalDisjunction", "temporalConjunction", "weakUntil", 
-		"release", "until", "globally", "eventually", "weakNext", "next", "notTemp", 
+		"release", "until", "globally", "eventually", "weakNext", "next", "temporalNegation", 
 		"ltlfAtom", "localQuantifiedFormula", "localDoubleImplication", "localImplication", 
 		"localDisjunction", "localConjunction", "localNegation", "predicate", 
 		"equality", "predicateTuple", "term"
@@ -727,8 +727,8 @@ public class FOLTLFormulaParserParser extends Parser {
 
 	public static class NextContext extends ParserRuleContext {
 		public TerminalNode NEXT() { return getToken(FOLTLFormulaParserParser.NEXT, 0); }
-		public NotTempContext notTemp() {
-			return getRuleContext(NotTempContext.class,0);
+		public TemporalNegationContext temporalNegation() {
+			return getRuleContext(TemporalNegationContext.class,0);
 		}
 		public NextContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
@@ -756,7 +756,7 @@ public class FOLTLFormulaParserParser extends Parser {
 				}
 			}
 
-			setState(137); notTemp();
+			setState(137); temporalNegation();
 			}
 		}
 		catch (RecognitionException re) {
@@ -770,7 +770,7 @@ public class FOLTLFormulaParserParser extends Parser {
 		return _localctx;
 	}
 
-	public static class NotTempContext extends ParserRuleContext {
+	public static class TemporalNegationContext extends ParserRuleContext {
 		public TerminalNode NOT() { return getToken(FOLTLFormulaParserParser.NOT, 0); }
 		public TerminalNode LPAREN() { return getToken(FOLTLFormulaParserParser.LPAREN, 0); }
 		public LtlfAtomContext ltlfAtom() {
@@ -780,20 +780,20 @@ public class FOLTLFormulaParserParser extends Parser {
 		public TemporalFormulaContext temporalFormula() {
 			return getRuleContext(TemporalFormulaContext.class,0);
 		}
-		public NotTempContext(ParserRuleContext parent, int invokingState) {
+		public TemporalNegationContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
-		@Override public int getRuleIndex() { return RULE_notTemp; }
+		@Override public int getRuleIndex() { return RULE_temporalNegation; }
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof FOLTLFormulaParserVisitor ) return ((FOLTLFormulaParserVisitor<? extends T>)visitor).visitNotTemp(this);
+			if ( visitor instanceof FOLTLFormulaParserVisitor ) return ((FOLTLFormulaParserVisitor<? extends T>)visitor).visitTemporalNegation(this);
 			else return visitor.visitChildren(this);
 		}
 	}
 
-	public final NotTempContext notTemp() throws RecognitionException {
-		NotTempContext _localctx = new NotTempContext(_ctx, getState());
-		enterRule(_localctx, 28, RULE_notTemp);
+	public final TemporalNegationContext temporalNegation() throws RecognitionException {
+		TemporalNegationContext _localctx = new TemporalNegationContext(_ctx, getState());
+		enterRule(_localctx, 28, RULE_temporalNegation);
 		int _la;
 		try {
 			setState(147);
