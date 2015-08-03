@@ -24,7 +24,8 @@ public class ParsingTest {
 		ParseTree tree = foParser.localQuantifiedFormula();
 
 		System.out.println("\n");
-		System.out.println(tree.toStringTree(foParser));
+		String output = tree.toStringTree(foParser);
+		System.out.println("\n" + output + "\n" );
 		System.out.println();
 
 		//FOLTL parsing test
@@ -37,7 +38,8 @@ public class ParsingTest {
 		tree = foltlParser.acrossQuantifiedFormula();
 
 		System.out.println("\n");
-		System.out.println(tree.toStringTree(foltlParser));
+		output = tree.toStringTree(foltlParser);
+		System.out.println("\n" + output + "\n" );
 
 	}
 
