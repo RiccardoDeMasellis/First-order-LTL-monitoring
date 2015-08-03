@@ -3,7 +3,6 @@ package visitors.FOLVisitors;
 import antlr4_generated.FOFormulaParserBaseVisitor;
 import antlr4_generated.FOFormulaParserParser;
 import org.antlr.v4.runtime.misc.NotNull;
-import org.antlr.v4.runtime.tree.ParseTree;
 
 /**
  * Created by Simone Calciolari on 03/08/15.
