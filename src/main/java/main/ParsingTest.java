@@ -18,7 +18,7 @@ public class ParsingTest {
 	public static void main(String[] args) {
 
 		//FOL parsing test
-		String folInput = "Forall ?x ( (P(a) && !(Exists ?y Q(?x,a,?y))) -> (a = ?x) )";
+		String folInput = "Exists ?k(Forall ?x ( (P(a) && !(Exists ?y Q(?x,a,?y))) -> (a = ?x) ) )";
 		//String folInput = "P(a) | P(b) & !P(c) -> R(s)";
 
 		FOFormulaParserLexer foLexer = new FOFormulaParserLexer(new ANTLRInputStream(folInput));
@@ -38,7 +38,8 @@ public class ParsingTest {
 
 		//FOLTL parsing test
 
-		String foltlInput = "Forall ?y ( °G ( Exists ?z ( G(?z) ) ) )";
+		//String foltlInput = "Forall ?y ( °G ( Exists ?z ( G(?z) ) ) )";
+		String foltlInput = "Exists ?x ( Forall ?y ( P(?x) °U R(?y) ) )";
 
 		FOLTLFormulaParserLexer foltlLexer = new FOLTLFormulaParserLexer(new ANTLRInputStream(foltlInput));
 		FOLTLFormulaParserParser foltlParser = new FOLTLFormulaParserParser(new CommonTokenStream(foltlLexer));

@@ -39,8 +39,15 @@ public class FOLTLVisitor extends FOLTLFormulaParserBaseVisitor<String>{
 						"children: " + ctx.getChildCount());
 			}
 
-			res = ctx.getChild(0).getText() + " " +
-					ctx.getChild(1).getText() +  ": (" + visit(ctx.getChild(2)) + ")";
+			res = ctx.getChild(0).getText() + " " + ctx.getChild(1).getText() +  ": (";
+
+			if (ctx.getChild(2).getText().equals("(")){
+				res = res + visit(ctx.getChild(3));
+			} else {
+				res = res + visit(ctx.getChild(2));
+			}
+
+			res = res + ")";
 
 		} else {
 			res = visitChildren(ctx);
