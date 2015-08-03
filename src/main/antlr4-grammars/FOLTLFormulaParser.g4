@@ -65,11 +65,11 @@ notTemp
 
 ltlfAtom
     :   LAST
-    |   localQuantifiedFormula
+    |   LPAREN? localQuantifiedFormula RPAREN?
     ;
 
 
-LAST : ('Last')|('LAST')|('last');
+LAST : TEMPOP ('Last' | 'LAST' | 'last');
 
 WEAKUNTIL : TEMPOP ('WU'|'W');
 
@@ -77,9 +77,9 @@ UNTIL : TEMPOP ('U');
 
 RELEASE : TEMPOP ('R');
 
-GLOBALLY : TEMPOP ('[]'|'G') | '[]';
+GLOBALLY : TEMPOP ('[]'|'G');
 
-EVENTUALLY : TEMPOP ('<>'|'F') | '<>';
+EVENTUALLY : TEMPOP ('<>'|'F');
 
 WEAKNEXT : TEMPOP ('WX');
 
