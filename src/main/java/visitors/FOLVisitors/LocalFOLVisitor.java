@@ -3,6 +3,7 @@ package visitors.FOLVisitors;
 import antlr4_generated.FOFormulaParserBaseVisitor;
 import antlr4_generated.FOFormulaParserParser;
 import org.antlr.v4.runtime.misc.NotNull;
+import org.antlr.v4.runtime.tree.ParseTree;
 
 /**
  * Created by Simone Calciolari on 03/08/15.
@@ -23,7 +24,8 @@ public class LocalFOLVisitor extends FOFormulaParserBaseVisitor<String>{
 			System.out.println("> parsing quantified formula: " + ctx.getText() + "; children: " + ctx.getChildCount());
 
 			res = ctx.getChild(0).getText() + " " +
-					ctx.getChild(1).getText() +  ": " + visit(ctx.getChild(2)) + "";
+					ctx.getChild(1).getText() +  ": (" + visit(ctx.getChild(2)) + ")";
+
 		} else {
 			res = visitChildren(ctx);
 		}
@@ -39,7 +41,23 @@ public class LocalFOLVisitor extends FOFormulaParserBaseVisitor<String>{
 
 			System.out.println("> parsing double implication: " + ctx.getText() + "; children: " + ctx.getChildCount());
 
-			res = "" + visit(ctx.getChild(0)) + " <-> " + visit(ctx.getChild(2)) + "";
+			String left;
+			String right;
+			res = "";
+
+			for (int i = ctx.getChildCount() - 1; i >= 2; i -= 2){
+
+				if (i == ctx.getChildCount() - 1){
+					right = visit(ctx.getChild(i));
+					left = visit(ctx.getChild(i-2));
+				} else {
+					right = res;
+					left = visit(ctx.getChild(i - 2));
+				}
+
+				res = "(" + left + ") " + ctx.getChild(i-1).getText() + " (" + right + ")";
+
+			}
 		} else {
 			res = visitChildren(ctx);
 		}
@@ -55,7 +73,23 @@ public class LocalFOLVisitor extends FOFormulaParserBaseVisitor<String>{
 
 			System.out.println("> parsing implication: " + ctx.getText() + "; children: " + ctx.getChildCount());
 
-			res = "" + visit(ctx.getChild(0)) + " -> " + visit(ctx.getChild(2)) + "";
+			String left = "";
+			String right = "";
+			res = "";
+
+			for (int i = ctx.getChildCount() - 1; i >= 2; i -= 2){
+
+				if (i == ctx.getChildCount() - 1){
+					right = visit(ctx.getChild(i));
+					left = visit(ctx.getChild(i-2));
+				} else {
+					right = res;
+					left = visit(ctx.getChild(i-2));
+				}
+
+				res = "(" + left + ") " + ctx.getChild(i-1).getText() + " (" + right + ")";
+
+			}
 		} else {
 			res = visitChildren(ctx);
 		}
@@ -71,7 +105,23 @@ public class LocalFOLVisitor extends FOFormulaParserBaseVisitor<String>{
 
 			System.out.println("> parsing disjunction: " + ctx.getText() + "; children: " + ctx.getChildCount());
 
-			res = "" + visit(ctx.getChild(0)) + " OR " + visit(ctx.getChild(2)) + "";
+			String left = "";
+			String right = "";
+			res = "";
+
+			for (int i = ctx.getChildCount() - 1; i >= 2; i -= 2){
+
+				if (i == ctx.getChildCount() - 1){
+					right = visit(ctx.getChild(i));
+					left = visit(ctx.getChild(i-2));
+				} else {
+					right = res;
+					left = visit(ctx.getChild(i-2));
+				}
+
+				res = "(" + left + ") " + ctx.getChild(i-1).getText() + " (" + right + ")";
+
+			}
 		} else {
 			res = visitChildren(ctx);
 		}
@@ -87,7 +137,23 @@ public class LocalFOLVisitor extends FOFormulaParserBaseVisitor<String>{
 
 			System.out.println("> parsing conjunction: " + ctx.getText() + "; children: " + ctx.getChildCount());
 
-			res = "" + visit(ctx.getChild(0)) + " AND " + visit(ctx.getChild(2)) + "";
+			String left = "";
+			String right = "";
+			res = "";
+
+			for (int i = ctx.getChildCount() - 1; i >= 2; i -= 2){
+
+				if (i == ctx.getChildCount() - 1){
+					right = visit(ctx.getChild(i));
+					left = visit(ctx.getChild(i-2));
+				} else {
+					right = res;
+					left = visit(ctx.getChild(i-2));
+				}
+
+				res = "(" + left + ") " + ctx.getChild(i-1).getText() + " (" + right + ")";
+
+			}
 		} else {
 			res = visitChildren(ctx);
 		}
