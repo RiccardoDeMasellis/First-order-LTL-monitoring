@@ -10,8 +10,17 @@ import org.antlr.v4.runtime.tree.ParseTree;
  */
 public class LocalFOLVisitor extends FOFormulaParserBaseVisitor<String>{
 
+	//Vaiable to activate debug mode (Displays extra info during the parsing process)
+	private static final boolean DEBUG = true;
+
 	@Override
 	public String visitStart(@NotNull FOFormulaParserParser.StartContext ctx) {
+
+		if (DEBUG){
+			System.out.println("> parsing local fol formula: " + ctx.getText() + "; " +
+					"children: " + ctx.getChildCount());
+		}
+
 		return visitChildren(ctx);
 	}
 
@@ -21,7 +30,10 @@ public class LocalFOLVisitor extends FOFormulaParserBaseVisitor<String>{
 
 		if (ctx.getChildCount() > 1){
 
-			System.out.println("> parsing quantified formula: " + ctx.getText() + "; children: " + ctx.getChildCount());
+			if (DEBUG){
+				System.out.println("> parsing local quantified formula: " + ctx.getText() + ";" +
+						" children: " + ctx.getChildCount());
+			}
 
 			res = ctx.getChild(0).getText() + " " +
 					ctx.getChild(1).getText() +  ": (" + visit(ctx.getChild(2)) + ")";
@@ -39,7 +51,10 @@ public class LocalFOLVisitor extends FOFormulaParserBaseVisitor<String>{
 
 		if (ctx.getChildCount() > 1){
 
-			System.out.println("> parsing double implication: " + ctx.getText() + "; children: " + ctx.getChildCount());
+			if (DEBUG){
+				System.out.println("> parsing local double implication: " + ctx.getText() + ";" +
+						" children: " + ctx.getChildCount());
+			}
 
 			String left;
 			String right;
@@ -71,10 +86,13 @@ public class LocalFOLVisitor extends FOFormulaParserBaseVisitor<String>{
 
 		if (ctx.getChildCount() > 1){
 
-			System.out.println("> parsing implication: " + ctx.getText() + "; children: " + ctx.getChildCount());
+			if (DEBUG){
+				System.out.println("> parsing local implication: " + ctx.getText() + "; " +
+						"children: " + ctx.getChildCount());
+			}
 
-			String left = "";
-			String right = "";
+			String left;
+			String right;
 			res = "";
 
 			for (int i = ctx.getChildCount() - 1; i >= 2; i -= 2){
@@ -103,10 +121,13 @@ public class LocalFOLVisitor extends FOFormulaParserBaseVisitor<String>{
 
 		if (ctx.getChildCount() > 1){
 
-			System.out.println("> parsing disjunction: " + ctx.getText() + "; children: " + ctx.getChildCount());
+			if (DEBUG){
+				System.out.println("> parsing local disjunction: " + ctx.getText() + "; " +
+						"children: " + ctx.getChildCount());
+			}
 
-			String left = "";
-			String right = "";
+			String left;
+			String right;
 			res = "";
 
 			for (int i = ctx.getChildCount() - 1; i >= 2; i -= 2){
@@ -135,10 +156,13 @@ public class LocalFOLVisitor extends FOFormulaParserBaseVisitor<String>{
 
 		if (ctx.getChildCount() > 1){
 
-			System.out.println("> parsing conjunction: " + ctx.getText() + "; children: " + ctx.getChildCount());
+			if (DEBUG){
+				System.out.println("> parsing local conjunction: " + ctx.getText() + "; " +
+						"children: " + ctx.getChildCount());
+			}
 
-			String left = "";
-			String right = "";
+			String left;
+			String right;
 			res = "";
 
 			for (int i = ctx.getChildCount() - 1; i >= 2; i -= 2){
@@ -167,12 +191,14 @@ public class LocalFOLVisitor extends FOFormulaParserBaseVisitor<String>{
 
 		if (ctx.getChildCount() > 1){
 
-			System.out.println("> parsing negation: " + ctx.getText() + "; children: " + ctx.getChildCount());
+			if (DEBUG){
+				System.out.println("> parsing local negation: " + ctx.getText() + "; " +
+						"children: " + ctx.getChildCount());
+			}
 
 			res = "";
 
 			for (int i = 0; i< ctx.getChildCount(); i++) {
-				//System.out.println("\t" + ctx.getChild(i).getText());
 
 				String child = ctx.getChild(i).getText();
 				switch (child) {
@@ -199,7 +225,10 @@ public class LocalFOLVisitor extends FOFormulaParserBaseVisitor<String>{
 
 		if (ctx.getChildCount() > 1){
 
-			System.out.println("> parsing predicate: " + ctx.getText() + "; children: " + ctx.getChildCount());
+			if (DEBUG){
+				System.out.println("> parsing predicate: " + ctx.getText() + "; " +
+						"children: " + ctx.getChildCount());
+			}
 
 			res = ctx.getChild(0).getText() + visit(ctx.getChild(1));
 		} else {
@@ -215,7 +244,10 @@ public class LocalFOLVisitor extends FOFormulaParserBaseVisitor<String>{
 
 		if (ctx.getChildCount() == 3){
 
-			System.out.println("> parsing equality: " + ctx.getText() + "; children: " + ctx.getChildCount());
+			if (DEBUG){
+				System.out.println("> parsing local equality: " + ctx.getText() + "; " +
+						"children: " + ctx.getChildCount());
+			}
 
 			res = visit(ctx.getChild(0)) + " = " + visit(ctx.getChild(2));
 		} else {
@@ -231,7 +263,10 @@ public class LocalFOLVisitor extends FOFormulaParserBaseVisitor<String>{
 
 		if (ctx.getChildCount() > 1){
 
-			System.out.println("> parsing predicate tuple: " + ctx.getText() + "; children: " + ctx.getChildCount());
+			if (DEBUG){
+				System.out.println("> parsing predicate tuple: " + ctx.getText() + "; " +
+						"children: " + ctx.getChildCount());
+			}
 
 			res = "";
 
@@ -249,7 +284,10 @@ public class LocalFOLVisitor extends FOFormulaParserBaseVisitor<String>{
 	@Override
 	public String visitTerm(@NotNull FOFormulaParserParser.TermContext ctx) {
 
-		System.out.println("> parsing term: " + ctx.getText() + "; children: " + ctx.getChildCount());
+		if (DEBUG){
+			System.out.println("> parsing local fol term: " + ctx.getText() + "; " +
+					"children: " + ctx.getChildCount());
+		}
 
 		return ctx.getChild(0).getText();
 	}
