@@ -5,7 +5,9 @@ import antlr4_generated.FOFormulaParserParser;
 import antlr4_generated.FOLTLFormulaParserBaseVisitor;
 import antlr4_generated.FOLTLFormulaParserParser;
 import org.antlr.v4.runtime.ANTLRInputStream;
+import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.CommonTokenStream;
+import org.antlr.v4.runtime.misc.Interval;
 import org.antlr.v4.runtime.misc.NotNull;
 import org.antlr.v4.runtime.tree.ParseTree;
 import visitors.FOLVisitors.LocalFOLVisitor;
@@ -503,13 +505,27 @@ public class FOLTLVisitor extends FOLTLFormulaParserBaseVisitor<String>{
 
 			default:
 
-				FOFormulaParserLexer foLexer = new FOFormulaParserLexer(new ANTLRInputStream(ctx.getText()));
+				//Restores original input with white spaces, as described here:
+				//http://stackoverflow.com/questions/16343288/how-do-i-get-the-original-text-that-an-antlr4-rule-matched
+
+				int a = ctx.start.getStartIndex();
+				int b = ctx.stop.getStopIndex();
+
+				Interval interval = new Interval(a, b);
+
+				String input = ctx.start.getInputStream().getText(interval);
+
+				if (DEBUG){
+					System.out.println("\n> Input:" + input);
+				}
+
+				FOFormulaParserLexer foLexer = new FOFormulaParserLexer(new ANTLRInputStream(input));
 				FOFormulaParserParser foParser = new FOFormulaParserParser(new CommonTokenStream(foLexer));
 
 				ParseTree tree = foParser.localQuantifiedFormula();
 
 				if (DEBUG){
-					System.out.println("\n> parsing local fol formula: " + ctx.getText());
+					System.out.println("> parsing local fol formula: " + ctx.getText());
 					System.out.println("\n\t" + tree.toStringTree(foParser));
 					System.out.println();
 				}

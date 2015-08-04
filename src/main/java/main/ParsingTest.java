@@ -42,7 +42,7 @@ public class ParsingTest {
 		//FOLTL parsing test
 
 		//String foltlInput = "Forall ?y ( °G Exists ?z G(?z) °U R(t) )";
-		String foltlInput = "°G ( ! P(x) )";
+		String foltlInput = "°G ( Exists ?x P(?x) )";
 
 		FOLTLFormulaParserLexer foltlLexer = new FOLTLFormulaParserLexer(new ANTLRInputStream(foltlInput));
 		FOLTLFormulaParserParser foltlParser = new FOLTLFormulaParserParser(new CommonTokenStream(foltlLexer));
