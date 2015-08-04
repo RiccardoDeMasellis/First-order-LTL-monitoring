@@ -1,7 +1,7 @@
 grammar FOFormulaParser;
 
 @header{
-	package antlr4_generated;
+    package antlr4_generated;
 }
 
 

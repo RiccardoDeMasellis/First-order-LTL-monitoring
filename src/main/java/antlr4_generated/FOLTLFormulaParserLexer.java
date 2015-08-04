@@ -1,6 +1,6 @@
 // Generated from FOLTLFormulaParser.g4 by ANTLR 4.3
 
-	package antlr4_generated;
+    package antlr4_generated;
 
 import org.antlr.v4.runtime.Lexer;
 import org.antlr.v4.runtime.CharStream;

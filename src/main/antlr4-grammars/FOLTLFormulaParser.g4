@@ -60,8 +60,7 @@ next
     ;
 
 temporalNegation
-    :   ltlfAtom
-    |   NOT? LPAREN temporalFormula RPAREN
+    :   NOT? ( ltlfAtom | LPAREN temporalFormula RPAREN )
     ;
 
 ltlfAtom

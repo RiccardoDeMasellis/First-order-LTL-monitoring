@@ -1,6 +1,6 @@
 // Generated from FOLTLFormulaParser.g4 by ANTLR 4.3
 
-	package antlr4_generated;
+    package antlr4_generated;
 
 import org.antlr.v4.runtime.atn.*;
 import org.antlr.v4.runtime.dfa.DFA;
@@ -808,33 +808,33 @@ public class FOLTLFormulaParserParser extends Parser {
 	public final TemporalNegationContext temporalNegation() throws RecognitionException {
 		TemporalNegationContext _localctx = new TemporalNegationContext(_ctx, getState());
 		enterRule(_localctx, 28, RULE_temporalNegation);
-		int _la;
 		try {
+			enterOuterAlt(_localctx, 1);
+			{
+			setState(144);
+			switch ( getInterpreter().adaptivePredict(_input,12,_ctx) ) {
+			case 1:
+				{
+				setState(143); match(NOT);
+				}
+				break;
+			}
 			setState(151);
 			switch ( getInterpreter().adaptivePredict(_input,13,_ctx) ) {
 			case 1:
-				enterOuterAlt(_localctx, 1);
 				{
-				setState(143); ltlfAtom();
+				setState(146); ltlfAtom();
 				}
 				break;
 
 			case 2:
-				enterOuterAlt(_localctx, 2);
 				{
-				setState(145);
-				_la = _input.LA(1);
-				if (_la==NOT) {
-					{
-					setState(144); match(NOT);
-					}
-				}
-
 				setState(147); match(LPAREN);
 				setState(148); temporalFormula();
 				setState(149); match(RPAREN);
 				}
 				break;
+			}
 			}
 		}
 		catch (RecognitionException re) {
@@ -1481,7 +1481,7 @@ public class FOLTLFormulaParserParser extends Parser {
 		"\n\b\f\b\16\bd\13\b\3\t\3\t\3\t\7\ti\n\t\f\t\16\tl\13\t\3\n\3\n\3\n\7"+
 		"\nq\n\n\f\n\16\nt\13\n\3\13\3\13\3\13\7\13y\n\13\f\13\16\13|\13\13\3\f"+
 		"\5\f\177\n\f\3\f\3\f\3\r\5\r\u0084\n\r\3\r\3\r\3\16\5\16\u0089\n\16\3"+
-		"\16\3\16\3\17\5\17\u008e\n\17\3\17\3\17\3\20\3\20\5\20\u0094\n\20\3\20"+
+		"\16\3\16\3\17\5\17\u008e\n\17\3\17\3\17\3\20\5\20\u0093\n\20\3\20\3\20"+
 		"\3\20\3\20\3\20\5\20\u009a\n\20\3\21\3\21\5\21\u009e\n\21\3\21\3\21\5"+
 		"\21\u00a2\n\21\5\21\u00a4\n\21\3\22\3\22\5\22\u00a8\n\22\3\22\3\22\3\23"+
 		"\3\23\3\23\7\23\u00af\n\23\f\23\16\23\u00b2\13\23\3\24\3\24\3\24\7\24"+
@@ -1493,7 +1493,7 @@ public class FOLTLFormulaParserParser extends Parser {
 		"\6\b\n\f\16\20\22\24\26\30\32\34\36 \"$&(*,.\60\62\64\2\4\3\2\23\24\3"+
 		"\2\26\27\u00eb\2\66\3\2\2\2\4A\3\2\2\2\6C\3\2\2\2\bE\3\2\2\2\nM\3\2\2"+
 		"\2\fU\3\2\2\2\16]\3\2\2\2\20e\3\2\2\2\22m\3\2\2\2\24u\3\2\2\2\26~\3\2"+
-		"\2\2\30\u0083\3\2\2\2\32\u0088\3\2\2\2\34\u008d\3\2\2\2\36\u0099\3\2\2"+
+		"\2\2\30\u0083\3\2\2\2\32\u0088\3\2\2\2\34\u008d\3\2\2\2\36\u0092\3\2\2"+
 		"\2 \u00a3\3\2\2\2\"\u00a7\3\2\2\2$\u00ab\3\2\2\2&\u00b3\3\2\2\2(\u00bb"+
 		"\3\2\2\2*\u00c3\3\2\2\2,\u00cc\3\2\2\2.\u00d8\3\2\2\2\60\u00da\3\2\2\2"+
 		"\62\u00de\3\2\2\2\64\u00e9\3\2\2\2\66\67\5\4\3\2\678\7\2\2\38\3\3\2\2"+
@@ -1514,10 +1514,10 @@ public class FOLTLFormulaParserParser extends Parser {
 		"\16\2\u0086\31\3\2\2\2\u0087\u0089\7\n\2\2\u0088\u0087\3\2\2\2\u0088\u0089"+
 		"\3\2\2\2\u0089\u008a\3\2\2\2\u008a\u008b\5\34\17\2\u008b\33\3\2\2\2\u008c"+
 		"\u008e\7\13\2\2\u008d\u008c\3\2\2\2\u008d\u008e\3\2\2\2\u008e\u008f\3"+
-		"\2\2\2\u008f\u0090\5\36\20\2\u0090\35\3\2\2\2\u0091\u009a\5 \21\2\u0092"+
-		"\u0094\7\22\2\2\u0093\u0092\3\2\2\2\u0093\u0094\3\2\2\2\u0094\u0095\3"+
-		"\2\2\2\u0095\u0096\7\f\2\2\u0096\u0097\5\6\4\2\u0097\u0098\7\r\2\2\u0098"+
-		"\u009a\3\2\2\2\u0099\u0091\3\2\2\2\u0099\u0093\3\2\2\2\u009a\37\3\2\2"+
+		"\2\2\2\u008f\u0090\5\36\20\2\u0090\35\3\2\2\2\u0091\u0093\7\22\2\2\u0092"+
+		"\u0091\3\2\2\2\u0092\u0093\3\2\2\2\u0093\u0099\3\2\2\2\u0094\u009a\5 "+
+		"\21\2\u0095\u0096\7\f\2\2\u0096\u0097\5\6\4\2\u0097\u0098\7\r\2\2\u0098"+
+		"\u009a\3\2\2\2\u0099\u0094\3\2\2\2\u0099\u0095\3\2\2\2\u009a\37\3\2\2"+
 		"\2\u009b\u00a4\7\4\2\2\u009c\u009e\7\f\2\2\u009d\u009c\3\2\2\2\u009d\u009e"+
 		"\3\2\2\2\u009e\u009f\3\2\2\2\u009f\u00a1\5\"\22\2\u00a0\u00a2\7\r\2\2"+
 		"\u00a1\u00a0\3\2\2\2\u00a1\u00a2\3\2\2\2\u00a2\u00a4\3\2\2\2\u00a3\u009b"+
@@ -1544,7 +1544,7 @@ public class FOLTLFormulaParserParser extends Parser {
 		"\3\2\2\2\u00e3\u00e6\3\2\2\2\u00e4\u00e2\3\2\2\2\u00e4\u00e5\3\2\2\2\u00e5"+
 		"\u00e7\3\2\2\2\u00e6\u00e4\3\2\2\2\u00e7\u00e8\7\r\2\2\u00e8\63\3\2\2"+
 		"\2\u00e9\u00ea\t\3\2\2\u00ea\65\3\2\2\2\34AJRZbjrz~\u0083\u0088\u008d"+
-		"\u0093\u0099\u009d\u00a1\u00a3\u00a7\u00b0\u00b8\u00c0\u00c8\u00cc\u00d3"+
+		"\u0092\u0099\u009d\u00a1\u00a3\u00a7\u00b0\u00b8\u00c0\u00c8\u00cc\u00d3"+
 		"\u00d8\u00e4";
 	public static final ATN _ATN =
 		new ATNDeserializer().deserialize(_serializedATN.toCharArray());

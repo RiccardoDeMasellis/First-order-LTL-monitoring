@@ -9,7 +9,7 @@ import org.antlr.v4.runtime.misc.NotNull;
  */
 public class LocalFOLVisitor extends FOFormulaParserBaseVisitor<String>{
 
-	//Vaiable to activate debug mode (Displays extra info during the parsing process)
+	//Variable to activate debug mode (Displays extra info during the parsing process)
 	private static final boolean DEBUG = true;
 
 	@Override

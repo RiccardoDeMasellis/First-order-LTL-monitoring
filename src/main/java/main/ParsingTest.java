@@ -6,6 +6,7 @@ import antlr4_generated.FOLTLFormulaParserLexer;
 import antlr4_generated.FOLTLFormulaParserParser;
 import org.antlr.v4.runtime.ANTLRInputStream;
 import org.antlr.v4.runtime.CommonTokenStream;
+import org.antlr.v4.runtime.misc.TestRig;
 import org.antlr.v4.runtime.tree.ParseTree;
 import visitors.FOLTLVisitors.FOLTLVisitor;
 import visitors.FOLVisitors.LocalFOLVisitor;
@@ -18,8 +19,8 @@ public class ParsingTest {
 	public static void main(String[] args) {
 
 		//FOL parsing test
-		String folInput = "Exists ?k(Forall ?x ( (P(a) && !(Exists ?y Q(?x,a,?y))) -> (a = ?x) ) )";
-		//String folInput = "P(a) | P(b) & !P(c) -> R(s)";
+		//String folInput = "Exists ?k(Forall ?x ( (P(a) && !(Exists ?y Q(?x,a,?y))) -> (a = ?x) ) )";
+		String folInput = "Exists ?x ( P(?x) && Q(?x, ?y) )";
 
 		FOFormulaParserLexer foLexer = new FOFormulaParserLexer(new ANTLRInputStream(folInput));
 		FOFormulaParserParser foParser = new FOFormulaParserParser(new CommonTokenStream(foLexer));
@@ -36,10 +37,12 @@ public class ParsingTest {
 		System.out.println("Custom visitor test:\n");
 		System.out.println("\n" + visitor.visit(tree) + "\n\n");
 
+
+
 		//FOLTL parsing test
 
-		//String foltlInput = "Forall ?y ( °G ( Exists ?z ( G(?z) ) ) )";
-		String foltlInput = "Exists ?x ( Forall ?y ( P(?x) °U R(?y) ) )";
+		//String foltlInput = "Forall ?y ( °G Exists ?z G(?z) °U R(t) )";
+		String foltlInput = "°G ( ! P(x) )";
 
 		FOLTLFormulaParserLexer foltlLexer = new FOLTLFormulaParserLexer(new ANTLRInputStream(foltlInput));
 		FOLTLFormulaParserParser foltlParser = new FOLTLFormulaParserParser(new CommonTokenStream(foltlLexer));

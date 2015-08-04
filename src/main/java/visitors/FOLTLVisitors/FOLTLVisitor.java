@@ -15,6 +15,7 @@ import visitors.FOLVisitors.LocalFOLVisitor;
  */
 public class FOLTLVisitor extends FOLTLFormulaParserBaseVisitor<String>{
 
+	//Variable to activate debug mode (Displays extra info during the parsing process)
 	private static final boolean DEBUG = true;
 
 	@Override
@@ -501,10 +502,17 @@ public class FOLTLVisitor extends FOLTLFormulaParserBaseVisitor<String>{
 				break;
 
 			default:
+
 				FOFormulaParserLexer foLexer = new FOFormulaParserLexer(new ANTLRInputStream(ctx.getText()));
 				FOFormulaParserParser foParser = new FOFormulaParserParser(new CommonTokenStream(foLexer));
 
 				ParseTree tree = foParser.localQuantifiedFormula();
+
+				if (DEBUG){
+					System.out.println("\n> parsing local fol formula: " + ctx.getText());
+					System.out.println("\n\t" + tree.toStringTree(foParser));
+					System.out.println();
+				}
 
 				LocalFOLVisitor folVisitor = new LocalFOLVisitor();
 				res = folVisitor.visit(tree);
