@@ -34,8 +34,26 @@ localConjunction
     ;
 
 localNegation
-    : NOT? (predicate | LPAREN localQuantifiedFormula RPAREN)
+    : NOT? (folAtom | LPAREN localQuantifiedFormula RPAREN)
     ;
+
+folAtom
+		: predicate
+		| equality
+		;
+
+equality
+		:	(VARIABLE | CONSTANT) EQUAL (VARIABLE | CONSTANT)
+		;
+
+predicate
+		: PREPOSITION LPAREN (VARIABLE | CONSTANT) (',' (VARIABLE | CONSTANT))* RPAREN
+		;
+
+
+
+
+/* OLD GRAMMAR RULES
 
 predicate
     : PREPOSITION predicateTuple
@@ -55,6 +73,7 @@ term
     | CONSTANT
     ;
 
+*/
 
 /*
 term

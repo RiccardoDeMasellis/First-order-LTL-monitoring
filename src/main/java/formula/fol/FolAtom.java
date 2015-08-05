@@ -18,6 +18,7 @@ public class FolAtom extends FolAtomicFormula {
 
 	public FolAtom(){
 		this.arguments = new LinkedList<>();
+		this.pArity = 0;
 		this.nArgs = 0;
 	}
 
@@ -52,7 +53,7 @@ public class FolAtom extends FolAtomicFormula {
 	public void addArguments(FolTerm... arguments){
 
 		for (FolTerm arg : arguments){
-			if (nArgs < pArity) {
+			if (nArgs < pArity || (pArity <= 0)) {
 				this.arguments.add(arg);
 				nArgs++;
 			} else {
@@ -73,7 +74,7 @@ public class FolAtom extends FolAtomicFormula {
 	public  String toString(){
 		String s = predicate.toString() + "(";
 
-		if (arguments.size() == pArity) {
+		if (arguments.size() == pArity  || pArity <= 0) {
 			int j = 0;
 			Iterator<FolTerm> i = arguments.iterator();
 

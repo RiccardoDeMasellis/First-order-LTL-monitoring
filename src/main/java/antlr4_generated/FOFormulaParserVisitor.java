@@ -35,25 +35,18 @@ public interface FOFormulaParserVisitor<T> extends ParseTreeVisitor<T> {
 	T visitLocalNegation(@NotNull FOFormulaParserParser.LocalNegationContext ctx);
 
 	/**
+	 * Visit a parse tree produced by {@link FOFormulaParserParser#folAtom}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitFolAtom(@NotNull FOFormulaParserParser.FolAtomContext ctx);
+
+	/**
 	 * Visit a parse tree produced by {@link FOFormulaParserParser#start}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
 	T visitStart(@NotNull FOFormulaParserParser.StartContext ctx);
-
-	/**
-	 * Visit a parse tree produced by {@link FOFormulaParserParser#predicateTuple}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitPredicateTuple(@NotNull FOFormulaParserParser.PredicateTupleContext ctx);
-
-	/**
-	 * Visit a parse tree produced by {@link FOFormulaParserParser#term}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitTerm(@NotNull FOFormulaParserParser.TermContext ctx);
 
 	/**
 	 * Visit a parse tree produced by {@link FOFormulaParserParser#localConjunction}.

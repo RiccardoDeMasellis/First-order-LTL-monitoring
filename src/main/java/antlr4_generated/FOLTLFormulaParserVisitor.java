@@ -28,6 +28,13 @@ public interface FOLTLFormulaParserVisitor<T> extends ParseTreeVisitor<T> {
 	T visitLocalNegation(@NotNull FOLTLFormulaParserParser.LocalNegationContext ctx);
 
 	/**
+	 * Visit a parse tree produced by {@link FOLTLFormulaParserParser#folAtom}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitFolAtom(@NotNull FOLTLFormulaParserParser.FolAtomContext ctx);
+
+	/**
 	 * Visit a parse tree produced by {@link FOLTLFormulaParserParser#temporalImplication}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
@@ -98,13 +105,6 @@ public interface FOLTLFormulaParserVisitor<T> extends ParseTreeVisitor<T> {
 	T visitTemporalNegation(@NotNull FOLTLFormulaParserParser.TemporalNegationContext ctx);
 
 	/**
-	 * Visit a parse tree produced by {@link FOLTLFormulaParserParser#term}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitTerm(@NotNull FOLTLFormulaParserParser.TermContext ctx);
-
-	/**
 	 * Visit a parse tree produced by {@link FOLTLFormulaParserParser#weakNext}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
@@ -145,13 +145,6 @@ public interface FOLTLFormulaParserVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitStart(@NotNull FOLTLFormulaParserParser.StartContext ctx);
-
-	/**
-	 * Visit a parse tree produced by {@link FOLTLFormulaParserParser#predicateTuple}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitPredicateTuple(@NotNull FOLTLFormulaParserParser.PredicateTupleContext ctx);
 
 	/**
 	 * Visit a parse tree produced by {@link FOLTLFormulaParserParser#ltlfAtom}.
