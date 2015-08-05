@@ -4,8 +4,8 @@ import antlr4_generated.FOLTLFormulaParserLexer;
 import antlr4_generated.FOLTLFormulaParserParser;
 import org.antlr.v4.runtime.ANTLRInputStream;
 import org.antlr.v4.runtime.CommonTokenStream;
-import org.antlr.v4.runtime.misc.TestRig;
 import org.antlr.v4.runtime.tree.ParseTree;
+import org.junit.Test;
 import visitors.FOLTLVisitors.FOLTLVisitor;
 import visitors.FOLVisitors.LocalFOLVisitor;
 
@@ -14,7 +14,8 @@ import visitors.FOLVisitors.LocalFOLVisitor;
  */
 public class ParsingTest {
 
-	public static void main(String[] args) {
+	@Test
+	public void folParsingTest() {
 
 		//FOL parsing test
 		//String folInput = "Exists ?k(Forall ?x ( (P(a) && !(Exists ?y Q(?x,a,?y))) -> (a = ?x) ) )";
@@ -35,20 +36,22 @@ public class ParsingTest {
 		System.out.println("Custom visitor test:\n");
 		System.out.println("\n" + visitor.visit(tree) + "\n\n");
 
+	}
 
-
+	@Test
+	public void foltlParsingTest() {
 		//FOLTL parsing test
 
 		//String foltlInput = "Forall ?y ( °G Exists ?z G(?z) °U R(t) )";
-		String foltlInput = "°G ( Exists ?x P(?x) )";
+		String foltlInput = "G ( Exists ?x P(?x) )";
 
 		FOLTLFormulaParserLexer foltlLexer = new FOLTLFormulaParserLexer(new ANTLRInputStream(foltlInput));
 		FOLTLFormulaParserParser foltlParser = new FOLTLFormulaParserParser(new CommonTokenStream(foltlLexer));
 
-		tree = foltlParser.acrossQuantifiedFormula();
+		ParseTree tree = foltlParser.acrossQuantifiedFormula();
 
 		System.out.println("\n");
-		output = tree.toStringTree(foltlParser);
+		String output = tree.toStringTree(foltlParser);
 		System.out.println("\n" + output + "\n" );
 		System.out.println();
 
@@ -56,7 +59,6 @@ public class ParsingTest {
 		FOLTLVisitor temporalVisitor = new FOLTLVisitor();
 		System.out.println("Custom visitor test:\n");
 		System.out.println("\n" + temporalVisitor.visit(tree));
-
 	}
 
 }

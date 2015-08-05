@@ -333,7 +333,7 @@ public class FOLTLVisitor extends FOLTLFormulaParserBaseVisitor<String>{
 				String child = ctx.getChild(i).getText();
 				switch (child) {
 
-					case "°G": case "°[]":
+					case "G": case "[]":
 						res = res + child;
 						break;
 
@@ -367,7 +367,7 @@ public class FOLTLVisitor extends FOLTLFormulaParserBaseVisitor<String>{
 				String child = ctx.getChild(i).getText();
 				switch (child) {
 
-					case "°F": case "°<>":
+					case "F": case "<>":
 						res = res + child;
 						break;
 
@@ -401,7 +401,7 @@ public class FOLTLVisitor extends FOLTLFormulaParserBaseVisitor<String>{
 				String child = ctx.getChild(i).getText();
 				switch (child) {
 
-					case "°WX":
+					case "WX":
 						res = res + child;
 						break;
 
@@ -435,7 +435,7 @@ public class FOLTLVisitor extends FOLTLFormulaParserBaseVisitor<String>{
 				String child = ctx.getChild(i).getText();
 				switch (child) {
 
-					case "°X":
+					case "X":
 						res = res + child;
 						break;
 
@@ -499,7 +499,7 @@ public class FOLTLVisitor extends FOLTLFormulaParserBaseVisitor<String>{
 
 		switch (child){
 
-			case "°LAST": case "°Last": case "°last":
+			case "LAST": case "Last": case "last":
 				res = child;
 				break;
 
