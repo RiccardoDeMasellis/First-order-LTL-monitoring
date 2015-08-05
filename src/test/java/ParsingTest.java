@@ -1,5 +1,3 @@
-package main;
-
 import antlr4_generated.FOFormulaParserLexer;
 import antlr4_generated.FOFormulaParserParser;
 import antlr4_generated.FOLTLFormulaParserLexer;

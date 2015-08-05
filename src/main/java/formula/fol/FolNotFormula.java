@@ -7,4 +7,8 @@ import formula.NotFormula;
  */
 public class FolNotFormula extends FolUnaryFormula implements NotFormula, FolBooleanOpFormula {
 
+	public FolNotFormula(FolFormula nestedFormula) {
+		super(nestedFormula);
+	}
+
 }
