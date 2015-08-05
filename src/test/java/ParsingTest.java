@@ -19,7 +19,7 @@ public class ParsingTest {
 
 		//FOL parsing test
 		//String folInput = "Exists ?k(Forall ?x ( (P(a) && !(Exists ?y Q(?x,a,?y))) -> (a = ?x) ) )";
-		String folInput = "Exists ?x ( P(?x) && Q(?x, ?y) )";
+		String folInput = "Exists ?x ( P(?x) && Q(?x, ?y) && ?x = ?y)";
 
 		FOFormulaParserLexer foLexer = new FOFormulaParserLexer(new ANTLRInputStream(folInput));
 		FOFormulaParserParser foParser = new FOFormulaParserParser(new CommonTokenStream(foLexer));
