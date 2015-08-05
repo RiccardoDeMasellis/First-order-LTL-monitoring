@@ -6,7 +6,7 @@ package formula;
 public interface ForallQuantifiedFormula extends QuantifiedFormula {
 
 	default String stringOperator() {
-		return "Exists";
+		return "Forall";
 	}
 
 }

@@ -40,6 +40,20 @@ public class FolFormulaBuildingTest {
 
 		System.out.println("\nBuilt formula: " + builtFormula);
 
+		//Even harder
+		//Forall ?x: ((P(?x)) OR ((!(P(?x))) AND (Q(a, b, ?c))))
+
+		px = new FolAtom(p, new FolVariable("x"));
+		FolFormula notPx = new FolNotFormula(px);
+		FolFormula nPxAndQabc = new FolAndFormula(notPx, qabc);
+		FolFormula pxOretc = new FolOrFormula(px, nPxAndQabc);
+		FolFormula forall = new FolForallQuantifiedFormula(pxOretc, new FolVariable("x"));
+
+		builtFormula = forall.toString();
+
+		Assert.assertEquals("", "Forall ?x: ((P(?x)) OR ((!(P(?x))) AND (Q(a, b, ?c))))", builtFormula);
+
+		System.out.println("\nBuilt formula: " + builtFormula);
 
 	}
 
