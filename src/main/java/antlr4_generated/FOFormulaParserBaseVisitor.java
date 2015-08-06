@@ -1,6 +1,6 @@
 // Generated from FOFormulaParser.g4 by ANTLR 4.3
 
-	package antlr4_generated;
+    package antlr4_generated;
 
 import org.antlr.v4.runtime.misc.NotNull;
 import org.antlr.v4.runtime.tree.AbstractParseTreeVisitor;
@@ -44,23 +44,15 @@ public class FOFormulaParserBaseVisitor<T> extends AbstractParseTreeVisitor<T> i
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
+	@Override public T visitFolAtom(@NotNull FOFormulaParserParser.FolAtomContext ctx) { return visitChildren(ctx); }
+
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation returns the result of calling
+	 * {@link #visitChildren} on {@code ctx}.</p>
+	 */
 	@Override public T visitStart(@NotNull FOFormulaParserParser.StartContext ctx) { return visitChildren(ctx); }
-
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation returns the result of calling
-	 * {@link #visitChildren} on {@code ctx}.</p>
-	 */
-	@Override public T visitPredicateTuple(@NotNull FOFormulaParserParser.PredicateTupleContext ctx) { return visitChildren(ctx); }
-
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation returns the result of calling
-	 * {@link #visitChildren} on {@code ctx}.</p>
-	 */
-	@Override public T visitTerm(@NotNull FOFormulaParserParser.TermContext ctx) { return visitChildren(ctx); }
 
 	/**
 	 * {@inheritDoc}

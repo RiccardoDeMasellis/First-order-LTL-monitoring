@@ -1,6 +1,6 @@
 // Generated from FOLTLFormulaParser.g4 by ANTLR 4.3
 
-	package antlr4_generated;
+    package antlr4_generated;
 
 import org.antlr.v4.runtime.misc.NotNull;
 import org.antlr.v4.runtime.tree.ParseTreeVisitor;
@@ -26,6 +26,13 @@ public interface FOLTLFormulaParserVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitLocalNegation(@NotNull FOLTLFormulaParserParser.LocalNegationContext ctx);
+
+	/**
+	 * Visit a parse tree produced by {@link FOLTLFormulaParserParser#folAtom}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitFolAtom(@NotNull FOLTLFormulaParserParser.FolAtomContext ctx);
 
 	/**
 	 * Visit a parse tree produced by {@link FOLTLFormulaParserParser#temporalImplication}.
@@ -98,13 +105,6 @@ public interface FOLTLFormulaParserVisitor<T> extends ParseTreeVisitor<T> {
 	T visitTemporalNegation(@NotNull FOLTLFormulaParserParser.TemporalNegationContext ctx);
 
 	/**
-	 * Visit a parse tree produced by {@link FOLTLFormulaParserParser#term}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitTerm(@NotNull FOLTLFormulaParserParser.TermContext ctx);
-
-	/**
 	 * Visit a parse tree produced by {@link FOLTLFormulaParserParser#weakNext}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
@@ -145,13 +145,6 @@ public interface FOLTLFormulaParserVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitStart(@NotNull FOLTLFormulaParserParser.StartContext ctx);
-
-	/**
-	 * Visit a parse tree produced by {@link FOLTLFormulaParserParser#predicateTuple}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitPredicateTuple(@NotNull FOLTLFormulaParserParser.PredicateTupleContext ctx);
 
 	/**
 	 * Visit a parse tree produced by {@link FOLTLFormulaParserParser#ltlfAtom}.

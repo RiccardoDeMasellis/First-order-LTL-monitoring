@@ -60,8 +60,7 @@ next
     ;
 
 temporalNegation
-    :   ltlfAtom
-    |   NOT? LPAREN temporalFormula RPAREN
+    :   NOT? ( ltlfAtom | LPAREN temporalFormula RPAREN )
     ;
 
 ltlfAtom
@@ -70,20 +69,22 @@ ltlfAtom
     ;
 
 
-LAST : TEMPOP ('Last' | 'LAST' | 'last');
+/* TOKENS
+	 DO NOT USE AS PREDICATE/CONSTANT NAMES
+*/
 
-WEAKUNTIL : TEMPOP ('WU'|'W');
+LAST : ('Last' | 'LAST' | 'last');
 
-UNTIL : TEMPOP ('U');
+WEAKUNTIL : ('WU'|'W');
 
-RELEASE : TEMPOP ('R');
+UNTIL : ('U');
 
-GLOBALLY : TEMPOP ('[]'|'G');
+RELEASE : ('R');
 
-EVENTUALLY : TEMPOP ('<>'|'F');
+GLOBALLY : ('[]'|'G');
 
-WEAKNEXT : TEMPOP ('WX');
+EVENTUALLY : ('<>'|'F');
 
-NEXT : TEMPOP ('X');
+WEAKNEXT : ('WX');
 
-fragment TEMPOP : '°';
+NEXT : ('X');

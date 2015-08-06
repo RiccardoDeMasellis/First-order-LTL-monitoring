@@ -9,7 +9,7 @@ import org.antlr.v4.runtime.misc.NotNull;
  */
 public class LocalFOLVisitor extends FOFormulaParserBaseVisitor<String>{
 
-	//Vaiable to activate debug mode (Displays extra info during the parsing process)
+	//Variable to activate debug mode (Displays extra info during the parsing process)
 	private static final boolean DEBUG = true;
 
 	@Override
@@ -219,6 +219,11 @@ public class LocalFOLVisitor extends FOFormulaParserBaseVisitor<String>{
 	}
 
 	@Override
+	public String visitFolAtom(@NotNull FOFormulaParserParser.FolAtomContext ctx) {
+		return visitChildren(ctx);
+	}
+
+	@Override
 	public String visitPredicate(@NotNull FOFormulaParserParser.PredicateContext ctx) {
 		String res;
 
@@ -229,7 +234,14 @@ public class LocalFOLVisitor extends FOFormulaParserBaseVisitor<String>{
 						"children: " + ctx.getChildCount());
 			}
 
-			res = ctx.getChild(0).getText() + visit(ctx.getChild(1));
+			res = "";
+
+			for (int i = 0; i < ctx.getChildCount(); i++){
+
+				res = res +ctx.getChild(i).getText();
+
+			}
+
 		} else {
 			res = visitChildren(ctx);
 		}
@@ -248,7 +260,7 @@ public class LocalFOLVisitor extends FOFormulaParserBaseVisitor<String>{
 						"children: " + ctx.getChildCount());
 			}
 
-			res = visit(ctx.getChild(0)) + " = " + visit(ctx.getChild(2));
+			res = ctx.getChild(0).getText() + " = " + ctx.getChild(2).getText();
 		} else {
 			res = visitChildren(ctx);
 		}
@@ -256,38 +268,4 @@ public class LocalFOLVisitor extends FOFormulaParserBaseVisitor<String>{
 		return res;
 	}
 
-	@Override
-	public String visitPredicateTuple(@NotNull FOFormulaParserParser.PredicateTupleContext ctx) {
-		String res;
-
-		if (ctx.getChildCount() > 1){
-
-			if (DEBUG){
-				System.out.println("> parsing predicate tuple: " + ctx.getText() + "; " +
-						"children: " + ctx.getChildCount());
-			}
-
-			res = "";
-
-			for (int i = 0; i< ctx.getChildCount(); i++){
-				res = res + ctx.getChild(i).getText();
-			}
-
-		} else {
-			res = visitChildren(ctx);
-		}
-
-		return res;
-	}
-
-	@Override
-	public String visitTerm(@NotNull FOFormulaParserParser.TermContext ctx) {
-
-		if (DEBUG){
-			System.out.println("> parsing local fol term: " + ctx.getText() + "; " +
-					"children: " + ctx.getChildCount());
-		}
-
-		return ctx.getChild(0).getText();
-	}
 }

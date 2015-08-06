@@ -1,6 +1,6 @@
 // Generated from FOLTLFormulaParser.g4 by ANTLR 4.3
 
-	package antlr4_generated;
+    package antlr4_generated;
 
 import org.antlr.v4.runtime.misc.NotNull;
 import org.antlr.v4.runtime.tree.AbstractParseTreeVisitor;
@@ -29,6 +29,14 @@ public class FOLTLFormulaParserBaseVisitor<T> extends AbstractParseTreeVisitor<T
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
 	@Override public T visitLocalNegation(@NotNull FOLTLFormulaParserParser.LocalNegationContext ctx) { return visitChildren(ctx); }
+
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation returns the result of calling
+	 * {@link #visitChildren} on {@code ctx}.</p>
+	 */
+	@Override public T visitFolAtom(@NotNull FOLTLFormulaParserParser.FolAtomContext ctx) { return visitChildren(ctx); }
 
 	/**
 	 * {@inheritDoc}
@@ -116,14 +124,6 @@ public class FOLTLFormulaParserBaseVisitor<T> extends AbstractParseTreeVisitor<T
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitTerm(@NotNull FOLTLFormulaParserParser.TermContext ctx) { return visitChildren(ctx); }
-
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation returns the result of calling
-	 * {@link #visitChildren} on {@code ctx}.</p>
-	 */
 	@Override public T visitWeakNext(@NotNull FOLTLFormulaParserParser.WeakNextContext ctx) { return visitChildren(ctx); }
 
 	/**
@@ -165,14 +165,6 @@ public class FOLTLFormulaParserBaseVisitor<T> extends AbstractParseTreeVisitor<T
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
 	@Override public T visitStart(@NotNull FOLTLFormulaParserParser.StartContext ctx) { return visitChildren(ctx); }
-
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation returns the result of calling
-	 * {@link #visitChildren} on {@code ctx}.</p>
-	 */
-	@Override public T visitPredicateTuple(@NotNull FOLTLFormulaParserParser.PredicateTupleContext ctx) { return visitChildren(ctx); }
 
 	/**
 	 * {@inheritDoc}
