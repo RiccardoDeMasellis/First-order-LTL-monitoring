@@ -7,4 +7,9 @@ import formula.LocalQuantifiedFormula;
  * Created by Simone Calciolari on 06/08/15.
  */
 public class FoLtlLocalForallFormula extends FoLtlQuantifiedFormula implements ForallQuantifiedFormula, LocalQuantifiedFormula {
+
+	public FoLtlLocalForallFormula(FoLtlFormula nestedFormula, FoLtlVariable quantifiedVariable){
+		super(nestedFormula, quantifiedVariable);
+	}
+
 }
