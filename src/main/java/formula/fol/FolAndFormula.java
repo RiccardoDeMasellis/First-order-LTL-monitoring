@@ -1,7 +1,6 @@
 package formula.fol;
 
 import formula.AndFormula;
-import formula.FormulaType;
 
 /**
  * Created by Simone Calciolari on 05/08/15.
