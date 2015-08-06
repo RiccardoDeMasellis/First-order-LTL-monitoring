@@ -9,16 +9,16 @@ import java.util.LinkedList;
 public class FolAtom extends FolAtomicFormula {
 
 	private FolPredicate predicate;
-
 	private LinkedList<FolTerm> arguments;
 
+	//Keeps track of the maximum number of arguments, if = -1 is ignored (predicate not yet set)
 	private int pArity;
-
+	//Keeps track of the current argument number
 	private int nArgs;
 
 	public FolAtom(){
 		this.arguments = new LinkedList<>();
-		this.pArity = 0;
+		this.pArity = -1;
 		this.nArgs = 0;
 	}
 
@@ -47,7 +47,12 @@ public class FolAtom extends FolAtomicFormula {
 	}
 
 	public void setPredicate(FolPredicate predicate){
-		this.predicate = predicate;
+		if (predicate.getArity() >= this.nArgs) {
+			this.predicate = predicate;
+			pArity = predicate.getArity();
+		} else {
+			throw new RuntimeException("Predicate arity is too low");
+		}
 	}
 
 	public void addArguments(FolTerm... arguments){
