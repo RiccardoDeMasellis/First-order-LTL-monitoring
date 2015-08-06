@@ -18,6 +18,9 @@ public class ParsingTest {
 	public void folParsingTest() {
 
 		//FOL parsing test
+
+		System.out.println("\nFOL PARSING TEST");
+
 		//String folInput = "Exists ?k(Forall ?x ( (P(a) && !(Exists ?y Q(?x,a,?y))) -> (a = ?x) ) )";
 		String folInput = "Exists ?x ( P(?x) && Q(?x, ?y) && ?x = ?y)";
 
@@ -26,7 +29,6 @@ public class ParsingTest {
 
 		ParseTree tree = foParser.localQuantifiedFormula();
 
-		System.out.println("\n");
 		String output = tree.toStringTree(foParser);
 		System.out.println("\n" + output + "\n" );
 		System.out.println();
@@ -42,8 +44,9 @@ public class ParsingTest {
 	public void foltlParsingTest() {
 		//FOLTL parsing test
 
-		//String foltlInput = "Forall ?y ( °G Exists ?z G(?z) °U R(t) )";
-		String foltlInput = "G ( Exists ?x P(?x) )";
+		System.out.println("\nFO-LTL PARSING TEST\n");
+
+		String foltlInput = "Forall ?y ( G Exists ?z P(?z) U T(t) )";
 
 		FOLTLFormulaParserLexer foltlLexer = new FOLTLFormulaParserLexer(new ANTLRInputStream(foltlInput));
 		FOLTLFormulaParserParser foltlParser = new FOLTLFormulaParserParser(new CommonTokenStream(foltlLexer));
@@ -57,7 +60,7 @@ public class ParsingTest {
 
 		//Testing our own visitor
 		FOLTLVisitor temporalVisitor = new FOLTLVisitor();
-		System.out.println("Custom visitor test:\n");
+		System.out.println("\nCustom visitor test:\n");
 		System.out.println("\n" + temporalVisitor.visit(tree));
 	}
 

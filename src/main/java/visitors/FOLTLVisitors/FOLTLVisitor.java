@@ -515,18 +515,17 @@ public class FOLTLVisitor extends FOLTLFormulaParserBaseVisitor<String>{
 
 				String input = ctx.start.getInputStream().getText(interval);
 
-				if (DEBUG){
-					System.out.println("\n> Input:" + input);
-				}
+				System.out.println();
 
 				FOFormulaParserLexer foLexer = new FOFormulaParserLexer(new ANTLRInputStream(input));
 				FOFormulaParserParser foParser = new FOFormulaParserParser(new CommonTokenStream(foLexer));
 
 				ParseTree tree = foParser.localQuantifiedFormula();
+				String output = tree.toStringTree(foParser);
 
 				if (DEBUG){
-					System.out.println("> parsing local fol formula: " + ctx.getText());
-					System.out.println("\n\t" + tree.toStringTree(foParser));
+					System.out.println("\n\n> parsing local fol formula: " + input);
+					System.out.println("\n\t" + output);
 					System.out.println();
 				}
 
