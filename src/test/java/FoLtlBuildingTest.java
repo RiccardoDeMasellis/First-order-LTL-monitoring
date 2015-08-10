@@ -1,12 +1,12 @@
 import antlr4_generated.FOFormulaParserLexer;
 import antlr4_generated.FOFormulaParserParser;
-import formula.fol.*;
+import formula.foltl.*;
 import org.antlr.v4.runtime.ANTLRInputStream;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.tree.ParseTree;
 import org.junit.Assert;
 import org.junit.Test;
-import visitors.FOLVisitors.LocalFolBuilderVisitor;
+import visitors.FOLVisitors.LocalFoLtlVisitor;
 
 /**
  * Created by Simone Calciolari on 10/08/15.
@@ -17,14 +17,14 @@ public class FoLtlBuildingTest {
 	public void testFolParsingBuild(){
 		System.out.println("\n***FORMULA PARSING TEST***");
 
-		FolFormula target;
+		FoLtlFormula target;
 
 		//Building very simple formulas
 		//P(?x)
 
-		FolPredicate p = new FolPredicate("P", 1);
-		FolVariable x = new FolVariable("x");
-		FolAtom px = new FolAtom(p, x);
+		FoLtlPredicate p = new FoLtlPredicate("P", 1);
+		FoLtlVariable x = new FoLtlVariable("x");
+		FoLtlLocalAtom px = new FoLtlLocalAtom(p, x);
 
 		target = px;
 
@@ -37,9 +37,9 @@ public class FoLtlBuildingTest {
 		ParseTree tree = foParser.localQuantifiedFormula();
 
 		//Testing our own visitor
-		LocalFolBuilderVisitor visitor = new LocalFolBuilderVisitor();
+		LocalFoLtlVisitor visitor = new LocalFoLtlVisitor();
 		System.out.println("\n");
-		FolFormula output = visitor.visit(tree);
+		FoLtlFormula output = visitor.visit(tree);
 		System.out.println("\n" + output);
 
 		Assert.assertEquals("", target.toString(), output.toString());
@@ -48,13 +48,13 @@ public class FoLtlBuildingTest {
 		//More difficult
 		//P(?x) && Q(a, b, ?y)
 
-		FolPredicate q = new FolPredicate("Q", 3);
-		FolConstant a = new FolConstant("a");
-		FolConstant b = new FolConstant("b");
-		FolVariable y = new FolVariable("y");
-		FolAtom qaby = new FolAtom(q, a, b , y);
+		FoLtlPredicate q = new FoLtlPredicate("Q", 3);
+		FoLtlConstant a = new FoLtlConstant("a");
+		FoLtlConstant b = new FoLtlConstant("b");
+		FoLtlVariable y = new FoLtlVariable("y");
+		FoLtlLocalAtom qaby = new FoLtlLocalAtom(q, a, b , y);
 
-		FolFormula pAndQ = new FolAndFormula(px, qaby);
+		FoLtlFormula pAndQ = new FoLtlLocalAndFormula(px, qaby);
 
 		target = pAndQ;
 
@@ -67,7 +67,7 @@ public class FoLtlBuildingTest {
 		tree = foParser.localQuantifiedFormula();
 
 		//Testing our own visitor
-		visitor = new LocalFolBuilderVisitor();
+		visitor = new LocalFoLtlVisitor();
 		System.out.println("\n===========================================================================================");
 		output = visitor.visit(tree);
 		System.out.println("\n" + output);
@@ -78,12 +78,12 @@ public class FoLtlBuildingTest {
 		//Even harder
 		//Forall ?x: (Exists ?y: ((!(?x = ?y)) AND ((P(?x)) <-> (Q(a, b, ?y)))))
 
-		FolFormula eq = new FolEqualityFormula(x, y);
-		FolFormula nEq = new FolNotFormula(eq);
-		FolFormula and = new FolAndFormula(nEq, px);
-		FolFormula dImpl = new FolDoubleImplFormula(and, qaby);
-		FolFormula exists = new FolExistsQuantifiedFormula(dImpl, y);
-		FolFormula forall = new FolForallQuantifiedFormula(exists, x);
+		FoLtlFormula eq = new FoLtlLocalEqualityFormula(x, y);
+		FoLtlFormula nEq = new FoLtlLocalNotFormula(eq);
+		FoLtlFormula and = new FoLtlLocalAndFormula(nEq, px);
+		FoLtlFormula dImpl = new FoLtlLocalDoubleImplFormula(and, qaby);
+		FoLtlFormula exists = new FoLtlLocalExistsFormula(dImpl, y);
+		FoLtlFormula forall = new FoLtlLocalForallFormula(exists, x);
 
 		target = forall;
 
@@ -96,35 +96,33 @@ public class FoLtlBuildingTest {
 		tree = foParser.localQuantifiedFormula();
 
 		//Testing our own visitor
-		visitor = new LocalFolBuilderVisitor();
+		visitor = new LocalFoLtlVisitor();
 		System.out.println("\n===========================================================================================");
 		output = visitor.visit(tree);
 		System.out.println("\n" + output);
 
 		Assert.assertEquals("", target.toString(), output.toString());
 
-		System.out.println();
-
 
 		//Further tests
 
 		//Forall ?x: ((Bag(?x)) -> (Exists ?y: ((Coin(?y)) AND (Contains(?x, ?y)))))
 
-		x = new FolVariable("x");
-		y = new FolVariable("y");
+		x = new FoLtlVariable("x");
+		y = new FoLtlVariable("y");
 
-		FolPredicate bag = new FolPredicate("Bag", 1);
-		FolPredicate coin = new FolPredicate("Coin", 1);
-		FolPredicate conts = new FolPredicate("Contains", 2);
+		FoLtlPredicate bag = new FoLtlPredicate("Bag", 1);
+		FoLtlPredicate coin = new FoLtlPredicate("Coin", 1);
+		FoLtlPredicate conts = new FoLtlPredicate("Contains", 2);
 
-		FolAtom bagX = new FolAtom(bag, x);
-		FolAtom coinY = new FolAtom(coin, y);
-		FolAtom contsXY = new FolAtom(conts, x, y);
+		FoLtlLocalAtom bagX = new FoLtlLocalAtom(bag, x);
+		FoLtlLocalAtom coinY = new FoLtlLocalAtom(coin, y);
+		FoLtlLocalAtom contsXY = new FoLtlLocalAtom(conts, x, y);
 
-		FolFormula coinAndConts = new FolAndFormula(coinY, contsXY);
-		FolFormula existsY = new FolExistsQuantifiedFormula(coinAndConts, y);
-		FolFormula impl = new FolImplFormula(bagX, existsY);
-		FolFormula forallX = new FolForallQuantifiedFormula(impl, x);
+		FoLtlFormula coinAndConts = new FoLtlLocalAndFormula(coinY, contsXY);
+		FoLtlFormula existsY = new FoLtlLocalExistsFormula(coinAndConts, y);
+		FoLtlFormula impl = new FoLtlLocalImplFormula(bagX, existsY);
+		FoLtlFormula forallX = new FoLtlLocalForallFormula(impl, x);
 
 		target = forallX;
 
@@ -137,35 +135,33 @@ public class FoLtlBuildingTest {
 		tree = foParser.localQuantifiedFormula();
 
 		//Testing our own visitor
-		visitor = new LocalFolBuilderVisitor();
+		visitor = new LocalFoLtlVisitor();
 		System.out.println("\n===========================================================================================");
 		output = visitor.visit(tree);
 		System.out.println("\n" + output);
 
 		Assert.assertEquals("", target.toString(), output.toString());
 
-		System.out.println();
-
 
 		//Exists ?x: ((Buyer(?x)) AND ((Bought(?x, s)) AND (Forall ?y: ((Buyer(?y)) AND (Bought(?y, s)) -> (?x = ?y)))))
 
-		FolConstant s = new FolConstant("s");
+		FoLtlConstant s = new FoLtlConstant("s");
 
-		FolPredicate buyer = new FolPredicate("Buyer", 1);
-		FolPredicate bought = new FolPredicate("Bought", 2);
+		FoLtlPredicate buyer = new FoLtlPredicate("Buyer", 1);
+		FoLtlPredicate bought = new FoLtlPredicate("Bought", 2);
 
-		FolFormula buyerX = new FolAtom(buyer, x);
-		FolFormula buyerY = new FolAtom(buyer, y);
-		FolFormula boughtXS = new FolAtom(bought, x, s);
-		FolFormula boughtYS = new FolAtom(bought, y, s);
-		FolFormula xEqY = new FolEqualityFormula(x, y);
+		FoLtlFormula buyerX = new FoLtlLocalAtom(buyer, x);
+		FoLtlFormula buyerY = new FoLtlLocalAtom(buyer, y);
+		FoLtlFormula boughtXS = new FoLtlLocalAtom(bought, x, s);
+		FoLtlFormula boughtYS = new FoLtlLocalAtom(bought, y, s);
+		FoLtlFormula xEqY = new FoLtlLocalEqualityFormula(x, y);
 
-		FolFormula buyAndBoughtY = new FolAndFormula(buyerY, boughtYS);
-		impl = new FolImplFormula(buyAndBoughtY, xEqY);
-		FolFormula forallY = new FolForallQuantifiedFormula(impl, y);
-		FolFormula boughtAndForall = new FolAndFormula(boughtXS, forallY);
-		FolFormula buyAndBoughtX = new FolAndFormula(buyerX, boughtAndForall);
-		FolFormula existsX = new FolExistsQuantifiedFormula(buyAndBoughtX, x);
+		FoLtlFormula buyAndBoughtY = new FoLtlLocalAndFormula(buyerY, boughtYS);
+		impl = new FoLtlLocalImplFormula(buyAndBoughtY, xEqY);
+		FoLtlFormula forallY = new FoLtlLocalForallFormula(impl, y);
+		FoLtlFormula boughtAndForall = new FoLtlLocalAndFormula(boughtXS, forallY);
+		FoLtlFormula buyAndBoughtX = new FoLtlLocalAndFormula(buyerX, boughtAndForall);
+		FoLtlFormula existsX = new FoLtlLocalExistsFormula(buyAndBoughtX, x);
 
 		target = existsX;
 
@@ -178,32 +174,30 @@ public class FoLtlBuildingTest {
 		tree = foParser.localQuantifiedFormula();
 
 		//Testing our own visitor
-		visitor = new LocalFolBuilderVisitor();
+		visitor = new LocalFoLtlVisitor();
 		System.out.println("\n===========================================================================================");
 		output = visitor.visit(tree);
 		System.out.println("\n" + output);
 
 		Assert.assertEquals("", target.toString(), output.toString());
 
-		System.out.println();
-
 
 		//Forall ?x: ((S(?x)) -> (Exists ?y: ((S(?y)) AND ((!(?x = ?y)) AND (L(?x, ?y))))))
 
-		FolPredicate S = new FolPredicate("S", 1);
-		FolPredicate L = new FolPredicate("L", 2);
+		FoLtlPredicate S = new FoLtlPredicate("S", 1);
+		FoLtlPredicate L = new FoLtlPredicate("L", 2);
 
-		FolFormula sX = new FolAtom(S, x);
-		FolFormula sY = new FolAtom(S, y);
-		FolFormula lXY = new FolAtom(L, x, y);
-		xEqY = new FolEqualityFormula(x, y);
+		FoLtlFormula sX = new FoLtlLocalAtom(S, x);
+		FoLtlFormula sY = new FoLtlLocalAtom(S, y);
+		FoLtlFormula lXY = new FoLtlLocalAtom(L, x, y);
+		xEqY = new FoLtlLocalEqualityFormula(x, y);
 
-		nEq = new FolNotFormula(xEqY);
-		FolFormula neqAndL = new FolAndFormula(nEq, lXY);
-		FolFormula sAndAnd = new FolAndFormula(sY, neqAndL);
-		existsY = new FolExistsQuantifiedFormula(sAndAnd, y);
-		FolFormula sImplEx = new FolImplFormula(sX, existsY);
-		forallX = new FolForallQuantifiedFormula(sImplEx, x);
+		nEq = new FoLtlLocalNotFormula(xEqY);
+		FoLtlFormula neqAndL = new FoLtlLocalAndFormula(nEq, lXY);
+		FoLtlFormula sAndAnd = new FoLtlLocalAndFormula(sY, neqAndL);
+		existsY = new FoLtlLocalExistsFormula(sAndAnd, y);
+		FoLtlFormula sImplEx = new FoLtlLocalImplFormula(sX, existsY);
+		forallX = new FoLtlLocalForallFormula(sImplEx, x);
 
 		target = forallX;
 
@@ -216,14 +210,12 @@ public class FoLtlBuildingTest {
 		tree = foParser.localQuantifiedFormula();
 
 		//Testing our own visitor
-		visitor = new LocalFolBuilderVisitor();
+		visitor = new LocalFoLtlVisitor();
 		System.out.println("\n===========================================================================================");
 		output = visitor.visit(tree);
 		System.out.println("\n" + output);
 
 		Assert.assertEquals("", target.toString(), output.toString());
-
-		System.out.println();
 
 	}
 
@@ -235,9 +227,9 @@ public class FoLtlBuildingTest {
 		//Building very simple formulas
 		//P(x)
 
-		FolPredicate p = new FolPredicate("P", 1);
-		FolVariable x = new FolVariable("x");
-		FolAtom px = new FolAtom(p, x);
+		FoLtlPredicate p = new FoLtlPredicate("P", 1);
+		FoLtlVariable x = new FoLtlVariable("x");
+		FoLtlLocalAtom px = new FoLtlLocalAtom(p, x);
 
 		String builtFormula = px.toString();
 
@@ -247,15 +239,15 @@ public class FoLtlBuildingTest {
 
 
 		//More difficult
-		//P(x) && Q(a, b, ?c)
+		//P(x) && Q(a, b, ?y)
 
-		FolPredicate q = new FolPredicate("Q", 3);
-		FolConstant a = new FolConstant("a");
-		FolConstant b = new FolConstant("b");
-		FolVariable y = new FolVariable("y");
-		FolAtom qaby = new FolAtom(q, a, b , y);
+		FoLtlPredicate q = new FoLtlPredicate("Q", 3);
+		FoLtlConstant a = new FoLtlConstant("a");
+		FoLtlConstant b = new FoLtlConstant("b");
+		FoLtlVariable y = new FoLtlVariable("y");
+		FoLtlLocalAtom qaby = new FoLtlLocalAtom(q, a, b , y);
 
-		FolFormula pAndQ = new FolAndFormula(px, qaby);
+		FoLtlFormula pAndQ = new FoLtlLocalAndFormula(px, qaby);
 
 		builtFormula = pAndQ.toString();
 
@@ -265,18 +257,18 @@ public class FoLtlBuildingTest {
 
 
 		//Even harder
-		//Forall ?x: (Exists ?y: ((!(?x = ?y)) AND ((P(?x)) <-> (Q(a, b, ?y)))))
+		//Forall ?x: (Exists ?y: (((!(?x = ?y)) AND (P(?x))) <-> (Q(a, b, ?y))))
 
-		FolFormula dImpl = new FolDoubleImplFormula(px, qaby);
-		FolFormula eq = new FolEqualityFormula(x, y);
-		FolFormula nEq = new FolNotFormula(eq);
-		FolFormula and = new FolAndFormula(nEq, dImpl);
-		FolFormula exists = new FolExistsQuantifiedFormula(and, y);
-		FolFormula forall = new FolForallQuantifiedFormula(exists, x);
+		FoLtlFormula eq = new FoLtlLocalEqualityFormula(x, y);
+		FoLtlFormula nEq = new FoLtlLocalNotFormula(eq);
+		FoLtlFormula and = new FoLtlLocalAndFormula(nEq, px);
+		FoLtlFormula dImpl = new FoLtlLocalDoubleImplFormula(and, qaby);
+		FoLtlFormula exists = new FoLtlLocalExistsFormula(dImpl, y);
+		FoLtlFormula forall = new FoLtlLocalForallFormula(exists, x);
 
 		builtFormula = forall.toString();
 
-		Assert.assertEquals("", "Forall ?x: (Exists ?y: ((!(?x = ?y)) AND ((P(?x)) <-> (Q(a, b, ?y)))))", builtFormula);
+		Assert.assertEquals("", "Forall ?x: (Exists ?y: (((!(?x = ?y)) AND (P(?x))) <-> (Q(a, b, ?y))))", builtFormula);
 
 		System.out.println("\nBuilt formula: " + builtFormula);
 
@@ -285,21 +277,21 @@ public class FoLtlBuildingTest {
 
 		//Forall ?x: ((Bag(?x)) -> (Exists ?y: ((Coin(?y)) AND (Contains(?x, ?y)))))
 
-		x = new FolVariable("x");
-		y = new FolVariable("y");
+		x = new FoLtlVariable("x");
+		y = new FoLtlVariable("y");
 
-		FolPredicate bag = new FolPredicate("Bag", 1);
-		FolPredicate coin = new FolPredicate("Coin", 1);
-		FolPredicate conts = new FolPredicate("Contains", 2);
+		FoLtlPredicate bag = new FoLtlPredicate("Bag", 1);
+		FoLtlPredicate coin = new FoLtlPredicate("Coin", 1);
+		FoLtlPredicate conts = new FoLtlPredicate("Contains", 2);
 
-		FolAtom bagX = new FolAtom(bag, x);
-		FolAtom coinY = new FolAtom(coin, y);
-		FolAtom contsXY = new FolAtom(conts, x, y);
+		FoLtlLocalAtom bagX = new FoLtlLocalAtom(bag, x);
+		FoLtlLocalAtom coinY = new FoLtlLocalAtom(coin, y);
+		FoLtlLocalAtom contsXY = new FoLtlLocalAtom(conts, x, y);
 
-		FolFormula coinAndConts = new FolAndFormula(coinY, contsXY);
-		FolFormula existsY = new FolExistsQuantifiedFormula(coinAndConts, y);
-		FolFormula impl = new FolImplFormula(bagX, existsY);
-		FolFormula forallX = new FolForallQuantifiedFormula(impl, x);
+		FoLtlFormula coinAndConts = new FoLtlLocalAndFormula(coinY, contsXY);
+		FoLtlFormula existsY = new FoLtlLocalExistsFormula(coinAndConts, y);
+		FoLtlFormula impl = new FoLtlLocalImplFormula(bagX, existsY);
+		FoLtlFormula forallX = new FoLtlLocalForallFormula(impl, x);
 
 		builtFormula = forallX.toString();
 
@@ -311,23 +303,23 @@ public class FoLtlBuildingTest {
 
 		//Exists ?x: ((Buyer(?x)) AND ((Bought(?x, s)) AND (Forall ?y: ((Buyer(?y)) AND (Bought(?y, s)) -> (?x = ?y)))))
 
-		FolConstant s = new FolConstant("s");
+		FoLtlConstant s = new FoLtlConstant("s");
 
-		FolPredicate buyer = new FolPredicate("Buyer", 1);
-		FolPredicate bought = new FolPredicate("Bought", 2);
+		FoLtlPredicate buyer = new FoLtlPredicate("Buyer", 1);
+		FoLtlPredicate bought = new FoLtlPredicate("Bought", 2);
 
-		FolFormula buyerX = new FolAtom(buyer, x);
-		FolFormula buyerY = new FolAtom(buyer, y);
-		FolFormula boughtXS = new FolAtom(bought, x, s);
-		FolFormula boughtYS = new FolAtom(bought, y, s);
-		FolFormula xEqY = new FolEqualityFormula(x, y);
+		FoLtlFormula buyerX = new FoLtlLocalAtom(buyer, x);
+		FoLtlFormula buyerY = new FoLtlLocalAtom(buyer, y);
+		FoLtlFormula boughtXS = new FoLtlLocalAtom(bought, x, s);
+		FoLtlFormula boughtYS = new FoLtlLocalAtom(bought, y, s);
+		FoLtlFormula xEqY = new FoLtlLocalEqualityFormula(x, y);
 
-		FolFormula buyAndBoughtY = new FolAndFormula(buyerY, boughtYS);
-		impl = new FolImplFormula(buyAndBoughtY, xEqY);
-		FolFormula forallY = new FolForallQuantifiedFormula(impl, y);
-		FolFormula boughtAndForall = new FolAndFormula(boughtXS, forallY);
-		FolFormula buyAndBoughtX = new FolAndFormula(buyerX, boughtAndForall);
-		FolFormula existsX = new FolExistsQuantifiedFormula(buyAndBoughtX, x);
+		FoLtlFormula buyAndBoughtY = new FoLtlLocalAndFormula(buyerY, boughtYS);
+		impl = new FoLtlLocalImplFormula(buyAndBoughtY, xEqY);
+		FoLtlFormula forallY = new FoLtlLocalForallFormula(impl, y);
+		FoLtlFormula boughtAndForall = new FoLtlLocalAndFormula(boughtXS, forallY);
+		FoLtlFormula buyAndBoughtX = new FoLtlLocalAndFormula(buyerX, boughtAndForall);
+		FoLtlFormula existsX = new FoLtlLocalExistsFormula(buyAndBoughtX, x);
 
 		builtFormula = existsX.toString();
 
@@ -340,20 +332,20 @@ public class FoLtlBuildingTest {
 
 		//Forall ?x: ((S(?x)) -> (Exists ?y: ((S(?y)) AND ((!(?x = ?y)) AND (L(?x, ?y))))))
 
-		FolPredicate S = new FolPredicate("S", 1);
-		FolPredicate L = new FolPredicate("L", 2);
+		FoLtlPredicate S = new FoLtlPredicate("S", 1);
+		FoLtlPredicate L = new FoLtlPredicate("L", 2);
 
-		FolFormula sX = new FolAtom(S, x);
-		FolFormula sY = new FolAtom(S, y);
-		FolFormula lXY = new FolAtom(L, x, y);
-		xEqY = new FolEqualityFormula(x, y);
+		FoLtlFormula sX = new FoLtlLocalAtom(S, x);
+		FoLtlFormula sY = new FoLtlLocalAtom(S, y);
+		FoLtlFormula lXY = new FoLtlLocalAtom(L, x, y);
+		xEqY = new FoLtlLocalEqualityFormula(x, y);
 
-		nEq = new FolNotFormula(xEqY);
-		FolFormula neqAndL = new FolAndFormula(nEq, lXY);
-		FolFormula sAndAnd = new FolAndFormula(sY, neqAndL);
-		existsY = new FolExistsQuantifiedFormula(sAndAnd, y);
-		FolFormula sImplEx = new FolImplFormula(sX, existsY);
-		forallX = new FolForallQuantifiedFormula(sImplEx, x);
+		nEq = new FoLtlLocalNotFormula(xEqY);
+		FoLtlFormula neqAndL = new FoLtlLocalAndFormula(nEq, lXY);
+		FoLtlFormula sAndAnd = new FoLtlLocalAndFormula(sY, neqAndL);
+		existsY = new FoLtlLocalExistsFormula(sAndAnd, y);
+		FoLtlFormula sImplEx = new FoLtlLocalImplFormula(sX, existsY);
+		forallX = new FoLtlLocalForallFormula(sImplEx, x);
 
 		builtFormula = forallX.toString();
 
