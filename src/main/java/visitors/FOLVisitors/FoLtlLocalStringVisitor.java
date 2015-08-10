@@ -236,9 +236,10 @@ public class FoLtlLocalStringVisitor extends FOFormulaParserBaseVisitor<String>{
 
 			res = "";
 
+			//TODO print this better (with spacing etc.)
 			for (int i = 0; i < ctx.getChildCount(); i++){
 
-				res = res +ctx.getChild(i).getText();
+				res = res + ctx.getChild(i).getText();
 
 			}
 

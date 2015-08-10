@@ -6,12 +6,15 @@ import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.tree.ParseTree;
 import org.junit.Assert;
 import org.junit.Test;
+import visitors.FOLTLVisitors.FoLtlTemporalStringVisitor;
 import visitors.FOLTLVisitors.FoLtlTemporalVisitor;
 
 /**
  * Created by Simone Calciolari on 10/08/15.
  */
 public class FoLtlTemporalFormulaTest {
+
+	private static final boolean DEBUG = true;
 
 	@Test
 	public void testTemporalFormulaBuilding(){
@@ -44,22 +47,46 @@ public class FoLtlTemporalFormulaTest {
 
 		FoLtlFormula target = forall;
 
-		//Parser test
-		String input = "Forall ?x (Exists ?y (!(?x = ?y) && P(?x) <-> Q(a, b, ?y)))";
+		Assert.assertEquals("", target.toString(),
+				parseTemporalFormula("Forall ?x (Exists ?y (!(?x = ?y) && P(?x) <-> Q(a, b, ?y)))"));
 
+	}
+
+	//<editor-fold desc="parseTemporalFormula">
+	/**
+	 * Method to encapsulate the instructions needed to parse a given temporal foltl formula
+	 * @param input the input formula
+	 * @return a String representing the parsing result
+	 */
+	private static String parseTemporalFormula(String input){
+
+		String output;
+
+		//Instantiates lexer and parser
 		FOLTLFormulaParserLexer foltlLexer = new FOLTLFormulaParserLexer(new ANTLRInputStream(input));
 		FOLTLFormulaParserParser foltlParser = new FOLTLFormulaParserParser(new CommonTokenStream(foltlLexer));
 
-		ParseTree tree = foltlParser.acrossQuantifiedFormula();
+		//Creates the parsing tree
+		ParseTree tree = foltlParser.foltlFormula();
+
+		if (DEBUG) {
+			System.out.println("\n");
+			output = tree.toStringTree(foltlParser);
+			System.out.println("> Default parsing tree:\n> " + output);
+		}
 
 		//Testing our own visitor
-		FoLtlTemporalVisitor visitor = new FoLtlTemporalVisitor();
-		System.out.println("\n===========================================================================================");
-		FoLtlFormula output = visitor.visit(tree);
-		System.out.println("\n" + output);
+		FoLtlTemporalVisitor temporalVisitor = new FoLtlTemporalVisitor();
+		output = temporalVisitor.visit(tree).toString();
 
-		Assert.assertEquals("", target.toString(), output.toString());
+		if (DEBUG){
+			System.out.println("\n> Parsed formula: " + output);
+		}
 
+		System.out.println("=============================================================================================");
+
+		return output;
 	}
+	//</editor-fold>
 
 }

@@ -22,13 +22,18 @@ public class FoLtlTemporalVisitor extends FOLTLFormulaParserBaseVisitor<FoLtlFor
 
 	@Override
 	public FoLtlFormula visitStart(@NotNull FOLTLFormulaParserParser.StartContext ctx) {
+		return super.visitStart(ctx);
+	}
+
+	@Override
+	public FoLtlFormula visitFoltlFormula(@NotNull FOLTLFormulaParserParser.FoltlFormulaContext ctx) {
 
 		if (DEBUG){
-			System.out.println("> parsing first order temporal formula: " + ctx.getText() + "; " +
+			System.out.println("> parsing FO-LTL formula: " + ctx.getText() + "; " +
 					"children: " + ctx.getChildCount());
 		}
 
-		return super.visitStart(ctx);
+		return super.visitFoltlFormula(ctx);
 	}
 
 	@Override
@@ -73,12 +78,39 @@ public class FoLtlTemporalVisitor extends FOLTLFormulaParserBaseVisitor<FoLtlFor
 	@Override
 	public FoLtlFormula visitTemporalFormula(@NotNull FOLTLFormulaParserParser.TemporalFormulaContext ctx) {
 
-		if (DEBUG){
-			System.out.println("> parsing temporal formula: " + ctx.getText() + "; " +
-					"children: " + ctx.getChildCount());
+		FoLtlFormula res;
+
+		if (ctx.getChildCount() > 1) {
+
+			if (DEBUG) {
+				System.out.println("> parsing temporal formula: " + ctx.getText() + "; " +
+						"children: " + ctx.getChildCount());
+			}
+
+			res = null;
+
+			for (int i = 0; i < ctx.getChildCount(); i++){
+
+				String child = ctx.getChild(i).getText();
+
+				switch (child){
+
+					case "(": case ")":
+						break;
+
+					default:
+						res = visit(ctx.getChild(i));
+						break;
+
+				}
+
+			}
+
+		} else {
+			res = visitChildren(ctx);
 		}
 
-		return super.visitTemporalFormula(ctx);
+		return res;
 	}
 
 	@Override
@@ -515,7 +547,7 @@ public class FoLtlTemporalVisitor extends FOLTLFormulaParserBaseVisitor<FoLtlFor
 	@Override
 	public FoLtlFormula visitLtlfAtom(@NotNull FOLTLFormulaParserParser.LtlfAtomContext ctx) {
 
-		FoLtlFormula res;
+		FoLtlFormula res = null;
 
 		if (DEBUG){
 			System.out.println("> parsing ltlf atom: " + ctx.getText() + "; " +
@@ -531,34 +563,11 @@ public class FoLtlTemporalVisitor extends FOLTLFormulaParserBaseVisitor<FoLtlFor
 				res = new FoLtlTempLastAtom();
 				break;
 
+			case "(": case")":
+				break;
+
 			default:
-
-				//Restores original input with white spaces, as described here:
-				//http://stackoverflow.com/questions/16343288/how-do-i-get-the-original-text-that-an-antlr4-rule-matched
-
-				int a = ctx.start.getStartIndex();
-				int b = ctx.stop.getStopIndex();
-
-				Interval interval = new Interval(a, b);
-
-				String input = ctx.start.getInputStream().getText(interval);
-
-				System.out.println();
-
-				FOFormulaParserLexer foLexer = new FOFormulaParserLexer(new ANTLRInputStream(input));
-				FOFormulaParserParser foParser = new FOFormulaParserParser(new CommonTokenStream(foLexer));
-
-				ParseTree tree = foParser.localQuantifiedFormula();
-				String output = tree.toStringTree(foParser);
-
-				if (DEBUG){
-					System.out.println("\n\n> parsing local fol formula: " + input);
-					System.out.println("\n\t" + output);
-					System.out.println();
-				}
-
-				FoLtlLocalVisitor localVisitor = new FoLtlLocalVisitor();
-				res = localVisitor.visit(tree);
+				res = visit(child);
 				break;
 
 		}
@@ -566,4 +575,37 @@ public class FoLtlTemporalVisitor extends FOLTLFormulaParserBaseVisitor<FoLtlFor
 		return res;
 	}
 
+	@Override
+	public FoLtlFormula visitLocalQuantifiedFormula(@NotNull FOLTLFormulaParserParser.LocalQuantifiedFormulaContext ctx) {
+		FoLtlFormula res;
+
+		//Restores original input with white spaces, as described here:
+		//http://stackoverflow.com/questions/16343288/how-do-i-get-the-original-text-that-an-antlr4-rule-matched
+
+		int a = ctx.start.getStartIndex();
+		int b = ctx.stop.getStopIndex();
+
+		Interval interval = new Interval(a, b);
+
+		String input = ctx.start.getInputStream().getText(interval);
+
+		System.out.println();
+
+		FOFormulaParserLexer foLexer = new FOFormulaParserLexer(new ANTLRInputStream(input));
+		FOFormulaParserParser foParser = new FOFormulaParserParser(new CommonTokenStream(foLexer));
+
+		ParseTree tree = foParser.localQuantifiedFormula();
+		String output = tree.toStringTree(foParser);
+
+		if (DEBUG){
+			System.out.println("\n\n> parsing local fol formula: " + input);
+			System.out.println("\n\t" + output);
+			System.out.println();
+		}
+
+		FoLtlLocalVisitor localVisitor = new FoLtlLocalVisitor();
+		res = localVisitor.visit(tree);
+
+		return res;
+	}
 }
