@@ -10,8 +10,7 @@ import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.misc.Interval;
 import org.antlr.v4.runtime.misc.NotNull;
 import org.antlr.v4.runtime.tree.ParseTree;
-import visitors.FOLVisitors.LocalFOLVisitor;
-import visitors.FOLVisitors.LocalFoLtlVisitor;
+import visitors.FOLVisitors.FoLtlLocalVisitor;
 
 /**
  * Created by Simone Calciolari on 10/08/15.
@@ -559,7 +558,7 @@ public class FoLtlTemporalVisitor extends FOLTLFormulaParserBaseVisitor<FoLtlFor
 					System.out.println();
 				}
 
-				LocalFoLtlVisitor localVisitor = new LocalFoLtlVisitor();
+				FoLtlLocalVisitor localVisitor = new FoLtlLocalVisitor();
 				res = localVisitor.visit(tree);
 				break;
 

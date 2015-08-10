@@ -8,7 +8,7 @@ import org.antlr.v4.runtime.misc.NotNull;
 /**
  * Created by Simone Calciolari on 10/08/15.
  */
-public class LocalFoLtlVisitor extends FOFormulaParserBaseVisitor<FoLtlFormula> {
+public class FoLtlLocalVisitor extends FOFormulaParserBaseVisitor<FoLtlFormula> {
 
 	//Variable to activate debug mode (Displays extra info during the parsing process)
 	private static final boolean DEBUG = true;

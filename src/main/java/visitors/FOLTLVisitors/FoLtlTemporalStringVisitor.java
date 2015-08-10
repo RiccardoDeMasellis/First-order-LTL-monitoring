@@ -5,17 +5,16 @@ import antlr4_generated.FOFormulaParserParser;
 import antlr4_generated.FOLTLFormulaParserBaseVisitor;
 import antlr4_generated.FOLTLFormulaParserParser;
 import org.antlr.v4.runtime.ANTLRInputStream;
-import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.misc.Interval;
 import org.antlr.v4.runtime.misc.NotNull;
 import org.antlr.v4.runtime.tree.ParseTree;
-import visitors.FOLVisitors.LocalFOLVisitor;
+import visitors.FOLVisitors.FoLtlLocalStringVisitor;
 
 /**
  * Created by Simone Calciolari on 03/08/15.
  */
-public class FOLTLVisitor extends FOLTLFormulaParserBaseVisitor<String>{
+public class FoLtlTemporalStringVisitor extends FOLTLFormulaParserBaseVisitor<String>{
 
 	//Variable to activate debug mode (Displays extra info during the parsing process)
 	private static final boolean DEBUG = true;
@@ -529,7 +528,7 @@ public class FOLTLVisitor extends FOLTLFormulaParserBaseVisitor<String>{
 					System.out.println();
 				}
 
-				LocalFOLVisitor folVisitor = new LocalFOLVisitor();
+				FoLtlLocalStringVisitor folVisitor = new FoLtlLocalStringVisitor();
 				res = folVisitor.visit(tree);
 				break;
 

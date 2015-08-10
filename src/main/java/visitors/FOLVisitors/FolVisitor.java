@@ -9,7 +9,7 @@ import org.antlr.v4.runtime.tree.ParseTree;
 /**
  * Created by Simone Calciolari on 05/08/15.
  */
-public class LocalFolBuilderVisitor extends FOFormulaParserBaseVisitor<FolFormula> {
+public class FolVisitor extends FOFormulaParserBaseVisitor<FolFormula> {
 
 	//Variable to activate debug mode (Displays extra info during the parsing process)
 	private static final boolean DEBUG = true;

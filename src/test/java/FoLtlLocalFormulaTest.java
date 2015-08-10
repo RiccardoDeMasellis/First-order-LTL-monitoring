@@ -1,17 +1,20 @@
 import antlr4_generated.FOFormulaParserLexer;
 import antlr4_generated.FOFormulaParserParser;
+import antlr4_generated.FOLTLFormulaParserLexer;
+import antlr4_generated.FOLTLFormulaParserParser;
 import formula.foltl.*;
 import org.antlr.v4.runtime.ANTLRInputStream;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.tree.ParseTree;
 import org.junit.Assert;
 import org.junit.Test;
-import visitors.FOLVisitors.LocalFoLtlVisitor;
+import visitors.FOLTLVisitors.FoLtlTemporalVisitor;
+import visitors.FOLVisitors.FoLtlLocalVisitor;
 
 /**
  * Created by Simone Calciolari on 10/08/15.
  */
-public class FoLtlFormulaTest {
+public class FoLtlLocalFormulaTest {
 
 	@Test
 	public void testLocalFormulaParsing(){
@@ -37,7 +40,7 @@ public class FoLtlFormulaTest {
 		ParseTree tree = foParser.localQuantifiedFormula();
 
 		//Testing our own visitor
-		LocalFoLtlVisitor visitor = new LocalFoLtlVisitor();
+		FoLtlLocalVisitor visitor = new FoLtlLocalVisitor();
 		System.out.println("\n");
 		FoLtlFormula output = visitor.visit(tree);
 		System.out.println("\n" + output);
@@ -67,7 +70,7 @@ public class FoLtlFormulaTest {
 		tree = foParser.localQuantifiedFormula();
 
 		//Testing our own visitor
-		visitor = new LocalFoLtlVisitor();
+		visitor = new FoLtlLocalVisitor();
 		System.out.println("\n===========================================================================================");
 		output = visitor.visit(tree);
 		System.out.println("\n" + output);
@@ -96,7 +99,7 @@ public class FoLtlFormulaTest {
 		tree = foParser.localQuantifiedFormula();
 
 		//Testing our own visitor
-		visitor = new LocalFoLtlVisitor();
+		visitor = new FoLtlLocalVisitor();
 		System.out.println("\n===========================================================================================");
 		output = visitor.visit(tree);
 		System.out.println("\n" + output);
@@ -135,7 +138,7 @@ public class FoLtlFormulaTest {
 		tree = foParser.localQuantifiedFormula();
 
 		//Testing our own visitor
-		visitor = new LocalFoLtlVisitor();
+		visitor = new FoLtlLocalVisitor();
 		System.out.println("\n===========================================================================================");
 		output = visitor.visit(tree);
 		System.out.println("\n" + output);
@@ -174,7 +177,7 @@ public class FoLtlFormulaTest {
 		tree = foParser.localQuantifiedFormula();
 
 		//Testing our own visitor
-		visitor = new LocalFoLtlVisitor();
+		visitor = new FoLtlLocalVisitor();
 		System.out.println("\n===========================================================================================");
 		output = visitor.visit(tree);
 		System.out.println("\n" + output);
@@ -210,7 +213,7 @@ public class FoLtlFormulaTest {
 		tree = foParser.localQuantifiedFormula();
 
 		//Testing our own visitor
-		visitor = new LocalFoLtlVisitor();
+		visitor = new FoLtlLocalVisitor();
 		System.out.println("\n===========================================================================================");
 		output = visitor.visit(tree);
 		System.out.println("\n" + output);
@@ -354,11 +357,6 @@ public class FoLtlFormulaTest {
 
 		System.out.println("\nBuilt formula: " + builtFormula);
 
-	}
-
-	@Test
-	public void testTemporalFormulaBuilding(){
-		System.out.println("*** TEMPORAL FORMULA BUILDING TEST ***");
 	}
 
 }

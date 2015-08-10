@@ -6,8 +6,8 @@ import org.antlr.v4.runtime.ANTLRInputStream;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.tree.ParseTree;
 import org.junit.Test;
-import visitors.FOLTLVisitors.FOLTLVisitor;
-import visitors.FOLVisitors.LocalFOLVisitor;
+import visitors.FOLTLVisitors.FoLtlTemporalStringVisitor;
+import visitors.FOLVisitors.FoLtlLocalStringVisitor;
 
 /**
  * Created by Simone Calciolari on 30/07/15.
@@ -34,7 +34,7 @@ public class ParsingTest {
 		System.out.println();
 
 		//Testing our own visitor
-		LocalFOLVisitor visitor = new LocalFOLVisitor();
+		FoLtlLocalStringVisitor visitor = new FoLtlLocalStringVisitor();
 		System.out.println("Custom visitor test:\n");
 		System.out.println("\n" + visitor.visit(tree) + "\n\n");
 
@@ -59,7 +59,7 @@ public class ParsingTest {
 		System.out.println();
 
 		//Testing our own visitor
-		FOLTLVisitor temporalVisitor = new FOLTLVisitor();
+		FoLtlTemporalStringVisitor temporalVisitor = new FoLtlTemporalStringVisitor();
 		System.out.println("\nCustom visitor test:\n");
 		System.out.println("\n" + temporalVisitor.visit(tree));
 	}
