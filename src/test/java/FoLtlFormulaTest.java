@@ -11,11 +11,11 @@ import visitors.FOLVisitors.LocalFoLtlVisitor;
 /**
  * Created by Simone Calciolari on 10/08/15.
  */
-public class FoLtlBuildingTest {
+public class FoLtlFormulaTest {
 
 	@Test
-	public void testFolParsingBuild(){
-		System.out.println("\n***FORMULA PARSING TEST***");
+	public void testLocalFormulaParsing(){
+		System.out.println("\n*** LOCAL FORMULA PARSING TEST ***");
 
 		FoLtlFormula target;
 
@@ -29,7 +29,7 @@ public class FoLtlBuildingTest {
 		target = px;
 
 		//Parser test
-		String folInput = "P(?x)";
+		String folInput = "(((P(?x))))";
 
 		FOFormulaParserLexer foLexer = new FOFormulaParserLexer(new ANTLRInputStream(folInput));
 		FOFormulaParserParser foParser = new FOFormulaParserParser(new CommonTokenStream(foLexer));
@@ -220,9 +220,9 @@ public class FoLtlBuildingTest {
 	}
 
 	@Test
-	public void testFolBuilding(){
+	public void testLocalFormulaBuilding(){
 
-		System.out.println("\n\n\n\n***FORMULA BUILDING TEST***");
+		System.out.println("\n\n\n\n*** LOCAL FORMULA BUILDING TEST ***");
 
 		//Building very simple formulas
 		//P(x)
@@ -354,6 +354,11 @@ public class FoLtlBuildingTest {
 
 		System.out.println("\nBuilt formula: " + builtFormula);
 
+	}
+
+	@Test
+	public void testTemporalFormulaBuilding(){
+		System.out.println("*** TEMPORAL FORMULA BUILDING TEST ***");
 	}
 
 }

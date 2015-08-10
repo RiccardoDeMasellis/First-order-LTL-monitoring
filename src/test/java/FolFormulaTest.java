@@ -11,7 +11,7 @@ import visitors.FOLVisitors.LocalFolBuilderVisitor;
 /**
  * Created by Simone Calciolari on 06/08/15.
  */
-public class FolBuildingTest {
+public class FolFormulaTest {
 
 	@Test
 	public void testFolParsingBuild(){
