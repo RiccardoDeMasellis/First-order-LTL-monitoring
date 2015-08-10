@@ -11,4 +11,9 @@ public class FoLtlTempOrFormula extends FoLtlBinaryFormula implements OrFormula,
 		super(left, right);
 	}
 
+	@Override
+	public String stringOperator(){
+		return "tOR";
+	}
+
 }

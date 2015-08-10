@@ -11,4 +11,9 @@ public class FoLtlTempDoubleImplFormula extends FoLtlBinaryFormula implements Do
 		super(left, right);
 	}
 
+	@Override
+	public String stringOperator(){
+		return "t<->";
+	}
+
 }

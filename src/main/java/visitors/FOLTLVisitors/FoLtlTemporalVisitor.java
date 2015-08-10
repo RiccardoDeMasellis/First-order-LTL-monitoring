@@ -498,8 +498,7 @@ public class FoLtlTemporalVisitor extends FOLTLFormulaParserBaseVisitor<FoLtlFor
 
 					default:
 						if (neg) {
-							res = new FoLtlTempNotFormula(visit(ctx.getChild(i))) {
-							};
+							res = new FoLtlTempNotFormula(visit(ctx.getChild(i)));
 						} else {
 							res = visit(ctx.getChild(i));
 						}

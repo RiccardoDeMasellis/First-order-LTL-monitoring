@@ -11,4 +11,9 @@ public class FoLtlTempAndFormula extends FoLtlBinaryFormula implements AndFormul
 		super(left, right);
 	}
 
+	@Override
+	public String stringOperator(){
+		return "tAND";
+	}
+
 }

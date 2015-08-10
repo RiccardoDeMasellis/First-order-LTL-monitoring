@@ -11,4 +11,9 @@ public class FoLtlTempNotFormula extends FoLtlUnaryFormula implements NotFormula
 		super(nestedFormula);
 	}
 
+	@Override
+	public String stringOperator(){
+		return "t!";
+	}
+
 }

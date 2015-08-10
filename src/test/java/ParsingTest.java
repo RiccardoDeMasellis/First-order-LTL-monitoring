@@ -46,7 +46,7 @@ public class ParsingTest {
 
 		System.out.println("\nFO-LTL PARSING TEST\n");
 
-		String foltlInput = "Forall ?y ( G Exists ?z P(?z) U T(t) )";
+		String foltlInput = "(Forall ?y ( Exists ?z P(?x, ?z) ) )";
 
 		FOLTLFormulaParserLexer foltlLexer = new FOLTLFormulaParserLexer(new ANTLRInputStream(foltlInput));
 		FOLTLFormulaParserParser foltlParser = new FOLTLFormulaParserParser(new CommonTokenStream(foltlLexer));
