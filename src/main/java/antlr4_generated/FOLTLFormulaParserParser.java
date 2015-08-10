@@ -30,21 +30,21 @@ public class FOLTLFormulaParserParser extends Parser {
 		"WS"
 	};
 	public static final int
-		RULE_start = 0, RULE_acrossQuantifiedFormula = 1, RULE_temporalFormula = 2, 
-		RULE_temporalDoubleImplication = 3, RULE_temporalImplication = 4, RULE_temporalDisjunction = 5, 
-		RULE_temporalConjunction = 6, RULE_weakUntil = 7, RULE_release = 8, RULE_until = 9, 
-		RULE_globally = 10, RULE_eventually = 11, RULE_weakNext = 12, RULE_next = 13, 
-		RULE_temporalNegation = 14, RULE_ltlfAtom = 15, RULE_localQuantifiedFormula = 16, 
-		RULE_localDoubleImplication = 17, RULE_localImplication = 18, RULE_localDisjunction = 19, 
-		RULE_localConjunction = 20, RULE_localNegation = 21, RULE_folAtom = 22, 
-		RULE_equality = 23, RULE_predicate = 24;
+		RULE_start = 0, RULE_foltlFormula = 1, RULE_acrossQuantifiedFormula = 2, 
+		RULE_temporalFormula = 3, RULE_temporalDoubleImplication = 4, RULE_temporalImplication = 5, 
+		RULE_temporalDisjunction = 6, RULE_temporalConjunction = 7, RULE_weakUntil = 8, 
+		RULE_release = 9, RULE_until = 10, RULE_globally = 11, RULE_eventually = 12, 
+		RULE_weakNext = 13, RULE_next = 14, RULE_temporalNegation = 15, RULE_ltlfAtom = 16, 
+		RULE_localQuantifiedFormula = 17, RULE_localDoubleImplication = 18, RULE_localImplication = 19, 
+		RULE_localDisjunction = 20, RULE_localConjunction = 21, RULE_localNegation = 22, 
+		RULE_folAtom = 23, RULE_equality = 24, RULE_predicate = 25;
 	public static final String[] ruleNames = {
-		"start", "acrossQuantifiedFormula", "temporalFormula", "temporalDoubleImplication", 
-		"temporalImplication", "temporalDisjunction", "temporalConjunction", "weakUntil", 
-		"release", "until", "globally", "eventually", "weakNext", "next", "temporalNegation", 
-		"ltlfAtom", "localQuantifiedFormula", "localDoubleImplication", "localImplication", 
-		"localDisjunction", "localConjunction", "localNegation", "folAtom", "equality", 
-		"predicate"
+		"start", "foltlFormula", "acrossQuantifiedFormula", "temporalFormula", 
+		"temporalDoubleImplication", "temporalImplication", "temporalDisjunction", 
+		"temporalConjunction", "weakUntil", "release", "until", "globally", "eventually", 
+		"weakNext", "next", "temporalNegation", "ltlfAtom", "localQuantifiedFormula", 
+		"localDoubleImplication", "localImplication", "localDisjunction", "localConjunction", 
+		"localNegation", "folAtom", "equality", "predicate"
 	};
 
 	@Override
@@ -67,10 +67,10 @@ public class FOLTLFormulaParserParser extends Parser {
 		_interp = new ParserATNSimulator(this,_ATN,_decisionToDFA,_sharedContextCache);
 	}
 	public static class StartContext extends ParserRuleContext {
-		public TerminalNode EOF() { return getToken(FOLTLFormulaParserParser.EOF, 0); }
-		public AcrossQuantifiedFormulaContext acrossQuantifiedFormula() {
-			return getRuleContext(AcrossQuantifiedFormulaContext.class,0);
+		public FoltlFormulaContext foltlFormula() {
+			return getRuleContext(FoltlFormulaContext.class,0);
 		}
+		public TerminalNode EOF() { return getToken(FOLTLFormulaParserParser.EOF, 0); }
 		public StartContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
@@ -88,8 +88,58 @@ public class FOLTLFormulaParserParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(50); acrossQuantifiedFormula();
-			setState(51); match(EOF);
+			setState(52); foltlFormula();
+			setState(53); match(EOF);
+			}
+		}
+		catch (RecognitionException re) {
+			_localctx.exception = re;
+			_errHandler.reportError(this, re);
+			_errHandler.recover(this, re);
+		}
+		finally {
+			exitRule();
+		}
+		return _localctx;
+	}
+
+	public static class FoltlFormulaContext extends ParserRuleContext {
+		public LocalQuantifiedFormulaContext localQuantifiedFormula() {
+			return getRuleContext(LocalQuantifiedFormulaContext.class,0);
+		}
+		public AcrossQuantifiedFormulaContext acrossQuantifiedFormula() {
+			return getRuleContext(AcrossQuantifiedFormulaContext.class,0);
+		}
+		public FoltlFormulaContext(ParserRuleContext parent, int invokingState) {
+			super(parent, invokingState);
+		}
+		@Override public int getRuleIndex() { return RULE_foltlFormula; }
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof FOLTLFormulaParserVisitor ) return ((FOLTLFormulaParserVisitor<? extends T>)visitor).visitFoltlFormula(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+
+	public final FoltlFormulaContext foltlFormula() throws RecognitionException {
+		FoltlFormulaContext _localctx = new FoltlFormulaContext(_ctx, getState());
+		enterRule(_localctx, 2, RULE_foltlFormula);
+		try {
+			setState(57);
+			switch ( getInterpreter().adaptivePredict(_input,0,_ctx) ) {
+			case 1:
+				enterOuterAlt(_localctx, 1);
+				{
+				setState(55); localQuantifiedFormula();
+				}
+				break;
+
+			case 2:
+				enterOuterAlt(_localctx, 2);
+				{
+				setState(56); acrossQuantifiedFormula();
+				}
+				break;
 			}
 		}
 		catch (RecognitionException re) {
@@ -105,16 +155,11 @@ public class FOLTLFormulaParserParser extends Parser {
 
 	public static class AcrossQuantifiedFormulaContext extends ParserRuleContext {
 		public TerminalNode EXISTS() { return getToken(FOLTLFormulaParserParser.EXISTS, 0); }
-		public TerminalNode LPAREN() { return getToken(FOLTLFormulaParserParser.LPAREN, 0); }
-		public TerminalNode RPAREN() { return getToken(FOLTLFormulaParserParser.RPAREN, 0); }
 		public TerminalNode FORALL() { return getToken(FOLTLFormulaParserParser.FORALL, 0); }
-		public AcrossQuantifiedFormulaContext acrossQuantifiedFormula() {
-			return getRuleContext(AcrossQuantifiedFormulaContext.class,0);
-		}
-		public TerminalNode VARIABLE() { return getToken(FOLTLFormulaParserParser.VARIABLE, 0); }
 		public TemporalFormulaContext temporalFormula() {
 			return getRuleContext(TemporalFormulaContext.class,0);
 		}
+		public TerminalNode VARIABLE() { return getToken(FOLTLFormulaParserParser.VARIABLE, 0); }
 		public AcrossQuantifiedFormulaContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
@@ -128,35 +173,26 @@ public class FOLTLFormulaParserParser extends Parser {
 
 	public final AcrossQuantifiedFormulaContext acrossQuantifiedFormula() throws RecognitionException {
 		AcrossQuantifiedFormulaContext _localctx = new AcrossQuantifiedFormulaContext(_ctx, getState());
-		enterRule(_localctx, 2, RULE_acrossQuantifiedFormula);
+		enterRule(_localctx, 4, RULE_acrossQuantifiedFormula);
 		int _la;
 		try {
+			enterOuterAlt(_localctx, 1);
+			{
 			setState(61);
-			switch ( getInterpreter().adaptivePredict(_input,0,_ctx) ) {
+			switch ( getInterpreter().adaptivePredict(_input,1,_ctx) ) {
 			case 1:
-				enterOuterAlt(_localctx, 1);
 				{
-				{
-				setState(53);
+				setState(59);
 				_la = _input.LA(1);
 				if ( !(_la==FORALL || _la==EXISTS) ) {
 				_errHandler.recoverInline(this);
 				}
 				consume();
-				setState(54); match(VARIABLE);
-				}
-				setState(56); match(LPAREN);
-				setState(57); acrossQuantifiedFormula();
-				setState(58); match(RPAREN);
+				setState(60); match(VARIABLE);
 				}
 				break;
-
-			case 2:
-				enterOuterAlt(_localctx, 2);
-				{
-				setState(60); temporalFormula();
-				}
-				break;
+			}
+			setState(63); temporalFormula();
 			}
 		}
 		catch (RecognitionException re) {
@@ -171,6 +207,11 @@ public class FOLTLFormulaParserParser extends Parser {
 	}
 
 	public static class TemporalFormulaContext extends ParserRuleContext {
+		public TerminalNode LPAREN() { return getToken(FOLTLFormulaParserParser.LPAREN, 0); }
+		public TerminalNode RPAREN() { return getToken(FOLTLFormulaParserParser.RPAREN, 0); }
+		public AcrossQuantifiedFormulaContext acrossQuantifiedFormula() {
+			return getRuleContext(AcrossQuantifiedFormulaContext.class,0);
+		}
 		public TemporalDoubleImplicationContext temporalDoubleImplication() {
 			return getRuleContext(TemporalDoubleImplicationContext.class,0);
 		}
@@ -187,11 +228,25 @@ public class FOLTLFormulaParserParser extends Parser {
 
 	public final TemporalFormulaContext temporalFormula() throws RecognitionException {
 		TemporalFormulaContext _localctx = new TemporalFormulaContext(_ctx, getState());
-		enterRule(_localctx, 4, RULE_temporalFormula);
+		enterRule(_localctx, 6, RULE_temporalFormula);
 		try {
-			enterOuterAlt(_localctx, 1);
-			{
-			setState(63); temporalDoubleImplication();
+			setState(70);
+			switch ( getInterpreter().adaptivePredict(_input,2,_ctx) ) {
+			case 1:
+				enterOuterAlt(_localctx, 1);
+				{
+				setState(65); match(LPAREN);
+				setState(66); acrossQuantifiedFormula();
+				setState(67); match(RPAREN);
+				}
+				break;
+
+			case 2:
+				enterOuterAlt(_localctx, 2);
+				{
+				setState(69); temporalDoubleImplication();
+				}
+				break;
 			}
 		}
 		catch (RecognitionException re) {
@@ -229,23 +284,23 @@ public class FOLTLFormulaParserParser extends Parser {
 
 	public final TemporalDoubleImplicationContext temporalDoubleImplication() throws RecognitionException {
 		TemporalDoubleImplicationContext _localctx = new TemporalDoubleImplicationContext(_ctx, getState());
-		enterRule(_localctx, 6, RULE_temporalDoubleImplication);
+		enterRule(_localctx, 8, RULE_temporalDoubleImplication);
 		int _la;
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(65); temporalImplication();
-			setState(70);
+			setState(72); temporalImplication();
+			setState(77);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
 			while (_la==DOUBLEIMPLY) {
 				{
 				{
-				setState(66); match(DOUBLEIMPLY);
-				setState(67); temporalImplication();
+				setState(73); match(DOUBLEIMPLY);
+				setState(74); temporalImplication();
 				}
 				}
-				setState(72);
+				setState(79);
 				_errHandler.sync(this);
 				_la = _input.LA(1);
 			}
@@ -286,23 +341,23 @@ public class FOLTLFormulaParserParser extends Parser {
 
 	public final TemporalImplicationContext temporalImplication() throws RecognitionException {
 		TemporalImplicationContext _localctx = new TemporalImplicationContext(_ctx, getState());
-		enterRule(_localctx, 8, RULE_temporalImplication);
+		enterRule(_localctx, 10, RULE_temporalImplication);
 		int _la;
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(73); temporalDisjunction();
-			setState(78);
+			setState(80); temporalDisjunction();
+			setState(85);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
 			while (_la==IMPLY) {
 				{
 				{
-				setState(74); match(IMPLY);
-				setState(75); temporalDisjunction();
+				setState(81); match(IMPLY);
+				setState(82); temporalDisjunction();
 				}
 				}
-				setState(80);
+				setState(87);
 				_errHandler.sync(this);
 				_la = _input.LA(1);
 			}
@@ -343,23 +398,23 @@ public class FOLTLFormulaParserParser extends Parser {
 
 	public final TemporalDisjunctionContext temporalDisjunction() throws RecognitionException {
 		TemporalDisjunctionContext _localctx = new TemporalDisjunctionContext(_ctx, getState());
-		enterRule(_localctx, 10, RULE_temporalDisjunction);
+		enterRule(_localctx, 12, RULE_temporalDisjunction);
 		int _la;
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(81); temporalConjunction();
-			setState(86);
+			setState(88); temporalConjunction();
+			setState(93);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
 			while (_la==OR) {
 				{
 				{
-				setState(82); match(OR);
-				setState(83); temporalConjunction();
+				setState(89); match(OR);
+				setState(90); temporalConjunction();
 				}
 				}
-				setState(88);
+				setState(95);
 				_errHandler.sync(this);
 				_la = _input.LA(1);
 			}
@@ -400,23 +455,23 @@ public class FOLTLFormulaParserParser extends Parser {
 
 	public final TemporalConjunctionContext temporalConjunction() throws RecognitionException {
 		TemporalConjunctionContext _localctx = new TemporalConjunctionContext(_ctx, getState());
-		enterRule(_localctx, 12, RULE_temporalConjunction);
+		enterRule(_localctx, 14, RULE_temporalConjunction);
 		int _la;
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(89); weakUntil();
-			setState(94);
+			setState(96); weakUntil();
+			setState(101);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
 			while (_la==AND) {
 				{
 				{
-				setState(90); match(AND);
-				setState(91); weakUntil();
+				setState(97); match(AND);
+				setState(98); weakUntil();
 				}
 				}
-				setState(96);
+				setState(103);
 				_errHandler.sync(this);
 				_la = _input.LA(1);
 			}
@@ -457,23 +512,23 @@ public class FOLTLFormulaParserParser extends Parser {
 
 	public final WeakUntilContext weakUntil() throws RecognitionException {
 		WeakUntilContext _localctx = new WeakUntilContext(_ctx, getState());
-		enterRule(_localctx, 14, RULE_weakUntil);
+		enterRule(_localctx, 16, RULE_weakUntil);
 		int _la;
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(97); release();
-			setState(102);
+			setState(104); release();
+			setState(109);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
 			while (_la==WEAKUNTIL) {
 				{
 				{
-				setState(98); match(WEAKUNTIL);
-				setState(99); release();
+				setState(105); match(WEAKUNTIL);
+				setState(106); release();
 				}
 				}
-				setState(104);
+				setState(111);
 				_errHandler.sync(this);
 				_la = _input.LA(1);
 			}
@@ -514,23 +569,23 @@ public class FOLTLFormulaParserParser extends Parser {
 
 	public final ReleaseContext release() throws RecognitionException {
 		ReleaseContext _localctx = new ReleaseContext(_ctx, getState());
-		enterRule(_localctx, 16, RULE_release);
+		enterRule(_localctx, 18, RULE_release);
 		int _la;
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(105); until();
-			setState(110);
+			setState(112); until();
+			setState(117);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
 			while (_la==RELEASE) {
 				{
 				{
-				setState(106); match(RELEASE);
-				setState(107); until();
+				setState(113); match(RELEASE);
+				setState(114); until();
 				}
 				}
-				setState(112);
+				setState(119);
 				_errHandler.sync(this);
 				_la = _input.LA(1);
 			}
@@ -571,23 +626,23 @@ public class FOLTLFormulaParserParser extends Parser {
 
 	public final UntilContext until() throws RecognitionException {
 		UntilContext _localctx = new UntilContext(_ctx, getState());
-		enterRule(_localctx, 18, RULE_until);
+		enterRule(_localctx, 20, RULE_until);
 		int _la;
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(113); globally();
-			setState(118);
+			setState(120); globally();
+			setState(125);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
 			while (_la==UNTIL) {
 				{
 				{
-				setState(114); match(UNTIL);
-				setState(115); globally();
+				setState(121); match(UNTIL);
+				setState(122); globally();
 				}
 				}
-				setState(120);
+				setState(127);
 				_errHandler.sync(this);
 				_la = _input.LA(1);
 			}
@@ -622,20 +677,20 @@ public class FOLTLFormulaParserParser extends Parser {
 
 	public final GloballyContext globally() throws RecognitionException {
 		GloballyContext _localctx = new GloballyContext(_ctx, getState());
-		enterRule(_localctx, 20, RULE_globally);
+		enterRule(_localctx, 22, RULE_globally);
 		int _la;
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(122);
+			setState(129);
 			_la = _input.LA(1);
 			if (_la==GLOBALLY) {
 				{
-				setState(121); match(GLOBALLY);
+				setState(128); match(GLOBALLY);
 				}
 			}
 
-			setState(124); eventually();
+			setState(131); eventually();
 			}
 		}
 		catch (RecognitionException re) {
@@ -667,20 +722,20 @@ public class FOLTLFormulaParserParser extends Parser {
 
 	public final EventuallyContext eventually() throws RecognitionException {
 		EventuallyContext _localctx = new EventuallyContext(_ctx, getState());
-		enterRule(_localctx, 22, RULE_eventually);
+		enterRule(_localctx, 24, RULE_eventually);
 		int _la;
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(127);
+			setState(134);
 			_la = _input.LA(1);
 			if (_la==EVENTUALLY) {
 				{
-				setState(126); match(EVENTUALLY);
+				setState(133); match(EVENTUALLY);
 				}
 			}
 
-			setState(129); weakNext();
+			setState(136); weakNext();
 			}
 		}
 		catch (RecognitionException re) {
@@ -712,20 +767,20 @@ public class FOLTLFormulaParserParser extends Parser {
 
 	public final WeakNextContext weakNext() throws RecognitionException {
 		WeakNextContext _localctx = new WeakNextContext(_ctx, getState());
-		enterRule(_localctx, 24, RULE_weakNext);
+		enterRule(_localctx, 26, RULE_weakNext);
 		int _la;
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(132);
+			setState(139);
 			_la = _input.LA(1);
 			if (_la==WEAKNEXT) {
 				{
-				setState(131); match(WEAKNEXT);
+				setState(138); match(WEAKNEXT);
 				}
 			}
 
-			setState(134); next();
+			setState(141); next();
 			}
 		}
 		catch (RecognitionException re) {
@@ -757,20 +812,20 @@ public class FOLTLFormulaParserParser extends Parser {
 
 	public final NextContext next() throws RecognitionException {
 		NextContext _localctx = new NextContext(_ctx, getState());
-		enterRule(_localctx, 26, RULE_next);
+		enterRule(_localctx, 28, RULE_next);
 		int _la;
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(137);
+			setState(144);
 			_la = _input.LA(1);
 			if (_la==NEXT) {
 				{
-				setState(136); match(NEXT);
+				setState(143); match(NEXT);
 				}
 			}
 
-			setState(139); temporalNegation();
+			setState(146); temporalNegation();
 			}
 		}
 		catch (RecognitionException re) {
@@ -807,31 +862,31 @@ public class FOLTLFormulaParserParser extends Parser {
 
 	public final TemporalNegationContext temporalNegation() throws RecognitionException {
 		TemporalNegationContext _localctx = new TemporalNegationContext(_ctx, getState());
-		enterRule(_localctx, 28, RULE_temporalNegation);
+		enterRule(_localctx, 30, RULE_temporalNegation);
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(142);
-			switch ( getInterpreter().adaptivePredict(_input,12,_ctx) ) {
+			setState(149);
+			switch ( getInterpreter().adaptivePredict(_input,14,_ctx) ) {
 			case 1:
 				{
-				setState(141); match(NOT);
+				setState(148); match(NOT);
 				}
 				break;
 			}
-			setState(149);
-			switch ( getInterpreter().adaptivePredict(_input,13,_ctx) ) {
+			setState(156);
+			switch ( getInterpreter().adaptivePredict(_input,15,_ctx) ) {
 			case 1:
 				{
-				setState(144); ltlfAtom();
+				setState(151); ltlfAtom();
 				}
 				break;
 
 			case 2:
 				{
-				setState(145); match(LPAREN);
-				setState(146); temporalFormula();
-				setState(147); match(RPAREN);
+				setState(152); match(LPAREN);
+				setState(153); temporalFormula();
+				setState(154); match(RPAREN);
 				}
 				break;
 			}
@@ -868,14 +923,14 @@ public class FOLTLFormulaParserParser extends Parser {
 
 	public final LtlfAtomContext ltlfAtom() throws RecognitionException {
 		LtlfAtomContext _localctx = new LtlfAtomContext(_ctx, getState());
-		enterRule(_localctx, 30, RULE_ltlfAtom);
+		enterRule(_localctx, 32, RULE_ltlfAtom);
 		try {
-			setState(159);
+			setState(166);
 			switch (_input.LA(1)) {
 			case LAST:
 				enterOuterAlt(_localctx, 1);
 				{
-				setState(151); match(LAST);
+				setState(158); match(LAST);
 				}
 				break;
 			case LPAREN:
@@ -887,20 +942,20 @@ public class FOLTLFormulaParserParser extends Parser {
 			case PREPOSITION:
 				enterOuterAlt(_localctx, 2);
 				{
-				setState(153);
-				switch ( getInterpreter().adaptivePredict(_input,14,_ctx) ) {
+				setState(160);
+				switch ( getInterpreter().adaptivePredict(_input,16,_ctx) ) {
 				case 1:
 					{
-					setState(152); match(LPAREN);
+					setState(159); match(LPAREN);
 					}
 					break;
 				}
-				setState(155); localQuantifiedFormula();
-				setState(157);
-				switch ( getInterpreter().adaptivePredict(_input,15,_ctx) ) {
+				setState(162); localQuantifiedFormula();
+				setState(164);
+				switch ( getInterpreter().adaptivePredict(_input,17,_ctx) ) {
 				case 1:
 					{
-					setState(156); match(RPAREN);
+					setState(163); match(RPAREN);
 					}
 					break;
 				}
@@ -941,26 +996,26 @@ public class FOLTLFormulaParserParser extends Parser {
 
 	public final LocalQuantifiedFormulaContext localQuantifiedFormula() throws RecognitionException {
 		LocalQuantifiedFormulaContext _localctx = new LocalQuantifiedFormulaContext(_ctx, getState());
-		enterRule(_localctx, 32, RULE_localQuantifiedFormula);
+		enterRule(_localctx, 34, RULE_localQuantifiedFormula);
 		int _la;
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(163);
+			setState(170);
 			_la = _input.LA(1);
 			if (_la==FORALL || _la==EXISTS) {
 				{
-				setState(161);
+				setState(168);
 				_la = _input.LA(1);
 				if ( !(_la==FORALL || _la==EXISTS) ) {
 				_errHandler.recoverInline(this);
 				}
 				consume();
-				setState(162); match(VARIABLE);
+				setState(169); match(VARIABLE);
 				}
 			}
 
-			setState(165); localDoubleImplication();
+			setState(172); localDoubleImplication();
 			}
 		}
 		catch (RecognitionException re) {
@@ -998,27 +1053,27 @@ public class FOLTLFormulaParserParser extends Parser {
 
 	public final LocalDoubleImplicationContext localDoubleImplication() throws RecognitionException {
 		LocalDoubleImplicationContext _localctx = new LocalDoubleImplicationContext(_ctx, getState());
-		enterRule(_localctx, 34, RULE_localDoubleImplication);
+		enterRule(_localctx, 36, RULE_localDoubleImplication);
 		try {
 			int _alt;
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(167); localImplication();
-			setState(172);
+			setState(174); localImplication();
+			setState(179);
 			_errHandler.sync(this);
-			_alt = getInterpreter().adaptivePredict(_input,18,_ctx);
+			_alt = getInterpreter().adaptivePredict(_input,20,_ctx);
 			while ( _alt!=2 && _alt!=org.antlr.v4.runtime.atn.ATN.INVALID_ALT_NUMBER ) {
 				if ( _alt==1 ) {
 					{
 					{
-					setState(168); match(DOUBLEIMPLY);
-					setState(169); localImplication();
+					setState(175); match(DOUBLEIMPLY);
+					setState(176); localImplication();
 					}
 					} 
 				}
-				setState(174);
+				setState(181);
 				_errHandler.sync(this);
-				_alt = getInterpreter().adaptivePredict(_input,18,_ctx);
+				_alt = getInterpreter().adaptivePredict(_input,20,_ctx);
 			}
 			}
 		}
@@ -1057,27 +1112,27 @@ public class FOLTLFormulaParserParser extends Parser {
 
 	public final LocalImplicationContext localImplication() throws RecognitionException {
 		LocalImplicationContext _localctx = new LocalImplicationContext(_ctx, getState());
-		enterRule(_localctx, 36, RULE_localImplication);
+		enterRule(_localctx, 38, RULE_localImplication);
 		try {
 			int _alt;
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(175); localDisjunction();
-			setState(180);
+			setState(182); localDisjunction();
+			setState(187);
 			_errHandler.sync(this);
-			_alt = getInterpreter().adaptivePredict(_input,19,_ctx);
+			_alt = getInterpreter().adaptivePredict(_input,21,_ctx);
 			while ( _alt!=2 && _alt!=org.antlr.v4.runtime.atn.ATN.INVALID_ALT_NUMBER ) {
 				if ( _alt==1 ) {
 					{
 					{
-					setState(176); match(IMPLY);
-					setState(177); localDisjunction();
+					setState(183); match(IMPLY);
+					setState(184); localDisjunction();
 					}
 					} 
 				}
-				setState(182);
+				setState(189);
 				_errHandler.sync(this);
-				_alt = getInterpreter().adaptivePredict(_input,19,_ctx);
+				_alt = getInterpreter().adaptivePredict(_input,21,_ctx);
 			}
 			}
 		}
@@ -1116,27 +1171,27 @@ public class FOLTLFormulaParserParser extends Parser {
 
 	public final LocalDisjunctionContext localDisjunction() throws RecognitionException {
 		LocalDisjunctionContext _localctx = new LocalDisjunctionContext(_ctx, getState());
-		enterRule(_localctx, 38, RULE_localDisjunction);
+		enterRule(_localctx, 40, RULE_localDisjunction);
 		try {
 			int _alt;
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(183); localConjunction();
-			setState(188);
+			setState(190); localConjunction();
+			setState(195);
 			_errHandler.sync(this);
-			_alt = getInterpreter().adaptivePredict(_input,20,_ctx);
+			_alt = getInterpreter().adaptivePredict(_input,22,_ctx);
 			while ( _alt!=2 && _alt!=org.antlr.v4.runtime.atn.ATN.INVALID_ALT_NUMBER ) {
 				if ( _alt==1 ) {
 					{
 					{
-					setState(184); match(OR);
-					setState(185); localConjunction();
+					setState(191); match(OR);
+					setState(192); localConjunction();
 					}
 					} 
 				}
-				setState(190);
+				setState(197);
 				_errHandler.sync(this);
-				_alt = getInterpreter().adaptivePredict(_input,20,_ctx);
+				_alt = getInterpreter().adaptivePredict(_input,22,_ctx);
 			}
 			}
 		}
@@ -1175,27 +1230,27 @@ public class FOLTLFormulaParserParser extends Parser {
 
 	public final LocalConjunctionContext localConjunction() throws RecognitionException {
 		LocalConjunctionContext _localctx = new LocalConjunctionContext(_ctx, getState());
-		enterRule(_localctx, 40, RULE_localConjunction);
+		enterRule(_localctx, 42, RULE_localConjunction);
 		try {
 			int _alt;
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(191); localNegation();
-			setState(196);
+			setState(198); localNegation();
+			setState(203);
 			_errHandler.sync(this);
-			_alt = getInterpreter().adaptivePredict(_input,21,_ctx);
+			_alt = getInterpreter().adaptivePredict(_input,23,_ctx);
 			while ( _alt!=2 && _alt!=org.antlr.v4.runtime.atn.ATN.INVALID_ALT_NUMBER ) {
 				if ( _alt==1 ) {
 					{
 					{
-					setState(192); match(AND);
-					setState(193); localNegation();
+					setState(199); match(AND);
+					setState(200); localNegation();
 					}
 					} 
 				}
-				setState(198);
+				setState(205);
 				_errHandler.sync(this);
-				_alt = getInterpreter().adaptivePredict(_input,21,_ctx);
+				_alt = getInterpreter().adaptivePredict(_input,23,_ctx);
 			}
 			}
 		}
@@ -1233,33 +1288,33 @@ public class FOLTLFormulaParserParser extends Parser {
 
 	public final LocalNegationContext localNegation() throws RecognitionException {
 		LocalNegationContext _localctx = new LocalNegationContext(_ctx, getState());
-		enterRule(_localctx, 42, RULE_localNegation);
+		enterRule(_localctx, 44, RULE_localNegation);
 		int _la;
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(200);
+			setState(207);
 			_la = _input.LA(1);
 			if (_la==NOT) {
 				{
-				setState(199); match(NOT);
+				setState(206); match(NOT);
 				}
 			}
 
-			setState(207);
+			setState(214);
 			switch (_input.LA(1)) {
 			case VARIABLE:
 			case CONSTANT:
 			case PREPOSITION:
 				{
-				setState(202); folAtom();
+				setState(209); folAtom();
 				}
 				break;
 			case LPAREN:
 				{
-				setState(203); match(LPAREN);
-				setState(204); localQuantifiedFormula();
-				setState(205); match(RPAREN);
+				setState(210); match(LPAREN);
+				setState(211); localQuantifiedFormula();
+				setState(212); match(RPAREN);
 				}
 				break;
 			default:
@@ -1298,21 +1353,21 @@ public class FOLTLFormulaParserParser extends Parser {
 
 	public final FolAtomContext folAtom() throws RecognitionException {
 		FolAtomContext _localctx = new FolAtomContext(_ctx, getState());
-		enterRule(_localctx, 44, RULE_folAtom);
+		enterRule(_localctx, 46, RULE_folAtom);
 		try {
-			setState(211);
+			setState(218);
 			switch (_input.LA(1)) {
 			case PREPOSITION:
 				enterOuterAlt(_localctx, 1);
 				{
-				setState(209); predicate();
+				setState(216); predicate();
 				}
 				break;
 			case VARIABLE:
 			case CONSTANT:
 				enterOuterAlt(_localctx, 2);
 				{
-				setState(210); equality();
+				setState(217); equality();
 				}
 				break;
 			default:
@@ -1353,19 +1408,19 @@ public class FOLTLFormulaParserParser extends Parser {
 
 	public final EqualityContext equality() throws RecognitionException {
 		EqualityContext _localctx = new EqualityContext(_ctx, getState());
-		enterRule(_localctx, 46, RULE_equality);
+		enterRule(_localctx, 48, RULE_equality);
 		int _la;
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(213);
+			setState(220);
 			_la = _input.LA(1);
 			if ( !(_la==VARIABLE || _la==CONSTANT) ) {
 			_errHandler.recoverInline(this);
 			}
 			consume();
-			setState(214); match(EQUAL);
-			setState(215);
+			setState(221); match(EQUAL);
+			setState(222);
 			_la = _input.LA(1);
 			if ( !(_la==VARIABLE || _la==CONSTANT) ) {
 			_errHandler.recoverInline(this);
@@ -1409,27 +1464,27 @@ public class FOLTLFormulaParserParser extends Parser {
 
 	public final PredicateContext predicate() throws RecognitionException {
 		PredicateContext _localctx = new PredicateContext(_ctx, getState());
-		enterRule(_localctx, 48, RULE_predicate);
+		enterRule(_localctx, 50, RULE_predicate);
 		int _la;
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(217); match(PREPOSITION);
-			setState(218); match(LPAREN);
-			setState(219);
+			setState(224); match(PREPOSITION);
+			setState(225); match(LPAREN);
+			setState(226);
 			_la = _input.LA(1);
 			if ( !(_la==VARIABLE || _la==CONSTANT) ) {
 			_errHandler.recoverInline(this);
 			}
 			consume();
-			setState(224);
+			setState(231);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
 			while (_la==T__0) {
 				{
 				{
-				setState(220); match(T__0);
-				setState(221);
+				setState(227); match(T__0);
+				setState(228);
 				_la = _input.LA(1);
 				if ( !(_la==VARIABLE || _la==CONSTANT) ) {
 				_errHandler.recoverInline(this);
@@ -1437,11 +1492,11 @@ public class FOLTLFormulaParserParser extends Parser {
 				consume();
 				}
 				}
-				setState(226);
+				setState(233);
 				_errHandler.sync(this);
 				_la = _input.LA(1);
 			}
-			setState(227); match(RPAREN);
+			setState(234); match(RPAREN);
 			}
 		}
 		catch (RecognitionException re) {
@@ -1456,79 +1511,82 @@ public class FOLTLFormulaParserParser extends Parser {
 	}
 
 	public static final String _serializedATN =
-		"\3\u0430\ud6d1\u8206\uad2d\u4417\uaef1\u8d80\uaadd\3\31\u00e8\4\2\t\2"+
+		"\3\u0430\ud6d1\u8206\uad2d\u4417\uaef1\u8d80\uaadd\3\31\u00ef\4\2\t\2"+
 		"\4\3\t\3\4\4\t\4\4\5\t\5\4\6\t\6\4\7\t\7\4\b\t\b\4\t\t\t\4\n\t\n\4\13"+
 		"\t\13\4\f\t\f\4\r\t\r\4\16\t\16\4\17\t\17\4\20\t\20\4\21\t\21\4\22\t\22"+
 		"\4\23\t\23\4\24\t\24\4\25\t\25\4\26\t\26\4\27\t\27\4\30\t\30\4\31\t\31"+
-		"\4\32\t\32\3\2\3\2\3\2\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\5\3@\n\3\3\4\3"+
-		"\4\3\5\3\5\3\5\7\5G\n\5\f\5\16\5J\13\5\3\6\3\6\3\6\7\6O\n\6\f\6\16\6R"+
-		"\13\6\3\7\3\7\3\7\7\7W\n\7\f\7\16\7Z\13\7\3\b\3\b\3\b\7\b_\n\b\f\b\16"+
-		"\bb\13\b\3\t\3\t\3\t\7\tg\n\t\f\t\16\tj\13\t\3\n\3\n\3\n\7\no\n\n\f\n"+
-		"\16\nr\13\n\3\13\3\13\3\13\7\13w\n\13\f\13\16\13z\13\13\3\f\5\f}\n\f\3"+
-		"\f\3\f\3\r\5\r\u0082\n\r\3\r\3\r\3\16\5\16\u0087\n\16\3\16\3\16\3\17\5"+
-		"\17\u008c\n\17\3\17\3\17\3\20\5\20\u0091\n\20\3\20\3\20\3\20\3\20\3\20"+
-		"\5\20\u0098\n\20\3\21\3\21\5\21\u009c\n\21\3\21\3\21\5\21\u00a0\n\21\5"+
-		"\21\u00a2\n\21\3\22\3\22\5\22\u00a6\n\22\3\22\3\22\3\23\3\23\3\23\7\23"+
-		"\u00ad\n\23\f\23\16\23\u00b0\13\23\3\24\3\24\3\24\7\24\u00b5\n\24\f\24"+
-		"\16\24\u00b8\13\24\3\25\3\25\3\25\7\25\u00bd\n\25\f\25\16\25\u00c0\13"+
-		"\25\3\26\3\26\3\26\7\26\u00c5\n\26\f\26\16\26\u00c8\13\26\3\27\5\27\u00cb"+
-		"\n\27\3\27\3\27\3\27\3\27\3\27\5\27\u00d2\n\27\3\30\3\30\5\30\u00d6\n"+
-		"\30\3\31\3\31\3\31\3\31\3\32\3\32\3\32\3\32\3\32\7\32\u00e1\n\32\f\32"+
-		"\16\32\u00e4\13\32\3\32\3\32\3\32\2\2\33\2\4\6\b\n\f\16\20\22\24\26\30"+
-		"\32\34\36 \"$&(*,.\60\62\2\4\3\2\23\24\3\2\26\27\u00e8\2\64\3\2\2\2\4"+
-		"?\3\2\2\2\6A\3\2\2\2\bC\3\2\2\2\nK\3\2\2\2\fS\3\2\2\2\16[\3\2\2\2\20c"+
-		"\3\2\2\2\22k\3\2\2\2\24s\3\2\2\2\26|\3\2\2\2\30\u0081\3\2\2\2\32\u0086"+
-		"\3\2\2\2\34\u008b\3\2\2\2\36\u0090\3\2\2\2 \u00a1\3\2\2\2\"\u00a5\3\2"+
-		"\2\2$\u00a9\3\2\2\2&\u00b1\3\2\2\2(\u00b9\3\2\2\2*\u00c1\3\2\2\2,\u00ca"+
-		"\3\2\2\2.\u00d5\3\2\2\2\60\u00d7\3\2\2\2\62\u00db\3\2\2\2\64\65\5\4\3"+
-		"\2\65\66\7\2\2\3\66\3\3\2\2\2\678\t\2\2\289\7\26\2\29:\3\2\2\2:;\7\f\2"+
-		"\2;<\5\4\3\2<=\7\r\2\2=@\3\2\2\2>@\5\6\4\2?\67\3\2\2\2?>\3\2\2\2@\5\3"+
-		"\2\2\2AB\5\b\5\2B\7\3\2\2\2CH\5\n\6\2DE\7\16\2\2EG\5\n\6\2FD\3\2\2\2G"+
-		"J\3\2\2\2HF\3\2\2\2HI\3\2\2\2I\t\3\2\2\2JH\3\2\2\2KP\5\f\7\2LM\7\17\2"+
-		"\2MO\5\f\7\2NL\3\2\2\2OR\3\2\2\2PN\3\2\2\2PQ\3\2\2\2Q\13\3\2\2\2RP\3\2"+
-		"\2\2SX\5\16\b\2TU\7\21\2\2UW\5\16\b\2VT\3\2\2\2WZ\3\2\2\2XV\3\2\2\2XY"+
-		"\3\2\2\2Y\r\3\2\2\2ZX\3\2\2\2[`\5\20\t\2\\]\7\20\2\2]_\5\20\t\2^\\\3\2"+
-		"\2\2_b\3\2\2\2`^\3\2\2\2`a\3\2\2\2a\17\3\2\2\2b`\3\2\2\2ch\5\22\n\2de"+
-		"\7\5\2\2eg\5\22\n\2fd\3\2\2\2gj\3\2\2\2hf\3\2\2\2hi\3\2\2\2i\21\3\2\2"+
-		"\2jh\3\2\2\2kp\5\24\13\2lm\7\7\2\2mo\5\24\13\2nl\3\2\2\2or\3\2\2\2pn\3"+
-		"\2\2\2pq\3\2\2\2q\23\3\2\2\2rp\3\2\2\2sx\5\26\f\2tu\7\6\2\2uw\5\26\f\2"+
-		"vt\3\2\2\2wz\3\2\2\2xv\3\2\2\2xy\3\2\2\2y\25\3\2\2\2zx\3\2\2\2{}\7\b\2"+
-		"\2|{\3\2\2\2|}\3\2\2\2}~\3\2\2\2~\177\5\30\r\2\177\27\3\2\2\2\u0080\u0082"+
-		"\7\t\2\2\u0081\u0080\3\2\2\2\u0081\u0082\3\2\2\2\u0082\u0083\3\2\2\2\u0083"+
-		"\u0084\5\32\16\2\u0084\31\3\2\2\2\u0085\u0087\7\n\2\2\u0086\u0085\3\2"+
-		"\2\2\u0086\u0087\3\2\2\2\u0087\u0088\3\2\2\2\u0088\u0089\5\34\17\2\u0089"+
-		"\33\3\2\2\2\u008a\u008c\7\13\2\2\u008b\u008a\3\2\2\2\u008b\u008c\3\2\2"+
-		"\2\u008c\u008d\3\2\2\2\u008d\u008e\5\36\20\2\u008e\35\3\2\2\2\u008f\u0091"+
-		"\7\22\2\2\u0090\u008f\3\2\2\2\u0090\u0091\3\2\2\2\u0091\u0097\3\2\2\2"+
-		"\u0092\u0098\5 \21\2\u0093\u0094\7\f\2\2\u0094\u0095\5\6\4\2\u0095\u0096"+
-		"\7\r\2\2\u0096\u0098\3\2\2\2\u0097\u0092\3\2\2\2\u0097\u0093\3\2\2\2\u0098"+
-		"\37\3\2\2\2\u0099\u00a2\7\4\2\2\u009a\u009c\7\f\2\2\u009b\u009a\3\2\2"+
-		"\2\u009b\u009c\3\2\2\2\u009c\u009d\3\2\2\2\u009d\u009f\5\"\22\2\u009e"+
-		"\u00a0\7\r\2\2\u009f\u009e\3\2\2\2\u009f\u00a0\3\2\2\2\u00a0\u00a2\3\2"+
-		"\2\2\u00a1\u0099\3\2\2\2\u00a1\u009b\3\2\2\2\u00a2!\3\2\2\2\u00a3\u00a4"+
-		"\t\2\2\2\u00a4\u00a6\7\26\2\2\u00a5\u00a3\3\2\2\2\u00a5\u00a6\3\2\2\2"+
-		"\u00a6\u00a7\3\2\2\2\u00a7\u00a8\5$\23\2\u00a8#\3\2\2\2\u00a9\u00ae\5"+
-		"&\24\2\u00aa\u00ab\7\16\2\2\u00ab\u00ad\5&\24\2\u00ac\u00aa\3\2\2\2\u00ad"+
-		"\u00b0\3\2\2\2\u00ae\u00ac\3\2\2\2\u00ae\u00af\3\2\2\2\u00af%\3\2\2\2"+
-		"\u00b0\u00ae\3\2\2\2\u00b1\u00b6\5(\25\2\u00b2\u00b3\7\17\2\2\u00b3\u00b5"+
-		"\5(\25\2\u00b4\u00b2\3\2\2\2\u00b5\u00b8\3\2\2\2\u00b6\u00b4\3\2\2\2\u00b6"+
-		"\u00b7\3\2\2\2\u00b7\'\3\2\2\2\u00b8\u00b6\3\2\2\2\u00b9\u00be\5*\26\2"+
-		"\u00ba\u00bb\7\21\2\2\u00bb\u00bd\5*\26\2\u00bc\u00ba\3\2\2\2\u00bd\u00c0"+
-		"\3\2\2\2\u00be\u00bc\3\2\2\2\u00be\u00bf\3\2\2\2\u00bf)\3\2\2\2\u00c0"+
-		"\u00be\3\2\2\2\u00c1\u00c6\5,\27\2\u00c2\u00c3\7\20\2\2\u00c3\u00c5\5"+
-		",\27\2\u00c4\u00c2\3\2\2\2\u00c5\u00c8\3\2\2\2\u00c6\u00c4\3\2\2\2\u00c6"+
-		"\u00c7\3\2\2\2\u00c7+\3\2\2\2\u00c8\u00c6\3\2\2\2\u00c9\u00cb\7\22\2\2"+
-		"\u00ca\u00c9\3\2\2\2\u00ca\u00cb\3\2\2\2\u00cb\u00d1\3\2\2\2\u00cc\u00d2"+
-		"\5.\30\2\u00cd\u00ce\7\f\2\2\u00ce\u00cf\5\"\22\2\u00cf\u00d0\7\r\2\2"+
-		"\u00d0\u00d2\3\2\2\2\u00d1\u00cc\3\2\2\2\u00d1\u00cd\3\2\2\2\u00d2-\3"+
-		"\2\2\2\u00d3\u00d6\5\62\32\2\u00d4\u00d6\5\60\31\2\u00d5\u00d3\3\2\2\2"+
-		"\u00d5\u00d4\3\2\2\2\u00d6/\3\2\2\2\u00d7\u00d8\t\3\2\2\u00d8\u00d9\7"+
-		"\25\2\2\u00d9\u00da\t\3\2\2\u00da\61\3\2\2\2\u00db\u00dc\7\30\2\2\u00dc"+
-		"\u00dd\7\f\2\2\u00dd\u00e2\t\3\2\2\u00de\u00df\7\3\2\2\u00df\u00e1\t\3"+
-		"\2\2\u00e0\u00de\3\2\2\2\u00e1\u00e4\3\2\2\2\u00e2\u00e0\3\2\2\2\u00e2"+
-		"\u00e3\3\2\2\2\u00e3\u00e5\3\2\2\2\u00e4\u00e2\3\2\2\2\u00e5\u00e6\7\r"+
-		"\2\2\u00e6\63\3\2\2\2\34?HPX`hpx|\u0081\u0086\u008b\u0090\u0097\u009b"+
-		"\u009f\u00a1\u00a5\u00ae\u00b6\u00be\u00c6\u00ca\u00d1\u00d5\u00e2";
+		"\4\32\t\32\4\33\t\33\3\2\3\2\3\2\3\3\3\3\5\3<\n\3\3\4\3\4\5\4@\n\4\3\4"+
+		"\3\4\3\5\3\5\3\5\3\5\3\5\5\5I\n\5\3\6\3\6\3\6\7\6N\n\6\f\6\16\6Q\13\6"+
+		"\3\7\3\7\3\7\7\7V\n\7\f\7\16\7Y\13\7\3\b\3\b\3\b\7\b^\n\b\f\b\16\ba\13"+
+		"\b\3\t\3\t\3\t\7\tf\n\t\f\t\16\ti\13\t\3\n\3\n\3\n\7\nn\n\n\f\n\16\nq"+
+		"\13\n\3\13\3\13\3\13\7\13v\n\13\f\13\16\13y\13\13\3\f\3\f\3\f\7\f~\n\f"+
+		"\f\f\16\f\u0081\13\f\3\r\5\r\u0084\n\r\3\r\3\r\3\16\5\16\u0089\n\16\3"+
+		"\16\3\16\3\17\5\17\u008e\n\17\3\17\3\17\3\20\5\20\u0093\n\20\3\20\3\20"+
+		"\3\21\5\21\u0098\n\21\3\21\3\21\3\21\3\21\3\21\5\21\u009f\n\21\3\22\3"+
+		"\22\5\22\u00a3\n\22\3\22\3\22\5\22\u00a7\n\22\5\22\u00a9\n\22\3\23\3\23"+
+		"\5\23\u00ad\n\23\3\23\3\23\3\24\3\24\3\24\7\24\u00b4\n\24\f\24\16\24\u00b7"+
+		"\13\24\3\25\3\25\3\25\7\25\u00bc\n\25\f\25\16\25\u00bf\13\25\3\26\3\26"+
+		"\3\26\7\26\u00c4\n\26\f\26\16\26\u00c7\13\26\3\27\3\27\3\27\7\27\u00cc"+
+		"\n\27\f\27\16\27\u00cf\13\27\3\30\5\30\u00d2\n\30\3\30\3\30\3\30\3\30"+
+		"\3\30\5\30\u00d9\n\30\3\31\3\31\5\31\u00dd\n\31\3\32\3\32\3\32\3\32\3"+
+		"\33\3\33\3\33\3\33\3\33\7\33\u00e8\n\33\f\33\16\33\u00eb\13\33\3\33\3"+
+		"\33\3\33\2\2\34\2\4\6\b\n\f\16\20\22\24\26\30\32\34\36 \"$&(*,.\60\62"+
+		"\64\2\4\3\2\23\24\3\2\26\27\u00f0\2\66\3\2\2\2\4;\3\2\2\2\6?\3\2\2\2\b"+
+		"H\3\2\2\2\nJ\3\2\2\2\fR\3\2\2\2\16Z\3\2\2\2\20b\3\2\2\2\22j\3\2\2\2\24"+
+		"r\3\2\2\2\26z\3\2\2\2\30\u0083\3\2\2\2\32\u0088\3\2\2\2\34\u008d\3\2\2"+
+		"\2\36\u0092\3\2\2\2 \u0097\3\2\2\2\"\u00a8\3\2\2\2$\u00ac\3\2\2\2&\u00b0"+
+		"\3\2\2\2(\u00b8\3\2\2\2*\u00c0\3\2\2\2,\u00c8\3\2\2\2.\u00d1\3\2\2\2\60"+
+		"\u00dc\3\2\2\2\62\u00de\3\2\2\2\64\u00e2\3\2\2\2\66\67\5\4\3\2\678\7\2"+
+		"\2\38\3\3\2\2\29<\5$\23\2:<\5\6\4\2;9\3\2\2\2;:\3\2\2\2<\5\3\2\2\2=>\t"+
+		"\2\2\2>@\7\26\2\2?=\3\2\2\2?@\3\2\2\2@A\3\2\2\2AB\5\b\5\2B\7\3\2\2\2C"+
+		"D\7\f\2\2DE\5\6\4\2EF\7\r\2\2FI\3\2\2\2GI\5\n\6\2HC\3\2\2\2HG\3\2\2\2"+
+		"I\t\3\2\2\2JO\5\f\7\2KL\7\16\2\2LN\5\f\7\2MK\3\2\2\2NQ\3\2\2\2OM\3\2\2"+
+		"\2OP\3\2\2\2P\13\3\2\2\2QO\3\2\2\2RW\5\16\b\2ST\7\17\2\2TV\5\16\b\2US"+
+		"\3\2\2\2VY\3\2\2\2WU\3\2\2\2WX\3\2\2\2X\r\3\2\2\2YW\3\2\2\2Z_\5\20\t\2"+
+		"[\\\7\21\2\2\\^\5\20\t\2][\3\2\2\2^a\3\2\2\2_]\3\2\2\2_`\3\2\2\2`\17\3"+
+		"\2\2\2a_\3\2\2\2bg\5\22\n\2cd\7\20\2\2df\5\22\n\2ec\3\2\2\2fi\3\2\2\2"+
+		"ge\3\2\2\2gh\3\2\2\2h\21\3\2\2\2ig\3\2\2\2jo\5\24\13\2kl\7\5\2\2ln\5\24"+
+		"\13\2mk\3\2\2\2nq\3\2\2\2om\3\2\2\2op\3\2\2\2p\23\3\2\2\2qo\3\2\2\2rw"+
+		"\5\26\f\2st\7\7\2\2tv\5\26\f\2us\3\2\2\2vy\3\2\2\2wu\3\2\2\2wx\3\2\2\2"+
+		"x\25\3\2\2\2yw\3\2\2\2z\177\5\30\r\2{|\7\6\2\2|~\5\30\r\2}{\3\2\2\2~\u0081"+
+		"\3\2\2\2\177}\3\2\2\2\177\u0080\3\2\2\2\u0080\27\3\2\2\2\u0081\177\3\2"+
+		"\2\2\u0082\u0084\7\b\2\2\u0083\u0082\3\2\2\2\u0083\u0084\3\2\2\2\u0084"+
+		"\u0085\3\2\2\2\u0085\u0086\5\32\16\2\u0086\31\3\2\2\2\u0087\u0089\7\t"+
+		"\2\2\u0088\u0087\3\2\2\2\u0088\u0089\3\2\2\2\u0089\u008a\3\2\2\2\u008a"+
+		"\u008b\5\34\17\2\u008b\33\3\2\2\2\u008c\u008e\7\n\2\2\u008d\u008c\3\2"+
+		"\2\2\u008d\u008e\3\2\2\2\u008e\u008f\3\2\2\2\u008f\u0090\5\36\20\2\u0090"+
+		"\35\3\2\2\2\u0091\u0093\7\13\2\2\u0092\u0091\3\2\2\2\u0092\u0093\3\2\2"+
+		"\2\u0093\u0094\3\2\2\2\u0094\u0095\5 \21\2\u0095\37\3\2\2\2\u0096\u0098"+
+		"\7\22\2\2\u0097\u0096\3\2\2\2\u0097\u0098\3\2\2\2\u0098\u009e\3\2\2\2"+
+		"\u0099\u009f\5\"\22\2\u009a\u009b\7\f\2\2\u009b\u009c\5\b\5\2\u009c\u009d"+
+		"\7\r\2\2\u009d\u009f\3\2\2\2\u009e\u0099\3\2\2\2\u009e\u009a\3\2\2\2\u009f"+
+		"!\3\2\2\2\u00a0\u00a9\7\4\2\2\u00a1\u00a3\7\f\2\2\u00a2\u00a1\3\2\2\2"+
+		"\u00a2\u00a3\3\2\2\2\u00a3\u00a4\3\2\2\2\u00a4\u00a6\5$\23\2\u00a5\u00a7"+
+		"\7\r\2\2\u00a6\u00a5\3\2\2\2\u00a6\u00a7\3\2\2\2\u00a7\u00a9\3\2\2\2\u00a8"+
+		"\u00a0\3\2\2\2\u00a8\u00a2\3\2\2\2\u00a9#\3\2\2\2\u00aa\u00ab\t\2\2\2"+
+		"\u00ab\u00ad\7\26\2\2\u00ac\u00aa\3\2\2\2\u00ac\u00ad\3\2\2\2\u00ad\u00ae"+
+		"\3\2\2\2\u00ae\u00af\5&\24\2\u00af%\3\2\2\2\u00b0\u00b5\5(\25\2\u00b1"+
+		"\u00b2\7\16\2\2\u00b2\u00b4\5(\25\2\u00b3\u00b1\3\2\2\2\u00b4\u00b7\3"+
+		"\2\2\2\u00b5\u00b3\3\2\2\2\u00b5\u00b6\3\2\2\2\u00b6\'\3\2\2\2\u00b7\u00b5"+
+		"\3\2\2\2\u00b8\u00bd\5*\26\2\u00b9\u00ba\7\17\2\2\u00ba\u00bc\5*\26\2"+
+		"\u00bb\u00b9\3\2\2\2\u00bc\u00bf\3\2\2\2\u00bd\u00bb\3\2\2\2\u00bd\u00be"+
+		"\3\2\2\2\u00be)\3\2\2\2\u00bf\u00bd\3\2\2\2\u00c0\u00c5\5,\27\2\u00c1"+
+		"\u00c2\7\21\2\2\u00c2\u00c4\5,\27\2\u00c3\u00c1\3\2\2\2\u00c4\u00c7\3"+
+		"\2\2\2\u00c5\u00c3\3\2\2\2\u00c5\u00c6\3\2\2\2\u00c6+\3\2\2\2\u00c7\u00c5"+
+		"\3\2\2\2\u00c8\u00cd\5.\30\2\u00c9\u00ca\7\20\2\2\u00ca\u00cc\5.\30\2"+
+		"\u00cb\u00c9\3\2\2\2\u00cc\u00cf\3\2\2\2\u00cd\u00cb\3\2\2\2\u00cd\u00ce"+
+		"\3\2\2\2\u00ce-\3\2\2\2\u00cf\u00cd\3\2\2\2\u00d0\u00d2\7\22\2\2\u00d1"+
+		"\u00d0\3\2\2\2\u00d1\u00d2\3\2\2\2\u00d2\u00d8\3\2\2\2\u00d3\u00d9\5\60"+
+		"\31\2\u00d4\u00d5\7\f\2\2\u00d5\u00d6\5$\23\2\u00d6\u00d7\7\r\2\2\u00d7"+
+		"\u00d9\3\2\2\2\u00d8\u00d3\3\2\2\2\u00d8\u00d4\3\2\2\2\u00d9/\3\2\2\2"+
+		"\u00da\u00dd\5\64\33\2\u00db\u00dd\5\62\32\2\u00dc\u00da\3\2\2\2\u00dc"+
+		"\u00db\3\2\2\2\u00dd\61\3\2\2\2\u00de\u00df\t\3\2\2\u00df\u00e0\7\25\2"+
+		"\2\u00e0\u00e1\t\3\2\2\u00e1\63\3\2\2\2\u00e2\u00e3\7\30\2\2\u00e3\u00e4"+
+		"\7\f\2\2\u00e4\u00e9\t\3\2\2\u00e5\u00e6\7\3\2\2\u00e6\u00e8\t\3\2\2\u00e7"+
+		"\u00e5\3\2\2\2\u00e8\u00eb\3\2\2\2\u00e9\u00e7\3\2\2\2\u00e9\u00ea\3\2"+
+		"\2\2\u00ea\u00ec\3\2\2\2\u00eb\u00e9\3\2\2\2\u00ec\u00ed\7\r\2\2\u00ed"+
+		"\65\3\2\2\2\36;?HOW_gow\177\u0083\u0088\u008d\u0092\u0097\u009e\u00a2"+
+		"\u00a6\u00a8\u00ac\u00b5\u00bd\u00c5\u00cd\u00d1\u00d8\u00dc\u00e9";
 	public static final ATN _ATN =
 		new ATNDeserializer().deserialize(_serializedATN.toCharArray());
 	static {

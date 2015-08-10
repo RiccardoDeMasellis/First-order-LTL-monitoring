@@ -46,12 +46,12 @@ public class ParsingTest {
 
 		System.out.println("\nFO-LTL PARSING TEST\n");
 
-		String foltlInput = "(Forall ?y ( Exists ?z P(?x, ?z) ) )";
+		String foltlInput = "Forall ?y (P(?x))";
 
 		FOLTLFormulaParserLexer foltlLexer = new FOLTLFormulaParserLexer(new ANTLRInputStream(foltlInput));
 		FOLTLFormulaParserParser foltlParser = new FOLTLFormulaParserParser(new CommonTokenStream(foltlLexer));
 
-		ParseTree tree = foltlParser.acrossQuantifiedFormula();
+		ParseTree tree = foltlParser.foltlFormula();
 
 		System.out.println("\n");
 		String output = tree.toStringTree(foltlParser);
@@ -59,9 +59,9 @@ public class ParsingTest {
 		System.out.println();
 
 		//Testing our own visitor
-		FoLtlTemporalStringVisitor temporalVisitor = new FoLtlTemporalStringVisitor();
-		System.out.println("\nCustom visitor test:\n");
-		System.out.println("\n" + temporalVisitor.visit(tree));
+		//FoLtlTemporalStringVisitor temporalVisitor = new FoLtlTemporalStringVisitor();
+		//System.out.println("\nCustom visitor test:\n");
+		//System.out.println("\n" + temporalVisitor.visit(tree));
 	}
 
 }
