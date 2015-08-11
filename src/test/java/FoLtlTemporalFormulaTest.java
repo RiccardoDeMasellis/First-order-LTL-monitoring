@@ -128,6 +128,25 @@ public class FoLtlTemporalFormulaTest {
 
 		System.out.println("\nBuilt formula: " + builtFormula.toString());
 
+		//Forall ?x (Forall ?y P(?x) & Q(?x, ?x) | G P(?y) U Q(?y, ?y))
+
+		FoLtlLocalAtom Qxx = new FoLtlLocalAtom(Q, x, x);
+		FoLtlLocalAtom Qyy = new FoLtlLocalAtom(Q, y, y);
+
+		FoLtlFormula pxAndQxx = new FoLtlLocalAndFormula(Px, Qxx);
+		FoLtlFormula gPy = new FoLtlGloballyFormula(Py);
+		FoLtlFormula gpyUQyy = new FoLtlUntilFormula(gPy, Qyy);
+		FoLtlFormula tor = new FoLtlTempOrFormula(pxAndQxx, gpyUQyy);
+		FoLtlFormula forallY = new FoLtlAcrossForallFormula(tor, y);
+		forallX = new FoLtlAcrossForallFormula(forallY, x);
+
+		builtFormula = forallX;
+
+		Assert.assertEquals("", "xsForall ?x: (xsForall ?y: (((P(?x)) AND (Q(?x, ?x))) tOR ((G(P(?y))) U (Q(?y, ?y)))))",
+				builtFormula.toString());
+
+		System.out.println("\nBuilt formula: " + builtFormula.toString());
+
 	}
 
 	@Test
@@ -233,6 +252,25 @@ public class FoLtlTemporalFormulaTest {
 
 		Assert.assertEquals("", target.toString(),
 				parseTemporalFormula("Forall ?x (P(?x) U Exists ?y !(?x = ?y) & P(?y))"));
+
+
+		//Forall ?x (Forall ?y P(?x) & Q(?x, ?x) | G P(?y) U Q(?y, ?y))
+
+		FoLtlLocalAtom Qxx = new FoLtlLocalAtom(Q, x, x);
+		FoLtlLocalAtom Qyy = new FoLtlLocalAtom(Q, y, y);
+
+		FoLtlFormula pxAndQxx = new FoLtlLocalAndFormula(Px, Qxx);
+		FoLtlFormula gPy = new FoLtlGloballyFormula(Py);
+		FoLtlFormula gpyUQyy = new FoLtlUntilFormula(gPy, Qyy);
+		FoLtlFormula tor = new FoLtlTempOrFormula(pxAndQxx, gpyUQyy);
+		FoLtlFormula forallY = new FoLtlAcrossForallFormula(tor, y);
+		forallX = new FoLtlAcrossForallFormula(forallY, x);
+
+		target = forallX;
+
+		Assert.assertEquals("", target.toString(),
+				parseTemporalFormula("Forall ?x (Forall ?y (P(?x) & Q(?x, ?x) | G P(?y) U Q(?y, ?y)))"));
+
 	}
 
 	//<editor-fold desc="parseTemporalFormula">
