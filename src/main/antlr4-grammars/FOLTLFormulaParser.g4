@@ -11,23 +11,10 @@ foltlFormula
 		|		acrossQuantifiedFormula
 		;
 
-//TODO si mangia via le parentesi quando non dovrebbe
-
 acrossQuantifiedFormula
 		:		((FORALL | EXISTS) VARIABLE) LPAREN acrossQuantifiedFormula RPAREN
 		|		temporalDoubleImplication
 		;
-
-/*
-acrossQuantifiedFormula
-		:		((FORALL | EXISTS) VARIABLE)? temporalFormula
-		;
-
-temporalFormula
-    :		LPAREN acrossQuantifiedFormula RPAREN
-    |   temporalDoubleImplication
-    ;
-*/
 
 temporalDoubleImplication
     :   temporalImplication (DOUBLEIMPLY temporalImplication)*

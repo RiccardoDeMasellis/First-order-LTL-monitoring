@@ -75,47 +75,6 @@ public class FoLtlTemporalStringVisitor extends FOLTLFormulaParserBaseVisitor<St
 		return res;
 	}
 
-	/*
-	@Override
-	public String visitTemporalFormula(@NotNull FOLTLFormulaParserParser.TemporalFormulaContext ctx) {
-
-		String res;
-
-		if (ctx.getChildCount() > 1) {
-
-			if (DEBUG) {
-				System.out.println("> parsing temporal formula: " + ctx.getText() + "; " +
-						"children: " + ctx.getChildCount());
-			}
-
-			res = "";
-
-			for (int i = 0; i < ctx.getChildCount(); i++){
-
-				String child = ctx.getChild(i).getText();
-
-				switch (child){
-
-					case "(": case ")":
-						//res = res + child;
-						break;
-
-					default:
-						res = res + visit(ctx.getChild(i));
-						break;
-
-				}
-
-			}
-
-		} else {
-			res = visitChildren(ctx);
-		}
-
-		return res;
-	}
-	*/
-
 	@Override
 	public String visitTemporalDoubleImplication(@NotNull FOLTLFormulaParserParser.TemporalDoubleImplicationContext ctx) {
 		String res;

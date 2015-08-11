@@ -189,7 +189,7 @@ public class FoLtlTemporalFormulaTest {
 		target = andUand;
 
 		Assert.assertEquals("", target.toString(),
-				parseTemporalFormula("(P(a) & P(b)) U (P(d))"));
+				parseTemporalFormula("(P(a) & P(b)) U (X Q(c, c) & (P(c) U P(d)))"));
 
 
 		//((P(a) & P(b)) U ((X P(c)) & (P(d)))) R
@@ -211,7 +211,7 @@ public class FoLtlTemporalFormulaTest {
 		target = rel2;
 
 		Assert.assertEquals("", target.toString(),
-				parseTemporalFormula("G P(a) & F Q(a, b)"));
+				parseTemporalFormula("(P(a) & P(b) U ((X P(c)) & P(d))) R (((WX P(a) -> P(a)) WU (G P(a) R P(a))) <-> P(a) U P(a))"));
 
 
 		//Forall ?x ((P(?x)) U (Exists ?y ((!(?x = ?y)) && (P(?y)))))
@@ -233,7 +233,7 @@ public class FoLtlTemporalFormulaTest {
 		target = forallX;
 
 		Assert.assertEquals("", target.toString(),
-				parseTemporalFormula("G P(a) & F Q(a, b)"));
+				parseTemporalFormula("Forall ?x (P(?x) U Exists ?y !(?x = ?y) & P(?y))"));
 	}
 
 	//<editor-fold desc="parseTemporalFormula">
