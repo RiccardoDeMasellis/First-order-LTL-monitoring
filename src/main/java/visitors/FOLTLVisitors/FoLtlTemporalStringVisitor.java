@@ -46,7 +46,27 @@ public class FoLtlTemporalStringVisitor extends FOLTLFormulaParserBaseVisitor<St
 						"children: " + ctx.getChildCount());
 			}
 
-			res = "xs" + ctx.getChild(0).getText() + " " + ctx.getChild(1).getText() +  ": (" + visit(ctx.getChild(2)) + ")";
+			res = "xs" + ctx.getChild(0).getText() + " " + ctx.getChild(1).getText() + ": (";
+
+			for (int i = 2; i < ctx.getChildCount(); i++){
+
+				ParseTree child = ctx.getChild(i);
+				String t = child.getText();
+
+				switch (t){
+
+					case "(": case ")":
+						break;
+
+					default:
+						res = res + visit(child);
+						break;
+
+				}
+
+			}
+
+			res = res + ")";
 
 		} else {
 			res = visitChildren(ctx);
@@ -55,6 +75,7 @@ public class FoLtlTemporalStringVisitor extends FOLTLFormulaParserBaseVisitor<St
 		return res;
 	}
 
+	/*
 	@Override
 	public String visitTemporalFormula(@NotNull FOLTLFormulaParserParser.TemporalFormulaContext ctx) {
 
@@ -93,6 +114,7 @@ public class FoLtlTemporalStringVisitor extends FOLTLFormulaParserBaseVisitor<St
 
 		return res;
 	}
+	*/
 
 	@Override
 	public String visitTemporalDoubleImplication(@NotNull FOLTLFormulaParserParser.TemporalDoubleImplicationContext ctx) {

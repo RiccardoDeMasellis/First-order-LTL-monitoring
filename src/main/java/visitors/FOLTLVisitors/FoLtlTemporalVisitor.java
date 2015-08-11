@@ -52,14 +52,34 @@ public class FoLtlTemporalVisitor extends FOLTLFormulaParserBaseVisitor<FoLtlFor
 
 			var = var.substring(1);
 
-			switch (qf){
+			FoLtlFormula nf = null;
+
+			for (int i = 2; i < ctx.getChildCount(); i++) {
+
+				ParseTree child = ctx.getChild(i);
+				String t = child.getText();
+
+				switch (t){
+
+					case "(": case ")":
+						break;
+
+					default:
+						nf = visit(child);
+						break;
+
+				}
+
+			}
+
+			switch (qf) {
 
 				case "Forall":
-					res = new FoLtlAcrossForallFormula(visit(ctx.getChild(2)), new FoLtlVariable(var));
+					res = new FoLtlAcrossForallFormula(nf, new FoLtlVariable(var));
 					break;
 
 				case "Exists":
-					res = new FoLtlAcrossExistsFormula(visit(ctx.getChild(2)), new FoLtlVariable(var));
+					res = new FoLtlAcrossExistsFormula(nf, new FoLtlVariable(var));
 					break;
 
 				default:
@@ -75,6 +95,7 @@ public class FoLtlTemporalVisitor extends FOLTLFormulaParserBaseVisitor<FoLtlFor
 		return res;
 	}
 
+	/*
 	@Override
 	public FoLtlFormula visitTemporalFormula(@NotNull FOLTLFormulaParserParser.TemporalFormulaContext ctx) {
 
@@ -112,6 +133,8 @@ public class FoLtlTemporalVisitor extends FOLTLFormulaParserBaseVisitor<FoLtlFor
 
 		return res;
 	}
+	*/
+
 
 	@Override
 	public FoLtlFormula visitTemporalDoubleImplication(@NotNull FOLTLFormulaParserParser.TemporalDoubleImplicationContext ctx) {
@@ -554,21 +577,25 @@ public class FoLtlTemporalVisitor extends FOLTLFormulaParserBaseVisitor<FoLtlFor
 					"children: " + ctx.getChildCount());
 		}
 
-		ParseTree child = ctx.getChild(0);
-		String t = child.getText();
+		for (int i = 0; i < ctx.getChildCount(); i++) {
 
-		switch (t){
+			ParseTree child = ctx.getChild(i);
+			String t = child.getText();
 
-			case "LAST": case "Last": case "last":
-				res = new FoLtlTempLastAtom();
-				break;
+			switch (t) {
 
-			case "(": case")":
-				break;
+				case "LAST": case "Last": case "last":
+					res = new FoLtlTempLastAtom();
+					break;
 
-			default:
-				res = visit(child);
-				break;
+				case "(": case ")":
+					break;
+
+				default:
+					res = visit(child);
+					break;
+
+			}
 
 		}
 

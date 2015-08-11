@@ -161,13 +161,6 @@ public interface FOLTLFormulaParserVisitor<T> extends ParseTreeVisitor<T> {
 	T visitFoltlFormula(@NotNull FOLTLFormulaParserParser.FoltlFormulaContext ctx);
 
 	/**
-	 * Visit a parse tree produced by {@link FOLTLFormulaParserParser#temporalFormula}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitTemporalFormula(@NotNull FOLTLFormulaParserParser.TemporalFormulaContext ctx);
-
-	/**
 	 * Visit a parse tree produced by {@link FOLTLFormulaParserParser#temporalDisjunction}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
