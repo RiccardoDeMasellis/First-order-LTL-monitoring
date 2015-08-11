@@ -3,6 +3,7 @@ package visitors.FOLVisitors;
 import antlr4_generated.FOFormulaParserBaseVisitor;
 import antlr4_generated.FOFormulaParserParser;
 import org.antlr.v4.runtime.misc.NotNull;
+import org.antlr.v4.runtime.tree.ParseTree;
 
 /**
  * Created by Simone Calciolari on 03/08/15.
@@ -236,10 +237,21 @@ public class FoLtlLocalStringVisitor extends FOFormulaParserBaseVisitor<String>{
 
 			res = "";
 
-			//TODO print this better (with spacing etc.)
 			for (int i = 0; i < ctx.getChildCount(); i++){
 
-				res = res + ctx.getChild(i).getText();
+				ParseTree child = ctx.getChild(i);
+				String t = child.getText();
+
+				switch (t){
+
+					case ",":
+						res = res + t + " ";
+						break;
+
+					default:
+						res = res + t;
+						break;
+				}
 
 			}
 

@@ -20,11 +20,11 @@ public class ParsingTest {
 
 	@Test
 	public void testLocalFormulaParsing() {
-	System.out.println("\nLOCAL FORMULA PARSING TEST");
+	System.out.println("\n\n\nLOCAL FORMULA PARSING TEST");
 
 		//String folInput = "Exists ?k(Forall ?x ( (P(a) && !(Exists ?y Q(?x,a,?y))) -> (a = ?x) ) )";
 
-		Assert.assertEquals("", "Exists ?x: (((P(?x)) && ((Q(?x,?y)) && (?x = ?y))))",
+		Assert.assertEquals("", "Exists ?x: (((P(?x)) && ((Q(?x, ?y)) && (?x = ?y))))",
 				parseLocalFormula("Exists ?x (P(?x) && Q(?x, ?y) && ?x = ?y)"));
 
 	}
@@ -40,7 +40,8 @@ public class ParsingTest {
 		Assert.assertEquals("", "xsForall ?x: ((G (P(b))) U (X (t!(F (J(c))))))",
 				parseTemporalFormula("Forall ?x (G P(b) U X ! (F J(c)))"));
 
-		parseTemporalFormula("Forall ?x (Exists ?y (!(?x = ?y) && P(?x) <-> Q(a, b, ?y)))");
+		Assert.assertEquals("", "Forall ?x: ((Exists ?y: ((((!(?x = ?y)) && (P(?x))) <-> (Q(a, b, ?y))))))",
+				parseTemporalFormula("Forall ?x (Exists ?y (!(?x = ?y) && P(?x) <-> Q(a, b, ?y)))"));
 
 	}
 
