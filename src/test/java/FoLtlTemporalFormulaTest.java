@@ -6,7 +6,6 @@ import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.tree.ParseTree;
 import org.junit.Assert;
 import org.junit.Test;
-import visitors.FOLTLVisitors.FoLtlTemporalStringVisitor;
 import visitors.FOLTLVisitors.FoLtlTemporalVisitor;
 
 /**
