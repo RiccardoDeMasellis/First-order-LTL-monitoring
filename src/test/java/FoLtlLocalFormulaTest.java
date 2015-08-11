@@ -16,6 +16,9 @@ import visitors.FOLVisitors.FoLtlLocalVisitor;
  */
 public class FoLtlLocalFormulaTest {
 
+	//Boolean flag; displays extra information during the execution when set to true;
+	private static final boolean DEBUG = true;
+
 	@Test
 	public void testLocalFormulaParsing(){
 		System.out.println("\n*** LOCAL FORMULA PARSING TEST ***");
@@ -31,21 +34,8 @@ public class FoLtlLocalFormulaTest {
 
 		target = px;
 
-		//Parser test
-		String folInput = "(((P(?x))))";
-
-		FOFormulaParserLexer foLexer = new FOFormulaParserLexer(new ANTLRInputStream(folInput));
-		FOFormulaParserParser foParser = new FOFormulaParserParser(new CommonTokenStream(foLexer));
-
-		ParseTree tree = foParser.localQuantifiedFormula();
-
-		//Testing our own visitor
-		FoLtlLocalVisitor visitor = new FoLtlLocalVisitor();
-		System.out.println("\n");
-		FoLtlFormula output = visitor.visit(tree);
-		System.out.println("\n" + output);
-
-		Assert.assertEquals("", target.toString(), output.toString());
+		Assert.assertEquals("", target.toString(),
+				parseLocalFormula("P(?x)"));
 
 
 		//More difficult
@@ -61,21 +51,7 @@ public class FoLtlLocalFormulaTest {
 
 		target = pAndQ;
 
-		//Parser test
-		folInput = "P(?x) && Q(a, b, ?y)";
-
-		foLexer = new FOFormulaParserLexer(new ANTLRInputStream(folInput));
-		foParser = new FOFormulaParserParser(new CommonTokenStream(foLexer));
-
-		tree = foParser.localQuantifiedFormula();
-
-		//Testing our own visitor
-		visitor = new FoLtlLocalVisitor();
-		System.out.println("\n===========================================================================================");
-		output = visitor.visit(tree);
-		System.out.println("\n" + output);
-
-		Assert.assertEquals("", target.toString(), output.toString());
+		Assert.assertEquals("", target.toString(), parseLocalFormula("P(?x) && Q(a, b, ?y)"));
 
 
 		//Even harder
@@ -90,21 +66,8 @@ public class FoLtlLocalFormulaTest {
 
 		target = forall;
 
-		//Parser test
-		folInput = "Forall ?x (Exists ?y (!(?x = ?y) && P(?x) <-> Q(a, b, ?y)))";
-
-		foLexer = new FOFormulaParserLexer(new ANTLRInputStream(folInput));
-		foParser = new FOFormulaParserParser(new CommonTokenStream(foLexer));
-
-		tree = foParser.localQuantifiedFormula();
-
-		//Testing our own visitor
-		visitor = new FoLtlLocalVisitor();
-		System.out.println("\n===========================================================================================");
-		output = visitor.visit(tree);
-		System.out.println("\n" + output);
-
-		Assert.assertEquals("", target.toString(), output.toString());
+		Assert.assertEquals("", target.toString(),
+				parseLocalFormula("Forall ?x (Exists ?y (!(?x = ?y) && P(?x) <-> Q(a, b, ?y)))"));
 
 
 		//Further tests
@@ -129,21 +92,8 @@ public class FoLtlLocalFormulaTest {
 
 		target = forallX;
 
-		//Parser test
-		folInput = "Forall ?x (Bag(?x) -> (Exists ?y (Coin(?y) && Contains(?x, ?y))))";
-
-		foLexer = new FOFormulaParserLexer(new ANTLRInputStream(folInput));
-		foParser = new FOFormulaParserParser(new CommonTokenStream(foLexer));
-
-		tree = foParser.localQuantifiedFormula();
-
-		//Testing our own visitor
-		visitor = new FoLtlLocalVisitor();
-		System.out.println("\n===========================================================================================");
-		output = visitor.visit(tree);
-		System.out.println("\n" + output);
-
-		Assert.assertEquals("", target.toString(), output.toString());
+		Assert.assertEquals("", target.toString(),
+				parseLocalFormula("Forall ?x (Bag(?x) -> (Exists ?y (Coin(?y) && Contains(?x, ?y))))"));
 
 
 		//Exists ?x: ((Buyer(?x)) AND ((Bought(?x, s)) AND (Forall ?y: ((Buyer(?y)) AND (Bought(?y, s)) -> (?x = ?y)))))
@@ -168,21 +118,8 @@ public class FoLtlLocalFormulaTest {
 
 		target = existsX;
 
-		//Parser test
-		folInput = "Exists ?x (Buyer(?x) && Bought(?x, s) && (Forall ?y (Buyer(?y) && Bought(?y, s) -> ?x = ?y)))";
-
-		foLexer = new FOFormulaParserLexer(new ANTLRInputStream(folInput));
-		foParser = new FOFormulaParserParser(new CommonTokenStream(foLexer));
-
-		tree = foParser.localQuantifiedFormula();
-
-		//Testing our own visitor
-		visitor = new FoLtlLocalVisitor();
-		System.out.println("\n===========================================================================================");
-		output = visitor.visit(tree);
-		System.out.println("\n" + output);
-
-		Assert.assertEquals("", target.toString(), output.toString());
+		Assert.assertEquals("", target.toString(),
+				parseLocalFormula("Exists ?x (Buyer(?x) && Bought(?x, s) && (Forall ?y (Buyer(?y) && Bought(?y, s) -> ?x = ?y)))"));
 
 
 		//Forall ?x: ((S(?x)) -> (Exists ?y: ((S(?y)) AND ((!(?x = ?y)) AND (L(?x, ?y))))))
@@ -204,21 +141,8 @@ public class FoLtlLocalFormulaTest {
 
 		target = forallX;
 
-		//Parser test
-		folInput = "Forall ?x (S(?x) -> (Exists ?y (S(?y) && !(?x = ?y) && L(?x, ?y))))";
-
-		foLexer = new FOFormulaParserLexer(new ANTLRInputStream(folInput));
-		foParser = new FOFormulaParserParser(new CommonTokenStream(foLexer));
-
-		tree = foParser.localQuantifiedFormula();
-
-		//Testing our own visitor
-		visitor = new FoLtlLocalVisitor();
-		System.out.println("\n===========================================================================================");
-		output = visitor.visit(tree);
-		System.out.println("\n" + output);
-
-		Assert.assertEquals("", target.toString(), output.toString());
+		Assert.assertEquals("", target.toString(),
+				parseLocalFormula("Forall ?x (S(?x) -> (Exists ?y (S(?y) && !(?x = ?y) && L(?x, ?y))))"));
 
 	}
 
@@ -358,5 +282,43 @@ public class FoLtlLocalFormulaTest {
 		System.out.println("\nBuilt formula: " + builtFormula);
 
 	}
+
+	//<editor-fold desc="parseLocalFormula">
+	/**
+	 * Method to encapsulate the instructions needed to parse a given local foltl formula
+	 * @param input the input formula
+	 * @return the String interpretation of the output given by the visitor
+	 */
+	private static String parseLocalFormula(String input){
+
+		String output;
+
+		//Instantiates lexer and parser
+		FOFormulaParserLexer lexer = new FOFormulaParserLexer(new ANTLRInputStream(input));
+		FOFormulaParserParser parser = new FOFormulaParserParser(new CommonTokenStream(lexer));
+
+		//Gets the parsing tree
+		ParseTree tree = parser.localQuantifiedFormula();
+
+
+		if (DEBUG) {
+			System.out.println("\n");
+			output = tree.toStringTree(parser);
+			System.out.println("> Default parsing tree:\n> " + output + "\n");
+		}
+
+		//Testing our own visitor
+		FoLtlLocalVisitor visitor = new FoLtlLocalVisitor();
+		output = visitor.visit(tree).toString();
+
+		if(DEBUG) {
+			System.out.println("\n> Parsed formula: " + output);
+		}
+
+		System.out.println("=============================================================================================");
+
+		return output;
+	}
+	//</editor-fold>
 
 }
