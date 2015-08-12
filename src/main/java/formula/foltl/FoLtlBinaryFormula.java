@@ -23,8 +23,22 @@ public abstract class FoLtlBinaryFormula implements FoLtlFormula, BinaryFormula 
 		return right;
 	}
 
+	@Override
 	public String toString() {
 		return "(" + this.getLeftFormula() + ") " + this.stringOperator() + " (" + this.getRightFormula() + ")";
+	}
+
+	@Override
+	public boolean equals(Object o){
+		boolean res = false;
+
+		if (o != null && this.getClass().equals(o.getClass())){
+			FoLtlBinaryFormula other = (FoLtlBinaryFormula) o;
+			res = this.getLeftFormula().equals(other.getLeftFormula())
+					&& this.getRightFormula().equals(other.getRightFormula());
+		}
+
+		return res;
 	}
 
 }

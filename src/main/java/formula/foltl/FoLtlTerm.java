@@ -15,4 +15,21 @@ public abstract class FoLtlTerm {
 		return this.name;
 	}
 
+	@Override
+	public String toString(){
+		return this.getName();
+	}
+
+	@Override
+	public boolean equals(Object o){
+		boolean res = false;
+
+		if (o != null && this.getClass().equals(o.getClass())){
+			FoLtlTerm other = (FoLtlTerm) o;
+			res = this.getName().equals(other.getName());
+		}
+
+		return res;
+	}
+
 }

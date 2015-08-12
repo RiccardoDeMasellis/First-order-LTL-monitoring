@@ -16,4 +16,19 @@ public class FoLtlTempOrFormula extends FoLtlBinaryFormula implements OrFormula,
 		return "tOR";
 	}
 
+	@Override
+	public boolean equals(Object o){
+		boolean res = false;
+
+		if (o != null && this.getClass().equals(o.getClass())){
+			FoLtlTempOrFormula other = (FoLtlTempOrFormula) o;
+			res = (this.getLeftFormula().equals(other.getLeftFormula())
+					&& this.getRightFormula().equals(other.getRightFormula()))
+					|| (this.getLeftFormula().equals(other.getRightFormula())
+					&& this.getRightFormula().equals(other.getLeftFormula()));
+		}
+
+		return res;
+	}
+
 }

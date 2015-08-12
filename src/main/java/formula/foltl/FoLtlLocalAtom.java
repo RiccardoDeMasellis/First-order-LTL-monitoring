@@ -105,4 +105,16 @@ public class FoLtlLocalAtom extends FoLtlAtomicFormula implements FoLtlLocalForm
 		return s;
 	}
 
+	@Override
+	public boolean equals(Object o){
+		boolean res = false;
+
+		if (o != null && this.getClass().equals(o.getClass())){
+			FoLtlLocalAtom other = (FoLtlLocalAtom) o;
+			res = this.getPredicate().equals(other.getPredicate())
+					&& this.getArguments().equals(other.getArguments());
+		}
+
+		return res;
+	}
 }

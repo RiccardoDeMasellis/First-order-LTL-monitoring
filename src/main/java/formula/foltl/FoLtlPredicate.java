@@ -14,6 +14,10 @@ public class FoLtlPredicate {
 	}
 
 	public String toString(){
+		return this.getName();
+	}
+
+	public String getName(){
 		return this.name;
 	}
 
@@ -21,4 +25,16 @@ public class FoLtlPredicate {
 		return this.arity;
 	}
 
+	@Override
+	public boolean equals(Object o){
+		boolean res = false;
+
+		if (o != null && this.getClass().equals(o.getClass())){
+			FoLtlPredicate other = (FoLtlPredicate) o;
+			res = this.getName().equals(other.getName())
+					&& this.getArity() == other.getArity();
+		}
+
+		return res;
+	}
 }

@@ -13,9 +13,31 @@ public class FoLtlLocalEqualityFormula extends FoLtlAtomicFormula implements FoL
 		this.right = right;
 	}
 
-	@Override
-	public String toString(){
-		return this.left.toString() + " = " + this.right.toString();
+	public FoLtlTerm getLeftTerm(){
+		return left;
 	}
 
+	public FoLtlTerm getRightTerm(){
+		return right;
+	}
+
+	@Override
+	public String toString(){
+		return this.getLeftTerm().toString() + " = " + this.getRightTerm().toString();
+	}
+
+	@Override
+	public boolean equals(Object o){
+		boolean res = false;
+
+		if (o != null && this.getClass().equals(o.getClass())){
+			FoLtlLocalEqualityFormula other = (FoLtlLocalEqualityFormula) o;
+			res = (this.getLeftTerm().equals(other.getLeftTerm())
+					&& this.getRightTerm().equals(other.getRightTerm()))
+					|| (this.getLeftTerm().equals(other.getRightTerm())
+					&& this.getRightTerm().equals(other.getLeftTerm()));
+		}
+
+		return res;
+	}
 }

@@ -12,7 +12,7 @@ public class FoLtlVariable extends FoLtlTerm implements Variable {
 	}
 
 	public String toString(){
-		return "?" + super.getName();
+		return "?" + super.toString();
 	}
 
 }

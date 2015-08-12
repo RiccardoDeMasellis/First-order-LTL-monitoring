@@ -8,4 +8,7 @@ public interface Formula {
 	@Override
 	String toString();
 
+	@Override
+	boolean equals(Object o);
+
 }
