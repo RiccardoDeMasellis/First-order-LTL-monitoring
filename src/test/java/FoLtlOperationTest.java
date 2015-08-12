@@ -133,9 +133,10 @@ public class FoLtlOperationTest {
 		assertNotEquals("Variable vs constants", varXEqVarX2, conXEqConX2);
 
 
+		//TODO compare different formula classes
 		System.out.println("\n\nSINGLE BINARY OPERATOR FORMULA COMPARISONS\n");
 
-		//Local boolean formulas
+		//Local binary boolean operators
 
 		FoLtlPredicate P = new FoLtlPredicate("P", 1);
 
@@ -172,6 +173,8 @@ public class FoLtlOperationTest {
 		FoLtlFormula bIMa = new FoLtlLocalImplFormula(Pb2, Pa2);
 		FoLtlFormula bIMb = new FoLtlLocalImplFormula(Pb, Pb);
 
+		System.out.println("Local binary boolean operator comparisons\n");
+
 		assertEquals("a AND a ; a AND a", aANDa, aANDa2);
 		assertEquals("a AND b ; b AND a", aANDb, bANDa);
 		assertEquals("a OR a ; a OR a", aORa, aORa2);
@@ -187,6 +190,161 @@ public class FoLtlOperationTest {
 		assertNotEquals("a DI b ; b DI b", aDIb, bDIb);
 		assertNotEquals("a IM b ; b IM b", aIMb, bIMb);
 		assertNotEquals("a IM b ; b IM a", aIMb, bIMa);
+
+
+		//Temporal binary boolean operators
+
+		// Temporal AND
+		FoLtlFormula atANDa = new FoLtlTempAndFormula(Pa, Pa);
+		FoLtlFormula atANDa2 = new FoLtlTempAndFormula(Pa2, Pa2);
+		FoLtlFormula atANDb = new FoLtlTempAndFormula(Pa, Pb);
+		FoLtlFormula btANDa = new FoLtlTempAndFormula(Pb2, Pa2);
+		FoLtlFormula btANDb = new FoLtlTempAndFormula(Pb, Pb);
+
+		//Temporal OR
+		FoLtlFormula atORa = new FoLtlTempOrFormula(Pa, Pa);
+		FoLtlFormula atORa2 = new FoLtlTempOrFormula(Pa2, Pa2);
+		FoLtlFormula atORb = new FoLtlTempOrFormula(Pa, Pb);
+		FoLtlFormula btORa = new FoLtlTempOrFormula(Pb2, Pa2);
+		FoLtlFormula btORb = new FoLtlTempOrFormula(Pb, Pb);
+
+		//Temporal <->
+		FoLtlFormula atDIa = new FoLtlTempDoubleImplFormula(Pa, Pa);
+		FoLtlFormula atDIa2 = new FoLtlTempDoubleImplFormula(Pa2, Pa2);
+		FoLtlFormula atDIb = new FoLtlTempDoubleImplFormula(Pa, Pb);
+		FoLtlFormula btDIa = new FoLtlTempDoubleImplFormula(Pb2, Pa2);
+		FoLtlFormula btDIb = new FoLtlTempDoubleImplFormula(Pb, Pb);
+
+		//Temporal ->
+		FoLtlFormula atIMa = new FoLtlTempImplFormula(Pa, Pa);
+		FoLtlFormula atIMa2 = new FoLtlTempImplFormula(Pa2, Pa2);
+		FoLtlFormula atIMb = new FoLtlTempImplFormula(Pa, Pb);
+		FoLtlFormula btIMa = new FoLtlTempImplFormula(Pb2, Pa2);
+		FoLtlFormula btIMb = new FoLtlTempImplFormula(Pb, Pb);
+
+		System.out.println("\nTemporal binary boolean operator comparisons\n");
+
+		assertEquals("a tAND a ; a tAND a", atANDa, atANDa2);
+		assertEquals("a tAND b ; b tAND a", atANDb, btANDa);
+		assertEquals("a tOR a ; a tOR a", atORa, atORa2);
+		assertEquals("a tOR b ; b tOR a", atORb, btORa);
+		assertEquals("a tDI a ; a tDI a", atDIa, atDIa2);
+		assertEquals("a tDI b ; b tDI a", atDIb, btDIa);
+		assertEquals("a tIM a ; a tIM a", atIMa, atIMa2);
+
+		System.out.println();
+
+		assertNotEquals("a tAND b ; b tAND b", atANDb, btANDb);
+		assertNotEquals("a tOR b ; b tOR b", atORb, btORb);
+		assertNotEquals("a tDI b ; b tDI b", atDIb, btDIb);
+		assertNotEquals("a tIM b ; b tIM b", atIMb, btIMb);
+		assertNotEquals("a tIM b ; b tIM a", atIMb, btIMa);
+
+
+		//Temporal binary operators
+
+		//WeakUntil
+		FoLtlFormula aWUa = new FoLtlWeakUntilFormula(Pa, Pa);
+		FoLtlFormula aWUa2 = new FoLtlWeakUntilFormula(Pa2, Pa2);
+		FoLtlFormula aWUb = new FoLtlWeakUntilFormula(Pa, Pb);
+		FoLtlFormula bWUa = new FoLtlWeakUntilFormula(Pb2, Pa2);
+		FoLtlFormula bWUb = new FoLtlWeakUntilFormula(Pb, Pb);
+
+		//Release
+		FoLtlFormula aRa = new FoLtlReleaseFormula(Pa, Pa);
+		FoLtlFormula aRa2 = new FoLtlReleaseFormula(Pa2, Pa2);
+		FoLtlFormula aRb = new FoLtlReleaseFormula(Pa, Pb);
+		FoLtlFormula bRa = new FoLtlReleaseFormula(Pb2, Pa2);
+		FoLtlFormula bRb = new FoLtlReleaseFormula(Pb, Pb);
+
+		//Until
+		FoLtlFormula aUa = new FoLtlUntilFormula(Pa, Pa);
+		FoLtlFormula aUa2 = new FoLtlUntilFormula(Pa2, Pa2);
+		FoLtlFormula aUb = new FoLtlUntilFormula(Pa, Pb);
+		FoLtlFormula bUa = new FoLtlUntilFormula(Pb2, Pa2);
+		FoLtlFormula bUb = new FoLtlUntilFormula(Pb, Pb);
+
+		System.out.println("\nTemporal binary operator comparisons\n");
+
+		assertEquals("a WU a ; a WU a", aWUa, aWUa2);
+		assertEquals("a R a ; a R a", aRa, aRa2);
+		assertEquals("a U a ; a U a", aUa, aUa2);
+
+		System.out.println();
+
+		assertNotEquals("a WU b ; b WU b", aWUb, bWUb);
+		assertNotEquals("a WU b ; b WU a", aWUb, bWUa);
+		assertNotEquals("a R b ; b R b", aRb, bRb);
+		assertNotEquals("a R b ; b R a", aRb, bRa);
+		assertNotEquals("a U b ; b U b", aUb, bUb);
+		assertNotEquals("a U b ; b U a", aUb, bUa);
+
+		//comparing different fomrula types
+
+		System.out.println("\nSame left/right subformulas, different operators\n");
+
+		assertNotEquals("AND ; tAND", aANDa, atANDa);
+		assertNotEquals("AND ; OR", aANDa, aORa);
+		assertNotEquals("tDI ; WU", atDIa, aWUa);
+		assertNotEquals("U ; R", aUa, aRa);
+		assertNotEquals("tAND ; tOR", atANDa, atORa);
+		assertNotEquals("IM ; tIM", atIMa, aIMa);
+
+
+		System.out.println("\n\nSINGLE UNARY OPERATOR FORMULA COMPARISONS\n");
+
+		//Unary operators
+
+		//Local not
+		FoLtlFormula nA = new FoLtlLocalNotFormula(Pa);
+		FoLtlFormula nA2 = new FoLtlLocalNotFormula(Pa);
+		FoLtlFormula nB = new FoLtlLocalNotFormula(Pb);
+
+		//Temporal not
+		FoLtlFormula tnA = new FoLtlTempNotFormula(Pa);
+		FoLtlFormula tnA2 = new FoLtlTempNotFormula(Pa);
+		FoLtlFormula tnB = new FoLtlTempNotFormula(Pb);
+
+		//Unary temporal operators
+
+		//Globally
+		FoLtlFormula gA = new FoLtlGloballyFormula(Pa);
+		FoLtlFormula gA2 = new FoLtlGloballyFormula(Pa);
+		FoLtlFormula gB = new FoLtlGloballyFormula(Pb);
+
+		//Eventually
+		FoLtlFormula fA = new FoLtlEventuallyFormula(Pa);
+		FoLtlFormula fA2 = new FoLtlEventuallyFormula(Pa);
+		FoLtlFormula fB = new FoLtlEventuallyFormula(Pb);
+
+		//Weak next
+		FoLtlFormula wxA = new FoLtlWeakNextFormula(Pa);
+		FoLtlFormula wxA2 = new FoLtlWeakNextFormula(Pa);
+		FoLtlFormula wxB = new FoLtlWeakNextFormula(Pb);
+
+		//next
+		FoLtlFormula xA = new FoLtlNextFormula(Pa);
+		FoLtlFormula xA2 = new FoLtlNextFormula(Pa);
+		FoLtlFormula xB = new FoLtlNextFormula(Pb);
+
+		System.out.println("\nUnary operator comparisons");
+
+		assertEquals("NOT a ; NOT a", nA, nA2);
+		assertEquals("tNOT a ; tNOT a", tnA, tnA2);
+		assertEquals("G a ; G a", gA, gA2);
+		assertEquals("F a ; F a", fA, fA2);
+		assertEquals("WX a ; WX a", wxA, wxA2);
+		assertEquals("X a ; X a", xA, xA2);
+
+		System.out.println();
+
+		assertNotEquals("NOT a ; NOT b", nA, nB);
+		assertNotEquals("tNOT a ; tNOT b", tnA, tnB);
+		assertNotEquals("G a ; G b", gA, gB);
+		assertNotEquals("F a ; F b", fA, fB);
+		assertNotEquals("WX a ; WX b", wxA, wxB);
+		assertNotEquals("X a ; X b", xA, xB);
+
 
 	}
 
