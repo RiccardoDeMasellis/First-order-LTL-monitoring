@@ -34,7 +34,7 @@ public class FoLtlLocalFormulaTest {
 
 		target = px;
 
-		Assert.assertEquals("", target.toString(),
+		Assert.assertEquals("", target,
 				parseLocalFormula("P(?x)"));
 
 
@@ -51,7 +51,7 @@ public class FoLtlLocalFormulaTest {
 
 		target = pAndQ;
 
-		Assert.assertEquals("", target.toString(), parseLocalFormula("P(?x) && Q(a, b, ?y)"));
+		Assert.assertEquals("", target, parseLocalFormula("P(?x) && Q(a, b, ?y)"));
 
 
 		//Even harder
@@ -66,7 +66,7 @@ public class FoLtlLocalFormulaTest {
 
 		target = forall;
 
-		Assert.assertEquals("", target.toString(),
+		Assert.assertEquals("", target,
 				parseLocalFormula("Forall ?x (Exists ?y (!(?x = ?y) && P(?x) <-> Q(a, b, ?y)))"));
 
 
@@ -92,7 +92,7 @@ public class FoLtlLocalFormulaTest {
 
 		target = forallX;
 
-		Assert.assertEquals("", target.toString(),
+		Assert.assertEquals("", target,
 				parseLocalFormula("Forall ?x (Bag(?x) -> (Exists ?y (Coin(?y) && Contains(?x, ?y))))"));
 
 
@@ -118,7 +118,7 @@ public class FoLtlLocalFormulaTest {
 
 		target = existsX;
 
-		Assert.assertEquals("", target.toString(),
+		Assert.assertEquals("", target,
 				parseLocalFormula("Exists ?x (Buyer(?x) && Bought(?x, s) && (Forall ?y (Buyer(?y) && Bought(?y, s) -> ?x = ?y)))"));
 
 
@@ -141,7 +141,7 @@ public class FoLtlLocalFormulaTest {
 
 		target = forallX;
 
-		Assert.assertEquals("", target.toString(),
+		Assert.assertEquals("", target,
 				parseLocalFormula("Forall ?x (S(?x) -> (Exists ?y (S(?y) && !(?x = ?y) && L(?x, ?y))))"));
 
 	}
@@ -289,9 +289,9 @@ public class FoLtlLocalFormulaTest {
 	 * @param input the input formula
 	 * @return the String interpretation of the output given by the visitor
 	 */
-	private static String parseLocalFormula(String input){
+	private static FoLtlFormula parseLocalFormula(String input){
 
-		String output;
+		FoLtlFormula output;
 
 		//Instantiates lexer and parser
 		FOFormulaParserLexer lexer = new FOFormulaParserLexer(new ANTLRInputStream(input));
@@ -303,16 +303,16 @@ public class FoLtlLocalFormulaTest {
 
 		if (DEBUG) {
 			System.out.println("\n");
-			output = tree.toStringTree(parser);
-			System.out.println("> Default parsing tree:\n> " + output + "\n");
+			String o = tree.toStringTree(parser);
+			System.out.println("> Default parsing tree:\n> " + o + "\n");
 		}
 
 		//Testing our own visitor
 		FoLtlLocalVisitor visitor = new FoLtlLocalVisitor();
-		output = visitor.visit(tree).toString();
+		output = visitor.visit(tree);
 
 		if(DEBUG) {
-			System.out.println("\n> Parsed formula: " + output);
+			System.out.println("\n> Parsed formula: " + output.toString());
 		}
 
 		System.out.println("=============================================================================================");

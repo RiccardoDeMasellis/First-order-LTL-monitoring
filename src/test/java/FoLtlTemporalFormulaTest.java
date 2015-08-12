@@ -170,7 +170,7 @@ public class FoLtlTemporalFormulaTest {
 
 		FoLtlFormula target = globAndEvn;
 
-		Assert.assertEquals("", target.toString(),
+		Assert.assertEquals("", target,
 				parseTemporalFormula("G P(a) & F Q(a, b)"));
 
 
@@ -188,7 +188,7 @@ public class FoLtlTemporalFormulaTest {
 
 		target = andUntiland;
 
-		Assert.assertEquals("", target.toString(),
+		Assert.assertEquals("", target,
 				parseTemporalFormula("P(a) & Q(b, d) U P(c) & Q(a, b)"));
 
 
@@ -206,7 +206,7 @@ public class FoLtlTemporalFormulaTest {
 
 		target = andUand;
 
-		Assert.assertEquals("", target.toString(),
+		Assert.assertEquals("", target,
 				parseTemporalFormula("(P(a) & P(b)) U (X Q(c, c) & (P(c) U P(d)))"));
 
 
@@ -228,7 +228,7 @@ public class FoLtlTemporalFormulaTest {
 
 		target = rel2;
 
-		Assert.assertEquals("", target.toString(),
+		Assert.assertEquals("", target,
 				parseTemporalFormula("(P(a) & P(b) U ((X P(c)) & P(d))) R (((WX P(a) -> P(a)) WU (G P(a) R P(a))) <-> P(a) U P(a))"));
 
 
@@ -250,7 +250,7 @@ public class FoLtlTemporalFormulaTest {
 
 		target = forallX;
 
-		Assert.assertEquals("", target.toString(),
+		Assert.assertEquals("", target,
 				parseTemporalFormula("Forall ?x (P(?x) U Exists ?y !(?x = ?y) & P(?y))"));
 
 
@@ -268,7 +268,7 @@ public class FoLtlTemporalFormulaTest {
 
 		target = forallX;
 
-		Assert.assertEquals("", target.toString(),
+		Assert.assertEquals("", target,
 				parseTemporalFormula("Forall ?x (Forall ?y (P(?x) & Q(?x, ?x) | G P(?y) U Q(?y, ?y)))"));
 
 	}
@@ -279,9 +279,9 @@ public class FoLtlTemporalFormulaTest {
 	 * @param input the input formula
 	 * @return a String representing the parsing result
 	 */
-	private static String parseTemporalFormula(String input){
+	private static FoLtlFormula parseTemporalFormula(String input){
 
-		String output;
+		FoLtlFormula output;
 
 		//Instantiates lexer and parser
 		FOLTLFormulaParserLexer lexer = new FOLTLFormulaParserLexer(new ANTLRInputStream(input));
@@ -292,13 +292,13 @@ public class FoLtlTemporalFormulaTest {
 
 		if (DEBUG) {
 			System.out.println("\n");
-			output = tree.toStringTree(parser);
-			System.out.println("> Default parsing tree:\n> " + output);
+			String o = tree.toStringTree(parser);
+			System.out.println("> Default parsing tree:\n> " + o);
 		}
 
 		//Testing our own visitor
 		FoLtlTemporalVisitor temporalVisitor = new FoLtlTemporalVisitor();
-		output = temporalVisitor.visit(tree).toString();
+		output = temporalVisitor.visit(tree);
 
 		if (DEBUG){
 			System.out.println("\n> Parsed formula: " + output);
