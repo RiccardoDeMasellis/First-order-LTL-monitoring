@@ -133,7 +133,6 @@ public class FoLtlOperationTest {
 		assertNotEquals("Variable vs constants", varXEqVarX2, conXEqConX2);
 
 
-		//TODO compare different formula classes
 		System.out.println("\n\nSINGLE BINARY OPERATOR FORMULA COMPARISONS\n");
 
 		//Local binary boolean operators
@@ -345,6 +344,74 @@ public class FoLtlOperationTest {
 		assertNotEquals("WX a ; WX b", wxA, wxB);
 		assertNotEquals("X a ; X b", xA, xB);
 
+		System.out.println("\nSame nested subformulas, different operators\n");
+
+		assertNotEquals("NOT ; tNOT", nA, tnA);
+		assertNotEquals("NOT ; G", nA, gA);
+		assertNotEquals("G ; X", gA, xA);
+		assertNotEquals("X ; WX", xA, wxA);
+		assertNotEquals("F ; NOT", fA, nA);
+
+
+		//Quantified formulas
+		System.out.println("\n\nQUANTIFIED FORMULAS");
+
+		FoLtlVariable vx = new FoLtlVariable("x");
+		FoLtlVariable vy = new FoLtlVariable("y");
+		FoLtlVariable vx2 = new FoLtlVariable("x");
+		FoLtlVariable vy2 = new FoLtlVariable("y");
+
+		FoLtlLocalAtom px = new FoLtlLocalAtom(P, vx);
+		FoLtlLocalAtom py = new FoLtlLocalAtom(P, vy);
+		FoLtlLocalAtom px2 = new FoLtlLocalAtom(P, vx);
+		FoLtlLocalAtom py2 = new FoLtlLocalAtom(P, vy);
+
+		//Local quantifiers
+		FoLtlFormula forallXpx = new FoLtlLocalForallFormula(px, vx);
+		FoLtlFormula forallXpx2 = new FoLtlLocalForallFormula(px2, vx2);
+		FoLtlFormula forallYpx = new FoLtlLocalForallFormula(px, vy);
+		FoLtlFormula forallXpy = new FoLtlLocalForallFormula(py, vx);
+
+		FoLtlFormula existsXpx = new FoLtlLocalExistsFormula(px, vx);
+		FoLtlFormula existsXpx2 = new FoLtlLocalExistsFormula(px2, vx2);
+		FoLtlFormula existsYpx = new FoLtlLocalExistsFormula(px, vy);
+		FoLtlFormula existsXpy = new FoLtlLocalExistsFormula(py, vx);
+
+		//Across state quantifiers
+		FoLtlFormula xsForallXpx = new FoLtlAcrossForallFormula(px, vx);
+		FoLtlFormula xsForallXpx2 = new FoLtlAcrossForallFormula(px2, vx2);
+		FoLtlFormula xsForallYpx = new FoLtlAcrossForallFormula(px, vy);
+		FoLtlFormula xsForallXpy = new FoLtlAcrossForallFormula(py, vx);
+
+		FoLtlFormula xsExistsXpx = new FoLtlAcrossExistsFormula(px, vx);
+		FoLtlFormula xsExistsXpx2 = new FoLtlAcrossExistsFormula(px2, vx2);
+		FoLtlFormula xsExistsYpx = new FoLtlAcrossExistsFormula(px, vy);
+		FoLtlFormula xsExistsXpy = new FoLtlAcrossExistsFormula(py, vx);
+
+		System.out.println("\nQuantified formula comparisons\n");
+
+		assertEquals("Forall x px ; Forall x px", forallXpx, forallXpx2);
+		assertEquals("Exists x px ; Exists x px", existsXpx, existsXpx2);
+		assertEquals("xsForall x px ; xsForall x px", xsForallXpx, xsForallXpx2);
+		assertEquals("xsExists x px ; xsExists x px", xsExistsXpx, xsExistsXpx2);
+
+		System.out.println();
+
+		assertNotEquals("Forall x px ; Forall x py", forallXpx, forallXpy);
+		assertNotEquals("Forall x px ; Forall y px", forallXpx, forallYpx);
+		assertNotEquals("Exists x px ; Exists x py", existsXpx, existsXpy);
+		assertNotEquals("Exists x px ; Exists y px", existsXpx, existsYpx);
+		assertNotEquals("xsForall x px ; xsForall x py", xsForallXpx, xsForallXpy);
+		assertNotEquals("xsForall x px ; xsForall y px", xsForallXpx, xsForallYpx);
+		assertNotEquals("xsExists x px ; xsExists x py", xsExistsXpx, xsExistsXpy);
+		assertNotEquals("xsExists x px ; xsExists y px", xsExistsXpx, xsExistsYpx);
+
+		System.out.println();
+
+		assertNotEquals("Forall x px ; Exists x px", forallXpx, existsXpx);
+		assertNotEquals("Forall x px ; xsForall x px", forallXpx, xsForallXpx);
+		assertNotEquals("Exists x px ; xsExists x px", existsXpx, xsExistsXpx);
+		assertNotEquals("xsForall x px ; xsExists x px", xsForallXpx, xsExistsXpx);
 
 	}
 
