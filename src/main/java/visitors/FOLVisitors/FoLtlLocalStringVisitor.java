@@ -221,7 +221,28 @@ public class FoLtlLocalStringVisitor extends FOFormulaParserBaseVisitor<String>{
 
 	@Override
 	public String visitFolAtom(@NotNull FOFormulaParserParser.FolAtomContext ctx) {
-		return visitChildren(ctx);
+		String res;
+
+		ParseTree child = ctx.getChild(0);
+		String t = child.getText();
+
+		switch (t){
+
+			case "TRUE": case "True": case "true":
+				res = "TRUE";
+				break;
+
+			case "FALSE": case "False": case "false":
+				res = "FALSE";
+				break;
+
+			default:
+				res = visitChildren(ctx);
+				break;
+
+		}
+
+		return res;
 	}
 
 	@Override

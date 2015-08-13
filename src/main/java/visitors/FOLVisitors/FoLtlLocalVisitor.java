@@ -4,6 +4,7 @@ import antlr4_generated.FOFormulaParserBaseVisitor;
 import antlr4_generated.FOFormulaParserParser;
 import formula.foltl.*;
 import org.antlr.v4.runtime.misc.NotNull;
+import org.antlr.v4.runtime.tree.ParseTree;
 
 /**
  * Created by Simone Calciolari on 10/08/15.
@@ -218,6 +219,32 @@ public class FoLtlLocalVisitor extends FOFormulaParserBaseVisitor<FoLtlFormula> 
 			}
 		} else {
 			res = visitChildren(ctx);
+		}
+
+		return res;
+	}
+
+	@Override
+	public FoLtlFormula visitFolAtom(@NotNull FOFormulaParserParser.FolAtomContext ctx) {
+		FoLtlFormula res;
+
+		ParseTree child = ctx.getChild(0);
+		String t = child.getText();
+
+		switch (t){
+
+			case "TRUE": case "True": case "true":
+				res = new FoLtlLocalTrueAtom();
+				break;
+
+			case "FALSE": case "False": case "false":
+				res = new FoLtlLocalFalseAtom();
+				break;
+
+			default:
+				res = visitChildren(ctx);
+				break;
+
 		}
 
 		return res;

@@ -241,6 +241,32 @@ public class FolVisitor extends FOFormulaParserBaseVisitor<FolFormula> {
 	}
 
 	@Override
+	public FolFormula visitFolAtom(@NotNull FOFormulaParserParser.FolAtomContext ctx) {
+		FolFormula res;
+
+		ParseTree child = ctx.getChild(0);
+		String t = child.getText();
+
+		switch (t){
+
+			case "TRUE": case "True": case "true":
+				res = new FolTrueAtom();
+				break;
+
+			case "FALSE": case "False": case "false":
+				res = new FolFalseAtom();
+				break;
+
+			default:
+				res = visitChildren(ctx);
+				break;
+
+		}
+
+		return res;
+	}
+
+	@Override
 	public FolFormula visitPredicate(@NotNull FOFormulaParserParser.PredicateContext ctx) {
 		FolFormula res;
 

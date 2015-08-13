@@ -21,11 +21,11 @@ public class FOFormulaParserParser extends Parser {
 	public static final int
 		T__0=1, LPAREN=2, RPAREN=3, DOUBLEIMPLY=4, IMPLY=5, AND=6, OR=7, NOT=8, 
 		FORALL=9, EXISTS=10, EQUAL=11, VARIABLE=12, CONSTANT=13, PREPOSITION=14, 
-		WS=15;
+		FALSEATOM=15, TRUEATOM=16, WS=17;
 	public static final String[] tokenNames = {
 		"<INVALID>", "','", "'('", "')'", "'<->'", "'->'", "AND", "OR", "'!'", 
 		"'Forall'", "'Exists'", "'='", "VARIABLE", "CONSTANT", "PREPOSITION", 
-		"WS"
+		"FALSEATOM", "TRUEATOM", "WS"
 	};
 	public static final int
 		RULE_start = 0, RULE_localQuantifiedFormula = 1, RULE_localDoubleImplication = 2, 
@@ -415,6 +415,8 @@ public class FOFormulaParserParser extends Parser {
 			case VARIABLE:
 			case CONSTANT:
 			case PREPOSITION:
+			case FALSEATOM:
+			case TRUEATOM:
 				{
 				setState(64); folAtom();
 				}
@@ -443,9 +445,11 @@ public class FOFormulaParserParser extends Parser {
 	}
 
 	public static class FolAtomContext extends ParserRuleContext {
+		public TerminalNode TRUEATOM() { return getToken(FOFormulaParserParser.TRUEATOM, 0); }
 		public EqualityContext equality() {
 			return getRuleContext(EqualityContext.class,0);
 		}
+		public TerminalNode FALSEATOM() { return getToken(FOFormulaParserParser.FALSEATOM, 0); }
 		public PredicateContext predicate() {
 			return getRuleContext(PredicateContext.class,0);
 		}
@@ -464,7 +468,7 @@ public class FOFormulaParserParser extends Parser {
 		FolAtomContext _localctx = new FolAtomContext(_ctx, getState());
 		enterRule(_localctx, 14, RULE_folAtom);
 		try {
-			setState(73);
+			setState(75);
 			switch (_input.LA(1)) {
 			case PREPOSITION:
 				enterOuterAlt(_localctx, 1);
@@ -477,6 +481,18 @@ public class FOFormulaParserParser extends Parser {
 				enterOuterAlt(_localctx, 2);
 				{
 				setState(72); equality();
+				}
+				break;
+			case TRUEATOM:
+				enterOuterAlt(_localctx, 3);
+				{
+				setState(73); match(TRUEATOM);
+				}
+				break;
+			case FALSEATOM:
+				enterOuterAlt(_localctx, 4);
+				{
+				setState(74); match(FALSEATOM);
 				}
 				break;
 			default:
@@ -522,14 +538,14 @@ public class FOFormulaParserParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(75);
+			setState(77);
 			_la = _input.LA(1);
 			if ( !(_la==VARIABLE || _la==CONSTANT) ) {
 			_errHandler.recoverInline(this);
 			}
 			consume();
-			setState(76); match(EQUAL);
-			setState(77);
+			setState(78); match(EQUAL);
+			setState(79);
 			_la = _input.LA(1);
 			if ( !(_la==VARIABLE || _la==CONSTANT) ) {
 			_errHandler.recoverInline(this);
@@ -578,22 +594,22 @@ public class FOFormulaParserParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(79); match(PREPOSITION);
-			setState(80); match(LPAREN);
-			setState(81);
+			setState(81); match(PREPOSITION);
+			setState(82); match(LPAREN);
+			setState(83);
 			_la = _input.LA(1);
 			if ( !(_la==VARIABLE || _la==CONSTANT) ) {
 			_errHandler.recoverInline(this);
 			}
 			consume();
-			setState(86);
+			setState(88);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
 			while (_la==T__0) {
 				{
 				{
-				setState(82); match(T__0);
-				setState(83);
+				setState(84); match(T__0);
+				setState(85);
 				_la = _input.LA(1);
 				if ( !(_la==VARIABLE || _la==CONSTANT) ) {
 				_errHandler.recoverInline(this);
@@ -601,11 +617,11 @@ public class FOFormulaParserParser extends Parser {
 				consume();
 				}
 				}
-				setState(88);
+				setState(90);
 				_errHandler.sync(this);
 				_la = _input.LA(1);
 			}
-			setState(89); match(RPAREN);
+			setState(91); match(RPAREN);
 			}
 		}
 		catch (RecognitionException re) {
@@ -620,29 +636,30 @@ public class FOFormulaParserParser extends Parser {
 	}
 
 	public static final String _serializedATN =
-		"\3\u0430\ud6d1\u8206\uad2d\u4417\uaef1\u8d80\uaadd\3\21^\4\2\t\2\4\3\t"+
+		"\3\u0430\ud6d1\u8206\uad2d\u4417\uaef1\u8d80\uaadd\3\23`\4\2\t\2\4\3\t"+
 		"\3\4\4\t\4\4\5\t\5\4\6\t\6\4\7\t\7\4\b\t\b\4\t\t\t\4\n\t\n\4\13\t\13\3"+
 		"\2\3\2\3\2\3\3\3\3\5\3\34\n\3\3\3\3\3\3\4\3\4\3\4\7\4#\n\4\f\4\16\4&\13"+
 		"\4\3\5\3\5\3\5\7\5+\n\5\f\5\16\5.\13\5\3\6\3\6\3\6\7\6\63\n\6\f\6\16\6"+
 		"\66\13\6\3\7\3\7\3\7\7\7;\n\7\f\7\16\7>\13\7\3\b\5\bA\n\b\3\b\3\b\3\b"+
-		"\3\b\3\b\5\bH\n\b\3\t\3\t\5\tL\n\t\3\n\3\n\3\n\3\n\3\13\3\13\3\13\3\13"+
-		"\3\13\7\13W\n\13\f\13\16\13Z\13\13\3\13\3\13\3\13\2\2\f\2\4\6\b\n\f\16"+
-		"\20\22\24\2\4\3\2\13\f\3\2\16\17\\\2\26\3\2\2\2\4\33\3\2\2\2\6\37\3\2"+
-		"\2\2\b\'\3\2\2\2\n/\3\2\2\2\f\67\3\2\2\2\16@\3\2\2\2\20K\3\2\2\2\22M\3"+
-		"\2\2\2\24Q\3\2\2\2\26\27\5\4\3\2\27\30\7\2\2\3\30\3\3\2\2\2\31\32\t\2"+
-		"\2\2\32\34\7\16\2\2\33\31\3\2\2\2\33\34\3\2\2\2\34\35\3\2\2\2\35\36\5"+
-		"\6\4\2\36\5\3\2\2\2\37$\5\b\5\2 !\7\6\2\2!#\5\b\5\2\" \3\2\2\2#&\3\2\2"+
-		"\2$\"\3\2\2\2$%\3\2\2\2%\7\3\2\2\2&$\3\2\2\2\',\5\n\6\2()\7\7\2\2)+\5"+
-		"\n\6\2*(\3\2\2\2+.\3\2\2\2,*\3\2\2\2,-\3\2\2\2-\t\3\2\2\2.,\3\2\2\2/\64"+
-		"\5\f\7\2\60\61\7\t\2\2\61\63\5\f\7\2\62\60\3\2\2\2\63\66\3\2\2\2\64\62"+
-		"\3\2\2\2\64\65\3\2\2\2\65\13\3\2\2\2\66\64\3\2\2\2\67<\5\16\b\289\7\b"+
-		"\2\29;\5\16\b\2:8\3\2\2\2;>\3\2\2\2<:\3\2\2\2<=\3\2\2\2=\r\3\2\2\2><\3"+
-		"\2\2\2?A\7\n\2\2@?\3\2\2\2@A\3\2\2\2AG\3\2\2\2BH\5\20\t\2CD\7\4\2\2DE"+
-		"\5\4\3\2EF\7\5\2\2FH\3\2\2\2GB\3\2\2\2GC\3\2\2\2H\17\3\2\2\2IL\5\24\13"+
-		"\2JL\5\22\n\2KI\3\2\2\2KJ\3\2\2\2L\21\3\2\2\2MN\t\3\2\2NO\7\r\2\2OP\t"+
-		"\3\2\2P\23\3\2\2\2QR\7\20\2\2RS\7\4\2\2SX\t\3\2\2TU\7\3\2\2UW\t\3\2\2"+
-		"VT\3\2\2\2WZ\3\2\2\2XV\3\2\2\2XY\3\2\2\2Y[\3\2\2\2ZX\3\2\2\2[\\\7\5\2"+
-		"\2\\\25\3\2\2\2\13\33$,\64<@GKX";
+		"\3\b\3\b\5\bH\n\b\3\t\3\t\3\t\3\t\5\tN\n\t\3\n\3\n\3\n\3\n\3\13\3\13\3"+
+		"\13\3\13\3\13\7\13Y\n\13\f\13\16\13\\\13\13\3\13\3\13\3\13\2\2\f\2\4\6"+
+		"\b\n\f\16\20\22\24\2\4\3\2\13\f\3\2\16\17`\2\26\3\2\2\2\4\33\3\2\2\2\6"+
+		"\37\3\2\2\2\b\'\3\2\2\2\n/\3\2\2\2\f\67\3\2\2\2\16@\3\2\2\2\20M\3\2\2"+
+		"\2\22O\3\2\2\2\24S\3\2\2\2\26\27\5\4\3\2\27\30\7\2\2\3\30\3\3\2\2\2\31"+
+		"\32\t\2\2\2\32\34\7\16\2\2\33\31\3\2\2\2\33\34\3\2\2\2\34\35\3\2\2\2\35"+
+		"\36\5\6\4\2\36\5\3\2\2\2\37$\5\b\5\2 !\7\6\2\2!#\5\b\5\2\" \3\2\2\2#&"+
+		"\3\2\2\2$\"\3\2\2\2$%\3\2\2\2%\7\3\2\2\2&$\3\2\2\2\',\5\n\6\2()\7\7\2"+
+		"\2)+\5\n\6\2*(\3\2\2\2+.\3\2\2\2,*\3\2\2\2,-\3\2\2\2-\t\3\2\2\2.,\3\2"+
+		"\2\2/\64\5\f\7\2\60\61\7\t\2\2\61\63\5\f\7\2\62\60\3\2\2\2\63\66\3\2\2"+
+		"\2\64\62\3\2\2\2\64\65\3\2\2\2\65\13\3\2\2\2\66\64\3\2\2\2\67<\5\16\b"+
+		"\289\7\b\2\29;\5\16\b\2:8\3\2\2\2;>\3\2\2\2<:\3\2\2\2<=\3\2\2\2=\r\3\2"+
+		"\2\2><\3\2\2\2?A\7\n\2\2@?\3\2\2\2@A\3\2\2\2AG\3\2\2\2BH\5\20\t\2CD\7"+
+		"\4\2\2DE\5\4\3\2EF\7\5\2\2FH\3\2\2\2GB\3\2\2\2GC\3\2\2\2H\17\3\2\2\2I"+
+		"N\5\24\13\2JN\5\22\n\2KN\7\22\2\2LN\7\21\2\2MI\3\2\2\2MJ\3\2\2\2MK\3\2"+
+		"\2\2ML\3\2\2\2N\21\3\2\2\2OP\t\3\2\2PQ\7\r\2\2QR\t\3\2\2R\23\3\2\2\2S"+
+		"T\7\20\2\2TU\7\4\2\2UZ\t\3\2\2VW\7\3\2\2WY\t\3\2\2XV\3\2\2\2Y\\\3\2\2"+
+		"\2ZX\3\2\2\2Z[\3\2\2\2[]\3\2\2\2\\Z\3\2\2\2]^\7\5\2\2^\25\3\2\2\2\13\33"+
+		"$,\64<@GMZ";
 	public static final ATN _ATN =
 		new ATNDeserializer().deserialize(_serializedATN.toCharArray());
 	static {
