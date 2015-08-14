@@ -11,4 +11,19 @@ public class FoLtlLocalOrFormula extends FoLtlBinaryFormula implements OrFormula
 		super(left, right);
 	}
 
+	@Override
+	public boolean equals(Object o){
+		boolean res = false;
+
+		if (o != null && this.getClass().equals(o.getClass())){
+			FoLtlLocalOrFormula other = (FoLtlLocalOrFormula) o;
+			res = (this.getLeftFormula().equals(other.getLeftFormula())
+					&& this.getRightFormula().equals(other.getRightFormula()))
+					|| (this.getLeftFormula().equals(other.getRightFormula())
+					&& this.getRightFormula().equals(other.getLeftFormula()));
+		}
+
+		return res;
+	}
+
 }

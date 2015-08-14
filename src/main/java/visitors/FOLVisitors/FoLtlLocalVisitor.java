@@ -2,20 +2,20 @@ package visitors.FOLVisitors;
 
 import antlr4_generated.FOFormulaParserBaseVisitor;
 import antlr4_generated.FOFormulaParserParser;
-import formula.fol.*;
+import formula.foltl.*;
 import org.antlr.v4.runtime.misc.NotNull;
 import org.antlr.v4.runtime.tree.ParseTree;
 
 /**
- * Created by Simone Calciolari on 05/08/15.
+ * Created by Simone Calciolari on 10/08/15.
  */
-public class LocalFolBuilderVisitor extends FOFormulaParserBaseVisitor<FolFormula> {
+public class FoLtlLocalVisitor extends FOFormulaParserBaseVisitor<FoLtlFormula> {
 
 	//Variable to activate debug mode (Displays extra info during the parsing process)
 	private static final boolean DEBUG = true;
 
 	@Override
-	public FolFormula visitStart(@NotNull FOFormulaParserParser.StartContext ctx) {
+	public FoLtlFormula visitStart(@NotNull FOFormulaParserParser.StartContext ctx) {
 
 		if (DEBUG){
 			System.out.println("> parsing local fol formula: " + ctx.getText());
@@ -25,8 +25,8 @@ public class LocalFolBuilderVisitor extends FOFormulaParserBaseVisitor<FolFormul
 	}
 
 	@Override
-	public FolFormula visitLocalQuantifiedFormula(@NotNull FOFormulaParserParser.LocalQuantifiedFormulaContext ctx) {
-		FolFormula res;
+	public FoLtlFormula visitLocalQuantifiedFormula(@NotNull FOFormulaParserParser.LocalQuantifiedFormulaContext ctx) {
+		FoLtlFormula res;
 
 		if (ctx.getChildCount() > 1){
 
@@ -42,11 +42,11 @@ public class LocalFolBuilderVisitor extends FOFormulaParserBaseVisitor<FolFormul
 			switch (qf){
 
 				case "Forall":
-					res = new FolForallQuantifiedFormula(visit(ctx.getChild(2)), new FolVariable(var));
+					res = new FoLtlLocalForallFormula(visit(ctx.getChild(2)), new FoLtlVariable(var));
 					break;
 
 				case "Exists":
-					res = new FolExistsQuantifiedFormula(visit(ctx.getChild(2)), new FolVariable(var));
+					res = new FoLtlLocalExistsFormula(visit(ctx.getChild(2)), new FoLtlVariable(var));
 					break;
 
 				default:
@@ -63,8 +63,8 @@ public class LocalFolBuilderVisitor extends FOFormulaParserBaseVisitor<FolFormul
 	}
 
 	@Override
-	public FolFormula visitLocalDoubleImplication(@NotNull FOFormulaParserParser.LocalDoubleImplicationContext ctx) {
-		FolFormula res;
+	public FoLtlFormula visitLocalDoubleImplication(@NotNull FOFormulaParserParser.LocalDoubleImplicationContext ctx) {
+		FoLtlFormula res;
 
 		if (ctx.getChildCount() > 1){
 
@@ -72,21 +72,17 @@ public class LocalFolBuilderVisitor extends FOFormulaParserBaseVisitor<FolFormul
 				System.out.println("> parsing local double implication: " + ctx.getText());
 			}
 
-			FolFormula left;
-			FolFormula right;
-			res = new FolFormula(){};
+			FoLtlFormula right;
+			FoLtlFormula left;
+
+			res = visit(ctx.getChild(ctx.getChildCount() - 1));
 
 			for (int i = ctx.getChildCount() - 1; i >= 2; i -= 2){
 
-				if (i == ctx.getChildCount() - 1){
-					right = visit(ctx.getChild(i));
-					left = visit(ctx.getChild(i-2));
-				} else {
-					right = res;
-					left = visit(ctx.getChild(i - 2));
-				}
+				right = res;
+				left = visit(ctx.getChild(i - 2));
 
-				res = new FolDoubleImplFormula(left, right);
+				res = new FoLtlLocalDoubleImplFormula(left, right);
 
 			}
 		} else {
@@ -97,8 +93,8 @@ public class LocalFolBuilderVisitor extends FOFormulaParserBaseVisitor<FolFormul
 	}
 
 	@Override
-	public FolFormula visitLocalImplication(@NotNull FOFormulaParserParser.LocalImplicationContext ctx) {
-		FolFormula res;
+	public FoLtlFormula visitLocalImplication(@NotNull FOFormulaParserParser.LocalImplicationContext ctx) {
+		FoLtlFormula res;
 
 		if (ctx.getChildCount() > 1){
 
@@ -106,21 +102,17 @@ public class LocalFolBuilderVisitor extends FOFormulaParserBaseVisitor<FolFormul
 				System.out.println("> parsing local implication: " + ctx.getText());
 			}
 
-			FolFormula left;
-			FolFormula right;
-			res = new FolFormula(){};
+			FoLtlFormula right;
+			FoLtlFormula left;
+
+			res = visit(ctx.getChild(ctx.getChildCount() - 1));
 
 			for (int i = ctx.getChildCount() - 1; i >= 2; i -= 2){
 
-				if (i == ctx.getChildCount() - 1){
-					right = visit(ctx.getChild(i));
-					left = visit(ctx.getChild(i-2));
-				} else {
-					right = res;
-					left = visit(ctx.getChild(i - 2));
-				}
+				right = res;
+				left = visit(ctx.getChild(i - 2));
 
-				res = new FolImplFormula(left, right);
+				res = new FoLtlLocalImplFormula(left, right);
 
 			}
 		} else {
@@ -131,8 +123,8 @@ public class LocalFolBuilderVisitor extends FOFormulaParserBaseVisitor<FolFormul
 	}
 
 	@Override
-	public FolFormula visitLocalDisjunction(@NotNull FOFormulaParserParser.LocalDisjunctionContext ctx) {
-		FolFormula res;
+	public FoLtlFormula visitLocalDisjunction(@NotNull FOFormulaParserParser.LocalDisjunctionContext ctx) {
+		FoLtlFormula res;
 
 		if (ctx.getChildCount() > 1){
 
@@ -140,21 +132,17 @@ public class LocalFolBuilderVisitor extends FOFormulaParserBaseVisitor<FolFormul
 				System.out.println("> parsing local disjunction: " + ctx.getText());
 			}
 
-			FolFormula left;
-			FolFormula right;
-			res = new FolFormula(){};
+			FoLtlFormula right;
+			FoLtlFormula left;
+
+			res = visit(ctx.getChild(ctx.getChildCount() - 1));
 
 			for (int i = ctx.getChildCount() - 1; i >= 2; i -= 2){
 
-				if (i == ctx.getChildCount() - 1){
-					right = visit(ctx.getChild(i));
-					left = visit(ctx.getChild(i-2));
-				} else {
-					right = res;
-					left = visit(ctx.getChild(i - 2));
-				}
+				right = res;
+				left = visit(ctx.getChild(i - 2));
 
-				res = new FolOrFormula(left, right);
+				res = new FoLtlLocalOrFormula(left, right);
 
 			}
 		} else {
@@ -165,8 +153,8 @@ public class LocalFolBuilderVisitor extends FOFormulaParserBaseVisitor<FolFormul
 	}
 
 	@Override
-	public FolFormula visitLocalConjunction(@NotNull FOFormulaParserParser.LocalConjunctionContext ctx) {
-		FolFormula res;
+	public FoLtlFormula visitLocalConjunction(@NotNull FOFormulaParserParser.LocalConjunctionContext ctx) {
+		FoLtlFormula res;
 
 		if (ctx.getChildCount() > 1){
 
@@ -174,21 +162,17 @@ public class LocalFolBuilderVisitor extends FOFormulaParserBaseVisitor<FolFormul
 				System.out.println("> parsing local conjunction: " + ctx.getText());
 			}
 
-			FolFormula left;
-			FolFormula right;
-			res = new FolFormula(){};
+			FoLtlFormula right;
+			FoLtlFormula left;
+
+			res = visit(ctx.getChild(ctx.getChildCount() - 1));
 
 			for (int i = ctx.getChildCount() - 1; i >= 2; i -= 2){
 
-				if (i == ctx.getChildCount() - 1){
-					right = visit(ctx.getChild(i));
-					left = visit(ctx.getChild(i-2));
-				} else {
-					right = res;
-					left = visit(ctx.getChild(i - 2));
-				}
+				right = res;
+				left = visit(ctx.getChild(i - 2));
 
-				res = new FolAndFormula(left, right);
+				res = new FoLtlLocalAndFormula(left, right);
 
 			}
 		} else {
@@ -199,8 +183,8 @@ public class LocalFolBuilderVisitor extends FOFormulaParserBaseVisitor<FolFormul
 	}
 
 	@Override
-	public FolFormula visitLocalNegation(@NotNull FOFormulaParserParser.LocalNegationContext ctx) {
-		FolFormula res;
+	public FoLtlFormula visitLocalNegation(@NotNull FOFormulaParserParser.LocalNegationContext ctx) {
+		FoLtlFormula res;
 
 		if (ctx.getChildCount() > 1){
 
@@ -208,7 +192,7 @@ public class LocalFolBuilderVisitor extends FOFormulaParserBaseVisitor<FolFormul
 				System.out.println("> parsing local negation: " + ctx.getText());
 			}
 
-			res = new FolFormula() {};
+			res = null;
 
 			boolean neg = false;
 
@@ -226,7 +210,7 @@ public class LocalFolBuilderVisitor extends FOFormulaParserBaseVisitor<FolFormul
 
 					default:
 						if (neg) {
-							res = new FolNotFormula(visit(ctx.getChild(i)));
+							res = new FoLtlLocalNotFormula(visit(ctx.getChild(i)));
 						} else {
 							res = visit(ctx.getChild(i));
 						}
@@ -241,8 +225,34 @@ public class LocalFolBuilderVisitor extends FOFormulaParserBaseVisitor<FolFormul
 	}
 
 	@Override
-	public FolFormula visitPredicate(@NotNull FOFormulaParserParser.PredicateContext ctx) {
-		FolFormula res;
+	public FoLtlFormula visitFolAtom(@NotNull FOFormulaParserParser.FolAtomContext ctx) {
+		FoLtlFormula res;
+
+		ParseTree child = ctx.getChild(0);
+		String t = child.getText();
+
+		switch (t){
+
+			case "TRUE": case "True": case "true":
+				res = new FoLtlLocalTrueAtom();
+				break;
+
+			case "FALSE": case "False": case "false":
+				res = new FoLtlLocalFalseAtom();
+				break;
+
+			default:
+				res = visitChildren(ctx);
+				break;
+
+		}
+
+		return res;
+	}
+
+	@Override
+	public FoLtlFormula visitPredicate(@NotNull FOFormulaParserParser.PredicateContext ctx) {
+		FoLtlFormula res;
 
 		if (ctx.getChildCount() > 1){
 
@@ -250,7 +260,7 @@ public class LocalFolBuilderVisitor extends FOFormulaParserBaseVisitor<FolFormul
 				System.out.println("> parsing predicate: " + ctx.getText());
 			}
 
-			res = new FolAtom();
+			res = new FoLtlLocalAtom();
 
 			for (int i = 1; i < ctx.getChildCount(); i++){
 
@@ -264,9 +274,9 @@ public class LocalFolBuilderVisitor extends FOFormulaParserBaseVisitor<FolFormul
 					default:
 
 						if (t.charAt(0) == '?'){
-							((FolAtom) res).addArguments(new FolVariable(t.substring(1)));
+							((FoLtlLocalAtom) res).addArguments(new FoLtlVariable(t.substring(1)));
 						} else {
-							((FolAtom) res).addArguments(new FolConstant(t));
+							((FoLtlLocalAtom) res).addArguments(new FoLtlConstant(t));
 						}
 
 						break;
@@ -276,9 +286,9 @@ public class LocalFolBuilderVisitor extends FOFormulaParserBaseVisitor<FolFormul
 			}
 
 			String predicateName = ctx.getChild(0).getText();
-			int arity = ((FolAtom) res).getArguments().size();
+			int arity = ((FoLtlLocalAtom) res).getArguments().size();
 
-			((FolAtom) res).setPredicate(new FolPredicate(predicateName, arity));
+			((FoLtlLocalAtom) res).setPredicate(new FoLtlPredicate(predicateName, arity));
 
 		} else {
 			res = visitChildren(ctx);
@@ -288,8 +298,8 @@ public class LocalFolBuilderVisitor extends FOFormulaParserBaseVisitor<FolFormul
 	}
 
 	@Override
-	public FolFormula visitEquality(@NotNull FOFormulaParserParser.EqualityContext ctx) {
-		FolFormula res;
+	public FoLtlFormula visitEquality(@NotNull FOFormulaParserParser.EqualityContext ctx) {
+		FoLtlFormula res;
 
 		if (ctx.getChildCount() == 3){
 
@@ -297,24 +307,25 @@ public class LocalFolBuilderVisitor extends FOFormulaParserBaseVisitor<FolFormul
 				System.out.println("> parsing local equality: " + ctx.getText());
 			}
 
-			FolTerm left;
-			FolTerm right;
+			FoLtlTerm left;
+			FoLtlTerm right;
 
 			String t = ctx.getChild(0).getText();
+
 			if (t.charAt(0) == '?'){
-				left = new FolVariable(t.substring(1));
+				left = new FoLtlVariable(t.substring(1));
 			} else {
-				left = new FolConstant(t);
+				left = new FoLtlConstant(t);
 			}
 
 			t = ctx.getChild(2).getText();
 			if (t.charAt(0) == '?'){
-				right = new FolVariable(t.substring(1));
+				right = new FoLtlVariable(t.substring(1));
 			} else {
-				right = new FolConstant(t);
+				right = new FoLtlConstant(t);
 			}
 
-			res = new FolEqualityFormula(left, right);
+			res = new FoLtlLocalEqualityFormula(left, right);
 
 		} else {
 			res = visitChildren(ctx);

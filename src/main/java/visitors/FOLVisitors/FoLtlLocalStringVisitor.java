@@ -3,11 +3,12 @@ package visitors.FOLVisitors;
 import antlr4_generated.FOFormulaParserBaseVisitor;
 import antlr4_generated.FOFormulaParserParser;
 import org.antlr.v4.runtime.misc.NotNull;
+import org.antlr.v4.runtime.tree.ParseTree;
 
 /**
  * Created by Simone Calciolari on 03/08/15.
  */
-public class LocalFOLVisitor extends FOFormulaParserBaseVisitor<String>{
+public class FoLtlLocalStringVisitor extends FOFormulaParserBaseVisitor<String>{
 
 	//Variable to activate debug mode (Displays extra info during the parsing process)
 	private static final boolean DEBUG = true;
@@ -220,7 +221,28 @@ public class LocalFOLVisitor extends FOFormulaParserBaseVisitor<String>{
 
 	@Override
 	public String visitFolAtom(@NotNull FOFormulaParserParser.FolAtomContext ctx) {
-		return visitChildren(ctx);
+		String res;
+
+		ParseTree child = ctx.getChild(0);
+		String t = child.getText();
+
+		switch (t){
+
+			case "TRUE": case "True": case "true":
+				res = "TRUE";
+				break;
+
+			case "FALSE": case "False": case "false":
+				res = "FALSE";
+				break;
+
+			default:
+				res = visitChildren(ctx);
+				break;
+
+		}
+
+		return res;
 	}
 
 	@Override
@@ -238,7 +260,19 @@ public class LocalFOLVisitor extends FOFormulaParserBaseVisitor<String>{
 
 			for (int i = 0; i < ctx.getChildCount(); i++){
 
-				res = res +ctx.getChild(i).getText();
+				ParseTree child = ctx.getChild(i);
+				String t = child.getText();
+
+				switch (t){
+
+					case ",":
+						res = res + t + " ";
+						break;
+
+					default:
+						res = res + t;
+						break;
+				}
 
 			}
 

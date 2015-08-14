@@ -27,4 +27,17 @@ public abstract class FoLtlQuantifiedFormula implements FoLtlFormula, Quantified
 		return this.stringOperator() + " " + this.getQuantifiedVariable() + ": (" + this.getNestedFormula() + ")";
 	}
 
+	@Override
+	public boolean equals(Object o) {
+		boolean res = false;
+
+		if (o != null && this.getClass().equals(o.getClass())){
+			FoLtlQuantifiedFormula other = (FoLtlQuantifiedFormula) o;
+			res = this.stringOperator().equals(other.stringOperator())
+					&& this.getNestedFormula().equals(other.getNestedFormula())
+					&& this.getQuantifiedVariable().equals(other.getQuantifiedVariable());
+		}
+
+		return res;
+	}
 }

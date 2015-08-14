@@ -11,4 +11,19 @@ public class FoLtlLocalDoubleImplFormula extends FoLtlBinaryFormula implements D
 		super(left, right);
 	}
 
+	@Override
+	public boolean equals(Object o){
+		boolean res = false;
+
+		if (o != null && this.getClass().equals(o.getClass())){
+			FoLtlLocalDoubleImplFormula other = (FoLtlLocalDoubleImplFormula) o;
+			res = (this.getLeftFormula().equals(other.getLeftFormula())
+					&& this.getRightFormula().equals(other.getRightFormula()))
+					|| (this.getLeftFormula().equals(other.getRightFormula())
+					&& this.getRightFormula().equals(other.getLeftFormula()));
+		}
+
+		return res;
+	}
+
 }

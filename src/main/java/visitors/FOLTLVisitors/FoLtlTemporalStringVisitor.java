@@ -5,30 +5,34 @@ import antlr4_generated.FOFormulaParserParser;
 import antlr4_generated.FOLTLFormulaParserBaseVisitor;
 import antlr4_generated.FOLTLFormulaParserParser;
 import org.antlr.v4.runtime.ANTLRInputStream;
-import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.misc.Interval;
 import org.antlr.v4.runtime.misc.NotNull;
 import org.antlr.v4.runtime.tree.ParseTree;
-import visitors.FOLVisitors.LocalFOLVisitor;
+import visitors.FOLVisitors.FoLtlLocalStringVisitor;
 
 /**
  * Created by Simone Calciolari on 03/08/15.
  */
-public class FOLTLVisitor extends FOLTLFormulaParserBaseVisitor<String>{
+public class FoLtlTemporalStringVisitor extends FOLTLFormulaParserBaseVisitor<String>{
 
 	//Variable to activate debug mode (Displays extra info during the parsing process)
 	private static final boolean DEBUG = true;
 
 	@Override
 	public String visitStart(@NotNull FOLTLFormulaParserParser.StartContext ctx) {
+		return super.visitStart(ctx);
+	}
+
+	@Override
+	public String visitFoltlFormula(@NotNull FOLTLFormulaParserParser.FoltlFormulaContext ctx) {
 
 		if (DEBUG){
-			System.out.println("> parsing first order temporal formula: " + ctx.getText() + "; " +
+			System.out.println("\n> parsing FO-LTL formula: " + ctx.getText() + "; " +
 					"children: " + ctx.getChildCount());
 		}
 
-		return super.visitStart(ctx);
+		return super.visitFoltlFormula(ctx);
 	}
 
 	@Override
@@ -42,12 +46,24 @@ public class FOLTLVisitor extends FOLTLFormulaParserBaseVisitor<String>{
 						"children: " + ctx.getChildCount());
 			}
 
-			res = ctx.getChild(0).getText() + " " + ctx.getChild(1).getText() +  ": (";
+			res = "xs" + ctx.getChild(0).getText() + " " + ctx.getChild(1).getText() + ": (";
 
-			if (ctx.getChild(2).getText().equals("(")){
-				res = res + visit(ctx.getChild(3));
-			} else {
-				res = res + visit(ctx.getChild(2));
+			for (int i = 2; i < ctx.getChildCount(); i++){
+
+				ParseTree child = ctx.getChild(i);
+				String t = child.getText();
+
+				switch (t){
+
+					case "(": case ")":
+						break;
+
+					default:
+						res = res + visit(child);
+						break;
+
+				}
+
 			}
 
 			res = res + ")";
@@ -57,17 +73,6 @@ public class FOLTLVisitor extends FOLTLFormulaParserBaseVisitor<String>{
 		}
 
 		return res;
-	}
-
-	@Override
-	public String visitTemporalFormula(@NotNull FOLTLFormulaParserParser.TemporalFormulaContext ctx) {
-
-		if (DEBUG){
-			System.out.println("> parsing temporal formula: " + ctx.getText() + "; " +
-					"children: " + ctx.getChildCount());
-		}
-
-		return super.visitTemporalFormula(ctx);
 	}
 
 	@Override
@@ -95,7 +100,7 @@ public class FOLTLVisitor extends FOLTLFormulaParserBaseVisitor<String>{
 					left = visit(ctx.getChild(i - 2));
 				}
 
-				res = "(" + left + ") " + ctx.getChild(i-1).getText() + " (" + right + ")";
+				res = "(" + left + ") t" + ctx.getChild(i-1).getText() + " (" + right + ")";
 
 			}
 		} else {
@@ -130,7 +135,7 @@ public class FOLTLVisitor extends FOLTLFormulaParserBaseVisitor<String>{
 					left = visit(ctx.getChild(i - 2));
 				}
 
-				res = "(" + left + ") " + ctx.getChild(i-1).getText() + " (" + right + ")";
+				res = "(" + left + ") t" + ctx.getChild(i-1).getText() + " (" + right + ")";
 
 			}
 		} else {
@@ -165,7 +170,7 @@ public class FOLTLVisitor extends FOLTLFormulaParserBaseVisitor<String>{
 					left = visit(ctx.getChild(i - 2));
 				}
 
-				res = "(" + left + ") " + ctx.getChild(i-1).getText() + " (" + right + ")";
+				res = "(" + left + ") t" + ctx.getChild(i-1).getText() + " (" + right + ")";
 
 			}
 		} else {
@@ -200,7 +205,7 @@ public class FOLTLVisitor extends FOLTLFormulaParserBaseVisitor<String>{
 					left = visit(ctx.getChild(i - 2));
 				}
 
-				res = "(" + left + ") " + ctx.getChild(i-1).getText() + " (" + right + ")";
+				res = "(" + left + ") t" + ctx.getChild(i-1).getText() + " (" + right + ")";
 
 			}
 		} else {
@@ -338,7 +343,7 @@ public class FOLTLVisitor extends FOLTLFormulaParserBaseVisitor<String>{
 						break;
 
 					default:
-						res = res + "(" + visit(ctx.getChild(i)) + ")";
+						res = res + " (" + visit(ctx.getChild(i)) + ")";
 						break;
 				}
 			}
@@ -372,7 +377,7 @@ public class FOLTLVisitor extends FOLTLFormulaParserBaseVisitor<String>{
 						break;
 
 					default:
-						res = res + "(" + visit(ctx.getChild(i)) + ")";
+						res = res + " (" + visit(ctx.getChild(i)) + ")";
 						break;
 				}
 			}
@@ -406,7 +411,7 @@ public class FOLTLVisitor extends FOLTLFormulaParserBaseVisitor<String>{
 						break;
 
 					default:
-						res = res + "(" + visit(ctx.getChild(i)) + ")";
+						res = res + " (" + visit(ctx.getChild(i)) + ")";
 						break;
 				}
 			}
@@ -440,7 +445,7 @@ public class FOLTLVisitor extends FOLTLFormulaParserBaseVisitor<String>{
 						break;
 
 					default:
-						res = res + "(" + visit(ctx.getChild(i)) + ")";
+						res = res + " (" + visit(ctx.getChild(i)) + ")";
 						break;
 				}
 			}
@@ -469,7 +474,11 @@ public class FOLTLVisitor extends FOLTLFormulaParserBaseVisitor<String>{
 				String child = ctx.getChild(i).getText();
 				switch (child) {
 
-					case "!": case "(": case ")":
+					case "!":
+						res = res + "t" + child;
+						break;
+
+					case "(": case ")":
 						res = res + child;
 						break;
 
@@ -488,53 +497,73 @@ public class FOLTLVisitor extends FOLTLFormulaParserBaseVisitor<String>{
 	@Override
 	public String visitLtlfAtom(@NotNull FOLTLFormulaParserParser.LtlfAtomContext ctx) {
 
-		String res = "";
+		String res;
 
 		if (DEBUG){
 			System.out.println("> parsing ltlf atom: " + ctx.getText() + "; " +
 					"children: " + ctx.getChildCount());
 		}
 
-		String child = ctx.getChild(0).getText();
+		res = "";
 
-		switch (child){
+		for (int i = 0; i < ctx.getChildCount(); i++) {
 
-			case "LAST": case "Last": case "last":
-				res = child;
-				break;
+			ParseTree child = ctx.getChild(i);
+			String t = child.getText();
 
-			default:
+			switch (t) {
 
-				//Restores original input with white spaces, as described here:
-				//http://stackoverflow.com/questions/16343288/how-do-i-get-the-original-text-that-an-antlr4-rule-matched
+				case "LAST": case "Last": case "last":
+					res = t;
+					break;
 
-				int a = ctx.start.getStartIndex();
-				int b = ctx.stop.getStopIndex();
+				case "(": case ")":
+					break;
 
-				Interval interval = new Interval(a, b);
+				default:
+					res = visit(child);
+					break;
 
-				String input = ctx.start.getInputStream().getText(interval);
-
-				System.out.println();
-
-				FOFormulaParserLexer foLexer = new FOFormulaParserLexer(new ANTLRInputStream(input));
-				FOFormulaParserParser foParser = new FOFormulaParserParser(new CommonTokenStream(foLexer));
-
-				ParseTree tree = foParser.localQuantifiedFormula();
-				String output = tree.toStringTree(foParser);
-
-				if (DEBUG){
-					System.out.println("\n\n> parsing local fol formula: " + input);
-					System.out.println("\n\t" + output);
-					System.out.println();
-				}
-
-				LocalFOLVisitor folVisitor = new LocalFOLVisitor();
-				res = folVisitor.visit(tree);
-				break;
+			}
 
 		}
 
 		return res;
 	}
+
+	@Override
+	public String visitLocalQuantifiedFormula(@NotNull FOLTLFormulaParserParser.LocalQuantifiedFormulaContext ctx) {
+
+		String res;
+
+		//Restores original input with white spaces, as described here:
+		//http://stackoverflow.com/questions/16343288/how-do-i-get-the-original-text-that-an-antlr4-rule-matched
+
+		int a = ctx.start.getStartIndex();
+		int b = ctx.stop.getStopIndex();
+
+		Interval interval = new Interval(a, b);
+
+		String input = ctx.start.getInputStream().getText(interval);
+
+		System.out.println();
+
+		FOFormulaParserLexer foLexer = new FOFormulaParserLexer(new ANTLRInputStream(input));
+		FOFormulaParserParser foParser = new FOFormulaParserParser(new CommonTokenStream(foLexer));
+
+		ParseTree tree = foParser.localQuantifiedFormula();
+		String output = tree.toStringTree(foParser);
+
+		if (DEBUG){
+			System.out.println("\n\n> parsing local fol formula: " + input);
+			System.out.println("\n\t" + output);
+			System.out.println();
+		}
+
+		FoLtlLocalStringVisitor folVisitor = new FoLtlLocalStringVisitor();
+		res = folVisitor.visit(tree);
+
+		return res;
+	}
+
 }

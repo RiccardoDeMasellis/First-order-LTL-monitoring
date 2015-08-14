@@ -23,4 +23,16 @@ public abstract class FoLtlUnaryFormula implements FoLtlFormula, UnaryFormula {
 		return this.stringOperator() + "(" + getNestedFormula() + ")";
 	}
 
+	@Override
+	public boolean equals(Object o) {
+		boolean res = false;
+
+		if (o != null && this.getClass().equals(o.getClass())){
+			FoLtlUnaryFormula other = (FoLtlUnaryFormula) o;
+			res = this.getNestedFormula().equals(other.getNestedFormula());
+		}
+
+		return res;
+	}
+
 }

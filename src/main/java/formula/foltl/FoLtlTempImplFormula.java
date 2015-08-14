@@ -11,4 +11,9 @@ public class FoLtlTempImplFormula extends FoLtlBinaryFormula implements ImplForm
 		super(left, right);
 	}
 
+	@Override
+	public String stringOperator(){
+		return "t->";
+	}
+
 }

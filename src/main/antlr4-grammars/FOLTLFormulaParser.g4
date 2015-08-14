@@ -3,17 +3,18 @@ grammar FOLTLFormulaParser;
 import FOFormulaParser;
 
 start
-    :   acrossQuantifiedFormula EOF
+    :   foltlFormula EOF
     ;
+
+foltlFormula
+		:		localQuantifiedFormula
+		|		acrossQuantifiedFormula
+		;
 
 acrossQuantifiedFormula
 		:		((FORALL | EXISTS) VARIABLE) LPAREN acrossQuantifiedFormula RPAREN
-		|		temporalFormula
+		|		temporalDoubleImplication
 		;
-
-temporalFormula
-    :   temporalDoubleImplication
-    ;
 
 temporalDoubleImplication
     :   temporalImplication (DOUBLEIMPLY temporalImplication)*
@@ -60,7 +61,7 @@ next
     ;
 
 temporalNegation
-    :   NOT? ( ltlfAtom | LPAREN temporalFormula RPAREN )
+    :   NOT? ( ltlfAtom | LPAREN temporalDoubleImplication RPAREN )
     ;
 
 ltlfAtom

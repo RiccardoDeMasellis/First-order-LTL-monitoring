@@ -9,8 +9,4 @@ public class FoLtlConstant extends FoLtlTerm {
 		super(name);
 	}
 
-	public String toString(){
-		return super.getName();
-	}
-
 }
