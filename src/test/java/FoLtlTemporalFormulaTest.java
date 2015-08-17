@@ -147,6 +147,20 @@ public class FoLtlTemporalFormulaTest {
 
 		System.out.println("\nBuilt formula: " + builtFormula.toString());
 
+		//Forall ?x (Forall ?y P(?x) & Q(?x, ?x) | FALSE U Q(?y, ?y))
+
+		FoLtlFormula fsUQyy = new FoLtlUntilFormula(new FoLtlLocalFalseAtom(), Qyy);
+		FoLtlFormula tor1 = new FoLtlTempOrFormula(pxAndQxx, fsUQyy);
+		FoLtlFormula forallY1 = new FoLtlAcrossForallFormula(tor1, y);
+		forallX = new FoLtlAcrossForallFormula(forallY1, x);
+
+		builtFormula = forallX;
+
+		Assert.assertEquals("", "xsForall ?x: (xsForall ?y: (((P(?x)) AND (Q(?x, ?x))) TeOR ((FALSE) U (Q(?y, ?y)))))",
+				builtFormula.toString());
+
+		System.out.println("\nBuilt formula: " + builtFormula.toString());
+
 	}
 
 	@Test
@@ -270,6 +284,18 @@ public class FoLtlTemporalFormulaTest {
 
 		Assert.assertEquals("", target,
 				parseTemporalFormula("Forall ?x (Forall ?y (P(?x) & Q(?x, ?x) | G P(?y) U Q(?y, ?y)))"));
+
+		//Forall ?x (Forall ?y P(?x) & Q(?x, ?x) | FALSE U Q(?y, ?y))
+
+		FoLtlFormula fsUQyy = new FoLtlUntilFormula(new FoLtlGloballyFormula(new FoLtlLocalFalseAtom()), Qyy);
+		FoLtlFormula tor1 = new FoLtlTempOrFormula(pxAndQxx, fsUQyy);
+		FoLtlFormula forallY1 = new FoLtlAcrossForallFormula(tor1, y);
+		forallX = new FoLtlAcrossForallFormula(forallY1, x);
+
+		target = forallX;
+
+		Assert.assertEquals("", target,
+				parseTemporalFormula("Forall ?x (Forall ?y (P(?x) & Q(?x, ?x) | G false U Q(?y, ?y)))"));
 
 	}
 
