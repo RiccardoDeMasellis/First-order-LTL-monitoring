@@ -12,8 +12,13 @@ public class FoLtlTempImplFormula extends FoLtlBinaryFormula implements ImplForm
 	}
 
 	@Override
+	public FoLtlFormulaType getFormulaType(){
+		return FoLtlFormulaType.TEMP_IMPLICATION;
+	}
+
+	@Override
 	public String stringOperator(){
-		return "t->";
+		return "Te->";
 	}
 
 }

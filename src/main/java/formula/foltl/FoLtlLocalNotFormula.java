@@ -11,4 +11,9 @@ public class FoLtlLocalNotFormula extends FoLtlUnaryFormula implements NotFormul
 		super(nestedFormula);
 	}
 
+	@Override
+	public FoLtlFormulaType getFormulaType(){
+		return FoLtlFormulaType.LOCAL_NOT;
+	}
+
 }

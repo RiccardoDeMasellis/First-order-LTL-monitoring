@@ -10,6 +10,11 @@ public class FoLtlNextFormula extends FoLtlUnaryFormula implements FoLtlTempOpTe
 	}
 
 	@Override
+	public FoLtlFormulaType getFormulaType(){
+		return FoLtlFormulaType.NEXT;
+	}
+
+	@Override
 	public String stringOperator(){
 		return "X";
 	}

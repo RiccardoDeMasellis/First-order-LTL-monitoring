@@ -40,4 +40,14 @@ public class FoLtlLocalEqualityFormula extends FoLtlAtomicFormula implements FoL
 
 		return res;
 	}
+
+	@Override
+	public FoLtlFormulaType getFormulaType(){
+		return FoLtlFormulaType.LOCAL_EQUALITY;
+	}
+
+	@Override
+	public FoLtlFormula clone(){
+		return this.formulaFactory(this.getFormulaType(), this.getLeftTerm().clone(), this.getRightTerm().clone(), null, null);
+	}
 }

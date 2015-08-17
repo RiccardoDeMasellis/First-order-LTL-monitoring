@@ -12,8 +12,13 @@ public class FoLtlTempDoubleImplFormula extends FoLtlBinaryFormula implements Do
 	}
 
 	@Override
+	public FoLtlFormulaType getFormulaType(){
+		return FoLtlFormulaType.TEMP_DOUBLE_IMPL;
+	}
+
+	@Override
 	public String stringOperator(){
-		return "t<->";
+		return "Te<->";
 	}
 
 	@Override

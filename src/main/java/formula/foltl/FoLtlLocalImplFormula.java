@@ -11,4 +11,9 @@ public class FoLtlLocalImplFormula extends FoLtlBinaryFormula implements ImplFor
 		super(left, right);
 	}
 
+	@Override
+	public FoLtlFormulaType getFormulaType(){
+		return FoLtlFormulaType.LOCAL_IMPLICATION;
+	}
+
 }

@@ -12,6 +12,11 @@ public class FoLtlLocalDoubleImplFormula extends FoLtlBinaryFormula implements D
 	}
 
 	@Override
+	public FoLtlFormulaType getFormulaType(){
+		return FoLtlFormulaType.LOCAL_DOUBLE_IMPL;
+	}
+
+	@Override
 	public boolean equals(Object o){
 		boolean res = false;
 

@@ -10,6 +10,11 @@ public class FoLtlWeakNextFormula extends FoLtlUnaryFormula implements FoLtlTemp
 	}
 
 	@Override
+	public FoLtlFormulaType getFormulaType(){
+		return FoLtlFormulaType.WEAK_NEXT;
+	}
+
+	@Override
 	public String stringOperator() {
 		return "WX";
 	}

@@ -10,6 +10,11 @@ public class FoLtlWeakUntilFormula extends FoLtlBinaryFormula implements FoLtlTe
 	}
 
 	@Override
+	public FoLtlFormulaType getFormulaType(){
+		return FoLtlFormulaType.WEAK_UNTIL;
+	}
+
+	@Override
 	public String stringOperator() {
 		return "WU";
 	}

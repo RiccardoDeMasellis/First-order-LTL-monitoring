@@ -106,6 +106,25 @@ public class FoLtlLocalAtom extends FoLtlAtomicFormula implements FoLtlLocalForm
 	}
 
 	@Override
+	public FoLtlFormulaType getFormulaType() {
+		return FoLtlFormulaType.LOCAL_ATOM;
+	}
+
+	@Override
+	public FoLtlFormula clone() {
+		LinkedList<FoLtlTerm> newArgs = new LinkedList<>();
+		Iterator<FoLtlTerm> i = this.getArguments().iterator();
+
+		while (i.hasNext()){
+			FoLtlTerm t = i.next();
+			newArgs.add(t);
+		}
+
+		return this.formulaFactory(this.getFormulaType(), null, null, this.getPredicate().clone(), newArgs);
+
+	}
+
+	@Override
 	public boolean equals(Object o){
 		boolean res = false;
 

@@ -10,6 +10,11 @@ public class FoLtlEventuallyFormula extends FoLtlUnaryFormula implements FoLtlTe
 	}
 
 	@Override
+	public FoLtlFormulaType getFormulaType(){
+		return FoLtlFormulaType.EVENTUALLY;
+	}
+
+	@Override
 	public String stringOperator() {
 		return "F";
 	}

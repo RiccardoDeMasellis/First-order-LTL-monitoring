@@ -37,7 +37,7 @@ public class FoLtlTemporalFormulaTest {
 
 		FoLtlFormula builtFormula = globAndEvn;
 
-		Assert.assertEquals("", "(G(P(a))) tAND (F(Q(a, b)))", builtFormula.toString());
+		Assert.assertEquals("", "(G(P(a))) TeAND (F(Q(a, b)))", builtFormula.toString());
 
 		System.out.println("\nBuilt formula: " + builtFormula.toString());
 
@@ -75,7 +75,7 @@ public class FoLtlTemporalFormulaTest {
 
 		builtFormula = andUand;
 
-		Assert.assertEquals("", "((P(a)) AND (P(b))) U ((X(Q(c, c))) tAND ((P(c)) U (P(d))))",
+		Assert.assertEquals("", "((P(a)) AND (P(b))) U ((X(Q(c, c))) TeAND ((P(c)) U (P(d))))",
 				builtFormula.toString());
 
 		System.out.println("\nBuilt formula: " + builtFormula.toString());
@@ -99,8 +99,8 @@ public class FoLtlTemporalFormulaTest {
 
 		builtFormula = rel2;
 
-		Assert.assertEquals("", "(((P(a)) AND (P(b))) U ((X(P(c))) tAND (P(d)))) R (((WX((P(a)) -> (P(a)))) WU ((G(P(a))) " +
-				"R (P(a)))) t<-> ((P(a)) U (P(a))))",	builtFormula.toString());
+		Assert.assertEquals("", "(((P(a)) AND (P(b))) U ((X(P(c))) TeAND (P(d)))) R (((WX((P(a)) -> (P(a)))) WU ((G(P(a))) " +
+				"R (P(a)))) Te<-> ((P(a)) U (P(a))))",	builtFormula.toString());
 
 		System.out.println("\nBuilt formula: " + builtFormula.toString());
 
@@ -123,7 +123,7 @@ public class FoLtlTemporalFormulaTest {
 
 		builtFormula = forallX;
 
-		Assert.assertEquals("", "xsForall ?x: ((P(?x)) U (Exists ?y: ((!(?x = ?y)) AND (P(?y)))))",
+		Assert.assertEquals("", "xsForall ?x: ((P(?x)) U (Exists ?y: ((NOT(?x = ?y)) AND (P(?y)))))",
 				builtFormula.toString());
 
 		System.out.println("\nBuilt formula: " + builtFormula.toString());
@@ -142,7 +142,7 @@ public class FoLtlTemporalFormulaTest {
 
 		builtFormula = forallX;
 
-		Assert.assertEquals("", "xsForall ?x: (xsForall ?y: (((P(?x)) AND (Q(?x, ?x))) tOR ((G(P(?y))) U (Q(?y, ?y)))))",
+		Assert.assertEquals("", "xsForall ?x: (xsForall ?y: (((P(?x)) AND (Q(?x, ?x))) TeOR ((G(P(?y))) U (Q(?y, ?y)))))",
 				builtFormula.toString());
 
 		System.out.println("\nBuilt formula: " + builtFormula.toString());

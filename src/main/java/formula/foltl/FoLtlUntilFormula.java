@@ -10,6 +10,11 @@ public class FoLtlUntilFormula extends FoLtlBinaryFormula implements FoLtlTempOp
 	}
 
 	@Override
+	public FoLtlFormulaType getFormulaType(){
+		return FoLtlFormulaType.UNTIL;
+	}
+
+	@Override
 	public String stringOperator() {
 		return "U";
 	}

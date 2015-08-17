@@ -12,8 +12,13 @@ public class FoLtlTempAndFormula extends FoLtlBinaryFormula implements AndFormul
 	}
 
 	@Override
+	public FoLtlFormulaType getFormulaType(){
+		return FoLtlFormulaType.TEMP_AND;
+	}
+
+	@Override
 	public String stringOperator(){
-		return "tAND";
+		return "TeAND";
 	}
 
 	@Override

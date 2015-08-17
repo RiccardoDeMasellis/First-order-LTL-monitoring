@@ -1,9 +1,11 @@
 package formula.fol;
 
+import formula.Term;
+
 /**
  * Created by Simone Calciolari on 05/08/15.
  */
-public abstract class FolTerm {
+public abstract class FolTerm implements Term {
 
 	private String name;
 

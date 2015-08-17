@@ -12,8 +12,13 @@ public class FoLtlTempOrFormula extends FoLtlBinaryFormula implements OrFormula,
 	}
 
 	@Override
+	public FoLtlFormulaType getFormulaType(){
+		return FoLtlFormulaType.TEMP_OR;
+	}
+
+	@Override
 	public String stringOperator(){
-		return "tOR";
+		return "TeOR";
 	}
 
 	@Override

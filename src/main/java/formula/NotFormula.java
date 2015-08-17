@@ -6,7 +6,7 @@ package formula;
 public interface NotFormula extends UnaryFormula, BooleanOpFormula {
 
 	default String stringOperator() {
-		return "!";
+		return "NOT";
 	}
 
 }

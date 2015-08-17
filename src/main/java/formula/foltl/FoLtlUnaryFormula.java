@@ -35,4 +35,48 @@ public abstract class FoLtlUnaryFormula implements FoLtlFormula, UnaryFormula {
 		return res;
 	}
 
+	@Override
+	public FoLtlFormula clone(){
+		return this.formulaFactory(this.getFormulaType(), this.getNestedFormula().clone());
+	}
+
+	public FoLtlFormula formulaFactory(FoLtlFormulaType type, FoLtlFormula nested){
+
+		FoLtlFormula res;
+
+		switch(type){
+
+			case GLOBALLY:
+				res = new FoLtlGloballyFormula(nested);
+				break;
+
+			case EVENTUALLY:
+				res = new FoLtlEventuallyFormula(nested);
+				break;
+
+			case WEAK_NEXT:
+				res = new FoLtlWeakNextFormula(nested);
+				break;
+
+			case NEXT:
+				res = new FoLtlNextFormula(nested);
+				break;
+
+			case TEMP_NOT:
+				res = new FoLtlTempNotFormula(nested);
+				break;
+
+			case LOCAL_NOT:
+				res = new FoLtlLocalNotFormula(nested);
+				break;
+
+			default:
+				throw new RuntimeException("Unknown formula type");
+
+		}
+
+		return res;
+
+	}
+
 }

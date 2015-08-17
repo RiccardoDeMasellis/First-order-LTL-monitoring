@@ -1,9 +1,11 @@
 package formula.foltl;
 
+import formula.Predicate;
+
 /**
  * Created by Simone Calciolari on 06/08/15.
  */
-public class FoLtlPredicate {
+public class FoLtlPredicate implements Cloneable, Predicate {
 
 	private String name;
 	private int arity;
@@ -23,6 +25,10 @@ public class FoLtlPredicate {
 
 	public int getArity(){
 		return this.arity;
+	}
+
+	public FoLtlPredicate clone(){
+		return new FoLtlPredicate(this.getName(), this.getArity());
 	}
 
 	@Override

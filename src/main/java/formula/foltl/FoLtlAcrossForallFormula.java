@@ -12,6 +12,12 @@ public class FoLtlAcrossForallFormula extends FoLtlQuantifiedFormula implements 
 		super(nestedFormula, quantifiedVariable);
 	}
 
+	@Override
+	public FoLtlFormulaType getFormulaType(){
+		return FoLtlFormulaType.ACROSS_FORALL;
+	}
+
+	@Override
 	public String stringOperator(){
 		return "xsForall";
 	}

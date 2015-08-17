@@ -12,6 +12,11 @@ public class FoLtlLocalOrFormula extends FoLtlBinaryFormula implements OrFormula
 	}
 
 	@Override
+	public FoLtlFormulaType getFormulaType(){
+		return FoLtlFormulaType.LOCAL_OR;
+	}
+
+	@Override
 	public boolean equals(Object o){
 		boolean res = false;
 

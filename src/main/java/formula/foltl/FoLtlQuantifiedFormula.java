@@ -40,4 +40,42 @@ public abstract class FoLtlQuantifiedFormula implements FoLtlFormula, Quantified
 
 		return res;
 	}
+
+	@Override
+	public FoLtlFormula clone(){
+		return this.formulaFactory(this.getFormulaType(), this.getNestedFormula().clone(),
+				(FoLtlVariable) this.getQuantifiedVariable().clone());
+	}
+
+	public FoLtlFormula formulaFactory(FoLtlFormulaType type, FoLtlFormula nested, FoLtlVariable qvar){
+
+		FoLtlFormula res;
+
+		switch(type){
+
+			case ACROSS_EXISTS:
+				res = new FoLtlAcrossExistsFormula(nested, qvar);
+				break;
+
+			case ACROSS_FORALL:
+				res = new FoLtlAcrossForallFormula(nested, qvar);
+				break;
+
+			case LOCAL_EXISTS:
+				res = new FoLtlLocalExistsFormula(nested, qvar);
+				break;
+
+			case LOCAL_FORALL:
+				res = new FoLtlLocalForallFormula(nested, qvar);
+				break;
+
+			default:
+				throw new RuntimeException("Unknown formula type");
+
+		}
+
+		return res;
+
+	}
+
 }

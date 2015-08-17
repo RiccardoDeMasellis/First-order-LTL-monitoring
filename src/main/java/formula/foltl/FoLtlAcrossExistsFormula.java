@@ -12,6 +12,12 @@ public class FoLtlAcrossExistsFormula extends FoLtlQuantifiedFormula implements 
 		super(nestedFormula, quantifiedVariable);
 	}
 
+	@Override
+	public FoLtlFormulaType getFormulaType(){
+		return FoLtlFormulaType.ACROSS_EXISTS;
+	}
+
+	@Override
 	public String stringOperator(){
 		return "xsExists";
 	}

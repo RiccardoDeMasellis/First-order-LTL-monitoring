@@ -12,6 +12,11 @@ public class FoLtlLocalAndFormula extends FoLtlBinaryFormula implements AndFormu
 	}
 
 	@Override
+	public FoLtlFormulaType getFormulaType(){
+		return FoLtlFormulaType.LOCAL_AND;
+	}
+
+	@Override
 	public boolean equals(Object o){
 		boolean res = false;
 

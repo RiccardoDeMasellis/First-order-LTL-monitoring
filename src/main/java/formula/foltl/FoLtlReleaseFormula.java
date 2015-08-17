@@ -10,6 +10,11 @@ public class FoLtlReleaseFormula extends FoLtlBinaryFormula implements FoLtlTemp
 	}
 
 	@Override
+	public FoLtlFormulaType getFormulaType(){
+		return FoLtlFormulaType.RELEASE;
+	}
+
+	@Override
 	public String stringOperator() {
 		return "R";
 	}

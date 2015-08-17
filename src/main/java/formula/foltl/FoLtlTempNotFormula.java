@@ -12,8 +12,13 @@ public class FoLtlTempNotFormula extends FoLtlUnaryFormula implements NotFormula
 	}
 
 	@Override
+	public FoLtlFormulaType getFormulaType(){
+		return FoLtlFormulaType.TEMP_NOT;
+	}
+
+	@Override
 	public String stringOperator(){
-		return "t!";
+		return "TeNOT";
 	}
 
 }

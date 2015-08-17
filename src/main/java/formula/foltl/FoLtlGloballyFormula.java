@@ -10,6 +10,11 @@ public class FoLtlGloballyFormula extends FoLtlUnaryFormula implements FoLtlTemp
 	}
 
 	@Override
+	public FoLtlFormulaType getFormulaType(){
+		return FoLtlFormulaType.GLOBALLY;
+	}
+
+	@Override
 	public String stringOperator() {
 		return "G";
 	}

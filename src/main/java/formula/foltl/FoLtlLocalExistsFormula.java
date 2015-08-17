@@ -12,4 +12,9 @@ public class FoLtlLocalExistsFormula extends FoLtlQuantifiedFormula implements F
 		super(nestedFormula, quantifiedVariable);
 	}
 
+	@Override
+	public FoLtlFormulaType getFormulaType(){
+		return FoLtlFormulaType.LOCAL_EXISTS;
+	}
+
 }

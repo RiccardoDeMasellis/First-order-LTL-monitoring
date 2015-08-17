@@ -9,4 +9,9 @@ public class FoLtlTempLastAtom extends FoLtlAtomicFormula {
 		return "LAST";
 	}
 
+	@Override
+	public FoLtlFormulaType getFormulaType(){
+		return FoLtlFormulaType.TEMP_LAST_ATOM;
+	}
+
 }
