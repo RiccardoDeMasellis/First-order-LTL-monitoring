@@ -31,7 +31,8 @@ public class FoLtlPredicate implements Cloneable, Predicate {
 	public int hashCode(){
 		int res = this.getName() != null ? this.getName().hashCode() : 0;
 		res = res * 31;
-		res = res + this.getArity() * 31;
+		res = res + this.getArity();
+		res = res * 31;
 		return res;
 	}
 
