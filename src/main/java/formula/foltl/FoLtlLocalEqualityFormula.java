@@ -27,6 +27,15 @@ public class FoLtlLocalEqualityFormula extends FoLtlAtomicFormula implements FoL
 	}
 
 	@Override
+	public int hashCode(){
+		int res;
+		res = this.getLeftTerm() != null ? this.getLeftTerm().hashCode() : 0;
+		res = res * 31;
+		res = res + (this.getRightTerm() != null ? this.getRightTerm().hashCode() : 0);
+		return res;
+	}
+
+	@Override
 	public boolean equals(Object o){
 		boolean res = false;
 

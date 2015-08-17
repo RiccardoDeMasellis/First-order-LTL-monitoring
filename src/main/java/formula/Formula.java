@@ -11,4 +11,7 @@ public interface Formula {
 	@Override
 	boolean equals(Object o);
 
+	@Override
+	int hashCode();
+
 }

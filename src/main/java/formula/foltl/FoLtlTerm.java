@@ -24,6 +24,14 @@ public abstract class FoLtlTerm implements Cloneable, Term {
 		return this.getName();
 	}
 
+	@Override
+	public int hashCode(){
+		int res = this.getClass().hashCode();
+		res = res * 31;
+		res = res + (this.getName() != null ? this.getName().hashCode() : 0);
+		return res;
+	}
+
 	public FoLtlTerm clone(){
 		return termFactory(this.getTermType(), this.getName());
 	}

@@ -27,6 +27,15 @@ public class FoLtlPredicate implements Cloneable, Predicate {
 		return this.arity;
 	}
 
+	@Override
+	public int hashCode(){
+		int res = this.getName() != null ? this.getName().hashCode() : 0;
+		res = res * 31;
+		res = res + this.getArity() * 31;
+		return res;
+	}
+
+	@Override
 	public FoLtlPredicate clone(){
 		return new FoLtlPredicate(this.getName(), this.getArity());
 	}

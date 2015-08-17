@@ -16,6 +16,11 @@ public abstract class FoLtlAtomicFormula implements FoLtlFormula, AtomicFormula 
 	}
 
 	@Override
+	public int hashCode(){
+		return this.getClass().hashCode();
+	}
+
+	@Override
 	public FoLtlFormula clone(){
 		return this.formulaFactory(this.getFormulaType(), null, null, null, null);
 	}

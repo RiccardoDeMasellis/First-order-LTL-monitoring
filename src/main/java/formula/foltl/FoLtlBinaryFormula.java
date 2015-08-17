@@ -29,6 +29,15 @@ public abstract class FoLtlBinaryFormula implements FoLtlFormula, BinaryFormula 
 	}
 
 	@Override
+	public int hashCode(){
+		int res;
+		res = this.getLeftFormula() != null ? this.getLeftFormula().hashCode() : 0;
+		res = res * 31;
+		res = res + (this.getRightFormula() != null ? this.getRightFormula().hashCode() : 0);
+		return res;
+	}
+
+	@Override
 	public boolean equals(Object o){
 		boolean res = false;
 

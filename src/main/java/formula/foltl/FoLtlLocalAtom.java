@@ -76,6 +76,7 @@ public class FoLtlLocalAtom extends FoLtlAtomicFormula implements FoLtlLocalForm
 		return this.arguments;
 	}
 
+	@Override
 	public  String toString(){
 		String s = predicate.toString() + "(";
 
@@ -108,6 +109,22 @@ public class FoLtlLocalAtom extends FoLtlAtomicFormula implements FoLtlLocalForm
 	@Override
 	public FoLtlFormulaType getFormulaType() {
 		return FoLtlFormulaType.LOCAL_ATOM;
+	}
+
+	@Override
+	public int hashCode(){
+		int res;
+		res = this.getPredicate() != null ? this.getPredicate().hashCode() : 0;
+
+		Iterator<FoLtlTerm> i = this.getArguments().iterator();
+
+		while (i.hasNext()){
+			FoLtlTerm t = i.next();
+			res = 31 * res;
+			res = res + (t != null ? t.hashCode() : 0);
+		}
+
+		return res;
 	}
 
 	@Override

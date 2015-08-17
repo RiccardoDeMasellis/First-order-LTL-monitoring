@@ -23,8 +23,19 @@ public abstract class FoLtlQuantifiedFormula implements FoLtlFormula, Quantified
 		return this.quantifiedVariable;
 	}
 
+	@Override
 	public String toString() {
 		return this.stringOperator() + " " + this.getQuantifiedVariable() + ": (" + this.getNestedFormula() + ")";
+	}
+
+	@Override
+	public int hashCode(){
+		int res = this.getClass().hashCode();
+		res = 31 * res;
+		res = res + (this.getNestedFormula() != null ? this.getNestedFormula().hashCode() : 0);
+		res = 31 * res;
+		res = res + (this.getQuantifiedVariable() != null ? this.getQuantifiedVariable().hashCode() : 0);
+		return res;
 	}
 
 	@Override
