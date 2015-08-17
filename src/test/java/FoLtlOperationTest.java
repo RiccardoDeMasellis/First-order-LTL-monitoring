@@ -687,7 +687,7 @@ public class FoLtlOperationTest {
 
 	@Test
 	public void testClone(){
-		System.out.println("\n*** EQUALS TEST ***\n");
+		System.out.println("\n*** CLONE TEST ***\n");
 
 		System.out.println("BASIC COMPARISONS\n");
 
@@ -867,6 +867,138 @@ public class FoLtlOperationTest {
 		assertEquals("Exists", existsXpx, existsXpx.clone());
 		assertEquals("xsForall", xsForallXpx, xsForallXpx.clone());
 		assertEquals("xsExists", xsExistsXpx, xsExistsXpx.clone());
+
+		System.out.println("\n\nBIGGER FORMULAS\n");
+
+		//G P(a) & F Q(a, b)
+
+		FoLtlConstant a = new FoLtlConstant("a");
+		FoLtlConstant b = new FoLtlConstant("b");
+
+		P = new FoLtlPredicate("P", 1);
+		FoLtlPredicate Q = new FoLtlPredicate("Q", 2);
+
+		Pa = new FoLtlLocalAtom(P, a);
+		FoLtlLocalAtom Qab = new FoLtlLocalAtom(Q, a, b);
+
+		FoLtlFormula globPa = new FoLtlGloballyFormula(Pa);
+		FoLtlFormula evnQab = new FoLtlEventuallyFormula(Qab);
+		FoLtlFormula globAndEvn = new FoLtlTempAndFormula(globPa, evnQab);
+
+		FoLtlFormula target = globAndEvn;
+
+		assertEquals("G P(a) & F Q(a, b)", target, target.clone());
+
+
+		//P(a) & Q(b, d) U P(c) & Q(a, b)
+
+		FoLtlConstant c = new FoLtlConstant("c");
+		FoLtlConstant d = new FoLtlConstant("d");
+
+		FoLtlLocalAtom Pc = new FoLtlLocalAtom(P, c);
+		FoLtlLocalAtom Qbd = new FoLtlLocalAtom(Q, b, d);
+
+		FoLtlFormula PaAndQbd = new FoLtlLocalAndFormula(Pa, Qbd);
+		FoLtlFormula PcAndQab = new FoLtlLocalAndFormula(Pc, Qab);
+		FoLtlFormula andUntiland = new FoLtlUntilFormula(PaAndQbd, PcAndQab);
+
+		target = andUntiland;
+
+		assertEquals("P(a) & Q(b, d) U P(c) & Q(a, b)", target, target.clone());
+
+
+		//(P(a) & P(b)) U ((X Q(c, c) & (P(c) U P(d)))
+
+		FoLtlLocalAtom Pb = new FoLtlLocalAtom(P, b);
+		FoLtlLocalAtom Pd = new FoLtlLocalAtom(P, d);
+		FoLtlLocalAtom Qcc = new FoLtlLocalAtom(Q, c, c);
+
+		FoLtlFormula PaAndPb = new FoLtlLocalAndFormula(Pa, Pb);
+		FoLtlFormula PcUntPd = new FoLtlUntilFormula(Pc, Pd);
+		FoLtlFormula nextQcc = new FoLtlNextFormula(Qcc);
+		FoLtlFormula xqAndpUp = new FoLtlTempAndFormula(nextQcc, PcUntPd);
+		FoLtlFormula andUand = new FoLtlUntilFormula(PaAndPb, xqAndpUp);
+
+		target = andUand;
+
+		assertEquals("(P(a) & P(b)) U ((X Q(c, c) & (P(c) U P(d)))", target, target.clone());
+
+
+		//((P(a) & P(b)) U ((X P(c)) & (P(d)))) R
+		// 			( ((WX (P(a) -> P(a))) WU (G P(a) R P(a))) <-> (P(a) U P(a)) )
+
+		FoLtlFormula and1 = new FoLtlLocalAndFormula(Pa, Pb);
+		FoLtlFormula next1 = new FoLtlNextFormula(Pc);
+		FoLtlFormula and2 = new FoLtlTempAndFormula(next1, Pd);
+		FoLtlFormula unt1 = new FoLtlUntilFormula(and1, and2);
+		FoLtlFormula impl1 = new FoLtlLocalImplFormula(Pa, Pa);
+		FoLtlFormula wNext1 = new FoLtlWeakNextFormula(impl1);
+		FoLtlFormula glob1 = new FoLtlGloballyFormula(Pa);
+		FoLtlFormula rel1 = new FoLtlReleaseFormula(glob1, Pa);
+		FoLtlFormula wUnt1 = new FoLtlWeakUntilFormula(wNext1, rel1);
+		FoLtlFormula unt2 = new FoLtlUntilFormula(Pa, Pa);
+		FoLtlFormula dImpl1 = new FoLtlTempDoubleImplFormula(wUnt1, unt2);
+		FoLtlFormula rel2 = new FoLtlReleaseFormula(unt1, dImpl1);
+
+		target = rel2;
+
+		assertEquals("((P(a) & P(b)) U ((X P(c)) & (P(d)))) R \n" +
+				"\t( ((WX (P(a) -> P(a))) WU (G P(a) R P(a))) <-> (P(a) U P(a)) )", target, target.clone());
+
+
+		//Forall ?x ((P(?x)) U (Exists ?y ((!(?x = ?y)) && (P(?y)))))
+
+		FoLtlVariable x = new FoLtlVariable("x");
+		FoLtlVariable y = new FoLtlVariable("y");
+
+		FoLtlLocalAtom Px = new FoLtlLocalAtom(P, x);
+		FoLtlLocalAtom Py = new FoLtlLocalAtom(P, y);
+
+		FoLtlFormula xEQy = new FoLtlLocalEqualityFormula(x, y);
+		FoLtlFormula neq = new FoLtlLocalNotFormula(xEQy);
+		FoLtlFormula and = new FoLtlLocalAndFormula(neq, Py);
+
+		FoLtlFormula existsY = new FoLtlLocalExistsFormula(and, y);
+		FoLtlFormula until = new FoLtlUntilFormula(Px, existsY);
+		FoLtlFormula forallX = new FoLtlAcrossForallFormula(until, x);
+
+		target = forallX;
+
+		assertEquals("Forall ?x ((P(?x)) U (Exists ?y ((!(?x = ?y)) && (P(?y)))))", target, target.clone());
+
+
+		//Forall ?x (Forall ?y P(?x) & Q(?x, ?x) | G P(?y) U Q(?y, ?y))
+
+		FoLtlLocalAtom Qxx = new FoLtlLocalAtom(Q, x, x);
+		FoLtlLocalAtom Qyy = new FoLtlLocalAtom(Q, y, y);
+
+		FoLtlFormula pxAndQxx = new FoLtlLocalAndFormula(Px, Qxx);
+		FoLtlFormula gPy = new FoLtlGloballyFormula(Py);
+		FoLtlFormula gpyUQyy = new FoLtlUntilFormula(gPy, Qyy);
+		FoLtlFormula tor = new FoLtlTempOrFormula(pxAndQxx, gpyUQyy);
+		FoLtlFormula forallY = new FoLtlAcrossForallFormula(tor, y);
+		forallX = new FoLtlAcrossForallFormula(forallY, x);
+
+		target = forallX;
+
+		assertEquals("Forall ?x (Forall ?y P(?x) & Q(?x, ?x) | G P(?y) U Q(?y, ?y))", target, target.clone());
+
+		//Forall ?x (Forall ?y P(?x) & Q(?x, ?x) | FALSE U Q(?y, ?y))
+
+		FoLtlFormula fsUQyy = new FoLtlUntilFormula(new FoLtlGloballyFormula(new FoLtlLocalFalseAtom()), Qyy);
+		FoLtlFormula tor1 = new FoLtlTempOrFormula(pxAndQxx, fsUQyy);
+		FoLtlFormula forallY1 = new FoLtlAcrossForallFormula(tor1, y);
+		forallX = new FoLtlAcrossForallFormula(forallY1, x);
+
+		target = forallX;
+
+		assertEquals("Forall ?x (Forall ?y P(?x) & Q(?x, ?x) | FALSE U Q(?y, ?y))", target, target.clone());
+
+		//G P(a) U LAST
+		target = new FoLtlUntilFormula(new FoLtlGloballyFormula(Pa), new FoLtlTempLastAtom());
+
+		assertEquals("G P(a) U LAST", target, target.clone());
+
 	}
 
 	//<editor-fold desc="assertEquals" defaultstate="collapsed">
