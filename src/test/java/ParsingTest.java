@@ -46,7 +46,7 @@ public class ParsingTest {
 	}
 
 
-	//<editor-fold desc="parseTemporalFormula">
+	//<editor-fold desc="parseTemporalFormula" defaultstate="collapsed">
 	/**
 	 * Method to encapsulate the instructions needed to parse a given temporal foltl formula
 	 * @param input the input formula
@@ -83,7 +83,7 @@ public class ParsingTest {
 	}
 	//</editor-fold>
 
-	//<editor-fold desc="parseLocalFormula">
+	//<editor-fold desc="parseLocalFormula" defaultstate="collapsed">
 	/**
 	 * Method to encapsulate the instructions needed to parse a given local foltl formula
 	 * @param input the input formula

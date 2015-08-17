@@ -416,7 +416,7 @@ public class FoLtlOperationTest {
 	}
 
 
-	//<editor-fold desc="assertEquals">
+	//<editor-fold desc="assertEquals" defaultstate="collapsed">
 	/**
 	 * Wrapper for the Assert.assertEquals method, used to print some description also in case of success
 	 * @param description brief description of the current test case
@@ -435,7 +435,7 @@ public class FoLtlOperationTest {
 	}
 	//</editor-fold>
 
-	//<editor-fold desc="assertNotEquals">
+	//<editor-fold desc="assertNotEquals" defaultstate="collapsed">
 	/**
 	 * Wrapper for the Assert.assertNotEquals method, used to print some description also in case of success
 	 * @param description brief description of the current test case

@@ -144,6 +144,21 @@ public class FoLtlLocalFormulaTest {
 		Assert.assertEquals("", target,
 				parseLocalFormula("Forall ?x (S(?x) -> (Exists ?y (S(?y) && !(?x = ?y) && L(?x, ?y))))"));
 
+		//false and true atoms
+
+		FoLtlFormula f = new FoLtlLocalFalseAtom();
+		FoLtlFormula t = new FoLtlLocalTrueAtom();
+
+		FoLtlFormula and1 = new FoLtlLocalAndFormula(t, t);
+		FoLtlFormula and2 = new FoLtlLocalAndFormula(f, and1);
+		FoLtlFormula or1 = new FoLtlLocalOrFormula(and2, f);
+		impl = new FoLtlLocalImplFormula(or1, f);
+		FoLtlFormula and3 = new FoLtlLocalAndFormula(t, f);
+		target = new FoLtlLocalDoubleImplFormula(impl, and3);
+
+		Assert.assertEquals("", target,
+				parseLocalFormula("false && true && TRUE || FALSE -> FALSE <-> True && False"));
+
 	}
 
 	@Test
@@ -283,7 +298,7 @@ public class FoLtlLocalFormulaTest {
 
 	}
 
-	//<editor-fold desc="parseLocalFormula">
+	//<editor-fold desc="parseLocalFormula" defaultstate="collapsed">
 	/**
 	 * Method to encapsulate the instructions needed to parse a given local foltl formula
 	 * @param input the input formula
