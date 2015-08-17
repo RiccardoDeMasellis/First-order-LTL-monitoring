@@ -16,6 +16,7 @@ public class FoLtlLocalAndFormula extends FoLtlBinaryFormula implements AndFormu
 		return FoLtlFormulaType.LOCAL_AND;
 	}
 
+	/*
 	@Override
 	public boolean equals(Object o){
 		boolean res = false;
@@ -30,5 +31,5 @@ public class FoLtlLocalAndFormula extends FoLtlBinaryFormula implements AndFormu
 
 		return res;
 	}
-
+	*/
 }

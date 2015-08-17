@@ -41,10 +41,8 @@ public class FoLtlLocalEqualityFormula extends FoLtlAtomicFormula implements FoL
 
 		if (o != null && this.getClass().equals(o.getClass())){
 			FoLtlLocalEqualityFormula other = (FoLtlLocalEqualityFormula) o;
-			res = (this.getLeftTerm().equals(other.getLeftTerm())
-					&& this.getRightTerm().equals(other.getRightTerm()))
-					|| (this.getLeftTerm().equals(other.getRightTerm())
-					&& this.getRightTerm().equals(other.getLeftTerm()));
+			res = this.getLeftTerm().equals(other.getLeftTerm())
+					&& this.getRightTerm().equals(other.getRightTerm());
 		}
 
 		return res;

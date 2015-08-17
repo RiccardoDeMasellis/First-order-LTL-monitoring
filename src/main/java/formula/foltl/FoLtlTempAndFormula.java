@@ -21,6 +21,7 @@ public class FoLtlTempAndFormula extends FoLtlBinaryFormula implements AndFormul
 		return "TeAND";
 	}
 
+	/*
 	@Override
 	public boolean equals(Object o){
 		boolean res = false;
@@ -35,5 +36,6 @@ public class FoLtlTempAndFormula extends FoLtlBinaryFormula implements AndFormul
 
 		return res;
 	}
+	*/
 
 }

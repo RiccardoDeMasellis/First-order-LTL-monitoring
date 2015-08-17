@@ -25,6 +25,15 @@ public abstract class FoLtlAtomicFormula implements FoLtlFormula, AtomicFormula 
 		return this.formulaFactory(this.getFormulaType(), null, null, null, null);
 	}
 
+	/**
+	 * used to obtain new instances of FoLtl atomic formulas
+	 * @param type desired formula type
+	 * @param left left term, used for equalities
+	 * @param right right term, used for equalities
+	 * @param predicate predicate, used for fol atoms
+	 * @param arguments list of terms, used for fol atoms
+	 * @return an instance of the desired atomic formula, with the desired parameters
+	 */
 	public FoLtlFormula formulaFactory(FoLtlFormulaType type, FoLtlTerm left, FoLtlTerm right,
 																		 FoLtlPredicate predicate, LinkedList<FoLtlTerm> arguments){
 

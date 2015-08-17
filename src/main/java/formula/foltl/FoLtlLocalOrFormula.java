@@ -16,6 +16,7 @@ public class FoLtlLocalOrFormula extends FoLtlBinaryFormula implements OrFormula
 		return FoLtlFormulaType.LOCAL_OR;
 	}
 
+	/*
 	@Override
 	public boolean equals(Object o){
 		boolean res = false;
@@ -30,5 +31,6 @@ public class FoLtlLocalOrFormula extends FoLtlBinaryFormula implements OrFormula
 
 		return res;
 	}
+	*/
 
 }

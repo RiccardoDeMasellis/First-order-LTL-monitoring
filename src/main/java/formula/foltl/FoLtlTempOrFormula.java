@@ -21,6 +21,7 @@ public class FoLtlTempOrFormula extends FoLtlBinaryFormula implements OrFormula,
 		return "TeOR";
 	}
 
+	/*
 	@Override
 	public boolean equals(Object o){
 		boolean res = false;
@@ -35,5 +36,6 @@ public class FoLtlTempOrFormula extends FoLtlBinaryFormula implements OrFormula,
 
 		return res;
 	}
+	*/
 
 }

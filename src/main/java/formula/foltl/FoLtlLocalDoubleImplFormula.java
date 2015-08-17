@@ -16,6 +16,7 @@ public class FoLtlLocalDoubleImplFormula extends FoLtlBinaryFormula implements D
 		return FoLtlFormulaType.LOCAL_DOUBLE_IMPL;
 	}
 
+	/*
 	@Override
 	public boolean equals(Object o){
 		boolean res = false;
@@ -30,5 +31,6 @@ public class FoLtlLocalDoubleImplFormula extends FoLtlBinaryFormula implements D
 
 		return res;
 	}
+	*/
 
 }

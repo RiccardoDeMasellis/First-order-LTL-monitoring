@@ -21,6 +21,7 @@ public class FoLtlTempDoubleImplFormula extends FoLtlBinaryFormula implements Do
 		return "Te<->";
 	}
 
+	/*
 	@Override
 	public boolean equals(Object o){
 		boolean res = false;
@@ -35,5 +36,6 @@ public class FoLtlTempDoubleImplFormula extends FoLtlBinaryFormula implements Do
 
 		return res;
 	}
+	*/
 
 }
