@@ -18,4 +18,9 @@ public class FoLtlLocalFalseAtom extends FoLtlAtomicFormula implements FoLtlLoca
 		return FormulaType.LOCAL_FALSE_ATOM;
 	}
 
+	@Override
+	public FoLtlFormula negate(){
+		return new FoLtlLocalTrueAtom();
+	}
+
 }

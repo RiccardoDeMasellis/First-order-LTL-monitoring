@@ -5,6 +5,8 @@ package formula;
  */
 public interface BooleanOpFormula extends Formula {
 
+	OperatorType getOpType();
+
 	Formula boolFormulaFactory(OperatorType op,  Formula left, Formula right);
 
 }

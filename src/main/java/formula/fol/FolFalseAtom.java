@@ -18,5 +18,9 @@ public class FolFalseAtom extends FolAtomicFormula implements FalseAtom {
 		return FormulaType.FOL_FALSE_ATOM;
 	}
 
+	@Override
+	public FolFormula negate(){
+		return new FolTrueAtom();
+	}
 
 }

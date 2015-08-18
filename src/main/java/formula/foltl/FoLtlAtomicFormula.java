@@ -12,6 +12,11 @@ import java.util.LinkedList;
 public abstract class FoLtlAtomicFormula implements FoLtlFormula, AtomicFormula {
 
 	@Override
+	public FoLtlFormula negate(){
+		return new FoLtlLocalNotFormula(this.clone());
+	}
+
+	@Override
 	public boolean equals(Object o){
 		return (o != null && this.getClass().equals(o.getClass()));
 	}
