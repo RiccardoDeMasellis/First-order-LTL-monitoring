@@ -21,16 +21,18 @@ public class FoLtlWeakNextFormula extends FoLtlUnaryFormula implements FoLtlTemp
 		return "WX";
 	}
 
-	//WX (phi) == !(X (!phi))
+	// WARNING! We are working on finite paths! Just call nnf() recursively.
 	@Override
 	public FoLtlFormula nnf(){
-		FoLtlFormula nested = this.getNestedFormula().clone();
-		return (FoLtlFormula) new FoLtlNextFormula((FoLtlFormula) nested.negate()).nnf().negate();
+		FoLtlFormula nested = (FoLtlFormula)this.getNestedFormula().nnf();
+		return new FoLtlWeakNextFormula(nested);
 	}
 
+	// WARNING! We are working on finite paths! NOT(X phi) = WX NOT(phi)
 	@Override
 	public FoLtlFormula negate(){
-		return (FoLtlFormula) this.nnf().negate();
+		FoLtlFormula nested = (FoLtlFormula)this.getNestedFormula().negate();
+		return new FoLtlNextFormula(nested);
 	}
 
 }
