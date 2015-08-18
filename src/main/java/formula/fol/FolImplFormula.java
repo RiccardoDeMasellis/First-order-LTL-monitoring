@@ -1,5 +1,6 @@
 package formula.fol;
 
+import formula.FormulaType;
 import formula.ImplFormula;
 
 /**
@@ -9,6 +10,11 @@ public class FolImplFormula extends FolBinaryFormula implements ImplFormula, Fol
 
 	public FolImplFormula(FolFormula left, FolFormula right) {
 		super(left, right);
+	}
+
+	@Override
+	public FormulaType getFormulaType(){
+		return FormulaType.FOL_IMPLICATION;
 	}
 
 }

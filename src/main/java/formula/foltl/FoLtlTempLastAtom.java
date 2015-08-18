@@ -1,5 +1,7 @@
 package formula.foltl;
 
+import formula.FormulaType;
+
 /**
  * Created by Simone Calciolari on 06/08/15.
  */
@@ -10,8 +12,8 @@ public class FoLtlTempLastAtom extends FoLtlAtomicFormula {
 	}
 
 	@Override
-	public FoLtlFormulaType getFormulaType(){
-		return FoLtlFormulaType.TEMP_LAST_ATOM;
+	public FormulaType getFormulaType(){
+		return FormulaType.TEMP_LAST_ATOM;
 	}
 
 }

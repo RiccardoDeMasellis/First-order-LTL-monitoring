@@ -1,6 +1,7 @@
 package formula.foltl;
 
 import formula.FalseAtom;
+import formula.FormulaType;
 
 /**
  * Created by Simone Calciolari on 06/08/15.
@@ -13,8 +14,8 @@ public class FoLtlLocalFalseAtom extends FoLtlAtomicFormula implements FoLtlLoca
 	}
 
 	@Override
-	public FoLtlFormulaType getFormulaType(){
-		return FoLtlFormulaType.LOCAL_FALSE_ATOM;
+	public FormulaType getFormulaType(){
+		return FormulaType.LOCAL_FALSE_ATOM;
 	}
 
 }

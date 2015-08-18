@@ -1,5 +1,7 @@
 package formula.foltl;
 
+import formula.FormulaType;
+
 /**
  * Created by Simone Calciolari on 06/08/15.
  */
@@ -10,8 +12,8 @@ public class FoLtlReleaseFormula extends FoLtlBinaryFormula implements FoLtlTemp
 	}
 
 	@Override
-	public FoLtlFormulaType getFormulaType(){
-		return FoLtlFormulaType.RELEASE;
+	public FormulaType getFormulaType(){
+		return FormulaType.RELEASE;
 	}
 
 	@Override

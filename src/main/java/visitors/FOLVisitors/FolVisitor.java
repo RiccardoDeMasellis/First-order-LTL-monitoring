@@ -74,7 +74,7 @@ public class FolVisitor extends FOFormulaParserBaseVisitor<FolFormula> {
 
 			FolFormula left;
 			FolFormula right;
-			res = new FolFormula(){};
+			res = null;
 
 			for (int i = ctx.getChildCount() - 1; i >= 2; i -= 2){
 
@@ -108,7 +108,7 @@ public class FolVisitor extends FOFormulaParserBaseVisitor<FolFormula> {
 
 			FolFormula left;
 			FolFormula right;
-			res = new FolFormula(){};
+			res = null;
 
 			for (int i = ctx.getChildCount() - 1; i >= 2; i -= 2){
 
@@ -142,7 +142,7 @@ public class FolVisitor extends FOFormulaParserBaseVisitor<FolFormula> {
 
 			FolFormula left;
 			FolFormula right;
-			res = new FolFormula(){};
+			res = null;
 
 			for (int i = ctx.getChildCount() - 1; i >= 2; i -= 2){
 
@@ -176,7 +176,7 @@ public class FolVisitor extends FOFormulaParserBaseVisitor<FolFormula> {
 
 			FolFormula left;
 			FolFormula right;
-			res = new FolFormula(){};
+			res = null;
 
 			for (int i = ctx.getChildCount() - 1; i >= 2; i -= 2){
 
@@ -208,7 +208,7 @@ public class FolVisitor extends FOFormulaParserBaseVisitor<FolFormula> {
 				System.out.println("> parsing local negation: " + ctx.getText());
 			}
 
-			res = new FolFormula() {};
+			res = null;
 
 			boolean neg = false;
 

@@ -1,9 +1,9 @@
-package formula.foltl;
+package formula;
 
 /**
  * Created by Simone Calciolari on 14/08/15.
  */
-public enum FoLtlFormulaType {
+public enum FormulaType {
 
 	//FO-LTL
 	//Temporal
@@ -38,6 +38,24 @@ public enum FoLtlFormulaType {
 
 	//Terms
 	LOCAL_CONSTANT,
-	LOCAL_VARIABLE
+	LOCAL_VARIABLE,
+
+	//FOL
+	//Formulas
+	FOL_EXISTS,
+	FOL_FORALL,
+	FOL_DOUBLE_IMPL,
+	FOL_IMPLICATION,
+	FOL_OR,
+	FOL_AND,
+	FOL_NOT,
+	FOL_EQUALITY,
+	FOL_ATOM,
+	FOL_TRUE_ATOM,
+	FOL_FALSE_ATOM,
+
+	//Terms
+	FOL_CONSTANT,
+	FOL_VARIABLE
 
 }

@@ -1,5 +1,6 @@
 package formula.foltl;
 
+import formula.FormulaType;
 import formula.OrFormula;
 
 /**
@@ -12,8 +13,8 @@ public class FoLtlTempOrFormula extends FoLtlBinaryFormula implements OrFormula,
 	}
 
 	@Override
-	public FoLtlFormulaType getFormulaType(){
-		return FoLtlFormulaType.TEMP_OR;
+	public FormulaType getFormulaType(){
+		return FormulaType.TEMP_OR;
 	}
 
 	@Override

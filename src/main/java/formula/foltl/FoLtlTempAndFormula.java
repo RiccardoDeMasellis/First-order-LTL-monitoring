@@ -1,6 +1,7 @@
 package formula.foltl;
 
 import formula.AndFormula;
+import formula.FormulaType;
 
 /**
  * Created by Simone Calciolari on 06/08/15.
@@ -12,8 +13,8 @@ public class FoLtlTempAndFormula extends FoLtlBinaryFormula implements AndFormul
 	}
 
 	@Override
-	public FoLtlFormulaType getFormulaType(){
-		return FoLtlFormulaType.TEMP_AND;
+	public FormulaType getFormulaType(){
+		return FormulaType.TEMP_AND;
 	}
 
 	@Override

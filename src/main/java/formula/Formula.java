@@ -3,7 +3,7 @@ package formula;
 /**
  * Created by Simone Calciolari on 05/08/15.
  */
-public interface Formula {
+public interface Formula extends Cloneable{
 
 	@Override
 	String toString();
@@ -13,5 +13,9 @@ public interface Formula {
 
 	@Override
 	int hashCode();
+
+	FormulaType getFormulaType();
+
+	Formula clone();
 
 }

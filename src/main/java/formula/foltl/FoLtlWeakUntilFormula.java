@@ -1,5 +1,7 @@
 package formula.foltl;
 
+import formula.FormulaType;
+
 /**
  * Created by Simone Calciolari on 06/08/15.
  */
@@ -10,8 +12,8 @@ public class FoLtlWeakUntilFormula extends FoLtlBinaryFormula implements FoLtlTe
 	}
 
 	@Override
-	public FoLtlFormulaType getFormulaType(){
-		return FoLtlFormulaType.WEAK_UNTIL;
+	public FormulaType getFormulaType(){
+		return FormulaType.WEAK_UNTIL;
 	}
 
 	@Override

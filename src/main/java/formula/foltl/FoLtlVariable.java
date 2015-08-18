@@ -1,5 +1,6 @@
 package formula.foltl;
 
+import formula.FormulaType;
 import formula.Variable;
 
 /**
@@ -12,8 +13,8 @@ public class FoLtlVariable extends FoLtlTerm implements Variable {
 	}
 
 	@Override
-	public FoLtlFormulaType getTermType(){
-		return FoLtlFormulaType.LOCAL_VARIABLE;
+	public FormulaType getTermType(){
+		return FormulaType.LOCAL_VARIABLE;
 	}
 
 	@Override

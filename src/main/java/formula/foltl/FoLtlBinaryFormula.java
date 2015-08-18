@@ -1,6 +1,7 @@
 package formula.foltl;
 
 import formula.BinaryFormula;
+import formula.FormulaType;
 
 /**
  * Created by Simone Calciolari on 06/08/15.
@@ -55,7 +56,7 @@ public abstract class FoLtlBinaryFormula implements FoLtlFormula, BinaryFormula 
 		return this.formulaFactory(this.getFormulaType(), this.getLeftFormula().clone(), this.getRightFormula().clone());
 	}
 
-	public FoLtlFormula formulaFactory(FoLtlFormulaType type, FoLtlFormula left, FoLtlFormula right){
+	public FoLtlFormula formulaFactory(FormulaType type, FoLtlFormula left, FoLtlFormula right){
 		FoLtlFormula res;
 
 		switch(type){

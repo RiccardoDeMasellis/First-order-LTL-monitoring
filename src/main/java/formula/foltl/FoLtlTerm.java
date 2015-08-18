@@ -1,11 +1,12 @@
 package formula.foltl;
 
+import formula.FormulaType;
 import formula.Term;
 
 /**
  * Created by Simone Calciolari on 06/08/15.
  */
-public abstract class FoLtlTerm implements Cloneable, Term {
+public abstract class FoLtlTerm implements Term {
 
 	private String name;
 
@@ -16,8 +17,6 @@ public abstract class FoLtlTerm implements Cloneable, Term {
 	public String getName(){
 		return this.name;
 	}
-
-	public abstract FoLtlFormulaType getTermType();
 
 	@Override
 	public String toString(){
@@ -48,7 +47,7 @@ public abstract class FoLtlTerm implements Cloneable, Term {
 		return res;
 	}
 
-	public FoLtlTerm termFactory(FoLtlFormulaType type, String name){
+	public FoLtlTerm termFactory(FormulaType type, String name){
 		FoLtlTerm res;
 
 		switch(type){

@@ -1,5 +1,6 @@
 package formula.foltl;
 
+import formula.FormulaType;
 import formula.UnaryFormula;
 
 /**
@@ -45,7 +46,7 @@ public abstract class FoLtlUnaryFormula implements FoLtlFormula, UnaryFormula {
 		return this.formulaFactory(this.getFormulaType(), this.getNestedFormula().clone());
 	}
 
-	public FoLtlFormula formulaFactory(FoLtlFormulaType type, FoLtlFormula nested){
+	public FoLtlFormula formulaFactory(FormulaType type, FoLtlFormula nested){
 
 		FoLtlFormula res;
 

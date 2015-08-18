@@ -1,5 +1,6 @@
 package formula.foltl;
 
+import formula.FormulaType;
 import formula.LocalAtom;
 
 import java.util.Iterator;
@@ -109,8 +110,8 @@ public class FoLtlLocalAtom extends FoLtlAtomicFormula implements FoLtlLocalForm
 	}
 
 	@Override
-	public FoLtlFormulaType getFormulaType() {
-		return FoLtlFormulaType.LOCAL_ATOM;
+	public FormulaType getFormulaType() {
+		return FormulaType.LOCAL_ATOM;
 	}
 
 	@Override

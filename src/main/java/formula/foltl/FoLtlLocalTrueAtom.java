@@ -1,5 +1,6 @@
 package formula.foltl;
 
+import formula.FormulaType;
 import formula.TrueAtom;
 
 /**
@@ -13,8 +14,8 @@ public class FoLtlLocalTrueAtom extends FoLtlAtomicFormula implements FoLtlLocal
 	}
 
 	@Override
-	public FoLtlFormulaType getFormulaType(){
-		return FoLtlFormulaType.LOCAL_TRUE_ATOM;
+	public FormulaType getFormulaType(){
+		return FormulaType.LOCAL_TRUE_ATOM;
 	}
 
 }

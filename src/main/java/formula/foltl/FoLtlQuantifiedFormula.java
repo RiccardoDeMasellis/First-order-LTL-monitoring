@@ -1,5 +1,6 @@
 package formula.foltl;
 
+import formula.FormulaType;
 import formula.QuantifiedFormula;
 
 /**
@@ -58,7 +59,7 @@ public abstract class FoLtlQuantifiedFormula implements FoLtlFormula, Quantified
 				(FoLtlVariable) this.getQuantifiedVariable().clone());
 	}
 
-	public FoLtlFormula formulaFactory(FoLtlFormulaType type, FoLtlFormula nested, FoLtlVariable qvar){
+	public FoLtlFormula formulaFactory(FormulaType type, FoLtlFormula nested, FoLtlVariable qvar){
 
 		FoLtlFormula res;
 

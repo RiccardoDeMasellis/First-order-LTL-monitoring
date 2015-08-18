@@ -1,5 +1,6 @@
 package formula.foltl;
 
+import formula.FormulaType;
 import formula.ForallQuantifiedFormula;
 
 /**
@@ -13,8 +14,8 @@ public class FoLtlAcrossForallFormula extends FoLtlQuantifiedFormula implements 
 	}
 
 	@Override
-	public FoLtlFormulaType getFormulaType(){
-		return FoLtlFormulaType.ACROSS_FORALL;
+	public FormulaType getFormulaType(){
+		return FormulaType.ACROSS_FORALL;
 	}
 
 	@Override

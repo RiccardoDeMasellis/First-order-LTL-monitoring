@@ -1,6 +1,7 @@
 package formula.foltl;
 
 import formula.AtomicFormula;
+import formula.FormulaType;
 
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -34,7 +35,7 @@ public abstract class FoLtlAtomicFormula implements FoLtlFormula, AtomicFormula 
 	 * @param arguments list of terms, used for fol atoms
 	 * @return an instance of the desired atomic formula, with the desired parameters
 	 */
-	public FoLtlFormula formulaFactory(FoLtlFormulaType type, FoLtlTerm left, FoLtlTerm right,
+	public FoLtlFormula formulaFactory(FormulaType type, FoLtlTerm left, FoLtlTerm right,
 																		 FoLtlPredicate predicate, LinkedList<FoLtlTerm> arguments){
 
 		FoLtlFormula res;

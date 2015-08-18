@@ -1,5 +1,6 @@
 package formula.fol;
 
+import formula.FormulaType;
 import formula.LocalAtom;
 
 import java.util.Iterator;
@@ -78,6 +79,7 @@ public class FolAtom extends FolAtomicFormula implements LocalAtom {
 		return this.arguments;
 	}
 
+	@Override
 	public  String toString(){
 		String s = predicate.toString() + "(";
 
@@ -105,6 +107,54 @@ public class FolAtom extends FolAtomicFormula implements LocalAtom {
 		s = s +")";
 
 		return s;
+	}
+
+	@Override
+	public FormulaType getFormulaType() {
+		return FormulaType.FOL_ATOM;
+	}
+
+	@Override
+	public int hashCode(){
+		int res;
+		res = this.getPredicate() != null ? this.getPredicate().hashCode() : 0;
+
+		Iterator<FolTerm> i = this.getArguments().iterator();
+
+		while (i.hasNext()){
+			FolTerm t = i.next();
+			res = 31 * res;
+			res = res + (t != null ? t.hashCode() : 0);
+		}
+
+		return res;
+	}
+
+	@Override
+	public FolFormula clone() {
+		LinkedList<FolTerm> newArgs = new LinkedList<>();
+		Iterator<FolTerm> i = this.getArguments().iterator();
+
+		while (i.hasNext()){
+			FolTerm t = i.next();
+			newArgs.add(t);
+		}
+
+		return this.formulaFactory(this.getFormulaType(), null, null, this.getPredicate().clone(), newArgs);
+
+	}
+
+	@Override
+	public boolean equals(Object o){
+		boolean res = false;
+
+		if (o != null && this.getClass().equals(o.getClass())){
+			FolAtom other = (FolAtom) o;
+			res = this.getPredicate().equals(other.getPredicate())
+					&& this.getArguments().equals(other.getArguments());
+		}
+
+		return res;
 	}
 
 }

@@ -1,6 +1,7 @@
 package formula.foltl;
 
 import formula.EqualityFormula;
+import formula.FormulaType;
 
 /**
  * Created by Simone Calciolari on 06/08/15.
@@ -51,8 +52,8 @@ public class FoLtlLocalEqualityFormula extends FoLtlAtomicFormula implements FoL
 	}
 
 	@Override
-	public FoLtlFormulaType getFormulaType(){
-		return FoLtlFormulaType.LOCAL_EQUALITY;
+	public FormulaType getFormulaType(){
+		return FormulaType.LOCAL_EQUALITY;
 	}
 
 	@Override

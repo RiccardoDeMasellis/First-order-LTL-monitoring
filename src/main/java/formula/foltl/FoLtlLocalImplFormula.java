@@ -1,5 +1,6 @@
 package formula.foltl;
 
+import formula.FormulaType;
 import formula.ImplFormula;
 
 /**
@@ -12,8 +13,8 @@ public class FoLtlLocalImplFormula extends FoLtlBinaryFormula implements ImplFor
 	}
 
 	@Override
-	public FoLtlFormulaType getFormulaType(){
-		return FoLtlFormulaType.LOCAL_IMPLICATION;
+	public FormulaType getFormulaType(){
+		return FormulaType.LOCAL_IMPLICATION;
 	}
 
 }

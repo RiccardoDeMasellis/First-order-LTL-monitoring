@@ -1,6 +1,7 @@
 package formula.foltl;
 
 import formula.ExistsQuantifiedFormula;
+import formula.FormulaType;
 
 /**
  * Created by Simone Calciolari on 06/08/15.
@@ -13,8 +14,8 @@ public class FoLtlAcrossExistsFormula extends FoLtlQuantifiedFormula implements 
 	}
 
 	@Override
-	public FoLtlFormulaType getFormulaType(){
-		return FoLtlFormulaType.ACROSS_EXISTS;
+	public FormulaType getFormulaType(){
+		return FormulaType.ACROSS_EXISTS;
 	}
 
 	@Override

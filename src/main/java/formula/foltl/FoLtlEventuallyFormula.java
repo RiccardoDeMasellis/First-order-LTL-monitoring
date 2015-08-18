@@ -1,5 +1,7 @@
 package formula.foltl;
 
+import formula.FormulaType;
+
 /**
  * Created by Simone Calciolari on 06/08/15.
  */
@@ -10,8 +12,8 @@ public class FoLtlEventuallyFormula extends FoLtlUnaryFormula implements FoLtlTe
 	}
 
 	@Override
-	public FoLtlFormulaType getFormulaType(){
-		return FoLtlFormulaType.EVENTUALLY;
+	public FormulaType getFormulaType(){
+		return FormulaType.EVENTUALLY;
 	}
 
 	@Override

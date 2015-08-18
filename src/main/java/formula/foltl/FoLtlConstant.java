@@ -1,6 +1,7 @@
 package formula.foltl;
 
 import formula.Constant;
+import formula.FormulaType;
 
 /**
  * Created by Simone Calciolari on 06/08/15.
@@ -12,8 +13,8 @@ public class FoLtlConstant extends FoLtlTerm implements Constant {
 	}
 
 	@Override
-	public FoLtlFormulaType getTermType(){
-		return FoLtlFormulaType.LOCAL_CONSTANT;
+	public FormulaType getTermType(){
+		return FormulaType.LOCAL_CONSTANT;
 	}
 
 	public FoLtlConstant clone(){

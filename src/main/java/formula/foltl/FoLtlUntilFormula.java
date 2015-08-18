@@ -1,5 +1,7 @@
 package formula.foltl;
 
+import formula.FormulaType;
+
 /**
  * Created by Simone Calciolari on 06/08/15.
  */
@@ -10,8 +12,8 @@ public class FoLtlUntilFormula extends FoLtlBinaryFormula implements FoLtlTempOp
 	}
 
 	@Override
-	public FoLtlFormulaType getFormulaType(){
-		return FoLtlFormulaType.UNTIL;
+	public FormulaType getFormulaType(){
+		return FormulaType.UNTIL;
 	}
 
 	@Override
