@@ -16,6 +16,12 @@ public interface Formula extends Cloneable{
 
 	FormulaType getFormulaType();
 
+	BoolOpType getOpType();
+
 	Formula clone();
+
+	Formula nnf();
+
+	Formula negate();
 
 }
