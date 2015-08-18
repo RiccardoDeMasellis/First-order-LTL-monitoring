@@ -193,7 +193,7 @@ public class FolFormulaTest {
 
 		builtFormula = forall.toString();
 
-		Assert.assertEquals("", "Forall ?x: (Exists ?y: ((!(?x = ?y)) AND ((P(?x)) <-> (Q(a, b, ?y)))))", builtFormula);
+		Assert.assertEquals("", "Forall ?x: (Exists ?y: ((NOT(?x = ?y)) AND ((P(?x)) <-> (Q(a, b, ?y)))))", builtFormula);
 
 		System.out.println("\nBuilt formula: " + builtFormula);
 
@@ -274,7 +274,7 @@ public class FolFormulaTest {
 
 		builtFormula = forallX.toString();
 
-		Assert.assertEquals("", "Forall ?x: ((S(?x)) -> (Exists ?y: ((S(?y)) AND ((!(?x = ?y)) AND (L(?x, ?y))))))",
+		Assert.assertEquals("", "Forall ?x: ((S(?x)) -> (Exists ?y: ((S(?y)) AND ((NOT(?x = ?y)) AND (L(?x, ?y))))))",
 				builtFormula);
 
 		System.out.println("\nBuilt formula: " + builtFormula);
