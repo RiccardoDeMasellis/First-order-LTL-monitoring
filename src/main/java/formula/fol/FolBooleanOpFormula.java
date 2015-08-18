@@ -1,6 +1,6 @@
 package formula.fol;
 
-import formula.BoolOpType;
+import formula.OperatorType;
 import formula.BooleanOpFormula;
 import formula.Formula;
 
@@ -10,7 +10,7 @@ import formula.Formula;
 public interface FolBooleanOpFormula extends FolFormula, BooleanOpFormula {
 
 	@Override
-	default FolFormula boolFormulaFactory(BoolOpType op, Formula left, Formula right){
+	default FolFormula boolFormulaFactory(OperatorType op, Formula left, Formula right){
 		FolFormula res;
 
 		switch (op){

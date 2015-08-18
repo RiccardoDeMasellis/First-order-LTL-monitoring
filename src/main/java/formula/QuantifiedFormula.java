@@ -12,4 +12,8 @@ public interface QuantifiedFormula extends Formula {
 
 	String stringOperator();
 
+	OperatorType getQuantifierType();
+
+	Formula quantifiedFormulaFactory(OperatorType quantifier, Formula nestedFormula, Variable qvar);
+
 }

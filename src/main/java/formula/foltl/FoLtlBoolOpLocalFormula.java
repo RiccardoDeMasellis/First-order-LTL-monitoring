@@ -1,6 +1,6 @@
 package formula.foltl;
 
-import formula.BoolOpType;
+import formula.OperatorType;
 import formula.Formula;
 
 /**
@@ -9,7 +9,7 @@ import formula.Formula;
 public interface FoLtlBoolOpLocalFormula extends FoLtlBoolOpFormula, FoLtlLocalFormula {
 
 	@Override
-	default FoLtlFormula boolFormulaFactory(BoolOpType op, Formula left, Formula right){
+	default FoLtlFormula boolFormulaFactory(OperatorType op, Formula left, Formula right){
 		FoLtlFormula res;
 
 		switch (op){

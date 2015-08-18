@@ -21,4 +21,14 @@ public class FoLtlEventuallyFormula extends FoLtlUnaryFormula implements FoLtlTe
 		return "F";
 	}
 
+	@Override
+	public FoLtlFormula nnf(){
+
+	}
+
+	@Override
+	public FoLtlFormula negate(){
+
+	}
+
 }

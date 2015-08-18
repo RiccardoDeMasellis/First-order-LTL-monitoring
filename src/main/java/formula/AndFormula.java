@@ -10,8 +10,8 @@ public interface AndFormula extends BinaryFormula, BooleanOpFormula {
 	}
 
 	@Override
-	default BoolOpType getOpType(){
-		return BoolOpType.AND;
+	default OperatorType getOpType(){
+		return OperatorType.AND;
 	}
 
 	@Override
@@ -25,7 +25,7 @@ public interface AndFormula extends BinaryFormula, BooleanOpFormula {
 	default Formula negate(){
 		Formula left = this.getLeftFormula().negate();
 		Formula right = this.getRightFormula().negate();
-		return boolFormulaFactory(BoolOpType.OR, left, right);
+		return this.boolFormulaFactory(OperatorType.OR, left, right);
 	}
 
 }

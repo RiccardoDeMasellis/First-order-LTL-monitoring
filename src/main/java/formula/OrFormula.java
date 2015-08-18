@@ -10,22 +10,22 @@ public interface OrFormula extends BinaryFormula, BooleanOpFormula {
 	}
 
 	@Override
-	default BoolOpType getOpType(){
-		return BoolOpType.OR;
+	default OperatorType getOpType(){
+		return OperatorType.OR;
 	}
 
 	@Override
 	default Formula nnf(){
 		Formula left = this.getLeftFormula().nnf();
 		Formula right = this.getRightFormula().nnf();
-		return boolFormulaFactory(this.getOpType(), left, right);
+		return this.boolFormulaFactory(this.getOpType(), left, right);
 	}
 
 	@Override
 	default Formula negate(){
 		Formula left = this.getLeftFormula().negate();
 		Formula right = this.getRightFormula().negate();
-		return boolFormulaFactory(BoolOpType.AND, left, right);
+		return this.boolFormulaFactory(OperatorType.AND, left, right);
 	}
 
 }

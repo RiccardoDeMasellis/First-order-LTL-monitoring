@@ -1,7 +1,6 @@
 package formula.fol;
 
-import formula.FormulaType;
-import formula.QuantifiedFormula;
+import formula.*;
 
 /**
  * Created by Simone Calciolari on 05/08/15.
@@ -57,6 +56,28 @@ public abstract class FolQuantifiedFormula implements FolFormula, QuantifiedForm
 	public FolFormula clone(){
 		return this.formulaFactory(this.getFormulaType(), this.getNestedFormula().clone(),
 				(FolVariable) this.getQuantifiedVariable().clone());
+	}
+
+	@Override
+	public FolFormula quantifiedFormulaFactory(OperatorType quantifier, Formula nestedFormula, Variable qvar){
+		FolFormula res;
+
+		switch (quantifier){
+
+			case FORALL:
+				res = new FolForallQuantifiedFormula((FolFormula) nestedFormula, (FolVariable) qvar);
+				break;
+
+			case EXISTS:
+				res = new FolExistsQuantifiedFormula((FolFormula) nestedFormula, (FolVariable) qvar);
+				break;
+
+			default:
+				throw new RuntimeException("Unknown quantifier");
+
+		}
+
+		return res;
 	}
 
 	public FolFormula formulaFactory(FormulaType type, FolFormula nested, FolVariable qvar){

@@ -5,6 +5,7 @@ package formula;
  */
 public interface Variable extends Term {
 
+	@Override
 	String toString();
 
 }

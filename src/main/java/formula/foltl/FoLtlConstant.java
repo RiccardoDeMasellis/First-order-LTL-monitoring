@@ -17,8 +17,4 @@ public class FoLtlConstant extends FoLtlTerm implements Constant {
 		return FormulaType.LOCAL_CONSTANT;
 	}
 
-	public FoLtlConstant clone(){
-		return new FoLtlConstant(this.getName());
-	}
-
 }

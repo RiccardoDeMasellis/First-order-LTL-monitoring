@@ -10,15 +10,15 @@ public interface ImplFormula extends BinaryFormula, BooleanOpFormula {
 	}
 
 	@Override
-	default BoolOpType getOpType(){
-		return BoolOpType.IMPL;
+	default OperatorType getOpType(){
+		return OperatorType.IMPL;
 	}
 
 	@Override
 	default Formula nnf(){
 		Formula left = this.getLeftFormula().negate().nnf();
 		Formula right = this.getRightFormula().nnf();
-		return boolFormulaFactory(BoolOpType.OR, left, right);
+		return this.boolFormulaFactory(OperatorType.OR, left, right);
 	}
 
 	@Override

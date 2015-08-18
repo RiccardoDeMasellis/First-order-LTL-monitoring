@@ -10,8 +10,8 @@ public interface NotFormula extends UnaryFormula, BooleanOpFormula {
 	}
 
 	@Override
-	default BoolOpType getOpType(){
-		return BoolOpType.OR;
+	default OperatorType getOpType(){
+		return OperatorType.OR;
 	}
 
 	@Override

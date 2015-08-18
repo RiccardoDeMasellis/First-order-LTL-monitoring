@@ -16,7 +16,7 @@ public interface Formula extends Cloneable{
 
 	FormulaType getFormulaType();
 
-	BoolOpType getOpType();
+	OperatorType getOpType();
 
 	Formula clone();
 
