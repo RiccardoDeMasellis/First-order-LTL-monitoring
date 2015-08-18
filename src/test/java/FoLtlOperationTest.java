@@ -124,7 +124,7 @@ public class FoLtlOperationTest {
 
 		assertEquals("Same arguments", varXEqVarX2, varXEqVarX22);
 		assertEquals("Same arguments, inverted order", varXEqVarX2, varX2EqVarX);
-		assertEquals("Equal arguments, inverted order bis", varXEqVarY, varYEqVarX2);
+		//assertEquals("Equal arguments, inverted order bis", varXEqVarY, varYEqVarX2);
 		assertEquals("Equal arguments (constants)", conXEqConX2, conX2EqConX);
 
 		System.out.println();
@@ -175,18 +175,21 @@ public class FoLtlOperationTest {
 		System.out.println("Local binary boolean operator comparisons\n");
 
 		assertEquals("a AND a ; a AND a", aANDa, aANDa2);
-		assertEquals("a AND b ; b AND a", aANDb, bANDa);
+		//assertEquals("a AND b ; b AND a", aANDb, bANDa);
 		assertEquals("a OR a ; a OR a", aORa, aORa2);
-		assertEquals("a OR b ; b OR a", aORb, bORa);
+		//assertEquals("a OR b ; b OR a", aORb, bORa);
 		assertEquals("a DI a ; a DI a", aDIa, aDIa2);
-		assertEquals("a DI b ; b DI a", aDIb, bDIa);
+		//assertEquals("a DI b ; b DI a", aDIb, bDIa);
 		assertEquals("a IM a ; a IM a", aIMa, aIMa2);
 
 		System.out.println();
 
 		assertNotEquals("a AND b ; b AND b", aANDb, bANDb);
+		assertNotEquals("a AND b ; b AND a", aANDb, bANDa);
 		assertNotEquals("a OR b ; b OR b", aORb, bORb);
+		assertNotEquals("a OR b ; b OR a", aORb, bORa);
 		assertNotEquals("a DI b ; b DI b", aDIb, bDIb);
+		assertNotEquals("a DI b ; b DI a", aDIb, bDIa);
 		assertNotEquals("a IM b ; b IM b", aIMb, bIMb);
 		assertNotEquals("a IM b ; b IM a", aIMb, bIMa);
 
@@ -224,11 +227,11 @@ public class FoLtlOperationTest {
 		System.out.println("\nTemporal binary boolean operator comparisons\n");
 
 		assertEquals("a tAND a ; a tAND a", atANDa, atANDa2);
-		assertEquals("a tAND b ; b tAND a", atANDb, btANDa);
+		//assertEquals("a tAND b ; b tAND a", atANDb, btANDa);
 		assertEquals("a tOR a ; a tOR a", atORa, atORa2);
-		assertEquals("a tOR b ; b tOR a", atORb, btORa);
+		//assertEquals("a tOR b ; b tOR a", atORb, btORa);
 		assertEquals("a tDI a ; a tDI a", atDIa, atDIa2);
-		assertEquals("a tDI b ; b tDI a", atDIb, btDIa);
+		//assertEquals("a tDI b ; b tDI a", atDIb, btDIa);
 		assertEquals("a tIM a ; a tIM a", atIMa, atIMa2);
 
 		System.out.println();
@@ -415,8 +418,590 @@ public class FoLtlOperationTest {
 
 	}
 
+	@Test
+	public void testHashCode(){
 
-	//<editor-fold desc="assertEquals">
+		System.out.println("\n*** HASH CODE TEST ***\n");
+
+		System.out.println("BASIC COMPARISONS\n");
+
+		//Term comparisons
+		FoLtlTerm varX = new FoLtlVariable("x");
+		FoLtlTerm varX2 = new FoLtlVariable("x");
+		FoLtlTerm varY = new FoLtlVariable("y");
+		FoLtlTerm conX = new FoLtlConstant("x");
+		FoLtlTerm conX2 = new FoLtlConstant("x");
+		FoLtlTerm conY = new FoLtlConstant("y");
+
+		System.out.println("Term comparisons\n");
+
+		assertEquals("Variables with the same name", varX.hashCode(), varX2.hashCode());
+		assertEquals("Constants with the same name", conX.hashCode(), conX2.hashCode());
+
+
+		//Predicate comparisons
+		FoLtlPredicate Par1 = new FoLtlPredicate("P", 1);
+		FoLtlPredicate Par2 = new FoLtlPredicate("P", 2);
+		FoLtlPredicate P1ar1 = new FoLtlPredicate("P", 1);
+		FoLtlPredicate Qar1 = new FoLtlPredicate("Q", 1);
+		FoLtlPredicate Qar2 = new FoLtlPredicate("Q", 2);
+
+		System.out.println("\nPredicate comparisons\n");
+
+		assertEquals("Predicates with the same name and arity", Par1.hashCode(), P1ar1.hashCode());
+
+
+		System.out.println("\n\nATOMIC FORMULA COMPARISONS");
+
+		//Atom comparisons
+		FoLtlAtomicFormula fa = new FoLtlLocalFalseAtom();
+		FoLtlAtomicFormula fab = new FoLtlLocalFalseAtom();
+		FoLtlAtomicFormula ta = new FoLtlLocalTrueAtom();
+		FoLtlAtomicFormula tab = new FoLtlLocalTrueAtom();
+		FoLtlAtomicFormula la = new FoLtlTempLastAtom();
+		FoLtlAtomicFormula lab = new FoLtlTempLastAtom();
+
+		System.out.println("\nAtom comparisons\n");
+
+		assertEquals("True local atoms", ta.hashCode(), tab.hashCode());
+		assertEquals("False local atoms", fa.hashCode(), fab.hashCode());
+		assertEquals("Last temporal atoms", la.hashCode(), lab.hashCode());
+
+
+		//Atomic formula comparisons
+		FoLtlPredicate L = new FoLtlPredicate("L", 5);
+
+		FoLtlAtomicFormula PconX = new FoLtlLocalAtom(Par1, conX);
+		FoLtlAtomicFormula PconX2 = new FoLtlLocalAtom(P1ar1, conX2);
+		FoLtlAtomicFormula PconY = new FoLtlLocalAtom(Par1, conY);
+		FoLtlAtomicFormula PvarX = new FoLtlLocalAtom(Par1, varX);
+		FoLtlAtomicFormula PvarX2 = new FoLtlLocalAtom(P1ar1, varX2);
+		FoLtlAtomicFormula PvarY = new FoLtlLocalAtom(Par1, varY);
+		FoLtlAtomicFormula QvarX = new FoLtlLocalAtom(Qar1, varX);
+		FoLtlAtomicFormula PconXvarX = new FoLtlLocalAtom(Par2, conX, varX);
+		FoLtlAtomicFormula PconXvarX2 = new FoLtlLocalAtom(Par2, conX2, varX2);
+		FoLtlAtomicFormula PvarXconX = new FoLtlLocalAtom(Par2, varX, conX);
+		FoLtlAtomicFormula QvarXconX = new FoLtlLocalAtom(Qar2, varX, conX);
+
+		FoLtlAtomicFormula LxyvYvXvX = new FoLtlLocalAtom(L, conX, conY, varY, varX2, varX);
+		FoLtlAtomicFormula LxyvYvXvX2 = new FoLtlLocalAtom(L, conX, conY, varY, varX, varX2);
+		FoLtlAtomicFormula LvXvYyvXx = new FoLtlLocalAtom(L, varX, varY, conY, varX2, conX2);
+
+		System.out.println("\nLocal atom comparisons\n");
+
+		assertEquals("Equal predicate, equal constant", PconX.hashCode(), PconX2.hashCode());
+		assertEquals("Equal predicate, equal variable", PvarX.hashCode(), PvarX2.hashCode());
+		assertEquals("Equal predicate, same argument list", PconXvarX.hashCode(), PconXvarX2.hashCode());
+		assertEquals("Longer argument list", LxyvYvXvX.hashCode(), LxyvYvXvX2.hashCode());
+
+
+		//Equality formula comparisons
+		FoLtlAtomicFormula varXEqVarX2 = new FoLtlLocalEqualityFormula(varX, varX2);
+		FoLtlAtomicFormula varXEqVarX22 = new FoLtlLocalEqualityFormula(varX, varX2);
+		FoLtlAtomicFormula varX2EqVarX = new FoLtlLocalEqualityFormula(varX2, varX);
+		FoLtlAtomicFormula varXEqVarY = new FoLtlLocalEqualityFormula(varX, varY);
+		FoLtlAtomicFormula varYEqVarX2 = new FoLtlLocalEqualityFormula(varY, varX2);
+		FoLtlAtomicFormula conXEqConX2 = new FoLtlLocalEqualityFormula(conX, conX2);
+		FoLtlAtomicFormula conX2EqConX = new FoLtlLocalEqualityFormula(conX2, conX);
+
+		System.out.println("\nEquality formula comparisons\n");
+
+		assertEquals("Same arguments", varXEqVarX2.hashCode(), varXEqVarX22.hashCode());
+		assertEquals("Same arguments, inverted order", varXEqVarX2.hashCode(), varX2EqVarX.hashCode());
+		//assertEquals("Equal arguments, inverted order bis", varXEqVarY.hashCode(), varYEqVarX2.hashCode());
+		assertEquals("Equal arguments (constants)", conXEqConX2.hashCode(), conX2EqConX.hashCode());
+
+		System.out.println("\n\nSINGLE BINARY OPERATOR FORMULA COMPARISONS\n");
+
+		//Local binary boolean operators
+
+		FoLtlPredicate P = new FoLtlPredicate("P", 1);
+
+		FoLtlLocalAtom Pa = new FoLtlLocalAtom(P, new FoLtlConstant("a"));
+		FoLtlLocalAtom Pa2 = new FoLtlLocalAtom(P, new FoLtlConstant("a"));
+		FoLtlLocalAtom Pb = new FoLtlLocalAtom(P, new FoLtlConstant("b"));
+		FoLtlLocalAtom Pb2 = new FoLtlLocalAtom(P, new FoLtlConstant("b"));
+
+		//Local AND
+		FoLtlFormula aANDa = new FoLtlLocalAndFormula(Pa, Pa);
+		FoLtlFormula aANDa2 = new FoLtlLocalAndFormula(Pa2, Pa2);
+		FoLtlFormula aANDb = new FoLtlLocalAndFormula(Pa, Pb);
+		FoLtlFormula bANDa = new FoLtlLocalAndFormula(Pb2, Pa2);
+
+		//Local OR
+		FoLtlFormula aORa = new FoLtlLocalOrFormula(Pa, Pa);
+		FoLtlFormula aORa2 = new FoLtlLocalOrFormula(Pa2, Pa2);
+		FoLtlFormula aORb = new FoLtlLocalOrFormula(Pa, Pb);
+		FoLtlFormula bORa = new FoLtlLocalOrFormula(Pb2, Pa2);
+
+		//Local <->
+		FoLtlFormula aDIa = new FoLtlLocalDoubleImplFormula(Pa, Pa);
+		FoLtlFormula aDIa2 = new FoLtlLocalDoubleImplFormula(Pa2, Pa2);
+		FoLtlFormula aDIb = new FoLtlLocalDoubleImplFormula(Pa, Pb);
+		FoLtlFormula bDIa = new FoLtlLocalDoubleImplFormula(Pb2, Pa2);
+
+		//Local ->
+		FoLtlFormula aIMa = new FoLtlLocalImplFormula(Pa, Pa);
+		FoLtlFormula aIMa2 = new FoLtlLocalImplFormula(Pa2, Pa2);
+
+		System.out.println("Local binary boolean operator comparisons\n");
+
+		assertEquals("a AND a ; a AND a", aANDa.hashCode(), aANDa2.hashCode());
+		//assertEquals("a AND b ; b AND a", aANDb, bANDa);
+		assertEquals("a OR a ; a OR a", aORa.hashCode(), aORa2.hashCode());
+		//assertEquals("a OR b ; b OR a", aORb, bORa);
+		assertEquals("a DI a ; a DI a", aDIa.hashCode(), aDIa2.hashCode());
+		//assertEquals("a DI b ; b DI a", aDIb, bDIa);
+		assertEquals("a IM a ; a IM a", aIMa.hashCode(), aIMa2.hashCode());
+
+
+		//Temporal binary boolean operators
+
+		// Temporal AND
+		FoLtlFormula atANDa = new FoLtlTempAndFormula(Pa, Pa);
+		FoLtlFormula atANDa2 = new FoLtlTempAndFormula(Pa2, Pa2);
+		FoLtlFormula atANDb = new FoLtlTempAndFormula(Pa, Pb);
+		FoLtlFormula btANDa = new FoLtlTempAndFormula(Pb2, Pa2);
+
+		//Temporal OR
+		FoLtlFormula atORa = new FoLtlTempOrFormula(Pa, Pa);
+		FoLtlFormula atORa2 = new FoLtlTempOrFormula(Pa2, Pa2);
+		FoLtlFormula atORb = new FoLtlTempOrFormula(Pa, Pb);
+		FoLtlFormula btORa = new FoLtlTempOrFormula(Pb2, Pa2);
+
+		//Temporal <->
+		FoLtlFormula atDIa = new FoLtlTempDoubleImplFormula(Pa, Pa);
+		FoLtlFormula atDIa2 = new FoLtlTempDoubleImplFormula(Pa2, Pa2);
+		FoLtlFormula atDIb = new FoLtlTempDoubleImplFormula(Pa, Pb);
+		FoLtlFormula btDIa = new FoLtlTempDoubleImplFormula(Pb2, Pa2);
+
+		//Temporal ->
+		FoLtlFormula atIMa = new FoLtlTempImplFormula(Pa, Pa);
+		FoLtlFormula atIMa2 = new FoLtlTempImplFormula(Pa2, Pa2);
+
+		System.out.println("\nTemporal binary boolean operator comparisons\n");
+
+		assertEquals("a tAND a ; a tAND a", atANDa.hashCode(), atANDa2.hashCode());
+		//assertEquals("a tAND b ; b tAND a", atANDb, btANDa);
+		assertEquals("a tOR a ; a tOR a", atORa.hashCode(), atORa2.hashCode());
+		//assertEquals("a tOR b ; b tOR a", atORb, btORa);
+		assertEquals("a tDI a ; a tDI a", atDIa.hashCode(), atDIa2.hashCode());
+		//assertEquals("a tDI b ; b tDI a", atDIb, btDIa);
+		assertEquals("a tIM a ; a tIM a", atIMa.hashCode(), atIMa2.hashCode());
+
+
+		//Temporal binary operators
+
+		//WeakUntil
+		FoLtlFormula aWUa = new FoLtlWeakUntilFormula(Pa, Pa);
+		FoLtlFormula aWUa2 = new FoLtlWeakUntilFormula(Pa2, Pa2);
+
+		//Release
+		FoLtlFormula aRa = new FoLtlReleaseFormula(Pa, Pa);
+		FoLtlFormula aRa2 = new FoLtlReleaseFormula(Pa2, Pa2);
+
+		//Until
+		FoLtlFormula aUa = new FoLtlUntilFormula(Pa, Pa);
+		FoLtlFormula aUa2 = new FoLtlUntilFormula(Pa2, Pa2);
+
+		System.out.println("\nTemporal binary operator comparisons\n");
+
+		assertEquals("a WU a ; a WU a", aWUa.hashCode(), aWUa2.hashCode());
+		assertEquals("a R a ; a R a", aRa.hashCode(), aRa2.hashCode());
+		assertEquals("a U a ; a U a", aUa.hashCode(), aUa2.hashCode());
+
+
+		System.out.println("\n\nSINGLE UNARY OPERATOR FORMULA COMPARISONS\n");
+
+		//Unary operators
+
+		//Local not
+		FoLtlFormula nA = new FoLtlLocalNotFormula(Pa);
+		FoLtlFormula nA2 = new FoLtlLocalNotFormula(Pa);
+
+		//Temporal not
+		FoLtlFormula tnA = new FoLtlTempNotFormula(Pa);
+		FoLtlFormula tnA2 = new FoLtlTempNotFormula(Pa);
+
+		//Unary temporal operators
+
+		//Globally
+		FoLtlFormula gA = new FoLtlGloballyFormula(Pa);
+		FoLtlFormula gA2 = new FoLtlGloballyFormula(Pa);
+
+		//Eventually
+		FoLtlFormula fA = new FoLtlEventuallyFormula(Pa);
+		FoLtlFormula fA2 = new FoLtlEventuallyFormula(Pa);
+
+		//Weak next
+		FoLtlFormula wxA = new FoLtlWeakNextFormula(Pa);
+		FoLtlFormula wxA2 = new FoLtlWeakNextFormula(Pa);
+
+		//next
+		FoLtlFormula xA = new FoLtlNextFormula(Pa);
+		FoLtlFormula xA2 = new FoLtlNextFormula(Pa);
+
+		System.out.println("\nUnary operator comparisons");
+
+		assertEquals("NOT a ; NOT a", nA.hashCode(), nA2.hashCode());
+		assertEquals("tNOT a ; tNOT a", tnA.hashCode(), tnA2.hashCode());
+		assertEquals("G a ; G a", gA.hashCode(), gA2.hashCode());
+		assertEquals("F a ; F a", fA.hashCode(), fA2.hashCode());
+		assertEquals("WX a ; WX a", wxA.hashCode(), wxA2.hashCode());
+		assertEquals("X a ; X a", xA.hashCode(), xA2.hashCode());
+
+
+		//Quantified formulas
+		System.out.println("\n\nQUANTIFIED FORMULAS");
+
+		FoLtlVariable vx = new FoLtlVariable("x");
+		FoLtlVariable vy = new FoLtlVariable("y");
+		FoLtlVariable vx2 = new FoLtlVariable("x");
+
+		FoLtlLocalAtom px = new FoLtlLocalAtom(P, vx);
+		FoLtlLocalAtom py = new FoLtlLocalAtom(P, vy);
+		FoLtlLocalAtom px2 = new FoLtlLocalAtom(P, vx);
+
+		//Local quantifiers
+		FoLtlFormula forallXpx = new FoLtlLocalForallFormula(px, vx);
+		FoLtlFormula forallXpx2 = new FoLtlLocalForallFormula(px2, vx2);
+
+		FoLtlFormula existsXpx = new FoLtlLocalExistsFormula(px, vx);
+		FoLtlFormula existsXpx2 = new FoLtlLocalExistsFormula(px2, vx2);
+
+		//Across state quantifiers
+		FoLtlFormula xsForallXpx = new FoLtlAcrossForallFormula(px, vx);
+		FoLtlFormula xsForallXpx2 = new FoLtlAcrossForallFormula(px2, vx2);
+
+		FoLtlFormula xsExistsXpx = new FoLtlAcrossExistsFormula(px, vx);
+		FoLtlFormula xsExistsXpx2 = new FoLtlAcrossExistsFormula(px2, vx2);
+
+		System.out.println("\nQuantified formula comparisons\n");
+
+		assertEquals("Forall x px ; Forall x px", forallXpx.hashCode(), forallXpx2.hashCode());
+		assertEquals("Exists x px ; Exists x px", existsXpx.hashCode(), existsXpx2.hashCode());
+		assertEquals("xsForall x px ; xsForall x px", xsForallXpx.hashCode(), xsForallXpx2.hashCode());
+		assertEquals("xsExists x px ; xsExists x px", xsExistsXpx.hashCode(), xsExistsXpx2.hashCode());
+
+	}
+
+	@Test
+	public void testClone(){
+		System.out.println("\n*** CLONE TEST ***\n");
+
+		System.out.println("BASIC COMPARISONS\n");
+
+		//Term comparisons
+		FoLtlTerm varX = new FoLtlVariable("x");
+		FoLtlTerm conX = new FoLtlConstant("x");
+
+		System.out.println("Term clone\n");
+
+		assertEquals("Variable", varX, varX.clone());
+		assertEquals("Constant", conX, conX.clone());
+
+
+		//Predicate comparisons
+		FoLtlPredicate Par2 = new FoLtlPredicate("P", 2);
+
+		System.out.println("\nPredicate clone\n");
+
+		assertEquals("Predicate", Par2, Par2.clone());
+
+
+		System.out.println("\n\nATOMIC FORMULA COMPARISONS");
+
+
+		//Atom comparisons
+		FoLtlAtomicFormula fa = new FoLtlLocalFalseAtom();
+		FoLtlAtomicFormula ta = new FoLtlLocalTrueAtom();
+		FoLtlAtomicFormula la = new FoLtlTempLastAtom();
+
+		System.out.println("\nAtom comparisons\n");
+
+		assertEquals("False", fa, fa.clone());
+		assertEquals("True", ta, ta.clone());
+		assertEquals("Last", la, la.clone());
+
+
+		//Atomic formula comparisons
+		FoLtlPredicate L = new FoLtlPredicate("L", 5);
+
+		FoLtlLocalAtom Lxxxxx = new FoLtlLocalAtom(L, varX, conX, varX, conX, varX);
+
+		System.out.println("\nLocal atom comparisons\n");
+
+		assertEquals("Local atom", Lxxxxx, Lxxxxx.clone());
+
+
+		//Equality formula comparisons
+		FoLtlFormula eq = new FoLtlLocalEqualityFormula(conX, varX);
+
+		System.out.println("\nEquality formula comparisons\n");
+
+		assertEquals("Equality", eq, eq.clone());
+
+
+		System.out.println("\n\nSINGLE BINARY OPERATOR FORMULA COMPARISONS\n");
+
+		//Local binary boolean operators
+
+		FoLtlPredicate P = new FoLtlPredicate("P", 1);
+
+		FoLtlLocalAtom Pa = new FoLtlLocalAtom(P, new FoLtlConstant("a"));
+
+		//Local AND
+		FoLtlFormula aANDa = new FoLtlLocalAndFormula(Pa, Pa);
+
+		//Local OR
+		FoLtlFormula aORa = new FoLtlLocalOrFormula(Pa, Pa);
+
+		//Local <->
+		FoLtlFormula aDIa = new FoLtlLocalDoubleImplFormula(Pa, Pa);
+
+		//Local ->
+		FoLtlFormula aIMa = new FoLtlLocalImplFormula(Pa, Pa);
+
+		System.out.println("Local binary boolean operator comparisons\n");
+
+		assertEquals("AND", aANDa, aANDa.clone());
+		assertEquals("OR", aORa, aORa.clone());
+		assertEquals("IMPL", aIMa, aIMa.clone());
+		assertEquals("DIMPL", aDIa, aDIa.clone());
+
+
+		//Temporal binary boolean operators
+
+		// Temporal AND
+		FoLtlFormula atANDa = new FoLtlTempAndFormula(Pa, Pa);
+
+		//Temporal OR
+		FoLtlFormula atORa = new FoLtlTempOrFormula(Pa, Pa);
+
+		//Temporal <->
+		FoLtlFormula atDIa = new FoLtlTempDoubleImplFormula(Pa, Pa);
+
+		//Temporal ->
+		FoLtlFormula atIMa = new FoLtlTempImplFormula(Pa, Pa);
+
+		System.out.println("\nTemporal binary boolean operator comparisons\n");
+
+		assertEquals("TeAND", atANDa, atANDa.clone());
+		assertEquals("TeOR", atORa, atORa.clone());
+		assertEquals("TeDIMPL", atDIa, atDIa.clone());
+		assertEquals("TeIMPL", atIMa, atIMa.clone());
+
+
+		//Temporal binary operators
+
+		//WeakUntil
+		FoLtlFormula aWUa = new FoLtlWeakUntilFormula(Pa, Pa);
+
+		//Release
+		FoLtlFormula aRa = new FoLtlReleaseFormula(Pa, Pa);
+
+		//Until
+		FoLtlFormula aUa = new FoLtlUntilFormula(Pa, Pa);
+
+		System.out.println("\nTemporal binary operator comparisons\n");
+
+		assertEquals("WU", aWUa, aWUa.clone());
+		assertEquals("R", aRa, aRa.clone());
+		assertEquals("U", aUa, aUa.clone());
+
+
+		System.out.println("\n\nSINGLE UNARY OPERATOR FORMULA COMPARISONS\n");
+
+		//Unary operators
+
+		//Local not
+		FoLtlFormula nA = new FoLtlLocalNotFormula(Pa);
+
+		//Temporal not
+		FoLtlFormula tnA = new FoLtlTempNotFormula(Pa);
+
+		//Unary temporal operators
+
+		//Globally
+		FoLtlFormula gA = new FoLtlGloballyFormula(Pa);
+
+		//Eventually
+		FoLtlFormula fA = new FoLtlEventuallyFormula(Pa);
+
+		//Weak next
+		FoLtlFormula wxA = new FoLtlWeakNextFormula(Pa);
+
+		//next
+		FoLtlFormula xA = new FoLtlNextFormula(Pa);
+
+		System.out.println("\nUnary operator comparisons");
+
+		assertEquals("NOT", nA, nA.clone());
+		assertEquals("TeNOT", tnA, tnA.clone());
+		assertEquals("G", gA, gA.clone());
+		assertEquals("F", fA, fA.clone());
+		assertEquals("WX", wxA, wxA.clone());
+		assertEquals("X", xA, xA.clone());
+
+
+		//Quantified formulas
+		System.out.println("\n\nQUANTIFIED FORMULAS");
+
+		FoLtlVariable vx = new FoLtlVariable("x");
+
+		FoLtlLocalAtom px = new FoLtlLocalAtom(P, vx);
+
+		//Local quantifiers
+		FoLtlFormula forallXpx = new FoLtlLocalForallFormula(px, vx);
+
+		FoLtlFormula existsXpx = new FoLtlLocalExistsFormula(px, vx);
+
+		//Across state quantifiers
+		FoLtlFormula xsForallXpx = new FoLtlAcrossForallFormula(px, vx);
+
+		FoLtlFormula xsExistsXpx = new FoLtlAcrossExistsFormula(px, vx);
+
+		System.out.println("\nQuantified formula comparisons\n");
+
+		assertEquals("Forall", forallXpx, forallXpx.clone());
+		assertEquals("Exists", existsXpx, existsXpx.clone());
+		assertEquals("xsForall", xsForallXpx, xsForallXpx.clone());
+		assertEquals("xsExists", xsExistsXpx, xsExistsXpx.clone());
+
+		System.out.println("\n\nBIGGER FORMULAS\n");
+
+		//G P(a) & F Q(a, b)
+
+		FoLtlConstant a = new FoLtlConstant("a");
+		FoLtlConstant b = new FoLtlConstant("b");
+
+		P = new FoLtlPredicate("P", 1);
+		FoLtlPredicate Q = new FoLtlPredicate("Q", 2);
+
+		Pa = new FoLtlLocalAtom(P, a);
+		FoLtlLocalAtom Qab = new FoLtlLocalAtom(Q, a, b);
+
+		FoLtlFormula globPa = new FoLtlGloballyFormula(Pa);
+		FoLtlFormula evnQab = new FoLtlEventuallyFormula(Qab);
+		FoLtlFormula globAndEvn = new FoLtlTempAndFormula(globPa, evnQab);
+
+		FoLtlFormula target = globAndEvn;
+
+		assertEquals("G P(a) & F Q(a, b)", target, target.clone());
+
+
+		//P(a) & Q(b, d) U P(c) & Q(a, b)
+
+		FoLtlConstant c = new FoLtlConstant("c");
+		FoLtlConstant d = new FoLtlConstant("d");
+
+		FoLtlLocalAtom Pc = new FoLtlLocalAtom(P, c);
+		FoLtlLocalAtom Qbd = new FoLtlLocalAtom(Q, b, d);
+
+		FoLtlFormula PaAndQbd = new FoLtlLocalAndFormula(Pa, Qbd);
+		FoLtlFormula PcAndQab = new FoLtlLocalAndFormula(Pc, Qab);
+		FoLtlFormula andUntiland = new FoLtlUntilFormula(PaAndQbd, PcAndQab);
+
+		target = andUntiland;
+
+		assertEquals("P(a) & Q(b, d) U P(c) & Q(a, b)", target, target.clone());
+
+
+		//(P(a) & P(b)) U ((X Q(c, c) & (P(c) U P(d)))
+
+		FoLtlLocalAtom Pb = new FoLtlLocalAtom(P, b);
+		FoLtlLocalAtom Pd = new FoLtlLocalAtom(P, d);
+		FoLtlLocalAtom Qcc = new FoLtlLocalAtom(Q, c, c);
+
+		FoLtlFormula PaAndPb = new FoLtlLocalAndFormula(Pa, Pb);
+		FoLtlFormula PcUntPd = new FoLtlUntilFormula(Pc, Pd);
+		FoLtlFormula nextQcc = new FoLtlNextFormula(Qcc);
+		FoLtlFormula xqAndpUp = new FoLtlTempAndFormula(nextQcc, PcUntPd);
+		FoLtlFormula andUand = new FoLtlUntilFormula(PaAndPb, xqAndpUp);
+
+		target = andUand;
+
+		assertEquals("(P(a) & P(b)) U ((X Q(c, c) & (P(c) U P(d)))", target, target.clone());
+
+
+		//((P(a) & P(b)) U ((X P(c)) & (P(d)))) R
+		// 			( ((WX (P(a) -> P(a))) WU (G P(a) R P(a))) <-> (P(a) U P(a)) )
+
+		FoLtlFormula and1 = new FoLtlLocalAndFormula(Pa, Pb);
+		FoLtlFormula next1 = new FoLtlNextFormula(Pc);
+		FoLtlFormula and2 = new FoLtlTempAndFormula(next1, Pd);
+		FoLtlFormula unt1 = new FoLtlUntilFormula(and1, and2);
+		FoLtlFormula impl1 = new FoLtlLocalImplFormula(Pa, Pa);
+		FoLtlFormula wNext1 = new FoLtlWeakNextFormula(impl1);
+		FoLtlFormula glob1 = new FoLtlGloballyFormula(Pa);
+		FoLtlFormula rel1 = new FoLtlReleaseFormula(glob1, Pa);
+		FoLtlFormula wUnt1 = new FoLtlWeakUntilFormula(wNext1, rel1);
+		FoLtlFormula unt2 = new FoLtlUntilFormula(Pa, Pa);
+		FoLtlFormula dImpl1 = new FoLtlTempDoubleImplFormula(wUnt1, unt2);
+		FoLtlFormula rel2 = new FoLtlReleaseFormula(unt1, dImpl1);
+
+		target = rel2;
+
+		assertEquals("((P(a) & P(b)) U ((X P(c)) & (P(d)))) R \n" +
+				"\t( ((WX (P(a) -> P(a))) WU (G P(a) R P(a))) <-> (P(a) U P(a)) )", target, target.clone());
+
+
+		//Forall ?x ((P(?x)) U (Exists ?y ((!(?x = ?y)) && (P(?y)))))
+
+		FoLtlVariable x = new FoLtlVariable("x");
+		FoLtlVariable y = new FoLtlVariable("y");
+
+		FoLtlLocalAtom Px = new FoLtlLocalAtom(P, x);
+		FoLtlLocalAtom Py = new FoLtlLocalAtom(P, y);
+
+		FoLtlFormula xEQy = new FoLtlLocalEqualityFormula(x, y);
+		FoLtlFormula neq = new FoLtlLocalNotFormula(xEQy);
+		FoLtlFormula and = new FoLtlLocalAndFormula(neq, Py);
+
+		FoLtlFormula existsY = new FoLtlLocalExistsFormula(and, y);
+		FoLtlFormula until = new FoLtlUntilFormula(Px, existsY);
+		FoLtlFormula forallX = new FoLtlAcrossForallFormula(until, x);
+
+		target = forallX;
+
+		assertEquals("Forall ?x ((P(?x)) U (Exists ?y ((!(?x = ?y)) && (P(?y)))))", target, target.clone());
+
+
+		//Forall ?x (Forall ?y P(?x) & Q(?x, ?x) | G P(?y) U Q(?y, ?y))
+
+		FoLtlLocalAtom Qxx = new FoLtlLocalAtom(Q, x, x);
+		FoLtlLocalAtom Qyy = new FoLtlLocalAtom(Q, y, y);
+
+		FoLtlFormula pxAndQxx = new FoLtlLocalAndFormula(Px, Qxx);
+		FoLtlFormula gPy = new FoLtlGloballyFormula(Py);
+		FoLtlFormula gpyUQyy = new FoLtlUntilFormula(gPy, Qyy);
+		FoLtlFormula tor = new FoLtlTempOrFormula(pxAndQxx, gpyUQyy);
+		FoLtlFormula forallY = new FoLtlAcrossForallFormula(tor, y);
+		forallX = new FoLtlAcrossForallFormula(forallY, x);
+
+		target = forallX;
+
+		assertEquals("Forall ?x (Forall ?y P(?x) & Q(?x, ?x) | G P(?y) U Q(?y, ?y))", target, target.clone());
+
+		//Forall ?x (Forall ?y P(?x) & Q(?x, ?x) | FALSE U Q(?y, ?y))
+
+		FoLtlFormula fsUQyy = new FoLtlUntilFormula(new FoLtlGloballyFormula(new FoLtlLocalFalseAtom()), Qyy);
+		FoLtlFormula tor1 = new FoLtlTempOrFormula(pxAndQxx, fsUQyy);
+		FoLtlFormula forallY1 = new FoLtlAcrossForallFormula(tor1, y);
+		forallX = new FoLtlAcrossForallFormula(forallY1, x);
+
+		target = forallX;
+
+		assertEquals("Forall ?x (Forall ?y P(?x) & Q(?x, ?x) | FALSE U Q(?y, ?y))", target, target.clone());
+
+		//G P(a) U LAST
+		target = new FoLtlUntilFormula(new FoLtlGloballyFormula(Pa), new FoLtlTempLastAtom());
+
+		assertEquals("G P(a) U LAST", target, target.clone());
+
+	}
+
+	//<editor-fold desc="assertEquals" defaultstate="collapsed">
 	/**
 	 * Wrapper for the Assert.assertEquals method, used to print some description also in case of success
 	 * @param description brief description of the current test case
@@ -435,7 +1020,7 @@ public class FoLtlOperationTest {
 	}
 	//</editor-fold>
 
-	//<editor-fold desc="assertNotEquals">
+	//<editor-fold desc="assertNotEquals" defaultstate="collapsed">
 	/**
 	 * Wrapper for the Assert.assertNotEquals method, used to print some description also in case of success
 	 * @param description brief description of the current test case

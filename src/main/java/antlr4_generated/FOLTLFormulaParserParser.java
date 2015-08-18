@@ -21,13 +21,13 @@ public class FOLTLFormulaParserParser extends Parser {
 	public static final int
 		T__0=1, LAST=2, WEAKUNTIL=3, UNTIL=4, RELEASE=5, GLOBALLY=6, EVENTUALLY=7, 
 		WEAKNEXT=8, NEXT=9, LPAREN=10, RPAREN=11, DOUBLEIMPLY=12, IMPLY=13, AND=14, 
-		OR=15, NOT=16, FORALL=17, EXISTS=18, EQUAL=19, VARIABLE=20, CONSTANT=21, 
-		PREPOSITION=22, FALSEATOM=23, TRUEATOM=24, WS=25;
+		OR=15, NOT=16, FORALL=17, EXISTS=18, EQUAL=19, FALSEATOM=20, TRUEATOM=21, 
+		VARIABLE=22, CONSTANT=23, PREPOSITION=24, WS=25;
 	public static final String[] tokenNames = {
 		"<INVALID>", "','", "LAST", "WEAKUNTIL", "UNTIL", "RELEASE", "GLOBALLY", 
 		"EVENTUALLY", "WEAKNEXT", "NEXT", "'('", "')'", "'<->'", "'->'", "AND", 
-		"OR", "'!'", "'Forall'", "'Exists'", "'='", "VARIABLE", "CONSTANT", "PREPOSITION", 
-		"FALSEATOM", "TRUEATOM", "WS"
+		"OR", "'!'", "'Forall'", "'Exists'", "'='", "FALSEATOM", "TRUEATOM", "VARIABLE", 
+		"CONSTANT", "PREPOSITION", "WS"
 	};
 	public static final int
 		RULE_start = 0, RULE_foltlFormula = 1, RULE_acrossQuantifiedFormula = 2, 
@@ -897,11 +897,11 @@ public class FOLTLFormulaParserParser extends Parser {
 			case NOT:
 			case FORALL:
 			case EXISTS:
+			case FALSEATOM:
+			case TRUEATOM:
 			case VARIABLE:
 			case CONSTANT:
 			case PREPOSITION:
-			case FALSEATOM:
-			case TRUEATOM:
 				enterOuterAlt(_localctx, 2);
 				{
 				setState(155);
@@ -1265,11 +1265,11 @@ public class FOLTLFormulaParserParser extends Parser {
 
 			setState(209);
 			switch (_input.LA(1)) {
+			case FALSEATOM:
+			case TRUEATOM:
 			case VARIABLE:
 			case CONSTANT:
 			case PREPOSITION:
-			case FALSEATOM:
-			case TRUEATOM:
 				{
 				setState(204); folAtom();
 				}
@@ -1508,14 +1508,14 @@ public class FOLTLFormulaParserParser extends Parser {
 		"\5\27\u00cd\n\27\3\27\3\27\3\27\3\27\3\27\5\27\u00d4\n\27\3\30\3\30\3"+
 		"\30\3\30\5\30\u00da\n\30\3\31\3\31\3\31\3\31\3\32\3\32\3\32\3\32\3\32"+
 		"\7\32\u00e5\n\32\f\32\16\32\u00e8\13\32\3\32\3\32\3\32\2\2\33\2\4\6\b"+
-		"\n\f\16\20\22\24\26\30\32\34\36 \"$&(*,.\60\62\2\4\3\2\23\24\3\2\26\27"+
+		"\n\f\16\20\22\24\26\30\32\34\36 \"$&(*,.\60\62\2\4\3\2\23\24\3\2\30\31"+
 		"\u00ef\2\64\3\2\2\2\49\3\2\2\2\6C\3\2\2\2\bE\3\2\2\2\nM\3\2\2\2\fU\3\2"+
 		"\2\2\16]\3\2\2\2\20e\3\2\2\2\22m\3\2\2\2\24u\3\2\2\2\26~\3\2\2\2\30\u0083"+
 		"\3\2\2\2\32\u0088\3\2\2\2\34\u008d\3\2\2\2\36\u0092\3\2\2\2 \u00a3\3\2"+
 		"\2\2\"\u00a7\3\2\2\2$\u00ab\3\2\2\2&\u00b3\3\2\2\2(\u00bb\3\2\2\2*\u00c3"+
 		"\3\2\2\2,\u00cc\3\2\2\2.\u00d9\3\2\2\2\60\u00db\3\2\2\2\62\u00df\3\2\2"+
 		"\2\64\65\5\4\3\2\65\66\7\2\2\3\66\3\3\2\2\2\67:\5\"\22\28:\5\6\4\29\67"+
-		"\3\2\2\298\3\2\2\2:\5\3\2\2\2;<\t\2\2\2<=\7\26\2\2=>\3\2\2\2>?\7\f\2\2"+
+		"\3\2\2\298\3\2\2\2:\5\3\2\2\2;<\t\2\2\2<=\7\30\2\2=>\3\2\2\2>?\7\f\2\2"+
 		"?@\5\6\4\2@A\7\r\2\2AD\3\2\2\2BD\5\b\5\2C;\3\2\2\2CB\3\2\2\2D\7\3\2\2"+
 		"\2EJ\5\n\6\2FG\7\16\2\2GI\5\n\6\2HF\3\2\2\2IL\3\2\2\2JH\3\2\2\2JK\3\2"+
 		"\2\2K\t\3\2\2\2LJ\3\2\2\2MR\5\f\7\2NO\7\17\2\2OQ\5\f\7\2PN\3\2\2\2QT\3"+
@@ -1540,7 +1540,7 @@ public class FOLTLFormulaParserParser extends Parser {
 		"\2\u009d\u009e\3\2\2\2\u009e\u009f\3\2\2\2\u009f\u00a1\5\"\22\2\u00a0"+
 		"\u00a2\7\r\2\2\u00a1\u00a0\3\2\2\2\u00a1\u00a2\3\2\2\2\u00a2\u00a4\3\2"+
 		"\2\2\u00a3\u009b\3\2\2\2\u00a3\u009d\3\2\2\2\u00a4!\3\2\2\2\u00a5\u00a6"+
-		"\t\2\2\2\u00a6\u00a8\7\26\2\2\u00a7\u00a5\3\2\2\2\u00a7\u00a8\3\2\2\2"+
+		"\t\2\2\2\u00a6\u00a8\7\30\2\2\u00a7\u00a5\3\2\2\2\u00a7\u00a8\3\2\2\2"+
 		"\u00a8\u00a9\3\2\2\2\u00a9\u00aa\5$\23\2\u00aa#\3\2\2\2\u00ab\u00b0\5"+
 		"&\24\2\u00ac\u00ad\7\16\2\2\u00ad\u00af\5&\24\2\u00ae\u00ac\3\2\2\2\u00af"+
 		"\u00b2\3\2\2\2\u00b0\u00ae\3\2\2\2\u00b0\u00b1\3\2\2\2\u00b1%\3\2\2\2"+
@@ -1555,11 +1555,11 @@ public class FOLTLFormulaParserParser extends Parser {
 		"\u00cc\u00cb\3\2\2\2\u00cc\u00cd\3\2\2\2\u00cd\u00d3\3\2\2\2\u00ce\u00d4"+
 		"\5.\30\2\u00cf\u00d0\7\f\2\2\u00d0\u00d1\5\"\22\2\u00d1\u00d2\7\r\2\2"+
 		"\u00d2\u00d4\3\2\2\2\u00d3\u00ce\3\2\2\2\u00d3\u00cf\3\2\2\2\u00d4-\3"+
-		"\2\2\2\u00d5\u00da\5\62\32\2\u00d6\u00da\5\60\31\2\u00d7\u00da\7\32\2"+
-		"\2\u00d8\u00da\7\31\2\2\u00d9\u00d5\3\2\2\2\u00d9\u00d6\3\2\2\2\u00d9"+
+		"\2\2\2\u00d5\u00da\5\62\32\2\u00d6\u00da\5\60\31\2\u00d7\u00da\7\27\2"+
+		"\2\u00d8\u00da\7\26\2\2\u00d9\u00d5\3\2\2\2\u00d9\u00d6\3\2\2\2\u00d9"+
 		"\u00d7\3\2\2\2\u00d9\u00d8\3\2\2\2\u00da/\3\2\2\2\u00db\u00dc\t\3\2\2"+
 		"\u00dc\u00dd\7\25\2\2\u00dd\u00de\t\3\2\2\u00de\61\3\2\2\2\u00df\u00e0"+
-		"\7\30\2\2\u00e0\u00e1\7\f\2\2\u00e1\u00e6\t\3\2\2\u00e2\u00e3\7\3\2\2"+
+		"\7\32\2\2\u00e0\u00e1\7\f\2\2\u00e1\u00e6\t\3\2\2\u00e2\u00e3\7\3\2\2"+
 		"\u00e3\u00e5\t\3\2\2\u00e4\u00e2\3\2\2\2\u00e5\u00e8\3\2\2\2\u00e6\u00e4"+
 		"\3\2\2\2\u00e6\u00e7\3\2\2\2\u00e7\u00e9\3\2\2\2\u00e8\u00e6\3\2\2\2\u00e9"+
 		"\u00ea\7\r\2\2\u00ea\63\3\2\2\2\359CJRZbjrz~\u0083\u0088\u008d\u0092\u0099"+

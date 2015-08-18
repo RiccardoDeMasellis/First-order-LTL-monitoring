@@ -1,5 +1,6 @@
 package formula.foltl;
 
+import formula.FormulaType;
 import formula.ImplFormula;
 
 /**
@@ -12,8 +13,13 @@ public class FoLtlTempImplFormula extends FoLtlBinaryFormula implements ImplForm
 	}
 
 	@Override
+	public FormulaType getFormulaType(){
+		return FormulaType.TEMP_IMPLICATION;
+	}
+
+	@Override
 	public String stringOperator(){
-		return "t->";
+		return "Te->";
 	}
 
 }

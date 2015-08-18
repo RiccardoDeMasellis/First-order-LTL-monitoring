@@ -1,5 +1,6 @@
 package formula.fol;
 
+import formula.FormulaType;
 import formula.Variable;
 
 /**
@@ -11,6 +12,12 @@ public class FolVariable extends FolTerm implements Variable {
 		super(name);
 	}
 
+	@Override
+	public FormulaType getTermType(){
+		return FormulaType.FOL_VARIABLE;
+	}
+
+	@Override
 	public String toString(){
 		return "?"+super.getName();
 	}

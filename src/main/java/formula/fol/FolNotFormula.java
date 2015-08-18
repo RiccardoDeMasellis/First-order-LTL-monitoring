@@ -1,5 +1,6 @@
 package formula.fol;
 
+import formula.FormulaType;
 import formula.NotFormula;
 
 /**
@@ -9,6 +10,11 @@ public class FolNotFormula extends FolUnaryFormula implements NotFormula, FolBoo
 
 	public FolNotFormula(FolFormula nestedFormula) {
 		super(nestedFormula);
+	}
+
+	@Override
+	public FormulaType getFormulaType(){
+		return FormulaType.FOL_NOT;
 	}
 
 }

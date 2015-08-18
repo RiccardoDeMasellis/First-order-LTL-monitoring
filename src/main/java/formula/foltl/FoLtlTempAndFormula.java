@@ -1,6 +1,7 @@
 package formula.foltl;
 
 import formula.AndFormula;
+import formula.FormulaType;
 
 /**
  * Created by Simone Calciolari on 06/08/15.
@@ -12,10 +13,16 @@ public class FoLtlTempAndFormula extends FoLtlBinaryFormula implements AndFormul
 	}
 
 	@Override
-	public String stringOperator(){
-		return "tAND";
+	public FormulaType getFormulaType(){
+		return FormulaType.TEMP_AND;
 	}
 
+	@Override
+	public String stringOperator(){
+		return "TeAND";
+	}
+
+	/*
 	@Override
 	public boolean equals(Object o){
 		boolean res = false;
@@ -30,5 +37,6 @@ public class FoLtlTempAndFormula extends FoLtlBinaryFormula implements AndFormul
 
 		return res;
 	}
+	*/
 
 }

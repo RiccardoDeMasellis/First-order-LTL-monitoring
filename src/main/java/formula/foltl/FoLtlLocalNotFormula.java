@@ -1,5 +1,6 @@
 package formula.foltl;
 
+import formula.FormulaType;
 import formula.NotFormula;
 
 /**
@@ -9,6 +10,11 @@ public class FoLtlLocalNotFormula extends FoLtlUnaryFormula implements NotFormul
 
 	public FoLtlLocalNotFormula(FoLtlFormula nestedFormula) {
 		super(nestedFormula);
+	}
+
+	@Override
+	public FormulaType getFormulaType(){
+		return FormulaType.LOCAL_NOT;
 	}
 
 }

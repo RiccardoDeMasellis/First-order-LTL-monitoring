@@ -115,15 +115,15 @@ EXISTS : 'Exists' ;
 
 EQUAL : '=' ;
 
+FALSEATOM : 'FALSE' | 'False' | 'false';
+
+TRUEATOM : 'TRUE' | 'True' | 'true' ;
+
 VARIABLE : '?' (('a'..'z') | ('0'..'9')) CHARACTER* ;
 
 CONSTANT : (('a'..'z') | ('0'..'9')) CHARACTER* ;
 
 PREPOSITION : ('A'..'Z') CHARACTER* ;
-
-FALSEATOM : 'FALSE' | 'False' | 'false';
-
-TRUEATOM : 'TRUE' | 'True' | 'true' ;
 
 fragment CHARACTER : ('0'..'9' | 'a'..'z' | 'A'..'Z' | '_') ;
 

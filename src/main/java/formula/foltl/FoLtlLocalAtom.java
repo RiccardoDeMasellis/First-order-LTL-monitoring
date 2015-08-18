@@ -1,12 +1,15 @@
 package formula.foltl;
 
+import formula.FormulaType;
+import formula.LocalAtom;
+
 import java.util.Iterator;
 import java.util.LinkedList;
 
 /**
  * Created by Simone Calciolari on 06/08/15.
  */
-public class FoLtlLocalAtom extends FoLtlAtomicFormula implements FoLtlLocalFormula {
+public class FoLtlLocalAtom extends FoLtlAtomicFormula implements FoLtlLocalFormula, LocalAtom {
 
 	private FoLtlPredicate predicate;
 	private LinkedList<FoLtlTerm> arguments;
@@ -76,6 +79,7 @@ public class FoLtlLocalAtom extends FoLtlAtomicFormula implements FoLtlLocalForm
 		return this.arguments;
 	}
 
+	@Override
 	public  String toString(){
 		String s = predicate.toString() + "(";
 
@@ -103,6 +107,41 @@ public class FoLtlLocalAtom extends FoLtlAtomicFormula implements FoLtlLocalForm
 		s = s +")";
 
 		return s;
+	}
+
+	@Override
+	public FormulaType getFormulaType() {
+		return FormulaType.LOCAL_ATOM;
+	}
+
+	@Override
+	public int hashCode(){
+		int res;
+		res = this.getPredicate() != null ? this.getPredicate().hashCode() : 0;
+
+		Iterator<FoLtlTerm> i = this.getArguments().iterator();
+
+		while (i.hasNext()){
+			FoLtlTerm t = i.next();
+			res = 31 * res;
+			res = res + (t != null ? t.hashCode() : 0);
+		}
+
+		return res;
+	}
+
+	@Override
+	public FoLtlFormula clone() {
+		LinkedList<FoLtlTerm> newArgs = new LinkedList<>();
+		Iterator<FoLtlTerm> i = this.getArguments().iterator();
+
+		while (i.hasNext()){
+			FoLtlTerm t = i.next();
+			newArgs.add(t);
+		}
+
+		return this.formulaFactory(this.getFormulaType(), null, null, this.getPredicate().clone(), newArgs);
+
 	}
 
 	@Override

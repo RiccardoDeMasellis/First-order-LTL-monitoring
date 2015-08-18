@@ -1,5 +1,6 @@
 package formula.foltl;
 
+import formula.FormulaType;
 import formula.ForallQuantifiedFormula;
 
 /**
@@ -10,6 +11,11 @@ public class FoLtlLocalForallFormula extends FoLtlQuantifiedFormula implements F
 
 	public FoLtlLocalForallFormula(FoLtlFormula nestedFormula, FoLtlVariable quantifiedVariable){
 		super(nestedFormula, quantifiedVariable);
+	}
+
+	@Override
+	public FormulaType getFormulaType(){
+		return FormulaType.LOCAL_FORALL;
 	}
 
 }

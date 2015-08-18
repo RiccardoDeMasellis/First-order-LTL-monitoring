@@ -1,5 +1,6 @@
 package formula.foltl;
 
+import formula.FormulaType;
 import formula.Variable;
 
 /**
@@ -11,6 +12,12 @@ public class FoLtlVariable extends FoLtlTerm implements Variable {
 		super(name);
 	}
 
+	@Override
+	public FormulaType getTermType(){
+		return FormulaType.LOCAL_VARIABLE;
+	}
+
+	@Override
 	public String toString(){
 		return "?" + super.toString();
 	}

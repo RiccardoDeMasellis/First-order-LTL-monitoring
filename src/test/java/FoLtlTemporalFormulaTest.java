@@ -37,7 +37,7 @@ public class FoLtlTemporalFormulaTest {
 
 		FoLtlFormula builtFormula = globAndEvn;
 
-		Assert.assertEquals("", "(G(P(a))) tAND (F(Q(a, b)))", builtFormula.toString());
+		Assert.assertEquals("", "(G(P(a))) TeAND (F(Q(a, b)))", builtFormula.toString());
 
 		System.out.println("\nBuilt formula: " + builtFormula.toString());
 
@@ -75,7 +75,7 @@ public class FoLtlTemporalFormulaTest {
 
 		builtFormula = andUand;
 
-		Assert.assertEquals("", "((P(a)) AND (P(b))) U ((X(Q(c, c))) tAND ((P(c)) U (P(d))))",
+		Assert.assertEquals("", "((P(a)) AND (P(b))) U ((X(Q(c, c))) TeAND ((P(c)) U (P(d))))",
 				builtFormula.toString());
 
 		System.out.println("\nBuilt formula: " + builtFormula.toString());
@@ -99,8 +99,8 @@ public class FoLtlTemporalFormulaTest {
 
 		builtFormula = rel2;
 
-		Assert.assertEquals("", "(((P(a)) AND (P(b))) U ((X(P(c))) tAND (P(d)))) R (((WX((P(a)) -> (P(a)))) WU ((G(P(a))) " +
-				"R (P(a)))) t<-> ((P(a)) U (P(a))))",	builtFormula.toString());
+		Assert.assertEquals("", "(((P(a)) AND (P(b))) U ((X(P(c))) TeAND (P(d)))) R (((WX((P(a)) -> (P(a)))) WU ((G(P(a))) " +
+				"R (P(a)))) Te<-> ((P(a)) U (P(a))))",	builtFormula.toString());
 
 		System.out.println("\nBuilt formula: " + builtFormula.toString());
 
@@ -123,7 +123,7 @@ public class FoLtlTemporalFormulaTest {
 
 		builtFormula = forallX;
 
-		Assert.assertEquals("", "xsForall ?x: ((P(?x)) U (Exists ?y: ((!(?x = ?y)) AND (P(?y)))))",
+		Assert.assertEquals("", "xsForall ?x: ((P(?x)) U (Exists ?y: ((NOT(?x = ?y)) AND (P(?y)))))",
 				builtFormula.toString());
 
 		System.out.println("\nBuilt formula: " + builtFormula.toString());
@@ -142,7 +142,21 @@ public class FoLtlTemporalFormulaTest {
 
 		builtFormula = forallX;
 
-		Assert.assertEquals("", "xsForall ?x: (xsForall ?y: (((P(?x)) AND (Q(?x, ?x))) tOR ((G(P(?y))) U (Q(?y, ?y)))))",
+		Assert.assertEquals("", "xsForall ?x: (xsForall ?y: (((P(?x)) AND (Q(?x, ?x))) TeOR ((G(P(?y))) U (Q(?y, ?y)))))",
+				builtFormula.toString());
+
+		System.out.println("\nBuilt formula: " + builtFormula.toString());
+
+		//Forall ?x (Forall ?y P(?x) & Q(?x, ?x) | FALSE U Q(?y, ?y))
+
+		FoLtlFormula fsUQyy = new FoLtlUntilFormula(new FoLtlLocalFalseAtom(), Qyy);
+		FoLtlFormula tor1 = new FoLtlTempOrFormula(pxAndQxx, fsUQyy);
+		FoLtlFormula forallY1 = new FoLtlAcrossForallFormula(tor1, y);
+		forallX = new FoLtlAcrossForallFormula(forallY1, x);
+
+		builtFormula = forallX;
+
+		Assert.assertEquals("", "xsForall ?x: (xsForall ?y: (((P(?x)) AND (Q(?x, ?x))) TeOR ((FALSE) U (Q(?y, ?y)))))",
 				builtFormula.toString());
 
 		System.out.println("\nBuilt formula: " + builtFormula.toString());
@@ -271,9 +285,27 @@ public class FoLtlTemporalFormulaTest {
 		Assert.assertEquals("", target,
 				parseTemporalFormula("Forall ?x (Forall ?y (P(?x) & Q(?x, ?x) | G P(?y) U Q(?y, ?y)))"));
 
+		//Forall ?x (Forall ?y P(?x) & Q(?x, ?x) | FALSE U Q(?y, ?y))
+
+		FoLtlFormula fsUQyy = new FoLtlUntilFormula(new FoLtlGloballyFormula(new FoLtlLocalFalseAtom()), Qyy);
+		FoLtlFormula tor1 = new FoLtlTempOrFormula(pxAndQxx, fsUQyy);
+		FoLtlFormula forallY1 = new FoLtlAcrossForallFormula(tor1, y);
+		forallX = new FoLtlAcrossForallFormula(forallY1, x);
+
+		target = forallX;
+
+		Assert.assertEquals("", target,
+				parseTemporalFormula("Forall ?x (Forall ?y (P(?x) & Q(?x, ?x) | G false U Q(?y, ?y)))"));
+
+		//G P(a) U LAST
+		target = new FoLtlUntilFormula(new FoLtlGloballyFormula(Pa), new FoLtlTempLastAtom());
+
+		Assert.assertEquals("", target,
+				parseTemporalFormula("G P(a) U LAST"));
+
 	}
 
-	//<editor-fold desc="parseTemporalFormula">
+	//<editor-fold desc="parseTemporalFormula" defaultstate="collapsed">
 	/**
 	 * Method to encapsulate the instructions needed to parse a given temporal foltl formula
 	 * @param input the input formula

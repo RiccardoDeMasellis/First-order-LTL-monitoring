@@ -281,7 +281,7 @@ public class FolFormulaTest {
 
 	}
 
-	//<editor-fold desc="parseLocalFormula">
+	//<editor-fold desc="parseLocalFormula" defaultstate="collapsed">
 	/**
 	 * Method to encapsulate the instructions needed to parse a given local foltl formula
 	 * @param input the input formula

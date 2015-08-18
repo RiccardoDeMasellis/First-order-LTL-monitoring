@@ -1,5 +1,6 @@
 package formula.foltl;
 
+import formula.FormulaType;
 import formula.OrFormula;
 
 /**
@@ -11,6 +12,12 @@ public class FoLtlLocalOrFormula extends FoLtlBinaryFormula implements OrFormula
 		super(left, right);
 	}
 
+	@Override
+	public FormulaType getFormulaType(){
+		return FormulaType.LOCAL_OR;
+	}
+
+	/*
 	@Override
 	public boolean equals(Object o){
 		boolean res = false;
@@ -25,5 +32,6 @@ public class FoLtlLocalOrFormula extends FoLtlBinaryFormula implements OrFormula
 
 		return res;
 	}
+	*/
 
 }

@@ -3,8 +3,9 @@ package formula;
 /**
  * Created by Simone Calciolari on 05/08/15.
  */
-public interface Variable {
+public interface Variable extends Term {
 
+	@Override
 	String toString();
 
 }

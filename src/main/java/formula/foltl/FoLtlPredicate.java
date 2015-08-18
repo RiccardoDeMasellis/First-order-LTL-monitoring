@@ -1,9 +1,11 @@
 package formula.foltl;
 
+import formula.Predicate;
+
 /**
  * Created by Simone Calciolari on 06/08/15.
  */
-public class FoLtlPredicate {
+public class FoLtlPredicate implements Predicate {
 
 	private String name;
 	private int arity;
@@ -13,16 +15,31 @@ public class FoLtlPredicate {
 		this.arity = arity;
 	}
 
-	public String toString(){
-		return this.getName();
-	}
-
 	public String getName(){
 		return this.name;
 	}
 
 	public int getArity(){
 		return this.arity;
+	}
+
+	@Override
+	public String toString(){
+		return this.getName();
+	}
+
+	@Override
+	public int hashCode(){
+		int res = this.getName() != null ? this.getName().hashCode() : 0;
+		res = res * 31;
+		res = res + this.getArity();
+		res = res * 31;
+		return res;
+	}
+
+	@Override
+	public FoLtlPredicate clone(){
+		return new FoLtlPredicate(this.getName(), this.getArity());
 	}
 
 	@Override
@@ -37,4 +54,5 @@ public class FoLtlPredicate {
 
 		return res;
 	}
+
 }

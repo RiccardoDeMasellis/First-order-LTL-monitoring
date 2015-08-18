@@ -20,12 +20,12 @@ public class FOFormulaParserParser extends Parser {
 		new PredictionContextCache();
 	public static final int
 		T__0=1, LPAREN=2, RPAREN=3, DOUBLEIMPLY=4, IMPLY=5, AND=6, OR=7, NOT=8, 
-		FORALL=9, EXISTS=10, EQUAL=11, VARIABLE=12, CONSTANT=13, PREPOSITION=14, 
-		FALSEATOM=15, TRUEATOM=16, WS=17;
+		FORALL=9, EXISTS=10, EQUAL=11, FALSEATOM=12, TRUEATOM=13, VARIABLE=14, 
+		CONSTANT=15, PREPOSITION=16, WS=17;
 	public static final String[] tokenNames = {
 		"<INVALID>", "','", "'('", "')'", "'<->'", "'->'", "AND", "OR", "'!'", 
-		"'Forall'", "'Exists'", "'='", "VARIABLE", "CONSTANT", "PREPOSITION", 
-		"FALSEATOM", "TRUEATOM", "WS"
+		"'Forall'", "'Exists'", "'='", "FALSEATOM", "TRUEATOM", "VARIABLE", "CONSTANT", 
+		"PREPOSITION", "WS"
 	};
 	public static final int
 		RULE_start = 0, RULE_localQuantifiedFormula = 1, RULE_localDoubleImplication = 2, 
@@ -412,11 +412,11 @@ public class FOFormulaParserParser extends Parser {
 
 			setState(69);
 			switch (_input.LA(1)) {
+			case FALSEATOM:
+			case TRUEATOM:
 			case VARIABLE:
 			case CONSTANT:
 			case PREPOSITION:
-			case FALSEATOM:
-			case TRUEATOM:
 				{
 				setState(64); folAtom();
 				}
@@ -643,10 +643,10 @@ public class FOFormulaParserParser extends Parser {
 		"\66\13\6\3\7\3\7\3\7\7\7;\n\7\f\7\16\7>\13\7\3\b\5\bA\n\b\3\b\3\b\3\b"+
 		"\3\b\3\b\5\bH\n\b\3\t\3\t\3\t\3\t\5\tN\n\t\3\n\3\n\3\n\3\n\3\13\3\13\3"+
 		"\13\3\13\3\13\7\13Y\n\13\f\13\16\13\\\13\13\3\13\3\13\3\13\2\2\f\2\4\6"+
-		"\b\n\f\16\20\22\24\2\4\3\2\13\f\3\2\16\17`\2\26\3\2\2\2\4\33\3\2\2\2\6"+
+		"\b\n\f\16\20\22\24\2\4\3\2\13\f\3\2\20\21`\2\26\3\2\2\2\4\33\3\2\2\2\6"+
 		"\37\3\2\2\2\b\'\3\2\2\2\n/\3\2\2\2\f\67\3\2\2\2\16@\3\2\2\2\20M\3\2\2"+
 		"\2\22O\3\2\2\2\24S\3\2\2\2\26\27\5\4\3\2\27\30\7\2\2\3\30\3\3\2\2\2\31"+
-		"\32\t\2\2\2\32\34\7\16\2\2\33\31\3\2\2\2\33\34\3\2\2\2\34\35\3\2\2\2\35"+
+		"\32\t\2\2\2\32\34\7\20\2\2\33\31\3\2\2\2\33\34\3\2\2\2\34\35\3\2\2\2\35"+
 		"\36\5\6\4\2\36\5\3\2\2\2\37$\5\b\5\2 !\7\6\2\2!#\5\b\5\2\" \3\2\2\2#&"+
 		"\3\2\2\2$\"\3\2\2\2$%\3\2\2\2%\7\3\2\2\2&$\3\2\2\2\',\5\n\6\2()\7\7\2"+
 		"\2)+\5\n\6\2*(\3\2\2\2+.\3\2\2\2,*\3\2\2\2,-\3\2\2\2-\t\3\2\2\2.,\3\2"+
@@ -655,9 +655,9 @@ public class FOFormulaParserParser extends Parser {
 		"\289\7\b\2\29;\5\16\b\2:8\3\2\2\2;>\3\2\2\2<:\3\2\2\2<=\3\2\2\2=\r\3\2"+
 		"\2\2><\3\2\2\2?A\7\n\2\2@?\3\2\2\2@A\3\2\2\2AG\3\2\2\2BH\5\20\t\2CD\7"+
 		"\4\2\2DE\5\4\3\2EF\7\5\2\2FH\3\2\2\2GB\3\2\2\2GC\3\2\2\2H\17\3\2\2\2I"+
-		"N\5\24\13\2JN\5\22\n\2KN\7\22\2\2LN\7\21\2\2MI\3\2\2\2MJ\3\2\2\2MK\3\2"+
+		"N\5\24\13\2JN\5\22\n\2KN\7\17\2\2LN\7\16\2\2MI\3\2\2\2MJ\3\2\2\2MK\3\2"+
 		"\2\2ML\3\2\2\2N\21\3\2\2\2OP\t\3\2\2PQ\7\r\2\2QR\t\3\2\2R\23\3\2\2\2S"+
-		"T\7\20\2\2TU\7\4\2\2UZ\t\3\2\2VW\7\3\2\2WY\t\3\2\2XV\3\2\2\2Y\\\3\2\2"+
+		"T\7\22\2\2TU\7\4\2\2UZ\t\3\2\2VW\7\3\2\2WY\t\3\2\2XV\3\2\2\2Y\\\3\2\2"+
 		"\2ZX\3\2\2\2Z[\3\2\2\2[]\3\2\2\2\\Z\3\2\2\2]^\7\5\2\2^\25\3\2\2\2\13\33"+
 		"$,\64<@GMZ";
 	public static final ATN _ATN =

@@ -1,6 +1,7 @@
 package formula.foltl;
 
 import formula.DoubleImplFormula;
+import formula.FormulaType;
 
 /**
  * Created by Simone Calciolari on 06/08/15.
@@ -11,6 +12,12 @@ public class FoLtlLocalDoubleImplFormula extends FoLtlBinaryFormula implements D
 		super(left, right);
 	}
 
+	@Override
+	public FormulaType getFormulaType(){
+		return FormulaType.LOCAL_DOUBLE_IMPL;
+	}
+
+	/*
 	@Override
 	public boolean equals(Object o){
 		boolean res = false;
@@ -25,5 +32,6 @@ public class FoLtlLocalDoubleImplFormula extends FoLtlBinaryFormula implements D
 
 		return res;
 	}
+	*/
 
 }

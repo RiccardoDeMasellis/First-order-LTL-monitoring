@@ -1,5 +1,6 @@
 package formula.foltl;
 
+import formula.FormulaType;
 import formula.NotFormula;
 
 /**
@@ -12,8 +13,13 @@ public class FoLtlTempNotFormula extends FoLtlUnaryFormula implements NotFormula
 	}
 
 	@Override
+	public FormulaType getFormulaType(){
+		return FormulaType.TEMP_NOT;
+	}
+
+	@Override
 	public String stringOperator(){
-		return "t!";
+		return "TeNOT";
 	}
 
 }

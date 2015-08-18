@@ -1,6 +1,7 @@
 package formula.fol;
 
 import formula.ForallQuantifiedFormula;
+import formula.FormulaType;
 import formula.Variable;
 
 /**
@@ -10,6 +11,11 @@ public class FolForallQuantifiedFormula extends FolQuantifiedFormula implements 
 
 	public FolForallQuantifiedFormula(FolFormula nestedFormula, FolVariable quantifiedVariable) {
 		super(nestedFormula, quantifiedVariable);
+	}
+
+	@Override
+	public FormulaType getFormulaType(){
+		return FormulaType.FOL_EXISTS;
 	}
 
 }

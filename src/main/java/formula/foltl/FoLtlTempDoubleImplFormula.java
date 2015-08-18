@@ -1,6 +1,7 @@
 package formula.foltl;
 
 import formula.DoubleImplFormula;
+import formula.FormulaType;
 
 /**
  * Created by Simone Calciolari on 06/08/15.
@@ -12,10 +13,16 @@ public class FoLtlTempDoubleImplFormula extends FoLtlBinaryFormula implements Do
 	}
 
 	@Override
-	public String stringOperator(){
-		return "t<->";
+	public FormulaType getFormulaType(){
+		return FormulaType.TEMP_DOUBLE_IMPL;
 	}
 
+	@Override
+	public String stringOperator(){
+		return "Te<->";
+	}
+
+	/*
 	@Override
 	public boolean equals(Object o){
 		boolean res = false;
@@ -30,5 +37,6 @@ public class FoLtlTempDoubleImplFormula extends FoLtlBinaryFormula implements Do
 
 		return res;
 	}
+	*/
 
 }

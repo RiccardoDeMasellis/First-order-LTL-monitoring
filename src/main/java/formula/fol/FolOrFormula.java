@@ -1,5 +1,6 @@
 package formula.fol;
 
+import formula.FormulaType;
 import formula.OrFormula;
 
 /**
@@ -9,6 +10,11 @@ public class FolOrFormula extends FolBinaryFormula implements OrFormula, FolBool
 
 	public FolOrFormula(FolFormula left, FolFormula right) {
 		super(left, right);
+	}
+
+	@Override
+	public FormulaType getFormulaType(){
+		return FormulaType.FOL_OR;
 	}
 
 }

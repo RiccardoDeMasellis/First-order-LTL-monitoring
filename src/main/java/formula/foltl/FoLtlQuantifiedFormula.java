@@ -1,5 +1,6 @@
 package formula.foltl;
 
+import formula.FormulaType;
 import formula.QuantifiedFormula;
 
 /**
@@ -23,8 +24,19 @@ public abstract class FoLtlQuantifiedFormula implements FoLtlFormula, Quantified
 		return this.quantifiedVariable;
 	}
 
+	@Override
 	public String toString() {
 		return this.stringOperator() + " " + this.getQuantifiedVariable() + ": (" + this.getNestedFormula() + ")";
+	}
+
+	@Override
+	public int hashCode(){
+		int res = this.getClass().hashCode();
+		res = 31 * res;
+		res = res + (this.getNestedFormula() != null ? this.getNestedFormula().hashCode() : 0);
+		res = 31 * res;
+		res = res + (this.getQuantifiedVariable() != null ? this.getQuantifiedVariable().hashCode() : 0);
+		return res;
 	}
 
 	@Override
@@ -40,4 +52,42 @@ public abstract class FoLtlQuantifiedFormula implements FoLtlFormula, Quantified
 
 		return res;
 	}
+
+	@Override
+	public FoLtlFormula clone(){
+		return this.formulaFactory(this.getFormulaType(), this.getNestedFormula().clone(),
+				(FoLtlVariable) this.getQuantifiedVariable().clone());
+	}
+
+	public FoLtlFormula formulaFactory(FormulaType type, FoLtlFormula nested, FoLtlVariable qvar){
+
+		FoLtlFormula res;
+
+		switch(type){
+
+			case ACROSS_EXISTS:
+				res = new FoLtlAcrossExistsFormula(nested, qvar);
+				break;
+
+			case ACROSS_FORALL:
+				res = new FoLtlAcrossForallFormula(nested, qvar);
+				break;
+
+			case LOCAL_EXISTS:
+				res = new FoLtlLocalExistsFormula(nested, qvar);
+				break;
+
+			case LOCAL_FORALL:
+				res = new FoLtlLocalForallFormula(nested, qvar);
+				break;
+
+			default:
+				throw new RuntimeException("Unknown formula type");
+
+		}
+
+		return res;
+
+	}
+
 }
