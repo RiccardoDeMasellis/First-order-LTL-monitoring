@@ -21,4 +21,14 @@ public class FoLtlNextFormula extends FoLtlUnaryFormula implements FoLtlTempOpTe
 		return "X";
 	}
 
+	@Override
+	public FoLtlFormula nnf(){
+		return new FoLtlNextFormula((FoLtlFormula) this.getNestedFormula().nnf());
+	}
+
+	@Override
+	public FoLtlFormula negate(){
+		return new FoLtlNextFormula((FoLtlFormula) this.getNestedFormula().negate());
+	}
+
 }

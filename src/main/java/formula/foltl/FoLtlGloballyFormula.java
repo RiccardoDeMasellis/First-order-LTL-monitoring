@@ -21,4 +21,16 @@ public class FoLtlGloballyFormula extends FoLtlUnaryFormula implements FoLtlTemp
 		return "G";
 	}
 
+	//G(phi) == false R phi
+	@Override
+	public FoLtlFormula nnf(){
+		FoLtlFormula nested = this.getNestedFormula().clone();
+		return new FoLtlReleaseFormula(new FoLtlLocalFalseAtom(), nested).nnf();
+	}
+
+	@Override
+	public FoLtlFormula negate(){
+		return (FoLtlFormula) this.nnf().negate();
+	}
+
 }
