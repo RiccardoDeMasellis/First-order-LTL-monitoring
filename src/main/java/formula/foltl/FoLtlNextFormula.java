@@ -26,9 +26,11 @@ public class FoLtlNextFormula extends FoLtlUnaryFormula implements FoLtlTempOpTe
 		return new FoLtlNextFormula((FoLtlFormula) this.getNestedFormula().nnf());
 	}
 
+	// WARNING! We are working on finite paths: NOT(X phi) = WN NOT(phi)
 	@Override
 	public FoLtlFormula negate(){
-		return new FoLtlNextFormula((FoLtlFormula) this.getNestedFormula().negate());
+		FoLtlFormula nested = (FoLtlFormula) this.getNestedFormula().negate();
+		return new FoLtlWeakNextFormula(nested);
 	}
 
 }
