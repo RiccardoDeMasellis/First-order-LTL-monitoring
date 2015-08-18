@@ -1,12 +1,14 @@
 package formula.fol;
 
+import formula.LocalAtom;
+
 import java.util.Iterator;
 import java.util.LinkedList;
 
 /**
  * Created by Simone Calciolari on 05/08/15.
  */
-public class FolAtom extends FolAtomicFormula {
+public class FolAtom extends FolAtomicFormula implements LocalAtom {
 
 	private FolPredicate predicate;
 	private LinkedList<FolTerm> arguments;

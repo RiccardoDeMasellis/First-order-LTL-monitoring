@@ -1,10 +1,13 @@
 package formula.foltl;
 
+import formula.FalseAtom;
+
 /**
  * Created by Simone Calciolari on 06/08/15.
  */
-public class FoLtlLocalFalseAtom extends FoLtlAtomicFormula implements FoLtlLocalFormula {
+public class FoLtlLocalFalseAtom extends FoLtlAtomicFormula implements FoLtlLocalFormula, FalseAtom {
 
+	@Override
 	public String toString(){
 		return "FALSE";
 	}

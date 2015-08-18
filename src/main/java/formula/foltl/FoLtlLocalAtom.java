@@ -1,12 +1,14 @@
 package formula.foltl;
 
+import formula.LocalAtom;
+
 import java.util.Iterator;
 import java.util.LinkedList;
 
 /**
  * Created by Simone Calciolari on 06/08/15.
  */
-public class FoLtlLocalAtom extends FoLtlAtomicFormula implements FoLtlLocalFormula {
+public class FoLtlLocalAtom extends FoLtlAtomicFormula implements FoLtlLocalFormula, LocalAtom {
 
 	private FoLtlPredicate predicate;
 	private LinkedList<FoLtlTerm> arguments;

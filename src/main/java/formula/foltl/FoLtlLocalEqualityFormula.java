@@ -1,9 +1,11 @@
 package formula.foltl;
 
+import formula.EqualityFormula;
+
 /**
  * Created by Simone Calciolari on 06/08/15.
  */
-public class FoLtlLocalEqualityFormula extends FoLtlAtomicFormula implements FoLtlLocalFormula {
+public class FoLtlLocalEqualityFormula extends FoLtlAtomicFormula implements FoLtlLocalFormula, EqualityFormula {
 
 	private FoLtlTerm left;
 	private FoLtlTerm right;
