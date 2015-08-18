@@ -1001,6 +1001,40 @@ public class FoLtlOperationTest {
 
 	}
 
+	@Test
+	public void testNnf(){
+
+		System.out.println("\n*** NEGATION NORMAL FORM TEST ***\n");
+
+		FoLtlConstant a = new FoLtlConstant("a");
+		FoLtlConstant b = new FoLtlConstant("b");
+		FoLtlVariable x = new FoLtlVariable("x");
+
+		FoLtlPredicate p = new FoLtlPredicate("P", 1);
+
+		FoLtlLocalAtom pa = new FoLtlLocalAtom(p, a);
+		FoLtlLocalAtom pb = new FoLtlLocalAtom(p, b);
+
+		//FALSE
+		assertEquals("FALSE", new FoLtlLocalFalseAtom(), new FoLtlLocalFalseAtom().nnf());
+
+		//!P(a)
+		assertEquals("NOT(P(a))", new FoLtlLocalNotFormula(pa), new FoLtlLocalNotFormula(pa).nnf());
+
+		//a = b
+		assertEquals("a = b", new FoLtlLocalEqualityFormula(a, b), new FoLtlLocalEqualityFormula(a, b).nnf());
+
+		//P(a) && P(B)
+		assertEquals("P(a) AND P(b)", new FoLtlLocalAndFormula(pa, pb), new FoLtlLocalAndFormula(pa, pb).nnf());
+
+		//P(a) -> P(b)
+		FoLtlFormula aIMPLb = new FoLtlLocalImplFormula(pa, pb);
+		FoLtlFormula target = new FoLtlLocalOrFormula(new FoLtlLocalNotFormula(pa), pb);
+
+		assertEquals(aIMPLb.toString(), target, aIMPLb.nnf());
+
+	}
+
 	//<editor-fold desc="assertEquals" defaultstate="collapsed">
 	/**
 	 * Wrapper for the Assert.assertEquals method, used to print some description also in case of success
