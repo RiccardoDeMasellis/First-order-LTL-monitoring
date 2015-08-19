@@ -14,7 +14,7 @@ import visitors.FOLTLVisitors.FoLtlTemporalVisitor;
 public class FoLtlOperationTest {
 
 	//Boolean flag used to display extra information during the execution
-	private static final boolean DEBUG = false;
+	private static final boolean DEBUG = true;
 
 	@Test
 	public void testEquals(){
@@ -696,6 +696,8 @@ public class FoLtlOperationTest {
 
 	@Test
 	public void testClone(){
+
+		//TODO add controls to check if pointers are different (of the kind assertFalse(a == a.clone())
 		System.out.println("\n*** CLONE TEST ***\n");
 
 		System.out.println("BASIC COMPARISONS\n");
@@ -1049,43 +1051,43 @@ public class FoLtlOperationTest {
 		FoLtlFormula target = new FoLtlLocalOrFormula(new FoLtlLocalNotFormula(pa), pb);
 		FoLtlFormula testFormula = aIMPLb;
 
-		assertEquals(testFormula.toString(), target, testFormula.nnf());
+		assertEquals(testFormula.nnf().toString(), target, testFormula.nnf());
 
 		//P(a) <-> P(b)
 		testFormula = new FoLtlLocalDoubleImplFormula(pa, pb);
 		target = parseTemporalFormula("(! P(a) || P(b)) && (! P(b) || P(a))");
 
-		assertEquals(testFormula.toString(), target, testFormula.nnf());
+		assertEquals(testFormula.nnf().toString(), target, testFormula.nnf());
 
 		//! (P(a) && P(b))
 		testFormula = new FoLtlLocalNotFormula(new FoLtlLocalAndFormula(pa, pb));
 		target = parseTemporalFormula("! P(a) || ! P(b)");
 
-		assertEquals(testFormula.toString(), target, testFormula.nnf());
+		assertEquals(testFormula.nnf().toString(), target, testFormula.nnf());
 
 		//(P(a) -> P(b)) && P(a)
 		testFormula = new FoLtlLocalAndFormula(new FoLtlLocalImplFormula(pa, pb), pa);
 		target = parseTemporalFormula("(! P(a) || P(b)) && P(a)");
 
-		assertEquals(testFormula.toString(), target, testFormula.nnf());
+		assertEquals(testFormula.nnf().toString(), target, testFormula.nnf());
 
 		//! (Forall x P(a))
 		testFormula = new FoLtlLocalNotFormula(new FoLtlLocalForallFormula(pa, x));
 		target = parseTemporalFormula("Exists ?x (! P(a))");
 
-		assertEquals(testFormula.toString(), target, testFormula.nnf());
+		assertEquals(testFormula.nnf().toString(), target, testFormula.nnf());
 
 		//! (Exists x P(a))
 		testFormula = new FoLtlLocalNotFormula(new FoLtlLocalExistsFormula(pa, x));
 		target = parseTemporalFormula("Forall ?x (! P(a))");
 
-		assertEquals(testFormula.toString(), target, testFormula.nnf());
+		assertEquals(testFormula.nnf().toString(), target, testFormula.nnf());
 
 		//!Forall x (P(a) -> P(b))
 		testFormula = new FoLtlLocalNotFormula(new FoLtlLocalForallFormula(aIMPLb, x));
 		target = parseTemporalFormula("Exists ?x (P(a) && !P(b))");
 
-		assertEquals(testFormula.toString(), target, testFormula.nnf());
+		assertEquals(testFormula.nnf().toString(), target, testFormula.nnf());
 
 
 		//Temporal formulas
@@ -1095,7 +1097,50 @@ public class FoLtlOperationTest {
 		testFormula = new FoLtlNextFormula(pa);
 		target = parseTemporalFormula("X P(a)");
 
-		assertEquals(testFormula.toString(), target, testFormula.nnf());
+		assertEquals(testFormula.nnf().toString(), target, testFormula.nnf());
+
+		//WX P(a)
+		testFormula = new FoLtlWeakNextFormula(pa);
+		target = parseTemporalFormula("WX P(a)");
+
+		assertEquals(testFormula.nnf().toString(), target, testFormula.nnf());
+
+		//a U b
+		testFormula = new FoLtlUntilFormula(pa, pb);
+		target = parseTemporalFormula("P(a) U P(b)");
+
+		assertEquals(testFormula.nnf().toString(), target, testFormula.nnf());
+
+		//a R b
+		testFormula = new FoLtlReleaseFormula(pa, pb);
+		target = parseTemporalFormula("P(a) R P(b)");
+
+		assertEquals(testFormula.nnf().toString(), target, testFormula.nnf());
+
+		//G a
+		testFormula = new FoLtlGloballyFormula(pa);
+		target = parseTemporalFormula("FALSE R P(a)");
+
+		assertEquals(testFormula.nnf().toString(), target, testFormula.nnf());
+
+		//F a
+		testFormula = new FoLtlEventuallyFormula(pa);
+		target = parseTemporalFormula("TRUE U P(a)");
+
+		assertEquals(testFormula.nnf().toString(), target, testFormula.nnf());
+
+		//a WU b
+		testFormula = new FoLtlWeakUntilFormula(pa, pb);
+		target = parseTemporalFormula("P(b) R (P(a) || P(b))");
+
+		assertEquals(testFormula.nnf().toString(), target, testFormula.nnf());
+
+		//!(P(a) & P(b)) & G(!( P(a) <-> P(b) ))
+		//Expected (! P(a) || ! P(b)) && (false R ((P(a) && ! P(b)) || (P(b) && ! P(a))))
+		testFormula = parseTemporalFormula("!(P(a) & P(b)) & G(!( P(a) <-> P(b) ))");
+		target = parseTemporalFormula("(! P(a) || ! P(b)) && ((false) R (((P(a)) & (!P(b))) | ((P(b)) & (!P(a)))))");
+
+		assertEquals(testFormula.nnf().toString(), target, testFormula.nnf());
 
 	}
 

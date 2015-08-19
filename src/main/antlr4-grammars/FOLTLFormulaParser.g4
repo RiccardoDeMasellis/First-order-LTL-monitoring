@@ -66,7 +66,7 @@ temporalNegation
 
 ltlfAtom
     :   LAST
-    |   LPAREN? localQuantifiedFormula RPAREN?
+    |   localQuantifiedFormula
     ;
 
 
