@@ -546,7 +546,9 @@ public class FoLtlTemporalStringVisitor extends FOLTLFormulaParserBaseVisitor<St
 
 		String input = ctx.start.getInputStream().getText(interval);
 
-		System.out.println();
+		if (DEBUG) {
+			System.out.println();
+		}
 
 		FOFormulaParserLexer foLexer = new FOFormulaParserLexer(new ANTLRInputStream(input));
 		FOFormulaParserParser foParser = new FOFormulaParserParser(new CommonTokenStream(foLexer));
