@@ -1017,7 +1017,7 @@ public class FoLtlOperationTest {
 
 		System.out.println("\n*** NEGATION NORMAL FORM TEST ***\n");
 
-		//Used only to get warning messages out of the way
+		//Used only to get parser's warning messages out of the way
 		parseTemporalFormula("P(a)");
 		System.out.println("\n");
 
@@ -1090,7 +1090,7 @@ public class FoLtlOperationTest {
 		assertEquals(input.toString(), target, input.nnf());
 
 
-		//Temporal formulas
+		//TEMPORAL FORMULAS
 		System.out.println("\nTEMPORAL FORMULAS\n");
 
 		//X P(a)
@@ -1149,22 +1149,193 @@ public class FoLtlOperationTest {
 
 		assertEquals(input.toString(), target, input.nnf());
 
+		//Input: !( G( G( (WX false) R (G true) )))
+		//Expected: (TRUE) U ((TRUE) U ((X TRUE) U (TRUE U FALSE)))
+		input = parseTemporalFormula("!( G( G( (WX false) R (G true) )))");
+		target = parseTemporalFormula("(TRUE) U ((TRUE) U ((X TRUE) U (TRUE U FALSE)))");
+
+		assertEquals(input.toString(), target, input.nnf());
+
+		//Input: F( G( (WX false) <-> (G (!(P(a) & P(b))))))
+		//Expected: TRUE U (FALSE R (((X TRUE) || (FALSE R ((! P(a)) || (! P(b))))) && ((TRUE U (P(a) && P(b))) || (WX FALSE))))
+		input = parseTemporalFormula("F( G( (WX false) <-> (G (!(P(a) & P(b))))))");
+		target = parseTemporalFormula("TRUE U (FALSE R " +
+				"(((X TRUE) || (FALSE R ((! P(a)) || (! P(b))))) && ((TRUE U (P(a) && P(b))) || (WX FALSE))))");
+
+		assertEquals(input.toString(), target, input.nnf());
+
+	}
+
+	@Test
+	public void testNegate(){
+
+		//Used only to get parser's warning messages out of the way
+		parseTemporalFormula("P(a)");
+		System.out.println("\n");
+
+		System.out.println("\n*** NEGATION TEST ***\n\n");
+
+		//Atomic formulas
+
+		//FALSE ATOM
+		FoLtlFormula input = parseTemporalFormula("FALSE");
+		FoLtlFormula target = parseTemporalFormula("TRUE");
+		assertEquals(input.toString(), target, input.negate());
+
+		//TRUE ATOM
+		input = parseTemporalFormula("TRUE");
+		target = parseTemporalFormula("FALSE");
+		assertEquals(input.toString(), target, input.negate());
+
+		//LAST ATOM
+		input = parseTemporalFormula("LAST");
+		target = parseTemporalFormula("! (Last)");
+		assertEquals(input.toString(), target, input.negate());
+
+		//LOCAL ATOM
+		input = parseTemporalFormula("P(a)");
+		target = parseTemporalFormula("!P(a)");
+		assertEquals(input.toString(), target, input.negate());
+
+		//EQUALITY ATOM
+		input = parseTemporalFormula("a = ?x");
+		target = parseTemporalFormula("!(a = ?x)");
+		assertEquals(input.toString(), target, input.negate());
+
+
+		//Local boolean formulas
+
+		//AND
+		input = parseTemporalFormula("P(a) & P(b)");
+		target = parseTemporalFormula("!P(a) | !P(b)");
+		assertEquals(input.toString(), target, input.negate());
+
+		//OR
+		input = parseTemporalFormula("P(a) | P(b)");
+		target = parseTemporalFormula("!P(a) & !P(b)");
+		assertEquals(input.toString(), target, input.negate());
+
+		//IMPLICATION
+		input = parseTemporalFormula("P(a) -> P(b)");
+		target = parseTemporalFormula("P(a) & !P(b)");
+		assertEquals(input.toString(), target, input.negate());
+
+		//DOUBLE IMPLICATION
+		input = parseTemporalFormula("P(a) <-> P(b)");
+		target = parseTemporalFormula("P(a) && !P(b) || P(b) && !P(a)");
+		assertEquals(input.toString(), target, input.negate());
+
+		//NEGATION
+		input = parseTemporalFormula("! P(a)");
+		target = parseTemporalFormula("P(a)");
+		assertEquals(input.toString(), target, input.negate());
+
+
+		//Temporal operators
+
+		//X
+		input = parseTemporalFormula("X P(a)");
+		target = parseTemporalFormula("WX !P(a)");
+		assertEquals(input.toString(), target, input.negate());
+
+		//WX
+		input = parseTemporalFormula("WX P(a)");
+		target = parseTemporalFormula("X !P(a)");
+		assertEquals(input.toString(), target, input.negate());
+
+		//U
+		input = parseTemporalFormula("P(a) U P(b)");
+		target = parseTemporalFormula("!P(a) R !P(b)");
+		assertEquals(input.toString(), target, input.negate());
+
+		//R
+		input = parseTemporalFormula("P(a) R P(b)");
+		target = parseTemporalFormula("!P(a) U !P(b)");
+		assertEquals(input.toString(), target, input.negate());
+
+		//G
+		input = parseTemporalFormula("G P(a)");
+		target = parseTemporalFormula("TRUE U !P(a)");
+		assertEquals(input.toString(), target, input.negate());
+
+		//F
+		input = parseTemporalFormula("F P(a)");
+		target = parseTemporalFormula("FALSE R !P(a)");
+		assertEquals(input.toString(), target, input.negate());
+
+		//WU
+		input = parseTemporalFormula("P(a) WU P(b)");
+		target = parseTemporalFormula("!P(b) U !P(a) && !P(b) ");
+		assertEquals(input.toString(), target, input.negate());
+
+
+		//Temporal boolean formulas
+
+		//AND
+		input = parseTemporalFormula("X P(a) & X P(b)");
+		target = parseTemporalFormula("WX !P(a) | WX !P(b)");
+		assertEquals(input.toString(), target, input.negate());
+
+		//OR
+		input = parseTemporalFormula("X P(a) | X P(b)");
+		target = parseTemporalFormula("WX !P(a) & WX !P(b)");
+		assertEquals(input.toString(), target, input.negate());
+
+		//IMPLICATION
+		input = parseTemporalFormula("X P(a) -> X P(b)");
+		target = parseTemporalFormula("X P(a) & WX !P(b)");
+		assertEquals(input.toString(), target, input.negate());
+
+		//DOUBLE IMPLICATION
+		input = parseTemporalFormula("X P(a) <-> X P(b)");
+		target = parseTemporalFormula("X P(a) && WX !P(b) || X P(b) && WX !P(a)");
+		assertEquals(input.toString(), target, input.negate());
+
+		//NEGATION
+		input = parseTemporalFormula("! (X P(a))");
+		target = parseTemporalFormula("X P(a)");
+		assertEquals(input.toString(), target, input.negate());
+
+
+		//Quantified formulas
+
+		//EXISTS
+		input = parseTemporalFormula("Exists ?x P(x)");
+		target = parseTemporalFormula("Forall ?x ! P(x)");
+		assertEquals(input.toString(), target, input.negate());
+
+		//FORALL
+		input = parseTemporalFormula("Forall ?x P(x)");
+		target = parseTemporalFormula("Exists ?x ! P(x)");
+		assertEquals(input.toString(), target, input.negate());
+
+		//ACROSS EXISTS
+		input = parseTemporalFormula("Exists ?x (X P(x))");
+		target = parseTemporalFormula("Forall ?x (WX ! P(x))");
+		assertEquals(input.toString(), target, input.negate());
+
+		//ACROSS FORALL
+		input = parseTemporalFormula("Forall ?x (X P(x))");
+		target = parseTemporalFormula("Exists ?x (WX ! P(x))");
+		assertEquals(input.toString(), target, input.negate());
+
+
 	}
 
 	//<editor-fold desc="assertEquals" defaultstate="collapsed">
 	/**
 	 * Wrapper for the Assert.assertEquals method, used to print some description also in case of success
 	 * @param description brief description of the current test case
-	 * @param a first object to be compared
-	 * @param b second object to be compared
+	 * @param expected first object to be compared
+	 * @param computed second object to be compared
 	 */
-	private static void assertEquals(String description, Object a, Object b) {
+	private static void assertEquals(String description, Object expected, Object computed) {
 
 		try {
-			Assert.assertEquals("", a, b);
+			Assert.assertEquals(description, expected, computed);
 			System.out.println(description + ": EQUALS");
-			System.out.println("\t> Expected: " + a.toString());
-			System.out.println("\t> Computed: " + b.toString());
+			System.out.println("\t> Expected: " + expected.toString());
+			System.out.println("\t> Computed: " + computed.toString());
 			System.out.println();
 		} catch (AssertionError e){
 			throw e;
@@ -1177,13 +1348,13 @@ public class FoLtlOperationTest {
 	/**
 	 * Wrapper for the Assert.assertNotEquals method, used to print some description also in case of success
 	 * @param description brief description of the current test case
-	 * @param a first object to be compared
-	 * @param b second object to be compared
+	 * @param expected first object to be compared
+	 * @param computed second object to be compared
 	 */
-	private static void assertNotEquals(String description, Object a, Object b) {
+	private static void assertNotEquals(String description, Object expected, Object computed) {
 
 		try {
-			Assert.assertNotEquals("", a, b);
+			Assert.assertNotEquals("", expected, computed);
 			System.out.println("\t> " + description + ": NOT EQUALS");
 		} catch (AssertionError e){
 			throw e;
