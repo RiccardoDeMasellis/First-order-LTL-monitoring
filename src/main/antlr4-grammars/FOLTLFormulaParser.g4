@@ -61,7 +61,8 @@ next
     ;
 
 temporalNegation
-    :   NOT? ( ltlfAtom | LPAREN temporalDoubleImplication RPAREN )
+		:		ltlfAtom
+    |   NOT? LPAREN temporalDoubleImplication RPAREN
     ;
 
 ltlfAtom

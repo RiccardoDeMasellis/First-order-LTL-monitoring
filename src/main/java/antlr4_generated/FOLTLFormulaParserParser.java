@@ -823,33 +823,33 @@ public class FOLTLFormulaParserParser extends Parser {
 	public final TemporalNegationContext temporalNegation() throws RecognitionException {
 		TemporalNegationContext _localctx = new TemporalNegationContext(_ctx, getState());
 		enterRule(_localctx, 28, RULE_temporalNegation);
+		int _la;
 		try {
-			enterOuterAlt(_localctx, 1);
-			{
-			setState(144);
-			switch ( getInterpreter().adaptivePredict(_input,13,_ctx) ) {
-			case 1:
-				{
-				setState(143); match(NOT);
-				}
-				break;
-			}
 			setState(151);
 			switch ( getInterpreter().adaptivePredict(_input,14,_ctx) ) {
 			case 1:
+				enterOuterAlt(_localctx, 1);
 				{
-				setState(146); ltlfAtom();
+				setState(143); ltlfAtom();
 				}
 				break;
 
 			case 2:
+				enterOuterAlt(_localctx, 2);
 				{
+				setState(145);
+				_la = _input.LA(1);
+				if (_la==NOT) {
+					{
+					setState(144); match(NOT);
+					}
+				}
+
 				setState(147); match(LPAREN);
 				setState(148); temporalDoubleImplication();
 				setState(149); match(RPAREN);
 				}
 				break;
-			}
 			}
 		}
 		catch (RecognitionException re) {
@@ -1481,7 +1481,7 @@ public class FOLTLFormulaParserParser extends Parser {
 		"\b\f\b\16\bd\13\b\3\t\3\t\3\t\7\ti\n\t\f\t\16\tl\13\t\3\n\3\n\3\n\7\n"+
 		"q\n\n\f\n\16\nt\13\n\3\13\3\13\3\13\7\13y\n\13\f\13\16\13|\13\13\3\f\5"+
 		"\f\177\n\f\3\f\3\f\3\r\5\r\u0084\n\r\3\r\3\r\3\16\5\16\u0089\n\16\3\16"+
-		"\3\16\3\17\5\17\u008e\n\17\3\17\3\17\3\20\5\20\u0093\n\20\3\20\3\20\3"+
+		"\3\16\3\17\5\17\u008e\n\17\3\17\3\17\3\20\3\20\5\20\u0094\n\20\3\20\3"+
 		"\20\3\20\3\20\5\20\u009a\n\20\3\21\3\21\5\21\u009e\n\21\3\22\3\22\5\22"+
 		"\u00a2\n\22\3\22\3\22\3\23\3\23\3\23\7\23\u00a9\n\23\f\23\16\23\u00ac"+
 		"\13\23\3\24\3\24\3\24\7\24\u00b1\n\24\f\24\16\24\u00b4\13\24\3\25\3\25"+
@@ -1493,7 +1493,7 @@ public class FOLTLFormulaParserParser extends Parser {
 		"(*,.\60\62\2\4\3\2\23\24\3\2\30\31\u00e7\2\64\3\2\2\2\49\3\2\2\2\6C\3"+
 		"\2\2\2\bE\3\2\2\2\nM\3\2\2\2\fU\3\2\2\2\16]\3\2\2\2\20e\3\2\2\2\22m\3"+
 		"\2\2\2\24u\3\2\2\2\26~\3\2\2\2\30\u0083\3\2\2\2\32\u0088\3\2\2\2\34\u008d"+
-		"\3\2\2\2\36\u0092\3\2\2\2 \u009d\3\2\2\2\"\u00a1\3\2\2\2$\u00a5\3\2\2"+
+		"\3\2\2\2\36\u0099\3\2\2\2 \u009d\3\2\2\2\"\u00a1\3\2\2\2$\u00a5\3\2\2"+
 		"\2&\u00ad\3\2\2\2(\u00b5\3\2\2\2*\u00bd\3\2\2\2,\u00c6\3\2\2\2.\u00d3"+
 		"\3\2\2\2\60\u00d5\3\2\2\2\62\u00d9\3\2\2\2\64\65\5\4\3\2\65\66\7\2\2\3"+
 		"\66\3\3\2\2\2\67:\5\"\22\28:\5\6\4\29\67\3\2\2\298\3\2\2\2:\5\3\2\2\2"+
@@ -1514,10 +1514,10 @@ public class FOLTLFormulaParserParser extends Parser {
 		"\2\2\u0087\u0089\7\n\2\2\u0088\u0087\3\2\2\2\u0088\u0089\3\2\2\2\u0089"+
 		"\u008a\3\2\2\2\u008a\u008b\5\34\17\2\u008b\33\3\2\2\2\u008c\u008e\7\13"+
 		"\2\2\u008d\u008c\3\2\2\2\u008d\u008e\3\2\2\2\u008e\u008f\3\2\2\2\u008f"+
-		"\u0090\5\36\20\2\u0090\35\3\2\2\2\u0091\u0093\7\22\2\2\u0092\u0091\3\2"+
-		"\2\2\u0092\u0093\3\2\2\2\u0093\u0099\3\2\2\2\u0094\u009a\5 \21\2\u0095"+
+		"\u0090\5\36\20\2\u0090\35\3\2\2\2\u0091\u009a\5 \21\2\u0092\u0094\7\22"+
+		"\2\2\u0093\u0092\3\2\2\2\u0093\u0094\3\2\2\2\u0094\u0095\3\2\2\2\u0095"+
 		"\u0096\7\f\2\2\u0096\u0097\5\b\5\2\u0097\u0098\7\r\2\2\u0098\u009a\3\2"+
-		"\2\2\u0099\u0094\3\2\2\2\u0099\u0095\3\2\2\2\u009a\37\3\2\2\2\u009b\u009e"+
+		"\2\2\u0099\u0091\3\2\2\2\u0099\u0093\3\2\2\2\u009a\37\3\2\2\2\u009b\u009e"+
 		"\7\4\2\2\u009c\u009e\5\"\22\2\u009d\u009b\3\2\2\2\u009d\u009c\3\2\2\2"+
 		"\u009e!\3\2\2\2\u009f\u00a0\t\2\2\2\u00a0\u00a2\7\30\2\2\u00a1\u009f\3"+
 		"\2\2\2\u00a1\u00a2\3\2\2\2\u00a2\u00a3\3\2\2\2\u00a3\u00a4\5$\23\2\u00a4"+
@@ -1542,7 +1542,7 @@ public class FOLTLFormulaParserParser extends Parser {
 		"\t\3\2\2\u00dc\u00dd\7\3\2\2\u00dd\u00df\t\3\2\2\u00de\u00dc\3\2\2\2\u00df"+
 		"\u00e2\3\2\2\2\u00e0\u00de\3\2\2\2\u00e0\u00e1\3\2\2\2\u00e1\u00e3\3\2"+
 		"\2\2\u00e2\u00e0\3\2\2\2\u00e3\u00e4\7\r\2\2\u00e4\63\3\2\2\2\339CJRZ"+
-		"bjrz~\u0083\u0088\u008d\u0092\u0099\u009d\u00a1\u00aa\u00b2\u00ba\u00c2"+
+		"bjrz~\u0083\u0088\u008d\u0093\u0099\u009d\u00a1\u00aa\u00b2\u00ba\u00c2"+
 		"\u00c6\u00cd\u00d3\u00e0";
 	public static final ATN _ATN =
 		new ATNDeserializer().deserialize(_serializedATN.toCharArray());

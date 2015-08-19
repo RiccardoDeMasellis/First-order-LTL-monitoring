@@ -14,7 +14,7 @@ import visitors.FOLTLVisitors.FoLtlTemporalVisitor;
 public class FoLtlOperationTest {
 
 	//Boolean flag used to display extra information during the execution
-	private static final boolean DEBUG = true;
+	private static final boolean DEBUG = false;
 
 	@Test
 	public void testEquals(){
@@ -1049,98 +1049,105 @@ public class FoLtlOperationTest {
 		FoLtlFormula aIMPLb = new FoLtlLocalImplFormula(pa, pb);
 
 		FoLtlFormula target = new FoLtlLocalOrFormula(new FoLtlLocalNotFormula(pa), pb);
-		FoLtlFormula testFormula = aIMPLb;
+		FoLtlFormula input = aIMPLb;
 
-		assertEquals(testFormula.nnf().toString(), target, testFormula.nnf());
+		assertEquals(input.toString(), target, input.nnf());
 
 		//P(a) <-> P(b)
-		testFormula = new FoLtlLocalDoubleImplFormula(pa, pb);
+		input = new FoLtlLocalDoubleImplFormula(pa, pb);
 		target = parseTemporalFormula("(! P(a) || P(b)) && (! P(b) || P(a))");
 
-		assertEquals(testFormula.nnf().toString(), target, testFormula.nnf());
+		assertEquals(input.toString(), target, input.nnf());
 
 		//! (P(a) && P(b))
-		testFormula = new FoLtlLocalNotFormula(new FoLtlLocalAndFormula(pa, pb));
+		input = new FoLtlLocalNotFormula(new FoLtlLocalAndFormula(pa, pb));
 		target = parseTemporalFormula("! P(a) || ! P(b)");
 
-		assertEquals(testFormula.nnf().toString(), target, testFormula.nnf());
+		assertEquals(input.toString(), target, input.nnf());
 
 		//(P(a) -> P(b)) && P(a)
-		testFormula = new FoLtlLocalAndFormula(new FoLtlLocalImplFormula(pa, pb), pa);
+		input = new FoLtlLocalAndFormula(new FoLtlLocalImplFormula(pa, pb), pa);
 		target = parseTemporalFormula("(! P(a) || P(b)) && P(a)");
 
-		assertEquals(testFormula.nnf().toString(), target, testFormula.nnf());
+		assertEquals(input.toString(), target, input.nnf());
 
 		//! (Forall x P(a))
-		testFormula = new FoLtlLocalNotFormula(new FoLtlLocalForallFormula(pa, x));
+		input = new FoLtlLocalNotFormula(new FoLtlLocalForallFormula(pa, x));
 		target = parseTemporalFormula("Exists ?x (! P(a))");
 
-		assertEquals(testFormula.nnf().toString(), target, testFormula.nnf());
+		assertEquals(input.toString(), target, input.nnf());
 
 		//! (Exists x P(a))
-		testFormula = new FoLtlLocalNotFormula(new FoLtlLocalExistsFormula(pa, x));
+		input = new FoLtlLocalNotFormula(new FoLtlLocalExistsFormula(pa, x));
 		target = parseTemporalFormula("Forall ?x (! P(a))");
 
-		assertEquals(testFormula.nnf().toString(), target, testFormula.nnf());
+		assertEquals(input.toString(), target, input.nnf());
 
 		//!Forall x (P(a) -> P(b))
-		testFormula = new FoLtlLocalNotFormula(new FoLtlLocalForallFormula(aIMPLb, x));
+		input = new FoLtlLocalNotFormula(new FoLtlLocalForallFormula(aIMPLb, x));
 		target = parseTemporalFormula("Exists ?x (P(a) && !P(b))");
 
-		assertEquals(testFormula.nnf().toString(), target, testFormula.nnf());
+		assertEquals(input.toString(), target, input.nnf());
 
 
 		//Temporal formulas
 		System.out.println("\nTEMPORAL FORMULAS\n");
 
 		//X P(a)
-		testFormula = new FoLtlNextFormula(pa);
+		input = new FoLtlNextFormula(pa);
 		target = parseTemporalFormula("X P(a)");
 
-		assertEquals(testFormula.nnf().toString(), target, testFormula.nnf());
+		assertEquals(input.toString(), target, input.nnf());
 
 		//WX P(a)
-		testFormula = new FoLtlWeakNextFormula(pa);
+		input = new FoLtlWeakNextFormula(pa);
 		target = parseTemporalFormula("WX P(a)");
 
-		assertEquals(testFormula.nnf().toString(), target, testFormula.nnf());
+		assertEquals(input.toString(), target, input.nnf());
 
 		//a U b
-		testFormula = new FoLtlUntilFormula(pa, pb);
+		input = new FoLtlUntilFormula(pa, pb);
 		target = parseTemporalFormula("P(a) U P(b)");
 
-		assertEquals(testFormula.nnf().toString(), target, testFormula.nnf());
+		assertEquals(input.toString(), target, input.nnf());
 
 		//a R b
-		testFormula = new FoLtlReleaseFormula(pa, pb);
+		input = new FoLtlReleaseFormula(pa, pb);
 		target = parseTemporalFormula("P(a) R P(b)");
 
-		assertEquals(testFormula.nnf().toString(), target, testFormula.nnf());
+		assertEquals(input.toString(), target, input.nnf());
 
 		//G a
-		testFormula = new FoLtlGloballyFormula(pa);
+		input = new FoLtlGloballyFormula(pa);
 		target = parseTemporalFormula("FALSE R P(a)");
 
-		assertEquals(testFormula.nnf().toString(), target, testFormula.nnf());
+		assertEquals(input.toString(), target, input.nnf());
 
 		//F a
-		testFormula = new FoLtlEventuallyFormula(pa);
+		input = new FoLtlEventuallyFormula(pa);
 		target = parseTemporalFormula("TRUE U P(a)");
 
-		assertEquals(testFormula.nnf().toString(), target, testFormula.nnf());
+		assertEquals(input.toString(), target, input.nnf());
 
 		//a WU b
-		testFormula = new FoLtlWeakUntilFormula(pa, pb);
+		input = new FoLtlWeakUntilFormula(pa, pb);
 		target = parseTemporalFormula("P(b) R (P(a) || P(b))");
 
-		assertEquals(testFormula.nnf().toString(), target, testFormula.nnf());
+		assertEquals(input.toString(), target, input.nnf());
 
-		//!(P(a) & P(b)) & G(!( P(a) <-> P(b) ))
-		//Expected (! P(a) || ! P(b)) && (false R ((P(a) && ! P(b)) || (P(b) && ! P(a))))
-		testFormula = parseTemporalFormula("!(P(a) & P(b)) & G(!( P(a) <-> P(b) ))");
-		target = parseTemporalFormula("(! P(a) || ! P(b)) && ((false) R (((P(a)) & (!P(b))) | ((P(b)) & (!P(a)))))");
+		//Input: !(P(a) & P(b)) & G(!( P(a) <-> P(b) ))
+		//Expected: (! P(a) || ! P(b)) && (false R ((P(a) && ! P(b)) || (P(b) && ! P(a))))
+		input = parseTemporalFormula("!(P(a) & P(b)) & G(!( P(a) <-> P(b) ))");
+		target = parseTemporalFormula("((!(P(a))) || (!(P(b)))) && ((false) R (((P(a)) && (!(P(b)))) || ((P(b)) && (!(P(a))))))");
 
-		assertEquals(testFormula.nnf().toString(), target, testFormula.nnf());
+		assertEquals(input.toString(), target, input.nnf());
+
+		//Input: !((X P(a)) <-> P(b) )
+		//Expected: ((X P(a)) && (! P(b))) || ((P(b)) && (WX (! P(a))))
+		input = parseTemporalFormula("!((X P(a)) <-> P(b))");
+		target = parseTemporalFormula("((X P(a)) && (! P(b))) || ((P(b)) && (WX (! P(a))))");
+
+		assertEquals(input.toString(), target, input.nnf());
 
 	}
 
@@ -1155,7 +1162,10 @@ public class FoLtlOperationTest {
 
 		try {
 			Assert.assertEquals("", a, b);
-			System.out.println("\t> " + description + ": EQUALS");
+			System.out.println(description + ": EQUALS");
+			System.out.println("\t> Expected: " + a.toString());
+			System.out.println("\t> Computed: " + b.toString());
+			System.out.println();
 		} catch (AssertionError e){
 			throw e;
 		}
