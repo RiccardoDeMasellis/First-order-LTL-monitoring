@@ -1,11 +1,20 @@
+import antlr4_generated.FOLTLFormulaParserLexer;
+import antlr4_generated.FOLTLFormulaParserParser;
+import org.antlr.v4.runtime.ANTLRInputStream;
+import org.antlr.v4.runtime.CommonTokenStream;
+import org.antlr.v4.runtime.tree.ParseTree;
 import org.junit.Assert;
 import org.junit.Test;
 import formula.foltl.*;
+import visitors.FOLTLVisitors.FoLtlTemporalVisitor;
 
 /**
  * Created by Simone Calciolari on 12/08/15.
  */
 public class FoLtlOperationTest {
+
+	//Boolean flag used to display extra information during the execution
+	private static final boolean DEBUG = false;
 
 	@Test
 	public void testEquals(){
@@ -1006,6 +1015,10 @@ public class FoLtlOperationTest {
 
 		System.out.println("\n*** NEGATION NORMAL FORM TEST ***\n");
 
+		//Used only to get warning messages out of the way
+		parseTemporalFormula("P(a)");
+		System.out.println("\n");
+
 		FoLtlConstant a = new FoLtlConstant("a");
 		FoLtlConstant b = new FoLtlConstant("b");
 		FoLtlVariable x = new FoLtlVariable("x");
@@ -1014,6 +1027,9 @@ public class FoLtlOperationTest {
 
 		FoLtlLocalAtom pa = new FoLtlLocalAtom(p, a);
 		FoLtlLocalAtom pb = new FoLtlLocalAtom(p, b);
+
+		//LOCAL FORMULAS
+		System.out.println("\nLOCAL FORMULAS\n");
 
 		//FALSE
 		assertEquals("FALSE", new FoLtlLocalFalseAtom(), new FoLtlLocalFalseAtom().nnf());
@@ -1029,9 +1045,57 @@ public class FoLtlOperationTest {
 
 		//P(a) -> P(b)
 		FoLtlFormula aIMPLb = new FoLtlLocalImplFormula(pa, pb);
-		FoLtlFormula target = new FoLtlLocalOrFormula(new FoLtlLocalNotFormula(pa), pb);
 
-		assertEquals(aIMPLb.toString(), target, aIMPLb.nnf());
+		FoLtlFormula target = new FoLtlLocalOrFormula(new FoLtlLocalNotFormula(pa), pb);
+		FoLtlFormula testFormula = aIMPLb;
+
+		assertEquals(testFormula.toString(), target, testFormula.nnf());
+
+		//P(a) <-> P(b)
+		testFormula = new FoLtlLocalDoubleImplFormula(pa, pb);
+		target = parseTemporalFormula("(! P(a) || P(b)) && (! P(b) || P(a))");
+
+		assertEquals(testFormula.toString(), target, testFormula.nnf());
+
+		//! (P(a) && P(b))
+		testFormula = new FoLtlLocalNotFormula(new FoLtlLocalAndFormula(pa, pb));
+		target = parseTemporalFormula("! P(a) || ! P(b)");
+
+		assertEquals(testFormula.toString(), target, testFormula.nnf());
+
+		//(P(a) -> P(b)) && P(a)
+		testFormula = new FoLtlLocalAndFormula(new FoLtlLocalImplFormula(pa, pb), pa);
+		target = parseTemporalFormula("(! P(a) || P(b)) && P(a)");
+
+		assertEquals(testFormula.toString(), target, testFormula.nnf());
+
+		//! (Forall x P(a))
+		testFormula = new FoLtlLocalNotFormula(new FoLtlLocalForallFormula(pa, x));
+		target = parseTemporalFormula("Exists ?x (! P(a))");
+
+		assertEquals(testFormula.toString(), target, testFormula.nnf());
+
+		//! (Exists x P(a))
+		testFormula = new FoLtlLocalNotFormula(new FoLtlLocalExistsFormula(pa, x));
+		target = parseTemporalFormula("Forall ?x (! P(a))");
+
+		assertEquals(testFormula.toString(), target, testFormula.nnf());
+
+		//!Forall x (P(a) -> P(b))
+		testFormula = new FoLtlLocalNotFormula(new FoLtlLocalForallFormula(aIMPLb, x));
+		target = parseTemporalFormula("Exists ?x (P(a) && !P(b))");
+
+		assertEquals(testFormula.toString(), target, testFormula.nnf());
+
+
+		//Temporal formulas
+		System.out.println("\nTEMPORAL FORMULAS\n");
+
+		//X P(a)
+		testFormula = new FoLtlNextFormula(pa);
+		target = parseTemporalFormula("X P(a)");
+
+		assertEquals(testFormula.toString(), target, testFormula.nnf());
 
 	}
 
@@ -1070,6 +1134,42 @@ public class FoLtlOperationTest {
 			throw e;
 		}
 
+	}
+	//</editor-fold>
+
+	//<editor-fold desc="parseTemporalFormula" defaultstate="collapsed">
+	/**
+	 * Method to encapsulate the instructions needed to parse a given temporal foltl formula
+	 * @param input the input formula
+	 * @return a String representing the parsing result
+	 */
+	private static FoLtlFormula parseTemporalFormula(String input){
+
+		FoLtlFormula output;
+
+		//Instantiates lexer and parser
+		FOLTLFormulaParserLexer lexer = new FOLTLFormulaParserLexer(new ANTLRInputStream(input));
+		FOLTLFormulaParserParser parser = new FOLTLFormulaParserParser(new CommonTokenStream(lexer));
+
+		//Creates the parsing tree
+		ParseTree tree = parser.foltlFormula();
+
+		if (DEBUG) {
+			System.out.println("\n");
+			String o = tree.toStringTree(parser);
+			System.out.println("> Default parsing tree:\n> " + o);
+		}
+
+		//Testing our own visitor
+		FoLtlTemporalVisitor temporalVisitor = new FoLtlTemporalVisitor();
+		output = temporalVisitor.visit(tree);
+
+		if (DEBUG){
+			System.out.println("\n> Parsed formula: " + output);
+			System.out.println("=============================================================================================");
+		}
+
+		return output;
 	}
 	//</editor-fold>
 

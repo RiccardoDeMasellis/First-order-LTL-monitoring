@@ -12,7 +12,7 @@ import org.antlr.v4.runtime.tree.ParseTree;
 public class FoLtlLocalVisitor extends FOFormulaParserBaseVisitor<FoLtlFormula> {
 
 	//Variable to activate debug mode (Displays extra info during the parsing process)
-	private static final boolean DEBUG = true;
+	private static final boolean DEBUG = false;
 
 	@Override
 	public FoLtlFormula visitStart(@NotNull FOFormulaParserParser.StartContext ctx) {

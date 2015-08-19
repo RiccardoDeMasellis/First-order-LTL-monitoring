@@ -18,7 +18,7 @@ import visitors.FOLVisitors.FoLtlLocalVisitor;
 public class FoLtlTemporalVisitor extends FOLTLFormulaParserBaseVisitor<FoLtlFormula> {
 
 	//Variable to activate debug mode (Displays extra info during the parsing process)
-	private static final boolean DEBUG = true;
+	private static final boolean DEBUG = false;
 
 	@Override
 	public FoLtlFormula visitStart(@NotNull FOLTLFormulaParserParser.StartContext ctx) {
@@ -575,7 +575,9 @@ public class FoLtlTemporalVisitor extends FOLTLFormulaParserBaseVisitor<FoLtlFor
 
 		String input = ctx.start.getInputStream().getText(interval);
 
-		System.out.println();
+		if (DEBUG) {
+			System.out.println();
+		}
 
 		FOFormulaParserLexer foLexer = new FOFormulaParserLexer(new ANTLRInputStream(input));
 		FOFormulaParserParser foParser = new FOFormulaParserParser(new CommonTokenStream(foLexer));
