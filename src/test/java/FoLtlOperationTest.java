@@ -709,15 +709,19 @@ public class FoLtlOperationTest {
 		System.out.println("Term clone\n");
 
 		assertEquals("Variable", varX, varX.clone());
+		Assert.assertFalse(varX == varX.clone());
+
 		assertEquals("Constant", conX, conX.clone());
+		Assert.assertFalse(conX == conX.clone());
 
 
 		//Predicate comparisons
-		FoLtlPredicate Par2 = new FoLtlPredicate("P", 2);
+		FoLtlPredicate p = new FoLtlPredicate("P", 2);
 
 		System.out.println("\nPredicate clone\n");
 
-		assertEquals("Predicate", Par2, Par2.clone());
+		assertEquals("Predicate", p, p.clone());
+		Assert.assertFalse(p == p.clone());
 
 
 		System.out.println("\n\nATOMIC FORMULA COMPARISONS");
@@ -731,8 +735,13 @@ public class FoLtlOperationTest {
 		System.out.println("\nAtom comparisons\n");
 
 		assertEquals("False", fa, fa.clone());
+		Assert.assertFalse(fa == fa.clone());
+
 		assertEquals("True", ta, ta.clone());
+		Assert.assertFalse(ta == ta.clone());
+
 		assertEquals("Last", la, la.clone());
+		Assert.assertFalse(la == la.clone());
 
 
 		//Atomic formula comparisons
@@ -743,6 +752,7 @@ public class FoLtlOperationTest {
 		System.out.println("\nLocal atom comparisons\n");
 
 		assertEquals("Local atom", Lxxxxx, Lxxxxx.clone());
+		Assert.assertFalse(Lxxxxx == Lxxxxx.clone());
 
 
 		//Equality formula comparisons
@@ -751,6 +761,7 @@ public class FoLtlOperationTest {
 		System.out.println("\nEquality formula comparisons\n");
 
 		assertEquals("Equality", eq, eq.clone());
+		Assert.assertFalse(eq == eq.clone());
 
 
 		System.out.println("\n\nSINGLE BINARY OPERATOR FORMULA COMPARISONS\n");
@@ -776,9 +787,16 @@ public class FoLtlOperationTest {
 		System.out.println("Local binary boolean operator comparisons\n");
 
 		assertEquals("AND", aANDa, aANDa.clone());
+		Assert.assertFalse(aANDa == aANDa.clone());
+
 		assertEquals("OR", aORa, aORa.clone());
+		Assert.assertFalse(aORa == aORa.clone());
+
 		assertEquals("IMPL", aIMa, aIMa.clone());
+		Assert.assertFalse(aIMa == aIMa.clone());
+
 		assertEquals("DIMPL", aDIa, aDIa.clone());
+		Assert.assertFalse(aDIa == aDIa.clone());
 
 
 		//Temporal binary boolean operators
@@ -798,9 +816,17 @@ public class FoLtlOperationTest {
 		System.out.println("\nTemporal binary boolean operator comparisons\n");
 
 		assertEquals("TeAND", atANDa, atANDa.clone());
+		Assert.assertFalse(atANDa == atANDa.clone());
+
 		assertEquals("TeOR", atORa, atORa.clone());
-		assertEquals("TeDIMPL", atDIa, atDIa.clone());
+		Assert.assertFalse(atORa == atORa.clone());
+
 		assertEquals("TeIMPL", atIMa, atIMa.clone());
+		Assert.assertFalse(atIMa == atIMa.clone());
+
+		assertEquals("TeDIMPL", atDIa, atDIa.clone());
+		Assert.assertFalse(atDIa == atDIa.clone());
+
 
 
 		//Temporal binary operators
@@ -817,8 +843,13 @@ public class FoLtlOperationTest {
 		System.out.println("\nTemporal binary operator comparisons\n");
 
 		assertEquals("WU", aWUa, aWUa.clone());
+		Assert.assertFalse(aWUa == aWUa.clone());
+
 		assertEquals("R", aRa, aRa.clone());
+		Assert.assertFalse(aRa == aRa.clone());
+
 		assertEquals("U", aUa, aUa.clone());
+		Assert.assertFalse(aUa == aUa.clone());
 
 
 		System.out.println("\n\nSINGLE UNARY OPERATOR FORMULA COMPARISONS\n");
@@ -848,11 +879,22 @@ public class FoLtlOperationTest {
 		System.out.println("\nUnary operator comparisons");
 
 		assertEquals("NOT", nA, nA.clone());
+		Assert.assertFalse(nA == nA.clone());
+
 		assertEquals("TeNOT", tnA, tnA.clone());
+		Assert.assertFalse(tnA == tnA.clone());
+
 		assertEquals("G", gA, gA.clone());
+		Assert.assertFalse(gA == gA.clone());
+
 		assertEquals("F", fA, fA.clone());
+		Assert.assertFalse(fA == fA.clone());
+
 		assertEquals("WX", wxA, wxA.clone());
+		Assert.assertFalse(wxA == wxA.clone());
+
 		assertEquals("X", xA, xA.clone());
+		Assert.assertFalse(xA == xA.clone());
 
 
 		//Quantified formulas
@@ -875,9 +917,16 @@ public class FoLtlOperationTest {
 		System.out.println("\nQuantified formula comparisons\n");
 
 		assertEquals("Forall", forallXpx, forallXpx.clone());
+		Assert.assertFalse(forallXpx == forallXpx.clone());
+
 		assertEquals("Exists", existsXpx, existsXpx.clone());
+		Assert.assertFalse(existsXpx == existsXpx.clone());
+
 		assertEquals("xsForall", xsForallXpx, xsForallXpx.clone());
+		Assert.assertFalse(xsForallXpx == xsForallXpx.clone());
+
 		assertEquals("xsExists", xsExistsXpx, xsExistsXpx.clone());
+		Assert.assertFalse(xsExistsXpx == xsExistsXpx.clone());
 
 		System.out.println("\n\nBIGGER FORMULAS\n");
 
@@ -899,6 +948,7 @@ public class FoLtlOperationTest {
 		FoLtlFormula target = globAndEvn;
 
 		assertEquals("G P(a) & F Q(a, b)", target, target.clone());
+		Assert.assertFalse(target == target.clone());
 
 
 		//P(a) & Q(b, d) U P(c) & Q(a, b)
@@ -916,6 +966,7 @@ public class FoLtlOperationTest {
 		target = andUntiland;
 
 		assertEquals("P(a) & Q(b, d) U P(c) & Q(a, b)", target, target.clone());
+		Assert.assertFalse(target == target.clone());
 
 
 		//(P(a) & P(b)) U ((X Q(c, c) & (P(c) U P(d)))
@@ -933,6 +984,7 @@ public class FoLtlOperationTest {
 		target = andUand;
 
 		assertEquals("(P(a) & P(b)) U ((X Q(c, c) & (P(c) U P(d)))", target, target.clone());
+		Assert.assertFalse(target == target.clone());
 
 
 		//((P(a) & P(b)) U ((X P(c)) & (P(d)))) R
@@ -955,6 +1007,7 @@ public class FoLtlOperationTest {
 
 		assertEquals("((P(a) & P(b)) U ((X P(c)) & (P(d)))) R \n" +
 				"\t( ((WX (P(a) -> P(a))) WU (G P(a) R P(a))) <-> (P(a) U P(a)) )", target, target.clone());
+		Assert.assertFalse(target == target.clone());
 
 
 		//Forall ?x ((P(?x)) U (Exists ?y ((!(?x = ?y)) && (P(?y)))))
@@ -976,6 +1029,7 @@ public class FoLtlOperationTest {
 		target = forallX;
 
 		assertEquals("Forall ?x ((P(?x)) U (Exists ?y ((!(?x = ?y)) && (P(?y)))))", target, target.clone());
+		Assert.assertFalse(target == target.clone());
 
 
 		//Forall ?x (Forall ?y P(?x) & Q(?x, ?x) | G P(?y) U Q(?y, ?y))
@@ -993,6 +1047,7 @@ public class FoLtlOperationTest {
 		target = forallX;
 
 		assertEquals("Forall ?x (Forall ?y P(?x) & Q(?x, ?x) | G P(?y) U Q(?y, ?y))", target, target.clone());
+		Assert.assertFalse(target == target.clone());
 
 		//Forall ?x (Forall ?y P(?x) & Q(?x, ?x) | FALSE U Q(?y, ?y))
 
@@ -1004,11 +1059,13 @@ public class FoLtlOperationTest {
 		target = forallX;
 
 		assertEquals("Forall ?x (Forall ?y P(?x) & Q(?x, ?x) | FALSE U Q(?y, ?y))", target, target.clone());
+		Assert.assertFalse(target == target.clone());
 
 		//G P(a) U LAST
 		target = new FoLtlUntilFormula(new FoLtlGloballyFormula(Pa), new FoLtlTempLastAtom());
 
 		assertEquals("G P(a) U LAST", target, target.clone());
+		Assert.assertFalse(target == target.clone());
 
 	}
 
