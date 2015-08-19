@@ -3,6 +3,7 @@ package formula.foltl;
 import formula.FormulaType;
 import formula.LocalAtom;
 
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedList;
 
@@ -156,4 +157,70 @@ public class FoLtlLocalAtom extends FoLtlAtomicFormula implements FoLtlLocalForm
 
 		return res;
 	}
+
+	/**
+	 * Creates a deep copy of this atom, substituting all occurrences of x with t
+	 * @param x the term to be substituted
+	 * @param t the term to be inserted
+	 * @return a new FoLtlAtom identical to this, but for all occurrences of x
+	 */
+	public FoLtlLocalAtom substitute(FoLtlTerm x, FoLtlTerm t){
+		FoLtlLocalAtom res = new FoLtlLocalAtom(this.getPredicate());
+		Iterator<FoLtlTerm> i = this.getArguments().iterator();
+
+		while (i.hasNext()){
+
+			FoLtlTerm next = i.next();
+			if (next.equals(x)){
+				res.addArguments(t);
+			} else {
+				res.addArguments(next);
+			}
+
+		}
+
+		return res;
+	}
+
+	public HashSet<FoLtlLocalAtom> allSubstitutions(){
+		HashSet<FoLtlLocalAtom> res = new HashSet<>();
+		res.add((FoLtlLocalAtom) this.clone());
+
+		Iterator<FoLtlTerm> args = this.getArguments().iterator();
+
+		while (args.hasNext()){
+
+			FoLtlTerm t = args.next();
+
+			if (t instanceof FoLtlVariable){
+				FoLtlVariable v = (FoLtlVariable) t;
+
+				if (!v.getSort().equals(FoLtlSort.DEFAULT)){
+					HashSet<FoLtlLocalAtom> temp = new HashSet<>();
+					temp.addAll(res);
+					res.clear();
+					Iterator<FoLtlLocalAtom> subs = temp.iterator();
+
+					while (subs.hasNext()){
+						FoLtlLocalAtom la = subs.next();
+						Iterator<FoLtlConstant> cons = v.getSort().iterator();
+
+						while (cons.hasNext()){
+
+							FoLtlConstant c = cons.next();
+							res.add(la.substitute(v, c));
+
+						}
+					}
+				}
+
+			} else {
+
+			}
+
+		}
+
+		return res;
+	}
+
 }
