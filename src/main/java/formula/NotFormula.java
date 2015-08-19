@@ -11,7 +11,7 @@ public interface NotFormula extends UnaryFormula, BooleanOpFormula {
 
 	@Override
 	default OperatorType getOpType(){
-		return OperatorType.OR;
+		return OperatorType.NOT;
 	}
 
 	@Override
