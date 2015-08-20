@@ -166,11 +166,13 @@ public class FoLtlLocalAtom extends FoLtlAtomicFormula implements FoLtlLocalForm
 	 */
 	public FoLtlLocalAtom substitute(FoLtlTerm x, FoLtlTerm t){
 		FoLtlLocalAtom res = new FoLtlLocalAtom(this.getPredicate());
+
 		Iterator<FoLtlTerm> i = this.getArguments().iterator();
 
 		while (i.hasNext()){
 
 			FoLtlTerm next = i.next();
+
 			if (next.equals(x)){
 				res.addArguments(t);
 			} else {
@@ -182,8 +184,15 @@ public class FoLtlLocalAtom extends FoLtlAtomicFormula implements FoLtlLocalForm
 		return res;
 	}
 
+	/**
+	 * Computes all the possible atoms that can be obtained by substituting each variable with a constant
+	 * from the Sort it belongs to.
+	 * @return an HashSet of FoLtlLocalAtom containing all the possible substitutions.
+	 */
 	public HashSet<FoLtlLocalAtom> allSubstitutions(){
+		//The substitutions set
 		HashSet<FoLtlLocalAtom> res = new HashSet<>();
+		//First, adda clone of this Atom
 		res.add((FoLtlLocalAtom) this.clone());
 
 		Iterator<FoLtlTerm> args = this.getArguments().iterator();
@@ -195,10 +204,16 @@ public class FoLtlLocalAtom extends FoLtlAtomicFormula implements FoLtlLocalForm
 			if (t instanceof FoLtlVariable){
 				FoLtlVariable v = (FoLtlVariable) t;
 
-				if (!v.getSort().equals(FoLtlSort.DEFAULT)){
+				//If v's sort has elements, compute all substitutions
+				if (!v.getSort().isEmpty()){
+					//Temporary HashSet to take partial results
 					HashSet<FoLtlLocalAtom> temp = new HashSet<>();
+					//Move current partial results to temp
 					temp.addAll(res);
+					//Delete partial results from res
 					res.clear();
+
+					//Iterator over partial results set
 					Iterator<FoLtlLocalAtom> subs = temp.iterator();
 
 					while (subs.hasNext()){
@@ -207,17 +222,15 @@ public class FoLtlLocalAtom extends FoLtlAtomicFormula implements FoLtlLocalForm
 
 						while (cons.hasNext()){
 
+							//For each constant c in v's sort, add to res a new substitution where
+							//c takes the place of v
 							FoLtlConstant c = cons.next();
 							res.add(la.substitute(v, c));
 
 						}
 					}
 				}
-
-			} else {
-
 			}
-
 		}
 
 		return res;

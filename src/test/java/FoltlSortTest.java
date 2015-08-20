@@ -30,7 +30,9 @@ public class FoltlSortTest {
 
 		FoLtlLocalAtom pAtom = new FoLtlLocalAtom(p, x, e, y);
 
-		//System.out.println(pAtom.substitute(x, e).toString());
+		System.out.println(pAtom.allSubstitutions().toString());
+
+		sort1.add(e);
 
 		System.out.println(pAtom.allSubstitutions().toString());
 

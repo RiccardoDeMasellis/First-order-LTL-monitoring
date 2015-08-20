@@ -11,11 +11,6 @@ public class FoLtlSort extends HashSet<FoLtlConstant> {
 
 	private String name;
 
-	public FoLtlSort(){
-		super();
-		this.setName("");
-	}
-
 	public FoLtlSort(String name){
 		super();
 		this.setName(name);
