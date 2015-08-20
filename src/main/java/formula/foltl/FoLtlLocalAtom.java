@@ -170,7 +170,6 @@ public class FoLtlLocalAtom extends FoLtlAtomicFormula implements FoLtlLocalForm
 		Iterator<FoLtlTerm> i = this.getArguments().iterator();
 
 		while (i.hasNext()){
-
 			FoLtlTerm next = i.next();
 
 			if (next.equals(x)){
@@ -198,7 +197,6 @@ public class FoLtlLocalAtom extends FoLtlAtomicFormula implements FoLtlLocalForm
 		Iterator<FoLtlTerm> args = this.getArguments().iterator();
 
 		while (args.hasNext()){
-
 			FoLtlTerm t = args.next();
 
 			if (t instanceof FoLtlVariable){
@@ -221,7 +219,6 @@ public class FoLtlLocalAtom extends FoLtlAtomicFormula implements FoLtlLocalForm
 						Iterator<FoLtlConstant> cons = v.getSort().iterator();
 
 						while (cons.hasNext()){
-
 							//For each constant c in v's sort, add to res a new substitution where
 							//c takes the place of v
 							FoLtlConstant c = cons.next();

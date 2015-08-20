@@ -18,6 +18,7 @@ public class FoltlSortTest {
 		FoLtlSort sort1 = new FoLtlSort("sort1");
 		sort1.add(a);
 		sort1.add(b);
+		System.out.println(sort1.toString());
 
 		FoLtlSort sort2 = new FoLtlSort("sort2");
 		sort2.add(c);
@@ -33,6 +34,10 @@ public class FoltlSortTest {
 		System.out.println(pAtom.allSubstitutions().toString());
 
 		sort1.add(e);
+
+		System.out.println(pAtom.allSubstitutions().toString());
+
+		sort1.clear();
 
 		System.out.println(pAtom.allSubstitutions().toString());
 
