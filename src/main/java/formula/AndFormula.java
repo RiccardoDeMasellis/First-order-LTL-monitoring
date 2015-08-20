@@ -18,7 +18,7 @@ public interface AndFormula extends BinaryFormula, BooleanOpFormula {
 	default Formula nnf(){
 		Formula left = this.getLeftFormula().nnf();
 		Formula right = this.getRightFormula().nnf();
-		return boolFormulaFactory(this.getOpType(), left, right);
+		return this.boolFormulaFactory(this.getOpType(), left, right);
 	}
 
 	@Override
