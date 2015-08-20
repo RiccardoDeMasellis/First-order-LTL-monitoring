@@ -1,6 +1,7 @@
 package formula.foltl;
 
 import formula.FormulaType;
+import formula.Sort;
 import formula.Variable;
 
 /**
@@ -25,7 +26,7 @@ public class FoLtlVariable extends FoLtlTerm implements Variable {
 	}
 
 	public void setSort(FoLtlSort sort) {
-		this.sort = sort;
+		this.sort = (FoLtlSort) sort;
 	}
 
 	@Override

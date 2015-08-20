@@ -1,4 +1,4 @@
-package formula.foltl;
+package formula.fol;
 
 import formula.Sort;
 
@@ -6,15 +6,15 @@ import java.util.HashSet;
 import java.util.Iterator;
 
 /**
- * Created by Simone Calciolari on 19/08/15.
+ * Created by Simone Calciolari on 20/08/15.
  */
-public class FoLtlSort extends HashSet<FoLtlConstant> implements Sort {
+public class FolSort extends HashSet<FolConstant> implements Sort {
 
-	public static final FoLtlSort DEFAULT = new FoLtlSort("default");
+	public static final FolSort DEFAULT = new FolSort("default");
 
 	private String name;
 
-	public FoLtlSort(String name){
+	public FolSort(String name){
 		super();
 		this.setName(name);
 	}
@@ -36,8 +36,8 @@ public class FoLtlSort extends HashSet<FoLtlConstant> implements Sort {
 	public boolean equals(Object o){
 		boolean res = false;
 
-		if (o instanceof FoLtlSort){
-			FoLtlSort other = (FoLtlSort) o;
+		if (o instanceof FolSort){
+			FolSort other = (FolSort) o;
 			res = this.getName().equals(other.getName())
 					&& super.equals(o);
 		}
@@ -54,12 +54,12 @@ public class FoLtlSort extends HashSet<FoLtlConstant> implements Sort {
 	}
 
 	@Override
-	public FoLtlSort clone(){
-		FoLtlSort res = new FoLtlSort(this.getName());
-		Iterator<FoLtlConstant> i = this.iterator();
+	public FolSort clone(){
+		FolSort res = new FolSort(this.getName());
+		Iterator<FolConstant> i = this.iterator();
 
 		while (i.hasNext()){
-			FoLtlConstant c = i.next();
+			FolConstant c = i.next();
 			res.add(c);
 		}
 

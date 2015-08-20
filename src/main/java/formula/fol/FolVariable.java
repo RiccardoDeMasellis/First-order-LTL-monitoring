@@ -8,8 +8,23 @@ import formula.Variable;
  */
 public class FolVariable extends FolTerm implements Variable {
 
+	private FolSort sort;
+
 	public FolVariable(String name) {
 		super(name);
+	}
+
+	public FolVariable(String name, FolSort sort){
+		super(name);
+		this.sort = sort;
+	}
+
+	public FolSort getSort() {
+		return sort;
+	}
+
+	public void setSort(FolSort sort) {
+		this.sort = (FolSort) sort;
 	}
 
 	@Override
