@@ -158,13 +158,39 @@ public class FoLtlLocalAtom extends FoLtlAtomicFormula implements FoLtlLocalForm
 		return res;
 	}
 
+	@Override
+	public FoLtlFormula substitute(HashSet<FoLtlConstant> domain, FoLtlAssignment assignment){
+		FoLtlLocalAtom res = new FoLtlLocalAtom(this.getPredicate());
+
+		Iterator<FoLtlTerm> i = this.getArguments().iterator();
+
+		while (i.hasNext()){
+			FoLtlTerm next = i.next();
+
+			if (next instanceof FoLtlVariable){
+				FoLtlVariable v = (FoLtlVariable) next;
+				FoLtlConstant t = assignment.get(v);
+
+				if (t != null){
+					res.addArguments(t);
+				} else {
+					res.addArguments(v);
+				}
+			} else {
+				res.addArguments(next);
+			}
+		}
+
+		return res;
+	}
+
 	/**
 	 * Creates a deep copy of this atom, substituting all occurrences of x with t
 	 * @param x the term to be substituted
 	 * @param t the term to be inserted
 	 * @return a new FoLtlAtom identical to this, but for all occurrences of x
 	 */
-	public FoLtlLocalAtom substitute(FoLtlTerm x, FoLtlTerm t){
+	private FoLtlLocalAtom substitute(FoLtlTerm x, FoLtlTerm t){
 		FoLtlLocalAtom res = new FoLtlLocalAtom(this.getPredicate());
 
 		Iterator<FoLtlTerm> i = this.getArguments().iterator();

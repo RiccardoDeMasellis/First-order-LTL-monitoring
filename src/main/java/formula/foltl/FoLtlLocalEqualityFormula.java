@@ -3,6 +3,9 @@ package formula.foltl;
 import formula.EqualityFormula;
 import formula.FormulaType;
 
+import java.util.HashSet;
+import java.util.Iterator;
+
 /**
  * Created by Simone Calciolari on 06/08/15.
  */
@@ -60,4 +63,27 @@ public class FoLtlLocalEqualityFormula extends FoLtlAtomicFormula implements FoL
 	public FoLtlFormula clone(){
 		return this.formulaFactory(this.getFormulaType(), this.getLeftTerm().clone(), this.getRightTerm().clone(), null, null);
 	}
+
+	@Override
+	public FoLtlFormula substitute(HashSet<FoLtlConstant> domain, FoLtlAssignment assignment){
+		FoLtlTerm left = this.getLeftTerm();
+		FoLtlTerm right = this.getRightTerm();
+
+		if (left instanceof FoLtlVariable){
+			FoLtlConstant c = assignment.get(left);
+			if (c != null){
+				left = c;
+			}
+		}
+
+		if (right instanceof FoLtlVariable){
+			FoLtlConstant c = assignment.get(right);
+			if (c != null){
+				right = c;
+			}
+		}
+
+		return new FoLtlLocalEqualityFormula(left, right);
+	}
+
 }

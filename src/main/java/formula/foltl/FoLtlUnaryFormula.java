@@ -3,6 +3,8 @@ package formula.foltl;
 import formula.FormulaType;
 import formula.UnaryFormula;
 
+import java.util.HashSet;
+
 /**
  * Created by Simone Calciolari on 06/08/15.
  */
@@ -44,6 +46,11 @@ public abstract class FoLtlUnaryFormula implements FoLtlFormula, UnaryFormula {
 	@Override
 	public FoLtlFormula clone(){
 		return this.formulaFactory(this.getFormulaType(), this.getNestedFormula().clone());
+	}
+
+	@Override
+	public FoLtlFormula substitute(HashSet<FoLtlConstant> domain, FoLtlAssignment assignment){
+		return this.formulaFactory(this.getFormulaType(), this.getNestedFormula().substitute(domain, assignment));
 	}
 
 	public FoLtlFormula formulaFactory(FormulaType type, FoLtlFormula nested){

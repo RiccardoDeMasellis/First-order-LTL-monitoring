@@ -1,7 +1,10 @@
 package formula.foltl;
 
+import formula.AcrossQuantifiedFormula;
 import formula.FormulaType;
 import formula.QuantifiedFormula;
+
+import java.util.HashSet;
 
 /**
  * Created by Simone Calciolari on 06/08/15.
@@ -57,6 +60,20 @@ public abstract class FoLtlQuantifiedFormula implements FoLtlFormula, Quantified
 	public FoLtlFormula clone(){
 		return this.formulaFactory(this.getFormulaType(), this.getNestedFormula().clone(),
 				(FoLtlVariable) this.getQuantifiedVariable().clone());
+	}
+
+	@Override
+	public FoLtlFormula substitute(HashSet<FoLtlConstant> domain, FoLtlAssignment assignment){
+		FoLtlFormula res;
+
+		if (this instanceof FoLtlAcrossQuantifiedFormula) {
+			res = ((FoLtlAcrossQuantifiedFormula) this).temporalExpansion(domain, assignment);
+		} else {
+			res = this.formulaFactory(this.getFormulaType(), this.getNestedFormula().substitute(domain, assignment),
+					(FoLtlVariable) this.getQuantifiedVariable().clone());
+		}
+
+		return res;
 	}
 
 	public FoLtlFormula formulaFactory(FormulaType type, FoLtlFormula nested, FoLtlVariable qvar){

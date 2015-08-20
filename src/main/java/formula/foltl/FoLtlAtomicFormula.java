@@ -3,6 +3,7 @@ package formula.foltl;
 import formula.AtomicFormula;
 import formula.FormulaType;
 
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedList;
 
@@ -29,6 +30,11 @@ public abstract class FoLtlAtomicFormula implements FoLtlFormula, AtomicFormula 
 	@Override
 	public FoLtlFormula clone(){
 		return this.formulaFactory(this.getFormulaType(), null, null, null, null);
+	}
+
+	@Override
+	 public FoLtlFormula substitute(HashSet<FoLtlConstant> domain, FoLtlAssignment assignment){
+		return this.clone();
 	}
 
 	/**

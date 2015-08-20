@@ -3,6 +3,8 @@ package formula.foltl;
 import formula.BinaryFormula;
 import formula.FormulaType;
 
+import java.util.HashSet;
+
 /**
  * Created by Simone Calciolari on 06/08/15.
  */
@@ -54,6 +56,12 @@ public abstract class FoLtlBinaryFormula implements FoLtlFormula, BinaryFormula 
 	@Override
 	public FoLtlFormula clone(){
 		return this.formulaFactory(this.getFormulaType(), this.getLeftFormula().clone(), this.getRightFormula().clone());
+	}
+
+	@Override
+	public FoLtlFormula substitute(HashSet<FoLtlConstant> domain, FoLtlAssignment assignment){
+		return this.formulaFactory(this.getFormulaType(), this.getLeftFormula().substitute(domain, assignment),
+				this.getRightFormula().substitute(domain, assignment));
 	}
 
 	public FoLtlFormula formulaFactory(FormulaType type, FoLtlFormula left, FoLtlFormula right){
