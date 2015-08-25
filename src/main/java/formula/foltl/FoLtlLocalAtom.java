@@ -4,6 +4,7 @@ import formula.FormulaType;
 import formula.LocalAtom;
 import formula.ltlf.LTLfLocalFalseFormula;
 import formula.ltlf.LTLfLocalFormula;
+import formula.ltlf.LTLfLocalVar;
 
 import java.util.HashSet;
 import java.util.Iterator;
@@ -278,8 +279,7 @@ public class FoLtlLocalAtom extends FoLtlAtomicFormula implements FoLtlLocalForm
 			}
 		}
 
-		//TODO return correct thing
-		return new LTLfLocalFalseFormula();
+		return new LTLfLocalVar(name);
 	}
 
 }
