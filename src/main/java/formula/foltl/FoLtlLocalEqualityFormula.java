@@ -2,6 +2,9 @@ package formula.foltl;
 
 import formula.EqualityFormula;
 import formula.FormulaType;
+import formula.ltlf.LTLfLocalFalseFormula;
+import formula.ltlf.LTLfLocalFormula;
+import formula.ltlf.LTLfLocalTrueFormula;
 
 import java.util.HashSet;
 import java.util.Iterator;
@@ -84,6 +87,27 @@ public class FoLtlLocalEqualityFormula extends FoLtlAtomicFormula implements FoL
 		}
 
 		return new FoLtlLocalEqualityFormula(left, right);
+	}
+
+	@Override
+	public LTLfLocalFormula propositionalize(HashSet<FoLtlConstant> domain, FoLtlAssignment assignment){
+		FoLtlLocalEqualityFormula sub = (FoLtlLocalEqualityFormula) this.substitute(domain, assignment);
+		FoLtlTerm left = sub.getLeftTerm();
+		FoLtlTerm right = sub.getRightTerm();
+
+		LTLfLocalFormula res;
+
+		if (left instanceof FoLtlVariable || right instanceof FoLtlVariable){
+			throw new RuntimeException("Found open variable");
+		} else {
+			if (left.equals(right)){
+				res = new LTLfLocalTrueFormula();
+			} else {
+				res = new LTLfLocalFalseFormula();
+			}
+		}
+
+		return res;
 	}
 
 }

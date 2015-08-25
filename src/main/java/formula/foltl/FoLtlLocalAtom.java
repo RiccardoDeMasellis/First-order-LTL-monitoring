@@ -2,6 +2,8 @@ package formula.foltl;
 
 import formula.FormulaType;
 import formula.LocalAtom;
+import formula.ltlf.LTLfLocalFalseFormula;
+import formula.ltlf.LTLfLocalFormula;
 
 import java.util.HashSet;
 import java.util.Iterator;
@@ -257,6 +259,27 @@ public class FoLtlLocalAtom extends FoLtlAtomicFormula implements FoLtlLocalForm
 		}
 
 		return res;
+	}
+
+	@Override
+	public LTLfLocalFormula propositionalize(HashSet<FoLtlConstant> domain, FoLtlAssignment assignment){
+		String name = this.getPredicate().toString();
+
+		FoLtlLocalAtom sub = (FoLtlLocalAtom) this.substitute(domain, assignment);
+		Iterator<FoLtlTerm> i = sub.getArguments().iterator();
+
+		while (i.hasNext()){
+			FoLtlTerm t = i.next();
+
+			if (i instanceof FoLtlVariable){
+				throw new RuntimeException("Found open variable");
+			} else {
+				name = name + "_" + t.toString();
+			}
+		}
+
+		//TODO return correct thing
+		return new LTLfLocalFalseFormula();
 	}
 
 }

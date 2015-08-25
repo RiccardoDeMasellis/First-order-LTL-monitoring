@@ -37,12 +37,12 @@ public class TemporalExpansionTest {
 		FoLtlVariable z = new FoLtlVariable("z");
 
 		FoLtlPredicate p = new FoLtlPredicate("P", 1);
-		FoLtlPredicate q = new FoLtlPredicate("Q", 1);
+		FoLtlPredicate q = new FoLtlPredicate("Q", 2);
 
-		FoLtlFormula glob = new FoLtlGloballyFormula(new FoLtlLocalAtom(q, y));
+		FoLtlFormula glob = new FoLtlGloballyFormula(new FoLtlLocalAtom(q, x, z));
 
-		FoLtlAcrossQuantifiedFormula test = new FoLtlAcrossExistsFormula(glob, y);
-		//test = new FoLtlAcrossForallFormula(test, x);
+		FoLtlAcrossQuantifiedFormula test = new FoLtlAcrossExistsFormula(glob, z);
+		test = new FoLtlAcrossForallFormula(test, x);
 
 		System.out.println(test.temporalExpansion(domain, new FoLtlAssignment()));
 

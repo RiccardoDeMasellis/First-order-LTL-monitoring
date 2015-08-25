@@ -27,11 +27,6 @@ public class FoLtlAcrossExistsFormula extends FoLtlQuantifiedFormula implements 
 	}
 
 	@Override
-	public FoLtlFormula substitute(HashSet<FoLtlConstant> domain, FoLtlAssignment assignment){
-		return super.substitute(domain, assignment);
-	}
-
-	@Override
 	public FoLtlFormula temporalExpansion(HashSet<FoLtlConstant> domain, FoLtlAssignment assignment){
 		FoLtlFormula res = null;
 		FoLtlVariable v = this.getQuantifiedVariable();

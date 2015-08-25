@@ -2,6 +2,11 @@ package formula.foltl;
 
 import formula.FormulaType;
 import formula.OrFormula;
+import formula.ltlf.LTLfLocalAndFormula;
+import formula.ltlf.LTLfLocalFormula;
+import formula.ltlf.LTLfLocalOrFormula;
+
+import java.util.HashSet;
 
 /**
  * Created by Simone Calciolari on 06/08/15.
@@ -15,6 +20,13 @@ public class FoLtlLocalOrFormula extends FoLtlBinaryFormula implements OrFormula
 	@Override
 	public FormulaType getFormulaType(){
 		return FormulaType.LOCAL_OR;
+	}
+
+	@Override
+	public LTLfLocalFormula propositionalize(HashSet<FoLtlConstant> domain, FoLtlAssignment assignment){
+		FoLtlLocalFormula left = (FoLtlLocalFormula) this.getLeftFormula();
+		FoLtlLocalFormula right = (FoLtlLocalFormula) this.getRightFormula();
+		return new LTLfLocalOrFormula(left.propositionalize(domain, assignment), right.propositionalize(domain, assignment));
 	}
 
 	/*
