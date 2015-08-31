@@ -1,13 +1,8 @@
-import antlr4_generated.FOFormulaParserLexer;
-import antlr4_generated.FOFormulaParserParser;
 import formula.fol.*;
-import org.antlr.v4.runtime.ANTLRInputStream;
-import org.antlr.v4.runtime.CommonTokenStream;
-import org.antlr.v4.runtime.tree.ParseTree;
 import org.junit.Assert;
 import org.junit.Test;
-import visitors.FOLVisitors.FoLtlLocalVisitor;
-import visitors.FOLVisitors.FolVisitor;
+
+import static util.ParsingUtils.*;
 
 /**
  * Created by Simone Calciolari on 06/08/15.
@@ -32,8 +27,8 @@ public class FolFormulaTest {
 
 		target = px;
 
-		Assert.assertEquals("", target.toString(),
-				parseLocalFormula("P(?x)"));
+		Assert.assertEquals("", target,
+				parseFolFormula("P(?x)"));
 
 
 		//More difficult
@@ -49,7 +44,7 @@ public class FolFormulaTest {
 
 		target = pAndQ;
 
-		Assert.assertEquals("", target.toString(), parseLocalFormula("P(?x) && Q(a, b, ?y)"));
+		Assert.assertEquals("", target, parseFolFormula("P(?x) && Q(a, b, ?y)"));
 
 
 		//Even harder
@@ -64,8 +59,8 @@ public class FolFormulaTest {
 
 		target = forall;
 
-		Assert.assertEquals("", target.toString(),
-				parseLocalFormula("Forall ?x (Exists ?y (!(?x = ?y) && P(?x) <-> Q(a, b, ?y)))"));
+		Assert.assertEquals("", target,
+				parseFolFormula("Forall ?x (Exists ?y (!(?x = ?y) && P(?x) <-> Q(a, b, ?y)))"));
 
 
 		//Further tests
@@ -90,8 +85,8 @@ public class FolFormulaTest {
 
 		target = forallX;
 
-		Assert.assertEquals("", target.toString(),
-				parseLocalFormula("Forall ?x (Bag(?x) -> (Exists ?y (Coin(?y) && Contains(?x, ?y))))"));
+		Assert.assertEquals("", target,
+				parseFolFormula("Forall ?x (Bag(?x) -> (Exists ?y (Coin(?y) && Contains(?x, ?y))))"));
 
 
 		//Exists ?x: ((Buyer(?x)) AND ((Bought(?x, s)) AND (Forall ?y: ((Buyer(?y)) AND (Bought(?y, s)) -> (?x = ?y)))))
@@ -116,8 +111,8 @@ public class FolFormulaTest {
 
 		target = existsX;
 
-		Assert.assertEquals("", target.toString(),
-				parseLocalFormula("Exists ?x (Buyer(?x) && Bought(?x, s) && (Forall ?y (Buyer(?y) && Bought(?y, s) -> ?x = ?y)))"));
+		Assert.assertEquals("", target,
+				parseFolFormula("Exists ?x (Buyer(?x) && Bought(?x, s) && (Forall ?y (Buyer(?y) && Bought(?y, s) -> ?x = ?y)))"));
 
 
 		//Forall ?x: ((S(?x)) -> (Exists ?y: ((S(?y)) AND ((!(?x = ?y)) AND (L(?x, ?y))))))
@@ -139,8 +134,8 @@ public class FolFormulaTest {
 
 		target = forallX;
 
-		Assert.assertEquals("", target.toString(),
-				parseLocalFormula("Forall ?x (S(?x) -> (Exists ?y (S(?y) && !(?x = ?y) && L(?x, ?y))))"));
+		Assert.assertEquals("", target,
+				parseFolFormula("Forall ?x (S(?x) -> (Exists ?y (S(?y) && !(?x = ?y) && L(?x, ?y))))"));
 
 	}
 
@@ -280,43 +275,5 @@ public class FolFormulaTest {
 		System.out.println("\nBuilt formula: " + builtFormula);
 
 	}
-
-	//<editor-fold desc="parseLocalFormula" defaultstate="collapsed">
-	/**
-	 * Method to encapsulate the instructions needed to parse a given local foltl formula
-	 * @param input the input formula
-	 * @return the String interpretation of the output given by the visitor
-	 */
-	private static String parseLocalFormula(String input){
-
-		String output;
-
-		//Instantiates lexer and parser
-		FOFormulaParserLexer lexer = new FOFormulaParserLexer(new ANTLRInputStream(input));
-		FOFormulaParserParser parser = new FOFormulaParserParser(new CommonTokenStream(lexer));
-
-		//Gets the parsing tree
-		ParseTree tree = parser.localQuantifiedFormula();
-
-
-		if (DEBUG) {
-			System.out.println("\n");
-			output = tree.toStringTree(parser);
-			System.out.println("> Default parsing tree:\n> " + output + "\n");
-		}
-
-		//Testing our own visitor
-		FolVisitor visitor = new FolVisitor();
-		output = visitor.visit(tree).toString();
-
-		if(DEBUG) {
-			System.out.println("\n> Parsed formula: " + output);
-		}
-
-		System.out.println("=============================================================================================");
-
-		return output;
-	}
-	//</editor-fold>
 
 }

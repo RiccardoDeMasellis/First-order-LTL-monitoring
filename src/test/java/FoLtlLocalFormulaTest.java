@@ -1,15 +1,8 @@
-import antlr4_generated.FOFormulaParserLexer;
-import antlr4_generated.FOFormulaParserParser;
-import antlr4_generated.FOLTLFormulaParserLexer;
-import antlr4_generated.FOLTLFormulaParserParser;
 import formula.foltl.*;
-import org.antlr.v4.runtime.ANTLRInputStream;
-import org.antlr.v4.runtime.CommonTokenStream;
-import org.antlr.v4.runtime.tree.ParseTree;
 import org.junit.Assert;
 import org.junit.Test;
-import visitors.FOLTLVisitors.FoLtlTemporalVisitor;
-import visitors.FOLVisitors.FoLtlLocalVisitor;
+
+import static util.ParsingUtils.*;
 
 /**
  * Created by Simone Calciolari on 10/08/15.
@@ -35,7 +28,7 @@ public class FoLtlLocalFormulaTest {
 		target = px;
 
 		Assert.assertEquals("", target,
-				parseLocalFormula("P(?x)"));
+				parseFoLtlLocalFormula("P(?x)"));
 
 
 		//More difficult
@@ -51,7 +44,7 @@ public class FoLtlLocalFormulaTest {
 
 		target = pAndQ;
 
-		Assert.assertEquals("", target, parseLocalFormula("P(?x) && Q(a, b, ?y)"));
+		Assert.assertEquals("", target, parseFoLtlLocalFormula("P(?x) && Q(a, b, ?y)"));
 
 
 		//Even harder
@@ -67,7 +60,7 @@ public class FoLtlLocalFormulaTest {
 		target = forall;
 
 		Assert.assertEquals("", target,
-				parseLocalFormula("Forall ?x (Exists ?y (!(?x = ?y) && P(?x) <-> Q(a, b, ?y)))"));
+				parseFoLtlLocalFormula("Forall ?x (Exists ?y (!(?x = ?y) && P(?x) <-> Q(a, b, ?y)))"));
 
 
 		//Further tests
@@ -93,7 +86,7 @@ public class FoLtlLocalFormulaTest {
 		target = forallX;
 
 		Assert.assertEquals("", target,
-				parseLocalFormula("Forall ?x (Bag(?x) -> (Exists ?y (Coin(?y) && Contains(?x, ?y))))"));
+				parseFoLtlLocalFormula("Forall ?x (Bag(?x) -> (Exists ?y (Coin(?y) && Contains(?x, ?y))))"));
 
 
 		//Exists ?x: ((Buyer(?x)) AND ((Bought(?x, s)) AND (Forall ?y: ((Buyer(?y)) AND (Bought(?y, s)) -> (?x = ?y)))))
@@ -119,7 +112,7 @@ public class FoLtlLocalFormulaTest {
 		target = existsX;
 
 		Assert.assertEquals("", target,
-				parseLocalFormula("Exists ?x (Buyer(?x) && Bought(?x, s) && (Forall ?y (Buyer(?y) && Bought(?y, s) -> ?x = ?y)))"));
+				parseFoLtlLocalFormula("Exists ?x (Buyer(?x) && Bought(?x, s) && (Forall ?y (Buyer(?y) && Bought(?y, s) -> ?x = ?y)))"));
 
 
 		//Forall ?x: ((S(?x)) -> (Exists ?y: ((S(?y)) AND ((!(?x = ?y)) AND (L(?x, ?y))))))
@@ -142,7 +135,7 @@ public class FoLtlLocalFormulaTest {
 		target = forallX;
 
 		Assert.assertEquals("", target,
-				parseLocalFormula("Forall ?x (S(?x) -> (Exists ?y (S(?y) && !(?x = ?y) && L(?x, ?y))))"));
+				parseFoLtlLocalFormula("Forall ?x (S(?x) -> (Exists ?y (S(?y) && !(?x = ?y) && L(?x, ?y))))"));
 
 		//false and true atoms
 
@@ -157,7 +150,7 @@ public class FoLtlLocalFormulaTest {
 		target = new FoLtlLocalDoubleImplFormula(impl, and3);
 
 		Assert.assertEquals("", target,
-				parseLocalFormula("false && true && TRUE || FALSE -> FALSE <-> True && False"));
+				parseFoLtlLocalFormula("false && true && TRUE || FALSE -> FALSE <-> True && False"));
 
 	}
 
@@ -297,43 +290,5 @@ public class FoLtlLocalFormulaTest {
 		System.out.println("\nBuilt formula: " + builtFormula);
 
 	}
-
-	//<editor-fold desc="parseLocalFormula" defaultstate="collapsed">
-	/**
-	 * Method to encapsulate the instructions needed to parse a given local foltl formula
-	 * @param input the input formula
-	 * @return the String interpretation of the output given by the visitor
-	 */
-	private static FoLtlFormula parseLocalFormula(String input){
-
-		FoLtlFormula output;
-
-		//Instantiates lexer and parser
-		FOFormulaParserLexer lexer = new FOFormulaParserLexer(new ANTLRInputStream(input));
-		FOFormulaParserParser parser = new FOFormulaParserParser(new CommonTokenStream(lexer));
-
-		//Gets the parsing tree
-		ParseTree tree = parser.localQuantifiedFormula();
-
-
-		if (DEBUG) {
-			System.out.println("\n");
-			String o = tree.toStringTree(parser);
-			System.out.println("> Default parsing tree:\n> " + o + "\n");
-		}
-
-		//Testing our own visitor
-		FoLtlLocalVisitor visitor = new FoLtlLocalVisitor();
-		output = visitor.visit(tree);
-
-		if(DEBUG) {
-			System.out.println("\n> Parsed formula: " + output.toString());
-		}
-
-		System.out.println("=============================================================================================");
-
-		return output;
-	}
-	//</editor-fold>
 
 }

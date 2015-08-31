@@ -1,12 +1,8 @@
-import antlr4_generated.FOLTLFormulaParserLexer;
-import antlr4_generated.FOLTLFormulaParserParser;
-import org.antlr.v4.runtime.ANTLRInputStream;
-import org.antlr.v4.runtime.CommonTokenStream;
-import org.antlr.v4.runtime.tree.ParseTree;
 import org.junit.Assert;
 import org.junit.Test;
 import formula.foltl.*;
-import visitors.FOLTLVisitors.FoLtlTemporalVisitor;
+
+import static util.ParsingUtils.*;
 
 /**
  * Created by Simone Calciolari on 12/08/15.
@@ -1075,7 +1071,7 @@ public class FoLtlOperationTest {
 		System.out.println("\n*** NEGATION NORMAL FORM TEST ***\n");
 
 		//Used only to get parser's warning messages out of the way
-		parseTemporalFormula("P(a)");
+		parseFoLtlFormula("P(a)");
 		System.out.println("\n");
 
 		FoLtlConstant a = new FoLtlConstant("a");
@@ -1112,37 +1108,37 @@ public class FoLtlOperationTest {
 
 		//P(a) <-> P(b)
 		input = new FoLtlLocalDoubleImplFormula(pa, pb);
-		target = parseTemporalFormula("(! P(a) || P(b)) && (! P(b) || P(a))");
+		target = parseFoLtlFormula("(! P(a) || P(b)) && (! P(b) || P(a))");
 
 		assertEquals(input.toString(), target, input.nnf());
 
 		//! (P(a) && P(b))
 		input = new FoLtlLocalNotFormula(new FoLtlLocalAndFormula(pa, pb));
-		target = parseTemporalFormula("! P(a) || ! P(b)");
+		target = parseFoLtlFormula("! P(a) || ! P(b)");
 
 		assertEquals(input.toString(), target, input.nnf());
 
 		//(P(a) -> P(b)) && P(a)
 		input = new FoLtlLocalAndFormula(new FoLtlLocalImplFormula(pa, pb), pa);
-		target = parseTemporalFormula("(! P(a) || P(b)) && P(a)");
+		target = parseFoLtlFormula("(! P(a) || P(b)) && P(a)");
 
 		assertEquals(input.toString(), target, input.nnf());
 
 		//! (Forall x P(a))
 		input = new FoLtlLocalNotFormula(new FoLtlLocalForallFormula(pa, x));
-		target = parseTemporalFormula("Exists ?x (! P(a))");
+		target = parseFoLtlFormula("Exists ?x (! P(a))");
 
 		assertEquals(input.toString(), target, input.nnf());
 
 		//! (Exists x P(a))
 		input = new FoLtlLocalNotFormula(new FoLtlLocalExistsFormula(pa, x));
-		target = parseTemporalFormula("Forall ?x (! P(a))");
+		target = parseFoLtlFormula("Forall ?x (! P(a))");
 
 		assertEquals(input.toString(), target, input.nnf());
 
 		//!Forall x (P(a) -> P(b))
 		input = new FoLtlLocalNotFormula(new FoLtlLocalForallFormula(aIMPLb, x));
-		target = parseTemporalFormula("Exists ?x (P(a) && !P(b))");
+		target = parseFoLtlFormula("Exists ?x (P(a) && !P(b))");
 
 		assertEquals(input.toString(), target, input.nnf());
 
@@ -1152,71 +1148,71 @@ public class FoLtlOperationTest {
 
 		//X P(a)
 		input = new FoLtlNextFormula(pa);
-		target = parseTemporalFormula("X P(a)");
+		target = parseFoLtlFormula("X P(a)");
 
 		assertEquals(input.toString(), target, input.nnf());
 
 		//WX P(a)
 		input = new FoLtlWeakNextFormula(pa);
-		target = parseTemporalFormula("WX P(a)");
+		target = parseFoLtlFormula("WX P(a)");
 
 		assertEquals(input.toString(), target, input.nnf());
 
 		//a U b
 		input = new FoLtlUntilFormula(pa, pb);
-		target = parseTemporalFormula("P(a) U P(b)");
+		target = parseFoLtlFormula("P(a) U P(b)");
 
 		assertEquals(input.toString(), target, input.nnf());
 
 		//a R b
 		input = new FoLtlReleaseFormula(pa, pb);
-		target = parseTemporalFormula("P(a) R P(b)");
+		target = parseFoLtlFormula("P(a) R P(b)");
 
 		assertEquals(input.toString(), target, input.nnf());
 
 		//G a
 		input = new FoLtlGloballyFormula(pa);
-		target = parseTemporalFormula("FALSE R P(a)");
+		target = parseFoLtlFormula("FALSE R P(a)");
 
 		assertEquals(input.toString(), target, input.nnf());
 
 		//F a
 		input = new FoLtlEventuallyFormula(pa);
-		target = parseTemporalFormula("TRUE U P(a)");
+		target = parseFoLtlFormula("TRUE U P(a)");
 
 		assertEquals(input.toString(), target, input.nnf());
 
 		//a WU b
 		input = new FoLtlWeakUntilFormula(pa, pb);
-		target = parseTemporalFormula("P(b) R (P(a) || P(b))");
+		target = parseFoLtlFormula("P(b) R (P(a) || P(b))");
 
 		assertEquals(input.toString(), target, input.nnf());
 
 		//Input: !(P(a) & P(b)) & G(!( P(a) <-> P(b) ))
 		//Expected: (! P(a) || ! P(b)) && (false R ((P(a) && ! P(b)) || (P(b) && ! P(a))))
-		input = parseTemporalFormula("!(P(a) & P(b)) & G(!( P(a) <-> P(b) ))");
-		target = parseTemporalFormula("((!(P(a))) || (!(P(b)))) && ((false) R (((P(a)) && (!(P(b)))) || ((P(b)) && (!(P(a))))))");
+		input = parseFoLtlFormula("!(P(a) & P(b)) & G(!( P(a) <-> P(b) ))");
+		target = parseFoLtlFormula("((!(P(a))) || (!(P(b)))) && ((false) R (((P(a)) && (!(P(b)))) || ((P(b)) && (!(P(a))))))");
 
 		assertEquals(input.toString(), target, input.nnf());
 
 		//Input: !((X P(a)) <-> P(b) )
 		//Expected: ((X P(a)) && (! P(b))) || ((P(b)) && (WX (! P(a))))
-		input = parseTemporalFormula("!((X P(a)) <-> P(b))");
-		target = parseTemporalFormula("((X P(a)) && (! P(b))) || ((P(b)) && (WX (! P(a))))");
+		input = parseFoLtlFormula("!((X P(a)) <-> P(b))");
+		target = parseFoLtlFormula("((X P(a)) && (! P(b))) || ((P(b)) && (WX (! P(a))))");
 
 		assertEquals(input.toString(), target, input.nnf());
 
 		//Input: !( G( G( (WX false) R (G true) )))
 		//Expected: (TRUE) U ((TRUE) U ((X TRUE) U (TRUE U FALSE)))
-		input = parseTemporalFormula("!( G( G( (WX false) R (G true) )))");
-		target = parseTemporalFormula("(TRUE) U ((TRUE) U ((X TRUE) U (TRUE U FALSE)))");
+		input = parseFoLtlFormula("!( G( G( (WX false) R (G true) )))");
+		target = parseFoLtlFormula("(TRUE) U ((TRUE) U ((X TRUE) U (TRUE U FALSE)))");
 
 		assertEquals(input.toString(), target, input.nnf());
 
 		//Input: F( G( (WX false) <-> (G (!(P(a) & P(b))))))
 		//Expected: TRUE U (FALSE R (((X TRUE) || (FALSE R ((! P(a)) || (! P(b))))) && ((TRUE U (P(a) && P(b))) || (WX FALSE))))
-		input = parseTemporalFormula("F( G( (WX false) <-> (G (!(P(a) & P(b))))))");
-		target = parseTemporalFormula("TRUE U (FALSE R " +
+		input = parseFoLtlFormula("F( G( (WX false) <-> (G (!(P(a) & P(b))))))");
+		target = parseFoLtlFormula("TRUE U (FALSE R " +
 				"(((X TRUE) || (FALSE R ((! P(a)) || (! P(b))))) && ((TRUE U (P(a) && P(b))) || (WX FALSE))))");
 
 		assertEquals(input.toString(), target, input.nnf());
@@ -1227,7 +1223,7 @@ public class FoLtlOperationTest {
 	public void testNegate(){
 
 		//Used only to get parser's warning messages out of the way
-		parseTemporalFormula("P(a)");
+		parseFoLtlFormula("P(a)");
 		System.out.println("\n");
 
 		System.out.println("\n*** NEGATION TEST ***\n\n");
@@ -1235,145 +1231,145 @@ public class FoLtlOperationTest {
 		//Atomic formulas
 
 		//FALSE ATOM
-		FoLtlFormula input = parseTemporalFormula("FALSE");
-		FoLtlFormula target = parseTemporalFormula("TRUE");
+		FoLtlFormula input = parseFoLtlFormula("FALSE");
+		FoLtlFormula target = parseFoLtlFormula("TRUE");
 		assertEquals(input.toString(), target, input.negate());
 
 		//TRUE ATOM
-		input = parseTemporalFormula("TRUE");
-		target = parseTemporalFormula("FALSE");
+		input = parseFoLtlFormula("TRUE");
+		target = parseFoLtlFormula("FALSE");
 		assertEquals(input.toString(), target, input.negate());
 
 		//LAST ATOM
-		input = parseTemporalFormula("LAST");
-		target = parseTemporalFormula("! (Last)");
+		input = parseFoLtlFormula("LAST");
+		target = parseFoLtlFormula("! (Last)");
 		assertEquals(input.toString(), target, input.negate());
 
 		//LOCAL ATOM
-		input = parseTemporalFormula("P(a)");
-		target = parseTemporalFormula("!P(a)");
+		input = parseFoLtlFormula("P(a)");
+		target = parseFoLtlFormula("!P(a)");
 		assertEquals(input.toString(), target, input.negate());
 
 		//EQUALITY ATOM
-		input = parseTemporalFormula("a = ?x");
-		target = parseTemporalFormula("!(a = ?x)");
+		input = parseFoLtlFormula("a = ?x");
+		target = parseFoLtlFormula("!(a = ?x)");
 		assertEquals(input.toString(), target, input.negate());
 
 
 		//Local boolean formulas
 
 		//AND
-		input = parseTemporalFormula("P(a) & P(b)");
-		target = parseTemporalFormula("!P(a) | !P(b)");
+		input = parseFoLtlFormula("P(a) & P(b)");
+		target = parseFoLtlFormula("!P(a) | !P(b)");
 		assertEquals(input.toString(), target, input.negate());
 
 		//OR
-		input = parseTemporalFormula("P(a) | P(b)");
-		target = parseTemporalFormula("!P(a) & !P(b)");
+		input = parseFoLtlFormula("P(a) | P(b)");
+		target = parseFoLtlFormula("!P(a) & !P(b)");
 		assertEquals(input.toString(), target, input.negate());
 
 		//IMPLICATION
-		input = parseTemporalFormula("P(a) -> P(b)");
-		target = parseTemporalFormula("P(a) & !P(b)");
+		input = parseFoLtlFormula("P(a) -> P(b)");
+		target = parseFoLtlFormula("P(a) & !P(b)");
 		assertEquals(input.toString(), target, input.negate());
 
 		//DOUBLE IMPLICATION
-		input = parseTemporalFormula("P(a) <-> P(b)");
-		target = parseTemporalFormula("P(a) && !P(b) || P(b) && !P(a)");
+		input = parseFoLtlFormula("P(a) <-> P(b)");
+		target = parseFoLtlFormula("P(a) && !P(b) || P(b) && !P(a)");
 		assertEquals(input.toString(), target, input.negate());
 
 		//NEGATION
-		input = parseTemporalFormula("! P(a)");
-		target = parseTemporalFormula("P(a)");
+		input = parseFoLtlFormula("! P(a)");
+		target = parseFoLtlFormula("P(a)");
 		assertEquals(input.toString(), target, input.negate());
 
 
 		//Temporal operators
 
 		//X
-		input = parseTemporalFormula("X P(a)");
-		target = parseTemporalFormula("WX !P(a)");
+		input = parseFoLtlFormula("X P(a)");
+		target = parseFoLtlFormula("WX !P(a)");
 		assertEquals(input.toString(), target, input.negate());
 
 		//WX
-		input = parseTemporalFormula("WX P(a)");
-		target = parseTemporalFormula("X !P(a)");
+		input = parseFoLtlFormula("WX P(a)");
+		target = parseFoLtlFormula("X !P(a)");
 		assertEquals(input.toString(), target, input.negate());
 
 		//U
-		input = parseTemporalFormula("P(a) U P(b)");
-		target = parseTemporalFormula("!P(a) R !P(b)");
+		input = parseFoLtlFormula("P(a) U P(b)");
+		target = parseFoLtlFormula("!P(a) R !P(b)");
 		assertEquals(input.toString(), target, input.negate());
 
 		//R
-		input = parseTemporalFormula("P(a) R P(b)");
-		target = parseTemporalFormula("!P(a) U !P(b)");
+		input = parseFoLtlFormula("P(a) R P(b)");
+		target = parseFoLtlFormula("!P(a) U !P(b)");
 		assertEquals(input.toString(), target, input.negate());
 
 		//G
-		input = parseTemporalFormula("G P(a)");
-		target = parseTemporalFormula("TRUE U !P(a)");
+		input = parseFoLtlFormula("G P(a)");
+		target = parseFoLtlFormula("TRUE U !P(a)");
 		assertEquals(input.toString(), target, input.negate());
 
 		//F
-		input = parseTemporalFormula("F P(a)");
-		target = parseTemporalFormula("FALSE R !P(a)");
+		input = parseFoLtlFormula("F P(a)");
+		target = parseFoLtlFormula("FALSE R !P(a)");
 		assertEquals(input.toString(), target, input.negate());
 
 		//WU
-		input = parseTemporalFormula("P(a) WU P(b)");
-		target = parseTemporalFormula("!P(b) U !P(a) && !P(b) ");
+		input = parseFoLtlFormula("P(a) WU P(b)");
+		target = parseFoLtlFormula("!P(b) U !P(a) && !P(b) ");
 		assertEquals(input.toString(), target, input.negate());
 
 
 		//Temporal boolean formulas
 
 		//AND
-		input = parseTemporalFormula("X P(a) & X P(b)");
-		target = parseTemporalFormula("WX !P(a) | WX !P(b)");
+		input = parseFoLtlFormula("X P(a) & X P(b)");
+		target = parseFoLtlFormula("WX !P(a) | WX !P(b)");
 		assertEquals(input.toString(), target, input.negate());
 
 		//OR
-		input = parseTemporalFormula("X P(a) | X P(b)");
-		target = parseTemporalFormula("WX !P(a) & WX !P(b)");
+		input = parseFoLtlFormula("X P(a) | X P(b)");
+		target = parseFoLtlFormula("WX !P(a) & WX !P(b)");
 		assertEquals(input.toString(), target, input.negate());
 
 		//IMPLICATION
-		input = parseTemporalFormula("X P(a) -> X P(b)");
-		target = parseTemporalFormula("X P(a) & WX !P(b)");
+		input = parseFoLtlFormula("X P(a) -> X P(b)");
+		target = parseFoLtlFormula("X P(a) & WX !P(b)");
 		assertEquals(input.toString(), target, input.negate());
 
 		//DOUBLE IMPLICATION
-		input = parseTemporalFormula("X P(a) <-> X P(b)");
-		target = parseTemporalFormula("X P(a) && WX !P(b) || X P(b) && WX !P(a)");
+		input = parseFoLtlFormula("X P(a) <-> X P(b)");
+		target = parseFoLtlFormula("X P(a) && WX !P(b) || X P(b) && WX !P(a)");
 		assertEquals(input.toString(), target, input.negate());
 
 		//NEGATION
-		input = parseTemporalFormula("! (X P(a))");
-		target = parseTemporalFormula("X P(a)");
+		input = parseFoLtlFormula("! (X P(a))");
+		target = parseFoLtlFormula("X P(a)");
 		assertEquals(input.toString(), target, input.negate());
 
 
 		//Quantified formulas
 
 		//EXISTS
-		input = parseTemporalFormula("Exists ?x P(x)");
-		target = parseTemporalFormula("Forall ?x ! P(x)");
+		input = parseFoLtlFormula("Exists ?x P(x)");
+		target = parseFoLtlFormula("Forall ?x ! P(x)");
 		assertEquals(input.toString(), target, input.negate());
 
 		//FORALL
-		input = parseTemporalFormula("Forall ?x P(x)");
-		target = parseTemporalFormula("Exists ?x ! P(x)");
+		input = parseFoLtlFormula("Forall ?x P(x)");
+		target = parseFoLtlFormula("Exists ?x ! P(x)");
 		assertEquals(input.toString(), target, input.negate());
 
 		//ACROSS EXISTS
-		input = parseTemporalFormula("Exists ?x (X P(x))");
-		target = parseTemporalFormula("Forall ?x (WX ! P(x))");
+		input = parseFoLtlFormula("Exists ?x (X P(x))");
+		target = parseFoLtlFormula("Forall ?x (WX ! P(x))");
 		assertEquals(input.toString(), target, input.negate());
 
 		//ACROSS FORALL
-		input = parseTemporalFormula("Forall ?x (X P(x))");
-		target = parseTemporalFormula("Exists ?x (WX ! P(x))");
+		input = parseFoLtlFormula("Forall ?x (X P(x))");
+		target = parseFoLtlFormula("Exists ?x (WX ! P(x))");
 		assertEquals(input.toString(), target, input.negate());
 
 
@@ -1417,42 +1413,6 @@ public class FoLtlOperationTest {
 			throw e;
 		}
 
-	}
-	//</editor-fold>
-
-	//<editor-fold desc="parseTemporalFormula" defaultstate="collapsed">
-	/**
-	 * Method to encapsulate the instructions needed to parse a given temporal foltl formula
-	 * @param input the input formula
-	 * @return a String representing the parsing result
-	 */
-	private static FoLtlFormula parseTemporalFormula(String input){
-
-		FoLtlFormula output;
-
-		//Instantiates lexer and parser
-		FOLTLFormulaParserLexer lexer = new FOLTLFormulaParserLexer(new ANTLRInputStream(input));
-		FOLTLFormulaParserParser parser = new FOLTLFormulaParserParser(new CommonTokenStream(lexer));
-
-		//Creates the parsing tree
-		ParseTree tree = parser.foltlFormula();
-
-		if (DEBUG) {
-			System.out.println("\n");
-			String o = tree.toStringTree(parser);
-			System.out.println("> Default parsing tree:\n> " + o);
-		}
-
-		//Testing our own visitor
-		FoLtlTemporalVisitor temporalVisitor = new FoLtlTemporalVisitor();
-		output = temporalVisitor.visit(tree);
-
-		if (DEBUG){
-			System.out.println("\n> Parsed formula: " + output);
-			System.out.println("=============================================================================================");
-		}
-
-		return output;
 	}
 	//</editor-fold>
 
