@@ -1,16 +1,20 @@
 package util;
 
-import antlr4_generated.FOFormulaParserLexer;
-import antlr4_generated.FOFormulaParserParser;
-import antlr4_generated.FOLTLFormulaParserLexer;
-import antlr4_generated.FOLTLFormulaParserParser;
+import antlr4_generated.*;
 import formula.fol.FolFormula;
 import formula.foltl.FoLtlFormula;
+import formula.ltlf.LTLfFormula;
+import net.sf.tweety.logics.pl.parser.PlParser;
+import net.sf.tweety.logics.pl.syntax.PropositionalFormula;
 import org.antlr.v4.runtime.ANTLRInputStream;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.tree.ParseTree;
 import visitors.FOLTLVisitors.*;
 import visitors.FOLVisitors.*;
+import visitors.LTLfVisitors.LTLfVisitor;
+
+import java.io.Reader;
+import java.io.StringReader;
 
 /**
  * Class that packs methods to encapsulates the parsing functionalities
@@ -19,7 +23,7 @@ import visitors.FOLVisitors.*;
 public class ParsingUtils {
 
 	//Boolean flag used to display extra information during the execution
-	private static final boolean DEBUG = true;
+	private static final boolean DEBUG = false;
 
 	/**
 	 * Method to encapsulate the instructions needed to parse a given foltl formula
@@ -42,7 +46,7 @@ public class ParsingUtils {
 			System.out.println("> Default parsing tree:\n> " + o);
 		}
 
-		//Testing our own visitor
+		//Calling our own visitor
 		FoLtlTemporalVisitor temporalVisitor = new FoLtlTemporalVisitor();
 		output = temporalVisitor.visit(tree);
 
@@ -75,7 +79,7 @@ public class ParsingUtils {
 			System.out.println("> Default parsing tree:\n> " + o + "\n");
 		}
 
-		//Testing our own visitor
+		//Calling our own visitor
 		FoLtlLocalVisitor visitor = new FoLtlLocalVisitor();
 		output = visitor.visit(tree);
 
@@ -108,7 +112,7 @@ public class ParsingUtils {
 			System.out.println("> Default parsing tree:\n> " + o + "\n");
 		}
 
-		//Testing our own visitor
+		//Calling our own visitor
 		FolVisitor visitor = new FolVisitor();
 		output = visitor.visit(tree);
 
@@ -142,7 +146,7 @@ public class ParsingUtils {
 			System.out.println("> Default parsing tree:\n> " + output);
 		}
 
-		//Testing our own visitor
+		//Calling our own visitor
 		FoLtlTemporalStringVisitor temporalVisitor = new FoLtlTemporalStringVisitor();
 		output = temporalVisitor.visit(tree);
 
@@ -175,12 +179,66 @@ public class ParsingUtils {
 			System.out.println("> Default parsing tree:\n> " + output + "\n");
 		}
 
-		//Testing our own visitor
+		//Calling our own visitor
 		FoLtlLocalStringVisitor temporalVisitor = new FoLtlLocalStringVisitor();
 		output = temporalVisitor.visit(tree);
 
 		if (DEBUG){
 			System.out.println("\n> Parsed formula: " + output);
+			System.out.println("=============================================================================================");
+		}
+
+		return output;
+	}
+
+	/**
+	 * Method to encapsulate the instructions needed to parse a given LTLf formula
+	 * @param input the input formula
+	 * @return the parsed formula
+	 */
+	public static LTLfFormula parseLTLfFormula(String input){
+		LTLfFormula output;
+
+		//Instantiates lexer and parser
+		LTLfFormulaParserLexer lexer = new LTLfFormulaParserLexer(new ANTLRInputStream(input));
+		LTLfFormulaParserParser parser = new LTLfFormulaParserParser(new CommonTokenStream(lexer));
+
+		//Gets the parsing tree
+		ParseTree tree = parser.expression();
+
+		if (DEBUG){
+			System.out.println("\n");
+			String o = tree.toStringTree(parser);
+			System.out.println("> Default parsing tree:\n> " + o + "\n");
+		}
+
+		//Calling our own visitor
+		LTLfVisitor visitor = new LTLfVisitor();
+		output = visitor.visit(tree);
+
+		if(DEBUG) {
+			System.out.println("\n> Parsed formula: " + output.toString());
+			System.out.println("=============================================================================================");
+		}
+
+		return output;
+	}
+
+	/**
+	 * Method to encapsulate the instructions needed to parse a given tweety propositional formula
+	 * @param input the input formula
+	 * @return the parsed formula
+	 */
+	public static PropositionalFormula parseTweetyFormula(String input){
+		PropositionalFormula output;
+
+		PlParser parser = new PlParser();
+		Reader sr = new StringReader(input);
+
+		output = parser.parseFormula(sr);
+
+		if(DEBUG) {
+			System.out.println("\n> Parsed formula: " + output.toString());
 			System.out.println("=============================================================================================");
 		}
 

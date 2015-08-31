@@ -8,6 +8,9 @@ public class PropositionalizationTest {
 	@Test
 	public void testPropositionalization(){
 
+		//Basic conversions
+
+
 	}
 
 }
