@@ -264,7 +264,7 @@ public class FoLtlLocalAtom extends FoLtlAtomicFormula implements FoLtlLocalForm
 
 	@Override
 	public LTLfLocalFormula propositionalize(HashSet<FoLtlConstant> domain, FoLtlAssignment assignment){
-		String name = this.getPredicate().toString();
+		String name = this.getPredicate().toString().toLowerCase();
 
 		FoLtlLocalAtom sub = (FoLtlLocalAtom) this.substitute(domain, assignment);
 		Iterator<FoLtlTerm> i = sub.getArguments().iterator();
@@ -272,10 +272,10 @@ public class FoLtlLocalAtom extends FoLtlAtomicFormula implements FoLtlLocalForm
 		while (i.hasNext()){
 			FoLtlTerm t = i.next();
 
-			if (i instanceof FoLtlVariable){
+			if (t instanceof FoLtlVariable){
 				throw new RuntimeException("Found open variable");
 			} else {
-				name = name + "_" + t.toString();
+				name = name + "" + t.toString();
 			}
 		}
 
