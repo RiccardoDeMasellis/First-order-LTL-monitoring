@@ -1,6 +1,7 @@
 package formulaa.foltl;
 
 import formulaa.ForallQuantifiedFormula;
+import formulaa.OperatorType;
 
 import java.util.HashSet;
 import java.util.Iterator;
@@ -28,45 +29,37 @@ public class FoLtlAcrossForallFormula extends FoLtlQuantifiedFormula implements 
 	@Override
 	public FoLtlFormula temporalExpansion(HashSet<FoLtlConstant> domain, FoLtlAssignment assignment){
 		FoLtlFormula res = null;
+		FoLtlFormula nested = this.getNestedFormula().clone();
 		FoLtlVariable v = this.getQuantifiedVariable();
 
-		if (!v.getSort().isEmpty()) {
-			Iterator<FoLtlConstant> sort = v.getSort().iterator();
+		Iterator<FoLtlConstant> i;
 
-			while (sort.hasNext()){
-				FoLtlConstant c = sort.next();
-				assignment.put(v, c);
-
-				FoLtlFormula temp = this.getNestedFormula().substitute(domain, assignment);
-
-				if (res == null){
-					res = temp;
-				} else {
-					res = new FoLtlTempAndFormula(temp, res);
-				}
-
-				assignment.remove(v);
-
-			}
-
+		if (!v.getSort().isEmpty()){
+			i = v.getSort().iterator();
 		} else {
-			Iterator<FoLtlConstant> dom = domain.iterator();
+			i = domain.iterator();
+		}
 
-			while (dom.hasNext()){
-				FoLtlConstant c = dom.next();
-				assignment.put(v, c);
+		while (i.hasNext()){
+			FoLtlConstant c = i.next();
+			assignment.put(v, c);
 
-				FoLtlFormula temp = this.getNestedFormula().substitute(domain, assignment);
+			FoLtlFormula temp;
 
-				if (res == null){
-					res = temp;
-				} else {
-					res = new FoLtlTempAndFormula(temp, res);
-				}
-
-				assignment.remove(v);
-
+			if (nested instanceof FoLtlTemporalFormula){
+				temp = ((FoLtlTemporalFormula) nested).temporalExpansion(domain, assignment);
+			} else {
+				temp = nested.substitute(domain, assignment);
 			}
+
+			if (res == null){
+				res = temp;
+			} else {
+				res = new FoLtlTempAndFormula(temp, res);
+			}
+
+			assignment.remove(v);
+
 		}
 
 		return res;

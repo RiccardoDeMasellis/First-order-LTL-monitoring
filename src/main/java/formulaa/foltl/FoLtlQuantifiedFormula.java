@@ -62,16 +62,8 @@ public abstract class FoLtlQuantifiedFormula implements FoLtlFormula, Quantified
 
 	@Override
 	public FoLtlFormula substitute(HashSet<FoLtlConstant> domain, FoLtlAssignment assignment){
-		FoLtlFormula res;
-
-		if (this instanceof FoLtlAcrossQuantifiedFormula) {
-			res = ((FoLtlAcrossQuantifiedFormula) this).temporalExpansion(domain, assignment);
-		} else {
-			res = this.formulaFactory(this.getFormulaType(), this.getNestedFormula().substitute(domain, assignment),
+		return this.formulaFactory(this.getFormulaType(), this.getNestedFormula().substitute(domain, assignment),
 					(FoLtlVariable) this.getQuantifiedVariable().clone());
-		}
-
-		return res;
 	}
 
 	public FoLtlFormula formulaFactory(formulaa.FormulaType type, FoLtlFormula nested, FoLtlVariable qvar){
@@ -104,5 +96,4 @@ public abstract class FoLtlQuantifiedFormula implements FoLtlFormula, Quantified
 		return res;
 
 	}
-
 }

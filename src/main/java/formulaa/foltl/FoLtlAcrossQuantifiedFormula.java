@@ -5,14 +5,10 @@ import formulaa.Formula;
 import formulaa.OperatorType;
 import formulaa.Variable;
 
-import java.util.HashSet;
-
 /**
  * Created by Simone Calciolari on 10/08/15.
  */
 public interface FoLtlAcrossQuantifiedFormula extends FoLtlTemporalFormula, AcrossQuantifiedFormula {
-
-	FoLtlFormula temporalExpansion(HashSet<FoLtlConstant> domain, FoLtlAssignment assignment);
 
 	@Override
 	default FoLtlFormula quantifiedFormulaFactory(OperatorType quantifier, Formula nestedFormula, Variable qvar){

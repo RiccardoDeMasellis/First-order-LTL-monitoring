@@ -3,6 +3,7 @@ package formulaa.foltl;
 import formulaa.ExistsQuantifiedFormula;
 import formula.ltlf.LTLfLocalFormula;
 import formula.ltlf.LTLfLocalOrFormula;
+import formulaa.OperatorType;
 
 import java.util.HashSet;
 import java.util.Iterator;
