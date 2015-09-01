@@ -115,7 +115,7 @@ public class PropositionalizationTest {
 		//Used only to get parser's warning messages out of the way
 		parseFoLtlFormula("P(a)");
 		parseLTLfFormula("pa");
-		System.out.println("\n\n*** FOLTL LOCAL FORMULA PROPOSITIONALIZATION TEST ***\n");
+		System.out.println("\n\n*** FOLTL LOCAL FORMULA TWEETY TRANSLATION TEST ***\n");
 
 		FoLtlAssignment assignment = new FoLtlAssignment();
 		HashSet<FoLtlConstant> domain = new HashSet<>();

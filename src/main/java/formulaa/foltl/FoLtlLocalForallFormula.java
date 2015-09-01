@@ -3,7 +3,6 @@ package formulaa.foltl;
 import formulaa.ForallQuantifiedFormula;
 import formula.ltlf.LTLfLocalAndFormula;
 import formula.ltlf.LTLfLocalFormula;
-import formulaa.OperatorType;
 
 import java.util.HashSet;
 import java.util.Iterator;
@@ -25,48 +24,32 @@ public class FoLtlLocalForallFormula extends FoLtlQuantifiedFormula implements F
 
 	@Override
 	public LTLfLocalFormula propositionalize(HashSet<FoLtlConstant> domain, FoLtlAssignment assignment){
-		FoLtlVariable v = this.getQuantifiedVariable();
-		FoLtlLocalFormula nested = (FoLtlLocalFormula) this.getNestedFormula();
-
 		LTLfLocalFormula res = null;
+		FoLtlLocalFormula nested = (FoLtlLocalFormula) this.getNestedFormula().clone();
+		FoLtlVariable v = this.getQuantifiedVariable();
 
-		if (!v.getSort().isEmpty()) {
-			Iterator<FoLtlConstant> sort = v.getSort().iterator();
+		Iterator<FoLtlConstant> i;
 
-			while (sort.hasNext()){
-				FoLtlConstant c = sort.next();
-				assignment.put(v, c);
-
-				LTLfLocalFormula temp = nested.propositionalize(domain, assignment);
-
-				if (res == null){
-					res = temp;
-				} else {
-					res = new LTLfLocalAndFormula(temp, res);
-				}
-
-				assignment.remove(v);
-
-			}
-
+		if (!v.getSort().isEmpty()){
+			i = v.getSort().iterator();
 		} else {
-			Iterator<FoLtlConstant> dom = domain.iterator();
+			i = domain.iterator();
+		}
 
-			while (dom.hasNext()){
-				FoLtlConstant c = dom.next();
-				assignment.put(v, c);
+		while (i.hasNext()){
+			FoLtlConstant c = i.next();
+			assignment.put(v, c);
 
-				LTLfLocalFormula temp = nested.propositionalize(domain, assignment);
+			LTLfLocalFormula temp = nested.propositionalize(domain, assignment);
 
-				if (res == null){
-					res = temp;
-				} else {
-					res = new LTLfLocalAndFormula(temp, res);
-				}
-
-				assignment.remove(v);
-
+			if (res == null){
+				res = temp;
+			} else {
+				res = new LTLfLocalAndFormula(temp, res);
 			}
+
+			assignment.remove(v);
+
 		}
 
 		return res;
