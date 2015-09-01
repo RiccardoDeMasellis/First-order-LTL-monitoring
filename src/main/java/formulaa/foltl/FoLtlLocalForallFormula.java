@@ -4,8 +4,8 @@ import formulaa.ForallQuantifiedFormula;
 import formula.ltlf.LTLfLocalAndFormula;
 import formula.ltlf.LTLfLocalFormula;
 
-import java.util.HashSet;
 import java.util.Iterator;
+import java.util.LinkedHashSet;
 
 /**
  * Created by Simone Calciolari on 06/08/15.
@@ -23,7 +23,7 @@ public class FoLtlLocalForallFormula extends FoLtlQuantifiedFormula implements F
 	}
 
 	@Override
-	public LTLfLocalFormula propositionalize(HashSet<FoLtlConstant> domain, FoLtlAssignment assignment){
+	public LTLfLocalFormula propositionalize(LinkedHashSet<FoLtlConstant> domain, FoLtlAssignment assignment){
 		LTLfLocalFormula res = null;
 		FoLtlLocalFormula nested = (FoLtlLocalFormula) this.getNestedFormula().clone();
 		FoLtlVariable v = this.getQuantifiedVariable();

@@ -1,14 +1,13 @@
 import static util.ParsingUtils.*;
 
 import formula.ltlf.LTLfFormula;
-import formulaa.foltl.FoLtlAssignment;
-import formulaa.foltl.FoLtlConstant;
-import formulaa.foltl.FoLtlLocalFormula;
+import formulaa.foltl.*;
 import net.sf.tweety.logics.pl.syntax.PropositionalFormula;
 import org.junit.Assert;
 import org.junit.Test;
 
 import java.util.HashSet;
+import java.util.LinkedHashSet;
 
 /**
  * Created by Simone Calciolari on 31/08/15.
@@ -23,7 +22,7 @@ public class PropositionalizationTest {
 		System.out.println("\n\n*** FOLTL LOCAL FORMULA PROPOSITIONALIZATION TEST ***\n");
 
 		FoLtlAssignment assignment = new FoLtlAssignment();
-		HashSet<FoLtlConstant> domain = new HashSet<>();
+		LinkedHashSet<FoLtlConstant> domain = new LinkedHashSet<>();
 
 		//Atom conversions
 		FoLtlLocalFormula computed = (FoLtlLocalFormula) parseFoLtlFormula("P(a)");
@@ -89,23 +88,47 @@ public class PropositionalizationTest {
 		domain.add(new FoLtlConstant("b"));
 
 		computed = (FoLtlLocalFormula) parseFoLtlFormula("Exists ?x P(?x)");
-		expected = parseLTLfFormula("pa || pb");
+		expected = parseLTLfFormula("pb || pa");
 		assertEquals("", expected, computed.propositionalize(domain, assignment));
 
 		computed = (FoLtlLocalFormula) parseFoLtlFormula("Forall ?x P(?x)");
-		expected = parseLTLfFormula("pa && pb");
+		expected = parseLTLfFormula("pb && pa");
 		assertEquals("", expected, computed.propositionalize(domain, assignment));
 
 		computed = (FoLtlLocalFormula) parseFoLtlFormula("Exists ?x P(?x) && P(d)");
-		expected = parseLTLfFormula("(pa && pd) || (pb && pd)");
+		expected = parseLTLfFormula("(pb && pd) || (pa && pd)");
 		assertEquals("", expected, computed.propositionalize(domain, assignment));
 
 		computed = (FoLtlLocalFormula) parseFoLtlFormula("Forall ?x P(?x) -> P(d)");
-		expected = parseLTLfFormula("(pa -> pd) && (pb -> pd)");
+		expected = parseLTLfFormula("(pb -> pd) && (pa -> pd)");
 		assertEquals("", expected, computed.propositionalize(domain, assignment));
 
 		computed = (FoLtlLocalFormula) parseFoLtlFormula("Exists ?x (Exists ?y (P(?x) && P(?y)))");
-		expected = parseLTLfFormula("((pa && pa) || (pa && pb)) || ((pb && pa) || (pb && pb))");
+		expected = parseLTLfFormula("((pb && pb) || (pb && pa)) || ((pa && pb) || (pa && pa))");
+		assertEquals("", expected, computed.propositionalize(domain, assignment));
+
+
+		//Testing with sorts
+
+		FoLtlSort sortAB = new FoLtlSort("AB");
+		sortAB.add(new FoLtlConstant("a"));
+		sortAB.add(new FoLtlConstant("b"));
+
+		FoLtlSort sortC = new FoLtlSort("C");
+		sortC.add(new FoLtlConstant("c"));
+
+		domain.add(new FoLtlConstant("c"));
+
+		System.out.println("\nSORT PROPOSITIONALIZATION TEST\n");
+
+		computed = (FoLtlLocalFormula) parseFoLtlFormula("Exists ?x P(?x)");
+		computed.assignSort(new FoLtlVariable("x"), sortAB);
+		expected = parseLTLfFormula("pb || pa");
+		assertEquals("", expected, computed.propositionalize(domain, assignment));
+
+		computed = (FoLtlLocalFormula) parseFoLtlFormula("Exists ?x P(?x)");
+		computed.assignSort(new FoLtlVariable("x"), sortC);
+		expected = parseLTLfFormula("pc");
 		assertEquals("", expected, computed.propositionalize(domain, assignment));
 
 	}
@@ -118,7 +141,7 @@ public class PropositionalizationTest {
 		System.out.println("\n\n*** FOLTL LOCAL FORMULA TWEETY TRANSLATION TEST ***\n");
 
 		FoLtlAssignment assignment = new FoLtlAssignment();
-		HashSet<FoLtlConstant> domain = new HashSet<>();
+		LinkedHashSet<FoLtlConstant> domain = new LinkedHashSet<>();
 
 		//Atom conversions
 		FoLtlLocalFormula computed = (FoLtlLocalFormula) parseFoLtlFormula("P(a)");

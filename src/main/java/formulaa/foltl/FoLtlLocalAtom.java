@@ -6,6 +6,7 @@ import formula.ltlf.LTLfLocalVar;
 
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.LinkedHashSet;
 import java.util.LinkedList;
 
 /**
@@ -273,7 +274,7 @@ public class FoLtlLocalAtom extends FoLtlAtomicFormula implements FoLtlLocalForm
 	}
 
 	@Override
-	public LTLfLocalFormula propositionalize(HashSet<FoLtlConstant> domain, FoLtlAssignment assignment){
+	public LTLfLocalFormula propositionalize(LinkedHashSet<FoLtlConstant> domain, FoLtlAssignment assignment){
 		String name = this.getPredicate().toString().toLowerCase();
 
 		FoLtlLocalAtom sub = (FoLtlLocalAtom) this.substitute(domain, assignment);

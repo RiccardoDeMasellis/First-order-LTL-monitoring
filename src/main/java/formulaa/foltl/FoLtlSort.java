@@ -4,11 +4,12 @@ import formulaa.Sort;
 
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.LinkedHashSet;
 
 /**
  * Created by Simone Calciolari on 19/08/15.
  */
-public class FoLtlSort extends HashSet<FoLtlConstant> implements Sort {
+public class FoLtlSort extends LinkedHashSet<FoLtlConstant> implements Sort {
 
 	public static final FoLtlSort DEFAULT = new FoLtlSort("default");
 
