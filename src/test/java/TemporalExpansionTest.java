@@ -1,4 +1,4 @@
-import formula.foltl.*;
+import formulaa.foltl.*;
 import org.junit.Test;
 
 import java.util.HashSet;

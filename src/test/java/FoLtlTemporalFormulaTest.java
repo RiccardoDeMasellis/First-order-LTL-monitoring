@@ -1,4 +1,4 @@
-import formula.foltl.*;
+import formulaa.foltl.*;
 import org.junit.Assert;
 import org.junit.Test;
 

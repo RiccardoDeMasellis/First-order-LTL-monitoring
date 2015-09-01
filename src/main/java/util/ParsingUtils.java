@@ -1,8 +1,8 @@
 package util;
 
 import antlr4_generated.*;
-import formula.fol.FolFormula;
-import formula.foltl.FoLtlFormula;
+import formulaa.fol.FolFormula;
+import formulaa.foltl.FoLtlFormula;
 import formula.ltlf.LTLfFormula;
 import net.sf.tweety.logics.pl.parser.PlParser;
 import net.sf.tweety.logics.pl.syntax.PropositionalFormula;

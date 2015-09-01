@@ -1,6 +1,6 @@
+import formulaa.foltl.*;
 import org.junit.Assert;
 import org.junit.Test;
-import formula.foltl.*;
 
 import static util.ParsingUtils.*;
 

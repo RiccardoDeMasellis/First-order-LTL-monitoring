@@ -2,7 +2,7 @@ package visitors.FOLVisitors;
 
 import antlr4_generated.FOFormulaParserBaseVisitor;
 import antlr4_generated.FOFormulaParserParser;
-import formula.foltl.*;
+import formulaa.foltl.*;
 import org.antlr.v4.runtime.misc.NotNull;
 import org.antlr.v4.runtime.tree.ParseTree;
 
