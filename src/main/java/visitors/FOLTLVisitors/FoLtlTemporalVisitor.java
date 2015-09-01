@@ -603,31 +603,39 @@ public class FoLtlTemporalVisitor extends FOLTLFormulaParserBaseVisitor<FoLtlFor
 		res = localVisitor.visit(tree);
 
 		return res;
-	}
-
-	private FoLtlVariable getVariable(String name){
-		FoLtlVariable res = new FoLtlVariable(name);
+	}private FoLtlVariable getVariable(String name){
+		FoLtlVariable res = null;
 		Iterator<FoLtlVariable> i = this.variables.iterator();
 
 		while(i.hasNext()){
 			FoLtlVariable v = i.next();
-			if (v.equals(res)){
+			if (v.getName().equals(name)){
 				res = v;
 			}
+		}
+
+		if (res == null){
+			res = new FoLtlVariable(name);
+			variables.add(res);
 		}
 
 		return res;
 	}
 
 	private FoLtlConstant getConstant(String name){
-		FoLtlConstant res = new FoLtlConstant(name);
+		FoLtlConstant res = null;
 		Iterator<FoLtlConstant> i = this.constants.iterator();
 
 		while(i.hasNext()){
 			FoLtlConstant v = i.next();
-			if (v.equals(res)){
+			if (v.getName().equals(name)){
 				res = v;
 			}
+		}
+
+		if (res == null){
+			res = new FoLtlConstant(name);
+			constants.add(res);
 		}
 
 		return res;

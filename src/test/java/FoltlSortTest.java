@@ -2,6 +2,8 @@ import formulaa.foltl.*;
 import org.junit.Assert;
 import org.junit.Test;
 
+import static util.ParsingUtils.*;
+
 /**
  * Created by Simone Calciolari on 19/08/15.
  */
@@ -94,6 +96,16 @@ public class FoltlSortTest {
 
 		System.out.println(pAtom.allSubstitutions().toString());
 
+	}
+
+	@Test
+	public void testParsingSort() {
+		FoLtlFormula formula = parseFoLtlFormula("P(?x) && P(?x)");
+		FoLtlLocalAtom atom = (FoLtlLocalAtom) ((FoLtlLocalAndFormula) formula).getLeftFormula();
+		((FoLtlVariable) atom.getArguments().getFirst()).setSort(new FoLtlSort("sort"));
+
+		atom = (FoLtlLocalAtom) ((FoLtlLocalAndFormula) formula).getRightFormula();
+		System.out.println("\n" + ((FoLtlVariable) atom.getArguments().getFirst()).getSort().getName());
 	}
 
 	//<editor-fold desc="assertEquals" defaultstate="collapsed">
