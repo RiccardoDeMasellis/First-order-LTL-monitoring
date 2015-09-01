@@ -101,11 +101,18 @@ public class FoltlSortTest {
 	@Test
 	public void testParsingSort() {
 		FoLtlFormula formula = parseFoLtlFormula("P(?x) && P(?x)");
-		FoLtlLocalAtom atom = (FoLtlLocalAtom) ((FoLtlLocalAndFormula) formula).getLeftFormula();
-		((FoLtlVariable) atom.getArguments().getFirst()).setSort(new FoLtlSort("sort"));
+		FoLtlLocalAtom left = (FoLtlLocalAtom) ((FoLtlLocalAndFormula) formula).getLeftFormula();
+		FoLtlLocalAtom right = (FoLtlLocalAtom) ((FoLtlLocalAndFormula) formula).getRightFormula();
 
-		atom = (FoLtlLocalAtom) ((FoLtlLocalAndFormula) formula).getRightFormula();
-		System.out.println("\n" + ((FoLtlVariable) atom.getArguments().getFirst()).getSort().getName());
+		Assert.assertTrue(left.getArguments().getFirst() == right.getArguments().getFirst());
+
+		formula = parseFoLtlFormula("Forall ?x (G P(?x))");
+		FoLtlVariable qvar = ((FoLtlAcrossForallFormula) formula).getQuantifiedVariable();
+		FoLtlFormula nf = ((FoLtlAcrossForallFormula) formula).getNestedFormula();
+		FoLtlLocalAtom atom = (FoLtlLocalAtom) ((FoLtlGloballyFormula) nf).getNestedFormula();
+
+		Assert.assertTrue(qvar == atom.getArguments().getFirst());
+
 	}
 
 	//<editor-fold desc="assertEquals" defaultstate="collapsed">
