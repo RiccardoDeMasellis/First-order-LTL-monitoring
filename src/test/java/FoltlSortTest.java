@@ -113,6 +113,22 @@ public class FoltlSortTest {
 
 		Assert.assertTrue(qvar == atom.getArguments().getFirst());
 
+		FoLtlLocalEqualityFormula eq = (FoLtlLocalEqualityFormula) parseFoLtlFormula("?x = ?x");
+		Assert.assertTrue(eq.getLeftTerm() == eq.getRightTerm());
+
+		System.out.println("\n*** SORT ASSIGNMENT TEST ***\n");
+
+		formula = parseFoLtlFormula("Forall ?x (G P(?x, ?y))");
+
+		formula.assignSort(new FoLtlVariable("x"), new FoLtlSort("sort"));
+
+		qvar = ((FoLtlAcrossForallFormula) formula).getQuantifiedVariable();
+		nf = ((FoLtlAcrossForallFormula) formula).getNestedFormula();
+		atom = (FoLtlLocalAtom) ((FoLtlGloballyFormula) nf).getNestedFormula();
+
+		Assert.assertTrue(qvar.getSort() == ((FoLtlVariable) atom.getArguments().getFirst()).getSort());
+		assertEquals("", qvar.getSort(), ((FoLtlVariable) atom.getArguments().getFirst()).getSort());
+
 	}
 
 	//<editor-fold desc="assertEquals" defaultstate="collapsed">

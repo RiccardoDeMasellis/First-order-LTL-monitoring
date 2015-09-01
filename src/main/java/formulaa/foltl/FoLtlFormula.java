@@ -13,6 +13,12 @@ public interface FoLtlFormula extends Formula {
 
 	void assignSort(FoLtlVariable variable, FoLtlSort sort);
 
+	//Both the following methods ignore open variables
+	//(which shouldn't be there at all btw)
+	HashSet<FoLtlVariable> getAcrossVariables();
+
+	HashSet<FoLtlVariable> getLocalVariables();
+
 	FoLtlFormula clone();
 
 }

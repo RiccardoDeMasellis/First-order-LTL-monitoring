@@ -41,6 +41,16 @@ public abstract class FoLtlAtomicFormula implements FoLtlFormula, AtomicFormula 
 	public void assignSort(FoLtlVariable variable, FoLtlSort sort){
 	}
 
+	@Override
+	public HashSet<FoLtlVariable> getAcrossVariables(){
+		return new HashSet<>();
+	}
+
+	@Override
+	public HashSet<FoLtlVariable> getLocalVariables(){
+		return new HashSet<>();
+	}
+
 	/**
 	 * used to obtain new instances of FoLtl atomic formulas
 	 * @param type desired formula type
