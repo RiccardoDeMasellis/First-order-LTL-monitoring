@@ -1,12 +1,8 @@
-import antlr4_generated.FOLTLFormulaParserLexer;
-import antlr4_generated.FOLTLFormulaParserParser;
-import formula.foltl.*;
-import org.antlr.v4.runtime.ANTLRInputStream;
-import org.antlr.v4.runtime.CommonTokenStream;
-import org.antlr.v4.runtime.tree.ParseTree;
+import formulaa.foltl.*;
 import org.junit.Assert;
 import org.junit.Test;
-import visitors.FOLTLVisitors.FoLtlTemporalVisitor;
+
+import static util.ParsingUtils.*;
 
 /**
  * Created by Simone Calciolari on 10/08/15.
@@ -185,7 +181,7 @@ public class FoLtlTemporalFormulaTest {
 		FoLtlFormula target = globAndEvn;
 
 		Assert.assertEquals("", target,
-				parseTemporalFormula("G P(a) & F Q(a, b)"));
+				parseFoLtlFormula("G P(a) & F Q(a, b)"));
 
 
 		//P(a) & Q(b, d) U P(c) & Q(a, b)
@@ -203,7 +199,7 @@ public class FoLtlTemporalFormulaTest {
 		target = andUntiland;
 
 		Assert.assertEquals("", target,
-				parseTemporalFormula("P(a) & Q(b, d) U P(c) & Q(a, b)"));
+				parseFoLtlFormula("P(a) & Q(b, d) U P(c) & Q(a, b)"));
 
 
 		//(P(a) & P(b)) U ((X Q(c, c) & (P(c) U P(d)))
@@ -221,7 +217,7 @@ public class FoLtlTemporalFormulaTest {
 		target = andUand;
 
 		Assert.assertEquals("", target,
-				parseTemporalFormula("(P(a) & P(b)) U (X Q(c, c) & (P(c) U P(d)))"));
+				parseFoLtlFormula("(P(a) & P(b)) U (X Q(c, c) & (P(c) U P(d)))"));
 
 
 		//((P(a) & P(b)) U ((X P(c)) & (P(d)))) R
@@ -243,7 +239,7 @@ public class FoLtlTemporalFormulaTest {
 		target = rel2;
 
 		Assert.assertEquals("", target,
-				parseTemporalFormula("(P(a) & P(b) U ((X P(c)) & P(d))) R (((WX P(a) -> P(a)) WU (G P(a) R P(a))) <-> P(a) U P(a))"));
+				parseFoLtlFormula("(P(a) & P(b) U ((X P(c)) & P(d))) R (((WX P(a) -> P(a)) WU (G P(a) R P(a))) <-> P(a) U P(a))"));
 
 
 		//Forall ?x ((P(?x)) U (Exists ?y ((!(?x = ?y)) && (P(?y)))))
@@ -265,7 +261,7 @@ public class FoLtlTemporalFormulaTest {
 		target = forallX;
 
 		Assert.assertEquals("", target,
-				parseTemporalFormula("Forall ?x (P(?x) U Exists ?y !(?x = ?y) & P(?y))"));
+				parseFoLtlFormula("Forall ?x (P(?x) U Exists ?y !(?x = ?y) & P(?y))"));
 
 
 		//Forall ?x (Forall ?y P(?x) & Q(?x, ?x) | G P(?y) U Q(?y, ?y))
@@ -283,7 +279,7 @@ public class FoLtlTemporalFormulaTest {
 		target = forallX;
 
 		Assert.assertEquals("", target,
-				parseTemporalFormula("Forall ?x (Forall ?y (P(?x) & Q(?x, ?x) | G P(?y) U Q(?y, ?y)))"));
+				parseFoLtlFormula("Forall ?x (Forall ?y (P(?x) & Q(?x, ?x) | G P(?y) U Q(?y, ?y)))"));
 
 		//Forall ?x (Forall ?y P(?x) & Q(?x, ?x) | FALSE U Q(?y, ?y))
 
@@ -295,51 +291,14 @@ public class FoLtlTemporalFormulaTest {
 		target = forallX;
 
 		Assert.assertEquals("", target,
-				parseTemporalFormula("Forall ?x (Forall ?y (P(?x) & Q(?x, ?x) | G false U Q(?y, ?y)))"));
+				parseFoLtlFormula("Forall ?x (Forall ?y (P(?x) & Q(?x, ?x) | G false U Q(?y, ?y)))"));
 
 		//G P(a) U LAST
 		target = new FoLtlUntilFormula(new FoLtlGloballyFormula(Pa), new FoLtlTempLastAtom());
 
 		Assert.assertEquals("", target,
-				parseTemporalFormula("G P(a) U LAST"));
+				parseFoLtlFormula("G P(a) U LAST"));
 
 	}
-
-	//<editor-fold desc="parseTemporalFormula" defaultstate="collapsed">
-	/**
-	 * Method to encapsulate the instructions needed to parse a given temporal foltl formula
-	 * @param input the input formula
-	 * @return a String representing the parsing result
-	 */
-	private static FoLtlFormula parseTemporalFormula(String input){
-
-		FoLtlFormula output;
-
-		//Instantiates lexer and parser
-		FOLTLFormulaParserLexer lexer = new FOLTLFormulaParserLexer(new ANTLRInputStream(input));
-		FOLTLFormulaParserParser parser = new FOLTLFormulaParserParser(new CommonTokenStream(lexer));
-
-		//Creates the parsing tree
-		ParseTree tree = parser.foltlFormula();
-
-		if (DEBUG) {
-			System.out.println("\n");
-			String o = tree.toStringTree(parser);
-			System.out.println("> Default parsing tree:\n> " + o);
-		}
-
-		//Testing our own visitor
-		FoLtlTemporalVisitor temporalVisitor = new FoLtlTemporalVisitor();
-		output = temporalVisitor.visit(tree);
-
-		if (DEBUG){
-			System.out.println("\n> Parsed formula: " + output);
-		}
-
-		System.out.println("=============================================================================================");
-
-		return output;
-	}
-	//</editor-fold>
 
 }
