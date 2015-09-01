@@ -37,6 +37,10 @@ public abstract class FoLtlAtomicFormula implements FoLtlFormula, AtomicFormula 
 		return this.clone();
 	}
 
+	@Override
+	public void assignSort(FoLtlVariable variable, FoLtlSort sort){
+	}
+
 	/**
 	 * used to obtain new instances of FoLtl atomic formulas
 	 * @param type desired formula type

@@ -11,6 +11,8 @@ public interface FoLtlFormula extends Formula {
 
 	FoLtlFormula substitute(HashSet<FoLtlConstant> domain, FoLtlAssignment assignment);
 
+	void assignSort(FoLtlVariable variable, FoLtlSort sort);
+
 	FoLtlFormula clone();
 
 }

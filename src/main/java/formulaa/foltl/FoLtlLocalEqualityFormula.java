@@ -29,6 +29,20 @@ public class FoLtlLocalEqualityFormula extends FoLtlAtomicFormula implements FoL
 	}
 
 	@Override
+	public void assignSort(FoLtlVariable variable, FoLtlSort sort){
+		FoLtlTerm left = this.getLeftTerm();
+		FoLtlTerm right = this.getRightTerm();
+
+		if (left.equals(variable)){
+			((FoLtlVariable) left).setSort(sort);
+		}
+
+		if (right.equals(variable)){
+			((FoLtlVariable) right).setSort(sort);
+		}
+	}
+
+	@Override
 	public String toString(){
 		return this.getLeftTerm().toString() + " = " + this.getRightTerm().toString();
 	}

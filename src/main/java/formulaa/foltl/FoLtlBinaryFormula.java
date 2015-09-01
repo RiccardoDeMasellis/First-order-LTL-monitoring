@@ -26,6 +26,12 @@ public abstract class FoLtlBinaryFormula implements FoLtlFormula, BinaryFormula 
 	}
 
 	@Override
+	public void assignSort(FoLtlVariable variable, FoLtlSort sort){
+		this.getLeftFormula().assignSort(variable, sort);
+		this.getRightFormula().assignSort(variable, sort);
+	}
+
+	@Override
 	public String toString() {
 		return "(" + this.getLeftFormula() + ") " + this.stringOperator() + " (" + this.getRightFormula() + ")";
 	}

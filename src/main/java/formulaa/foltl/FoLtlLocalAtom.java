@@ -82,6 +82,18 @@ public class FoLtlLocalAtom extends FoLtlAtomicFormula implements FoLtlLocalForm
 	}
 
 	@Override
+	public void assignSort(FoLtlVariable variable, FoLtlSort sort){
+		Iterator<FoLtlTerm> i = this.getArguments().iterator();
+
+		while (i.hasNext()){
+			FoLtlTerm t = i.next();
+			if (t.equals(variable)){
+				((FoLtlVariable) t).setSort(sort);
+			}
+		}
+	}
+
+	@Override
 	public  String toString(){
 		String s = predicate.toString() + "(";
 
