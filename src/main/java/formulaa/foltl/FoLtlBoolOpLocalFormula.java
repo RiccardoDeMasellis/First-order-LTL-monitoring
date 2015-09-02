@@ -1,11 +1,17 @@
 package formulaa.foltl;
 
 import formulaa.OperatorType;
+import net.sf.tweety.logics.fol.syntax.FolFormula;
 
 /**
  * Created by Simone Calciolari on 06/08/15.
  */
 public interface FoLtlBoolOpLocalFormula extends FoLtlBoolOpFormula, FoLtlLocalFormula {
+
+	@Override
+	default FolFormula toTweetyFol(){
+		return ((FoLtlLocalFormula) this.nnf()).toTweetyFol();
+	}
 
 	@Override
 	default FoLtlFormula boolFormulaFactory(OperatorType op, formulaa.Formula left, formulaa.Formula right){

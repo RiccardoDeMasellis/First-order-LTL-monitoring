@@ -3,9 +3,15 @@ package formulaa.foltl;
 import formulaa.LocalAtom;
 import formula.ltlf.LTLfLocalFormula;
 import formula.ltlf.LTLfLocalVar;
+import net.sf.tweety.logics.commons.syntax.Constant;
+import net.sf.tweety.logics.commons.syntax.Predicate;
+import net.sf.tweety.logics.commons.syntax.Variable;
+import net.sf.tweety.logics.fol.syntax.FOLAtom;
+import net.sf.tweety.logics.fol.syntax.FolFormula;
 
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.LinkedHashSet;
 import java.util.LinkedList;
 
 /**
@@ -79,6 +85,18 @@ public class FoLtlLocalAtom extends FoLtlAtomicFormula implements FoLtlLocalForm
 
 	public LinkedList<FoLtlTerm> getArguments(){
 		return this.arguments;
+	}
+
+	@Override
+	public void assignSort(FoLtlVariable variable, FoLtlSort sort){
+		Iterator<FoLtlTerm> i = this.getArguments().iterator();
+
+		while (i.hasNext()){
+			FoLtlTerm t = i.next();
+			if (t.equals(variable)){
+				((FoLtlVariable) t).setSort(sort);
+			}
+		}
 	}
 
 	@Override
@@ -261,7 +279,7 @@ public class FoLtlLocalAtom extends FoLtlAtomicFormula implements FoLtlLocalForm
 	}
 
 	@Override
-	public LTLfLocalFormula propositionalize(HashSet<FoLtlConstant> domain, FoLtlAssignment assignment){
+	public LTLfLocalFormula propositionalize(LinkedHashSet<FoLtlConstant> domain, FoLtlAssignment assignment){
 		String name = this.getPredicate().toString().toLowerCase();
 
 		FoLtlLocalAtom sub = (FoLtlLocalAtom) this.substitute(domain, assignment);
@@ -278,6 +296,41 @@ public class FoLtlLocalAtom extends FoLtlAtomicFormula implements FoLtlLocalForm
 		}
 
 		return new LTLfLocalVar(name);
+	}
+
+	@Override
+	public FolFormula toTweetyFol(){
+		Predicate predicate = new Predicate(this.getPredicate().getName(), this.getPredicate().getArity());
+		FOLAtom res = new FOLAtom(predicate);
+		Iterator <FoLtlTerm> i = this.getArguments().iterator();
+
+		while (i.hasNext()){
+			FoLtlTerm next = i.next();
+			if (next instanceof FoLtlVariable){
+				res.addArgument(new Variable(next.getName().toUpperCase()));
+			} else {
+				res.addArgument(new Constant(next.getName().toLowerCase()));
+			}
+		}
+
+		return res;
+	}
+
+	@Override
+	public String getAtomicName(){
+		String res = this.getPredicate().getName().toUpperCase();
+		Iterator <FoLtlTerm> i = this.getArguments().iterator();
+
+		while (i.hasNext()){
+			FoLtlTerm next = i.next();
+			if (next instanceof FoLtlVariable){
+				res = res + "_var_" + next.getName().toLowerCase();
+			} else {
+				res = res + "_con_" + next.getName().toLowerCase();
+			}
+		}
+
+		return res;
 	}
 
 }

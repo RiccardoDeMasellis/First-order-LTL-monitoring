@@ -1,7 +1,6 @@
 package formulaa.foltl;
 
 import formulaa.TemporalFormula;
-
 import java.util.HashSet;
 
 /**

@@ -4,7 +4,7 @@ import formulaa.DoubleImplFormula;
 import formula.ltlf.LTLfLocalDoubleImplFormula;
 import formula.ltlf.LTLfLocalFormula;
 
-import java.util.HashSet;
+import java.util.LinkedHashSet;
 
 /**
  * Created by Simone Calciolari on 06/08/15.
@@ -21,10 +21,17 @@ public class FoLtlLocalDoubleImplFormula extends FoLtlBinaryFormula implements D
 	}
 
 	@Override
-	public LTLfLocalFormula propositionalize(HashSet<FoLtlConstant> domain, FoLtlAssignment assignment){
+	public LTLfLocalFormula propositionalize(LinkedHashSet<FoLtlConstant> domain, FoLtlAssignment assignment){
 		FoLtlLocalFormula left = (FoLtlLocalFormula) this.getLeftFormula();
 		FoLtlLocalFormula right = (FoLtlLocalFormula) this.getRightFormula();
 		return new LTLfLocalDoubleImplFormula(left.propositionalize(domain, assignment), right.propositionalize(domain, assignment));
+	}
+
+	@Override
+	public String getAtomicName(){
+		FoLtlLocalFormula left = (FoLtlLocalFormula) this.getLeftFormula();
+		FoLtlLocalFormula right = (FoLtlLocalFormula) this.getRightFormula();
+		return left.getAtomicName() + this.stringOperator().toUpperCase() + right.getAtomicName();
 	}
 
 	/*

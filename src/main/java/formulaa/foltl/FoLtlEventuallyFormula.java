@@ -1,5 +1,11 @@
 package formulaa.foltl;
 
+import formula.ltlf.LTLfEventuallyFormula;
+import formula.ltlf.LTLfFormula;
+import formula.ltlf.LTLfTempNotFormula;
+
+import java.util.HashMap;
+
 /**
  * Created by Simone Calciolari on 06/08/15.
  */
@@ -29,6 +35,13 @@ public class FoLtlEventuallyFormula extends FoLtlUnaryFormula implements FoLtlTe
 	@Override
 	public FoLtlFormula negate(){
 		return (FoLtlFormula) this.nnf().negate();
+	}
+
+	@Override
+	public LTLfFormula toLTLf(HashMap<FoLtlFormula, LTLfFormula> foltlTOltlf,
+														HashMap<LTLfFormula, FoLtlFormula> ltlfTOfoltl){
+		FoLtlFormula nested = this.getNestedFormula();
+		return new LTLfEventuallyFormula(nested.toLTLf(foltlTOltlf, ltlfTOfoltl));
 	}
 
 }

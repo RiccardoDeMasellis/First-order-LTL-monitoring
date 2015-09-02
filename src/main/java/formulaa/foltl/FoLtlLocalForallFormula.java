@@ -3,9 +3,12 @@ package formulaa.foltl;
 import formulaa.ForallQuantifiedFormula;
 import formula.ltlf.LTLfLocalAndFormula;
 import formula.ltlf.LTLfLocalFormula;
+import net.sf.tweety.logics.commons.syntax.Variable;
+import net.sf.tweety.logics.fol.syntax.FolFormula;
+import net.sf.tweety.logics.fol.syntax.Tautology;
 
-import java.util.HashSet;
 import java.util.Iterator;
+import java.util.LinkedHashSet;
 
 /**
  * Created by Simone Calciolari on 06/08/15.
@@ -23,7 +26,7 @@ public class FoLtlLocalForallFormula extends FoLtlQuantifiedFormula implements F
 	}
 
 	@Override
-	public LTLfLocalFormula propositionalize(HashSet<FoLtlConstant> domain, FoLtlAssignment assignment){
+	public LTLfLocalFormula propositionalize(LinkedHashSet<FoLtlConstant> domain, FoLtlAssignment assignment){
 		LTLfLocalFormula res = null;
 		FoLtlLocalFormula nested = (FoLtlLocalFormula) this.getNestedFormula().clone();
 		FoLtlVariable v = this.getQuantifiedVariable();
@@ -53,6 +56,13 @@ public class FoLtlLocalForallFormula extends FoLtlQuantifiedFormula implements F
 		}
 
 		return res;
+	}
+
+	@Override
+	public FolFormula toTweetyFol(){
+		FoLtlLocalFormula nested = (FoLtlLocalFormula) this.getNestedFormula();
+		return new net.sf.tweety.logics.fol.syntax.ForallQuantifiedFormula(nested.toTweetyFol(),
+				new Variable(this.getQuantifiedVariable().getName().toUpperCase()));
 	}
 
 }

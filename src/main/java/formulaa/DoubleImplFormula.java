@@ -6,7 +6,7 @@ package formulaa;
 public interface DoubleImplFormula extends BinaryFormula, BooleanOpFormula {
 
 	default String stringOperator() {
-		return "<->";
+		return "DIMPL";
 	}
 
 	@Override

@@ -1,19 +1,24 @@
 import static util.ParsingUtils.*;
 
 import formula.ltlf.LTLfFormula;
-import formulaa.foltl.FoLtlAssignment;
-import formulaa.foltl.FoLtlConstant;
-import formulaa.foltl.FoLtlLocalFormula;
+import formulaa.foltl.*;
+import net.sf.tweety.logics.commons.syntax.Constant;
+import net.sf.tweety.logics.commons.syntax.Sort;
+import net.sf.tweety.logics.commons.syntax.Variable;
+import net.sf.tweety.logics.fol.syntax.FolFormula;
+import net.sf.tweety.logics.fol.syntax.FolSignature;
 import net.sf.tweety.logics.pl.syntax.PropositionalFormula;
 import org.junit.Assert;
 import org.junit.Test;
 
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.LinkedHashSet;
 
 /**
  * Created by Simone Calciolari on 31/08/15.
  */
-public class PropositionalizationTest {
+public class ConversionsTest {
 
 	@Test
 	public void testPropositionalization(){
@@ -23,7 +28,7 @@ public class PropositionalizationTest {
 		System.out.println("\n\n*** FOLTL LOCAL FORMULA PROPOSITIONALIZATION TEST ***\n");
 
 		FoLtlAssignment assignment = new FoLtlAssignment();
-		HashSet<FoLtlConstant> domain = new HashSet<>();
+		LinkedHashSet<FoLtlConstant> domain = new LinkedHashSet<>();
 
 		//Atom conversions
 		FoLtlLocalFormula computed = (FoLtlLocalFormula) parseFoLtlFormula("P(a)");
@@ -89,23 +94,52 @@ public class PropositionalizationTest {
 		domain.add(new FoLtlConstant("b"));
 
 		computed = (FoLtlLocalFormula) parseFoLtlFormula("Exists ?x P(?x)");
-		expected = parseLTLfFormula("pa || pb");
+		expected = parseLTLfFormula("pb || pa");
 		assertEquals("", expected, computed.propositionalize(domain, assignment));
 
 		computed = (FoLtlLocalFormula) parseFoLtlFormula("Forall ?x P(?x)");
-		expected = parseLTLfFormula("pa && pb");
+		expected = parseLTLfFormula("pb && pa");
 		assertEquals("", expected, computed.propositionalize(domain, assignment));
 
 		computed = (FoLtlLocalFormula) parseFoLtlFormula("Exists ?x P(?x) && P(d)");
-		expected = parseLTLfFormula("(pa && pd) || (pb && pd)");
+		expected = parseLTLfFormula("(pb && pd) || (pa && pd)");
 		assertEquals("", expected, computed.propositionalize(domain, assignment));
 
 		computed = (FoLtlLocalFormula) parseFoLtlFormula("Forall ?x P(?x) -> P(d)");
-		expected = parseLTLfFormula("(pa -> pd) && (pb -> pd)");
+		expected = parseLTLfFormula("(pb -> pd) && (pa -> pd)");
 		assertEquals("", expected, computed.propositionalize(domain, assignment));
 
 		computed = (FoLtlLocalFormula) parseFoLtlFormula("Exists ?x (Exists ?y (P(?x) && P(?y)))");
-		expected = parseLTLfFormula("((pa && pa) || (pa && pb)) || ((pb && pa) || (pb && pb))");
+		expected = parseLTLfFormula("((pb && pb) || (pb && pa)) || ((pa && pb) || (pa && pa))");
+		assertEquals("", expected, computed.propositionalize(domain, assignment));
+
+
+		//Testing expansion with sorts
+
+		FoLtlSort sortAB = new FoLtlSort("AB");
+		sortAB.add(new FoLtlConstant("a"));
+		sortAB.add(new FoLtlConstant("b"));
+
+		FoLtlSort sortC = new FoLtlSort("C");
+		sortC.add(new FoLtlConstant("c"));
+
+		domain.add(new FoLtlConstant("c"));
+
+		System.out.println("\nSORT PROPOSITIONALIZATION TEST\n");
+
+		computed = (FoLtlLocalFormula) parseFoLtlFormula("Exists ?x P(?x)");
+		computed.assignSort(new FoLtlVariable("x"), sortAB);
+		expected = parseLTLfFormula("pb || pa");
+		assertEquals("", expected, computed.propositionalize(domain, assignment));
+
+		computed = (FoLtlLocalFormula) parseFoLtlFormula("Exists ?x P(?x)");
+		computed.assignSort(new FoLtlVariable("x"), sortC);
+		expected = parseLTLfFormula("pc");
+		assertEquals("", expected, computed.propositionalize(domain, assignment));
+
+		computed = (FoLtlLocalFormula) parseFoLtlFormula("Exists ?x (Exists ?y P(?x, ?y))");
+		computed.assignSort(new FoLtlVariable("x"), sortAB);
+		expected = parseLTLfFormula("(pbc || pbb || pba) || (pac || pab || paa)");
 		assertEquals("", expected, computed.propositionalize(domain, assignment));
 
 	}
@@ -118,7 +152,7 @@ public class PropositionalizationTest {
 		System.out.println("\n\n*** FOLTL LOCAL FORMULA TWEETY TRANSLATION TEST ***\n");
 
 		FoLtlAssignment assignment = new FoLtlAssignment();
-		HashSet<FoLtlConstant> domain = new HashSet<>();
+		LinkedHashSet<FoLtlConstant> domain = new LinkedHashSet<>();
 
 		//Atom conversions
 		FoLtlLocalFormula computed = (FoLtlLocalFormula) parseFoLtlFormula("P(a)");
@@ -202,6 +236,148 @@ public class PropositionalizationTest {
 		computed = (FoLtlLocalFormula) parseFoLtlFormula("Exists ?x (Exists ?y (P(?x) && P(?y)))");
 		expected = parseTweetyFormula("(pa && pa || pa && pb) || (pb && pa || pb && pb)");
 		assertEquals("", expected, computed.propositionalize(domain, assignment).toTweetyProp());
+
+	}
+
+	@Test
+	public void testTweetyFols(){
+
+		//Get parser warnings out of the way
+		parseFoLtlFormula("P(a)");
+
+		System.out.println("\n*** TWEETY FOL TRANSLATION TEST ***\n");
+
+		FolSignature signature = new FolSignature();
+		signature.add(new Constant("a"));
+		signature.add(new Constant("b"));
+		signature.add(new Constant("c"));
+		signature.add(new Constant("d"));
+
+		//Atom conversions
+		FoLtlLocalFormula computed = (FoLtlLocalFormula) parseFoLtlFormula("P(a)");
+		FolFormula expected = parseTweetyFolFormula("P(a)", signature, "type (P (Thing))\n");
+		assertEquals("", expected, computed.toTweetyFol());
+
+		computed = (FoLtlLocalFormula) parseFoLtlFormula("TRUE");
+		expected = parseTweetyFolFormula("+", signature);
+		assertEquals("", expected, computed.toTweetyFol());
+
+		computed = (FoLtlLocalFormula) parseFoLtlFormula("FALSE");
+		expected = parseTweetyFolFormula("-", signature);
+		assertEquals("", expected, computed.toTweetyFol());
+
+		computed = (FoLtlLocalFormula) parseFoLtlFormula("a = b");
+		expected = parseTweetyFolFormula("Eq(a, b)", signature, "type (Eq (Thing, Thing))\n" );
+		assertEquals("", expected, computed.toTweetyFol());
+
+		//Basic boolean operations
+		computed = (FoLtlLocalFormula) parseFoLtlFormula("! P(a)");
+		expected = parseTweetyFolFormula("! P(a)", signature, "type (P (Thing))", "type (Q ( Thing ))");
+		assertEquals("", expected, computed.toTweetyFol());
+
+		computed = (FoLtlLocalFormula) parseFoLtlFormula("P(a) && Q(b)");
+		expected = parseTweetyFolFormula("P(a) && Q(b)", signature, "type (P (Thing))", "type (Q ( Thing ))");
+		assertEquals("", expected, computed.toTweetyFol());
+
+		computed = (FoLtlLocalFormula) parseFoLtlFormula("P(a) || Q(b)");
+		expected = parseTweetyFolFormula("P(a) || Q(b)", signature, "type (P (Thing))", "type (Q ( Thing ))");
+		assertEquals("", expected, computed.toTweetyFol());
+
+		computed = (FoLtlLocalFormula) parseFoLtlFormula("P(a) -> Q(b)");
+		expected = parseTweetyFolFormula("!P(a) || Q(b)", signature, "type (P (Thing))", "type (Q ( Thing ))");
+		assertEquals("", expected, computed.toTweetyFol());
+
+		computed = (FoLtlLocalFormula) parseFoLtlFormula("P(a) <-> Q(b)");
+		expected = parseTweetyFolFormula("(!P(a) || Q(b)) && (!Q(b) || P(a))", signature, "type (P (Thing))", "type (Q ( Thing ))");
+		assertEquals("", expected, computed.toTweetyFol());
+
+		//Quantified formulas
+		computed = (FoLtlLocalFormula) parseFoLtlFormula("Forall ?x P(?x)");
+		expected = parseTweetyFolFormula("forall X : (P(X))", signature, "type (P (Thing))", "type (Q ( Thing ))");
+		assertEquals("", expected, computed.toTweetyFol());
+
+		computed = (FoLtlLocalFormula) parseFoLtlFormula("Exists ?x P(?x)");
+		expected = parseTweetyFolFormula("exists X : (P(X))", signature, "type (P (Thing))", "type (Q ( Thing ))");
+		assertEquals("", expected, computed.toTweetyFol());
+
+		//More Intricate conversions
+		computed = (FoLtlLocalFormula) parseFoLtlFormula("P(b) || Q(a) && ! V(a) -> J(b)");
+		expected = parseTweetyFolFormula("!P(b) && (!Q(a) || V(a)) || J(b)", signature,
+				"type (P (Thing))", "type (Q ( Thing ))", "type (V (Thing))", "type (J ( Thing ))");
+		assertEquals("", expected, computed.toTweetyFol());
+
+		computed = (FoLtlLocalFormula) parseFoLtlFormula("P(a) && (P(c) || P(b) || P(d)) -> P(c) && P(a)");
+		expected = parseTweetyFolFormula("(!P(a) || !P(c) && (!P(b) && !P(d))) || P(c) && P(a)", signature, "type (P (Thing))");
+		assertEquals("", expected, computed.toTweetyFol());
+
+
+
+	}
+
+	@Test
+	public void testVeriableRetrieve(){
+		//Used only to get parser's warning messages out of the way
+		parseFoLtlFormula("P(a)");
+
+		System.out.println("\n*** TEST VARIABLE RETRIEVAL ***\n");
+
+		FoLtlFormula formula = parseFoLtlFormula("Exists ?x (G (Forall ?y P(?x, ?y, ?z)))");
+		HashSet<FoLtlVariable> localVars = parseVariableSet("y");
+		HashSet<FoLtlVariable> acrossVars = parseVariableSet("x");
+		System.out.println("Formula: " + formula);
+		assertEquals("Local variables", localVars, formula.getLocalVariables());
+		assertEquals("Across variables", acrossVars, formula.getAcrossVariables());
+
+		formula = parseFoLtlFormula("Exists ?x ( (Forall ?y P(?x, ?y, ?z)))");
+		localVars = parseVariableSet("x", "y");
+		acrossVars = parseVariableSet();
+		System.out.println("Formula: " + formula);
+		assertEquals("Local variables", localVars, formula.getLocalVariables());
+		assertEquals("Across variables", acrossVars, formula.getAcrossVariables());
+
+		formula = parseFoLtlFormula("Exists ?x ( Forall ?z ( G (Forall ?y P(?x, ?y, ?z))))");
+		localVars = parseVariableSet("y");
+		acrossVars = parseVariableSet("x", "z");
+		System.out.println("Formula: " + formula);
+		assertEquals("Local variables", localVars, formula.getLocalVariables());
+		assertEquals("Across variables", acrossVars, formula.getAcrossVariables());
+
+		formula = parseFoLtlFormula("Exists ?x (Forall ?y ((P(?x) && (Forall ?k Q(?k))) U (Exists ?z P(?x, ?y, ?z))))");
+		localVars = parseVariableSet("z", "k");
+		acrossVars = parseVariableSet("x", "y");
+		System.out.println("Formula: " + formula);
+		assertEquals("Local variables", localVars, formula.getLocalVariables());
+		assertEquals("Across variables", acrossVars, formula.getAcrossVariables());
+
+	}
+
+	@Test
+	public void testLTLfTranslation(){
+		//Used only to get parser's warning messages out of the way
+		parseFoLtlFormula("P(a)");
+		parseLTLfFormula("a");
+
+		System.out.println("\n*** LTLf TRANSLATION TEST ***\n");
+
+		HashMap<FoLtlFormula, LTLfFormula> foltlTOltlf = new HashMap<>();
+		HashMap<LTLfFormula, FoLtlFormula> ltlfTOfoltl = new HashMap<>();
+
+		FoLtlFormula formula = parseFoLtlFormula("G P(a)");
+		LTLfFormula computed = formula.toLTLf(foltlTOltlf, ltlfTOfoltl);
+		System.out.println("FO-LTL -> LTLf: " + foltlTOltlf);
+		System.out.println("LTLf -> FO-LTL: " + ltlfTOfoltl);
+		System.out.println(computed);
+		System.out.println();
+
+		foltlTOltlf.clear();
+		ltlfTOfoltl.clear();
+
+		formula = parseFoLtlFormula("Forall ?x (P(?x) U (P(?x) && Q(tau)))");
+		computed = formula.toLTLf(foltlTOltlf, ltlfTOfoltl);
+		System.out.println("FO-LTL -> LTLf: " + foltlTOltlf);
+		System.out.println("LTLf -> FO-LTL: " + ltlfTOfoltl);
+		System.out.println(computed);
+		System.out.println();
 
 	}
 

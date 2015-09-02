@@ -4,8 +4,14 @@ import formulaa.EqualityFormula;
 import formula.ltlf.LTLfLocalFalseFormula;
 import formula.ltlf.LTLfLocalFormula;
 import formula.ltlf.LTLfLocalTrueFormula;
+import net.sf.tweety.logics.commons.syntax.Constant;
+import net.sf.tweety.logics.commons.syntax.Predicate;
+import net.sf.tweety.logics.commons.syntax.Variable;
+import net.sf.tweety.logics.fol.syntax.FOLAtom;
+import net.sf.tweety.logics.fol.syntax.FolFormula;
 
 import java.util.HashSet;
+import java.util.LinkedHashSet;
 
 /**
  * Created by Simone Calciolari on 06/08/15.
@@ -26,6 +32,66 @@ public class FoLtlLocalEqualityFormula extends FoLtlAtomicFormula implements FoL
 
 	public FoLtlTerm getRightTerm(){
 		return right;
+	}
+
+	@Override
+	public void assignSort(FoLtlVariable variable, FoLtlSort sort){
+		FoLtlTerm left = this.getLeftTerm();
+		FoLtlTerm right = this.getRightTerm();
+
+		if (left.equals(variable)){
+			((FoLtlVariable) left).setSort(sort);
+		}
+
+		if (right.equals(variable)){
+			((FoLtlVariable) right).setSort(sort);
+		}
+	}
+
+	@Override
+	public FolFormula toTweetyFol(){
+		FoLtlTerm left = this.getLeftTerm();
+		FoLtlTerm right = this.getRightTerm();
+
+		Predicate eq = new Predicate("Eq", 2);
+		FOLAtom res = new FOLAtom(eq);
+
+		if (left instanceof FoLtlVariable){
+			res.addArgument(new Variable(left.getName().toUpperCase()));
+		} else {
+			res.addArgument(new Constant(left.getName().toLowerCase()));
+		}
+
+		if (right instanceof FoLtlVariable){
+			res.addArgument(new Variable(right.getName().toUpperCase()));
+		} else {
+			res.addArgument(new Constant(right.getName().toLowerCase()));
+		}
+
+		return res;
+	}
+
+	@Override
+	public String getAtomicName(){
+		FoLtlTerm left = this.getLeftTerm();
+		FoLtlTerm right = this.getRightTerm();
+		String res = "";
+
+		if (left instanceof FoLtlVariable){
+			res = res + "var_" + left.getName();
+		} else {
+			res = res + "con_" + left.getName();
+		}
+
+		res = res + "EQ";
+
+		if (right instanceof FoLtlVariable){
+			res = res + "var_" + right.getName();
+		} else {
+			res = res + "con_" + right.getName();
+		}
+
+		return res;
 	}
 
 	@Override
@@ -88,7 +154,7 @@ public class FoLtlLocalEqualityFormula extends FoLtlAtomicFormula implements FoL
 	}
 
 	@Override
-	public LTLfLocalFormula propositionalize(HashSet<FoLtlConstant> domain, FoLtlAssignment assignment){
+	public LTLfLocalFormula propositionalize(LinkedHashSet<FoLtlConstant> domain, FoLtlAssignment assignment){
 		FoLtlLocalEqualityFormula sub = (FoLtlLocalEqualityFormula) this.substitute(domain, assignment);
 		FoLtlTerm left = sub.getLeftTerm();
 		FoLtlTerm right = sub.getRightTerm();

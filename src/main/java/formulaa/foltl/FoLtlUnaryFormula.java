@@ -22,6 +22,21 @@ public abstract class FoLtlUnaryFormula implements FoLtlFormula, UnaryFormula {
 	}
 
 	@Override
+	public void assignSort(FoLtlVariable variable, FoLtlSort sort){
+		this.getNestedFormula().assignSort(variable, sort);
+	}
+
+	@Override
+	public HashSet<FoLtlVariable> getAcrossVariables(){
+		return this.getNestedFormula().getAcrossVariables();
+	}
+
+	@Override
+	public HashSet<FoLtlVariable> getLocalVariables(){
+		return this.getNestedFormula().getLocalVariables();
+	}
+
+	@Override
 	public String toString(){
 		return this.stringOperator() + "(" + getNestedFormula() + ")";
 	}

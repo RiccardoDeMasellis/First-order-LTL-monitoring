@@ -2,6 +2,8 @@ import formulaa.foltl.*;
 import org.junit.Assert;
 import org.junit.Test;
 
+import static util.ParsingUtils.*;
+
 /**
  * Created by Simone Calciolari on 19/08/15.
  */
@@ -43,7 +45,9 @@ public class FoltlSortTest {
 		assertNotEquals("", sort1, sort2);
 		System.out.println();
 
+		sort1bis.clear();
 		sort1bis.add(a);
+		sort1bis.add(b);
 
 		assertEquals("", sort1, sort1bis);
 		assertEquals("", sort1.hashCode(), sort1bis.hashCode());
@@ -93,6 +97,39 @@ public class FoltlSortTest {
 		sort1.clear();
 
 		System.out.println(pAtom.allSubstitutions().toString());
+
+	}
+
+	@Test
+	public void testParsingSort() {
+		FoLtlFormula formula = parseFoLtlFormula("P(?x) && P(?x)");
+		FoLtlLocalAtom left = (FoLtlLocalAtom) ((FoLtlLocalAndFormula) formula).getLeftFormula();
+		FoLtlLocalAtom right = (FoLtlLocalAtom) ((FoLtlLocalAndFormula) formula).getRightFormula();
+
+		Assert.assertTrue(left.getArguments().getFirst() == right.getArguments().getFirst());
+
+		formula = parseFoLtlFormula("Forall ?x (G P(?x))");
+		FoLtlVariable qvar = ((FoLtlAcrossForallFormula) formula).getQuantifiedVariable();
+		FoLtlFormula nf = ((FoLtlAcrossForallFormula) formula).getNestedFormula();
+		FoLtlLocalAtom atom = (FoLtlLocalAtom) ((FoLtlGloballyFormula) nf).getNestedFormula();
+
+		Assert.assertTrue(qvar == atom.getArguments().getFirst());
+
+		FoLtlLocalEqualityFormula eq = (FoLtlLocalEqualityFormula) parseFoLtlFormula("?x = ?x");
+		Assert.assertTrue(eq.getLeftTerm() == eq.getRightTerm());
+
+		System.out.println("\n*** SORT ASSIGNMENT TEST ***\n");
+
+		formula = parseFoLtlFormula("Forall ?x (G P(?x, ?y))");
+
+		formula.assignSort(new FoLtlVariable("x"), new FoLtlSort("sort"));
+
+		qvar = ((FoLtlAcrossForallFormula) formula).getQuantifiedVariable();
+		nf = ((FoLtlAcrossForallFormula) formula).getNestedFormula();
+		atom = (FoLtlLocalAtom) ((FoLtlGloballyFormula) nf).getNestedFormula();
+
+		Assert.assertTrue(qvar.getSort() == ((FoLtlVariable) atom.getArguments().getFirst()).getSort());
+		assertEquals("", qvar.getSort(), ((FoLtlVariable) atom.getArguments().getFirst()).getSort());
 
 	}
 

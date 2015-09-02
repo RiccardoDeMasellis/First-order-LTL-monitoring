@@ -26,6 +26,38 @@ public abstract class FoLtlQuantifiedFormula implements FoLtlFormula, Quantified
 	}
 
 	@Override
+	public void assignSort(FoLtlVariable variable, FoLtlSort sort){
+		FoLtlVariable qvar = this.getQuantifiedVariable();
+		if (qvar.equals(variable)){
+			qvar.setSort(sort);
+		} else {
+			this.getNestedFormula().assignSort(variable, sort);
+		}
+	}
+
+	@Override
+	public HashSet<FoLtlVariable> getAcrossVariables(){
+		HashSet<FoLtlVariable> res = this.getNestedFormula().getAcrossVariables();
+
+		if (this instanceof FoLtlAcrossQuantifiedFormula){
+			res.add(this.getQuantifiedVariable());
+		}
+
+		return res;
+	}
+
+	@Override
+	public HashSet<FoLtlVariable> getLocalVariables(){
+		HashSet<FoLtlVariable> res = this.getNestedFormula().getLocalVariables();
+
+		if (this instanceof FoLtlLocalQuantifiedFormula){
+			res.add(this.getQuantifiedVariable());
+		}
+
+		return res;
+	}
+
+	@Override
 	public String toString() {
 		return this.stringOperator() + " " + this.getQuantifiedVariable() + ": (" + this.getNestedFormula() + ")";
 	}

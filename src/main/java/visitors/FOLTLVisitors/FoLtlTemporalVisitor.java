@@ -12,6 +12,9 @@ import org.antlr.v4.runtime.misc.NotNull;
 import org.antlr.v4.runtime.tree.ParseTree;
 import visitors.FOLVisitors.FoLtlLocalVisitor;
 
+import java.util.HashSet;
+import java.util.Iterator;
+
 /**
  * Created by Simone Calciolari on 10/08/15.
  */
@@ -19,6 +22,10 @@ public class FoLtlTemporalVisitor extends FOLTLFormulaParserBaseVisitor<FoLtlFor
 
 	//Variable to activate debug mode (Displays extra info during the parsing process)
 	private static final boolean DEBUG = false;
+
+	//Set of already encountered Variables and Constants
+	private HashSet<FoLtlConstant> constants = new HashSet<>();
+	private HashSet<FoLtlVariable> variables = new HashSet<>();
 
 	@Override
 	public FoLtlFormula visitStart(@NotNull FOLTLFormulaParserParser.StartContext ctx) {
@@ -52,6 +59,7 @@ public class FoLtlTemporalVisitor extends FOLTLFormulaParserBaseVisitor<FoLtlFor
 
 			var = var.substring(1);
 
+			FoLtlVariable qvar = this.getVariable(var);
 			FoLtlFormula nf = null;
 
 			for (int i = 2; i < ctx.getChildCount(); i++) {
@@ -75,11 +83,11 @@ public class FoLtlTemporalVisitor extends FOLTLFormulaParserBaseVisitor<FoLtlFor
 			switch (qf) {
 
 				case "Forall":
-					res = new FoLtlAcrossForallFormula(nf, new FoLtlVariable(var));
+					res = new FoLtlAcrossForallFormula(nf, qvar);
 					break;
 
 				case "Exists":
-					res = new FoLtlAcrossExistsFormula(nf, new FoLtlVariable(var));
+					res = new FoLtlAcrossExistsFormula(nf, qvar);
 					break;
 
 				default:
@@ -591,9 +599,46 @@ public class FoLtlTemporalVisitor extends FOLTLFormulaParserBaseVisitor<FoLtlFor
 			System.out.println();
 		}
 
-		FoLtlLocalVisitor localVisitor = new FoLtlLocalVisitor();
+		FoLtlLocalVisitor localVisitor = new FoLtlLocalVisitor(constants, variables);
 		res = localVisitor.visit(tree);
 
 		return res;
+	}private FoLtlVariable getVariable(String name){
+		FoLtlVariable res = null;
+		Iterator<FoLtlVariable> i = this.variables.iterator();
+
+		while(i.hasNext()){
+			FoLtlVariable v = i.next();
+			if (v.getName().equals(name)){
+				res = v;
+			}
+		}
+
+		if (res == null){
+			res = new FoLtlVariable(name);
+			variables.add(res);
+		}
+
+		return res;
 	}
+
+	private FoLtlConstant getConstant(String name){
+		FoLtlConstant res = null;
+		Iterator<FoLtlConstant> i = this.constants.iterator();
+
+		while(i.hasNext()){
+			FoLtlConstant v = i.next();
+			if (v.getName().equals(name)){
+				res = v;
+			}
+		}
+
+		if (res == null){
+			res = new FoLtlConstant(name);
+			constants.add(res);
+		}
+
+		return res;
+	}
+
 }

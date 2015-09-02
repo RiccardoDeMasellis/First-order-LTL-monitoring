@@ -12,11 +12,12 @@ public class FoLtlVariable extends FoLtlTerm implements Variable {
 	public FoLtlVariable(String name){
 		super(name);
 		this.sort = FoLtlSort.DEFAULT;
+		FoLtlSort.DEFAULT.addVariable(this);
 	}
 
 	public FoLtlVariable(String name, FoLtlSort sort){
 		super(name);
-		this.sort = sort;
+		this.setSort(sort);
 	}
 
 	public FoLtlSort getSort() {
@@ -24,7 +25,8 @@ public class FoLtlVariable extends FoLtlTerm implements Variable {
 	}
 
 	public void setSort(FoLtlSort sort) {
-		this.sort = (FoLtlSort) sort;
+		this.sort = sort;
+		this.sort.addVariable(this);
 	}
 
 	@Override

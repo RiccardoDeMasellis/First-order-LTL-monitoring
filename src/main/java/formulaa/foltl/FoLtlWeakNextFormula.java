@@ -1,6 +1,11 @@
 package formulaa.foltl;
 
+import formula.ltlf.LTLfFormula;
+import formula.ltlf.LTLfTempNotFormula;
+import formula.ltlf.LTLfWeakNextFormula;
 import formulaa.FormulaType;
+
+import java.util.HashMap;
 
 /**
  * Created by Simone Calciolari on 06/08/15.
@@ -33,6 +38,13 @@ public class FoLtlWeakNextFormula extends FoLtlUnaryFormula implements FoLtlTemp
 	public FoLtlFormula negate(){
 		FoLtlFormula nested = (FoLtlFormula)this.getNestedFormula().negate();
 		return new FoLtlNextFormula(nested);
+	}
+
+	@Override
+	public LTLfFormula toLTLf(HashMap<FoLtlFormula, LTLfFormula> foltlTOltlf,
+														HashMap<LTLfFormula, FoLtlFormula> ltlfTOfoltl){
+		FoLtlFormula nested = this.getNestedFormula();
+		return new LTLfWeakNextFormula(nested.toLTLf(foltlTOltlf, ltlfTOfoltl));
 	}
 
 }

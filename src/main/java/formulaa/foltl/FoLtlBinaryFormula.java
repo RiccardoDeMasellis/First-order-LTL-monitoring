@@ -26,6 +26,26 @@ public abstract class FoLtlBinaryFormula implements FoLtlFormula, BinaryFormula 
 	}
 
 	@Override
+	public void assignSort(FoLtlVariable variable, FoLtlSort sort){
+		this.getLeftFormula().assignSort(variable, sort);
+		this.getRightFormula().assignSort(variable, sort);
+	}
+
+	@Override
+	public HashSet<FoLtlVariable> getAcrossVariables(){
+		HashSet<FoLtlVariable> res = this.getLeftFormula().getAcrossVariables();
+		res.addAll(this.getRightFormula().getAcrossVariables());
+		return res;
+	}
+
+	@Override
+	public HashSet<FoLtlVariable> getLocalVariables(){
+		HashSet<FoLtlVariable> res = this.getLeftFormula().getLocalVariables();
+		res.addAll(this.getRightFormula().getLocalVariables());
+		return res;
+	}
+
+	@Override
 	public String toString() {
 		return "(" + this.getLeftFormula() + ") " + this.stringOperator() + " (" + this.getRightFormula() + ")";
 	}

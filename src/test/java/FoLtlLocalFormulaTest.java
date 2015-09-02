@@ -203,7 +203,7 @@ public class FoLtlLocalFormulaTest {
 
 		builtFormula = forall.toString();
 
-		Assert.assertEquals("", "Forall ?x: (Exists ?y: (((NOT(?x = ?y)) AND (P(?x))) <-> (Q(a, b, ?y))))", builtFormula);
+		Assert.assertEquals("", "Forall ?x: (Exists ?y: (((NOT(?x = ?y)) AND (P(?x))) DIMPL (Q(a, b, ?y))))", builtFormula);
 
 		System.out.println("\nBuilt formula: " + builtFormula);
 
@@ -230,7 +230,7 @@ public class FoLtlLocalFormulaTest {
 
 		builtFormula = forallX.toString();
 
-		Assert.assertEquals("", "Forall ?x: ((Bag(?x)) -> (Exists ?y: ((Coin(?y)) AND (Contains(?x, ?y)))))",
+		Assert.assertEquals("", "Forall ?x: ((Bag(?x)) IMPL (Exists ?y: ((Coin(?y)) AND (Contains(?x, ?y)))))",
 				builtFormula);
 
 		System.out.println("\nBuilt formula: " + builtFormula);
@@ -259,7 +259,7 @@ public class FoLtlLocalFormulaTest {
 		builtFormula = existsX.toString();
 
 		Assert.assertEquals("", "Exists ?x: ((Buyer(?x)) AND ((Bought(?x, s)) AND " +
-						"(Forall ?y: (((Buyer(?y)) AND (Bought(?y, s))) -> (?x = ?y)))))",
+						"(Forall ?y: (((Buyer(?y)) AND (Bought(?y, s))) IMPL (?x = ?y)))))",
 				builtFormula);
 
 		System.out.println("\nBuilt formula: " + builtFormula);
@@ -284,7 +284,7 @@ public class FoLtlLocalFormulaTest {
 
 		builtFormula = forallX.toString();
 
-		Assert.assertEquals("", "Forall ?x: ((S(?x)) -> (Exists ?y: ((S(?y)) AND ((NOT(?x = ?y)) AND (L(?x, ?y))))))",
+		Assert.assertEquals("", "Forall ?x: ((S(?x)) IMPL (Exists ?y: ((S(?y)) AND ((NOT(?x = ?y)) AND (L(?x, ?y))))))",
 				builtFormula);
 
 		System.out.println("\nBuilt formula: " + builtFormula);

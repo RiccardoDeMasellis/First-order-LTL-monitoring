@@ -4,8 +4,10 @@ import formulaa.AndFormula;
 import formulaa.FormulaType;
 import formula.ltlf.LTLfLocalAndFormula;
 import formula.ltlf.LTLfLocalFormula;
+import net.sf.tweety.logics.fol.syntax.Conjunction;
+import net.sf.tweety.logics.fol.syntax.FolFormula;
 
-import java.util.HashSet;
+import java.util.LinkedHashSet;
 
 /**
  * Created by Simone Calciolari on 06/08/15.
@@ -22,10 +24,24 @@ public class FoLtlLocalAndFormula extends FoLtlBinaryFormula implements AndFormu
 	}
 
 	@Override
-	public LTLfLocalFormula propositionalize(HashSet<FoLtlConstant> domain, FoLtlAssignment assignment){
+	public LTLfLocalFormula propositionalize(LinkedHashSet<FoLtlConstant> domain, FoLtlAssignment assignment){
 		FoLtlLocalFormula left = (FoLtlLocalFormula) this.getLeftFormula();
 		FoLtlLocalFormula right = (FoLtlLocalFormula) this.getRightFormula();
 		return new LTLfLocalAndFormula(left.propositionalize(domain, assignment), right.propositionalize(domain, assignment));
+	}
+
+	@Override
+	public FolFormula toTweetyFol(){
+		FoLtlLocalFormula left = (FoLtlLocalFormula) this.getLeftFormula();
+		FoLtlLocalFormula right = (FoLtlLocalFormula) this.getRightFormula();
+		return new Conjunction(left.toTweetyFol(), right.toTweetyFol());
+	}
+
+	@Override
+	public String getAtomicName(){
+		FoLtlLocalFormula left = (FoLtlLocalFormula) this.getLeftFormula();
+		FoLtlLocalFormula right = (FoLtlLocalFormula) this.getRightFormula();
+		return left.getAtomicName() + this.stringOperator().toUpperCase() + right.getAtomicName();
 	}
 
 	/*

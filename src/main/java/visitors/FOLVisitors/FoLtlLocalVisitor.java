@@ -6,6 +6,9 @@ import formulaa.foltl.*;
 import org.antlr.v4.runtime.misc.NotNull;
 import org.antlr.v4.runtime.tree.ParseTree;
 
+import java.util.HashSet;
+import java.util.Iterator;
+
 /**
  * Created by Simone Calciolari on 10/08/15.
  */
@@ -13,6 +16,20 @@ public class FoLtlLocalVisitor extends FOFormulaParserBaseVisitor<FoLtlFormula> 
 
 	//Variable to activate debug mode (Displays extra info during the parsing process)
 	private static final boolean DEBUG = false;
+
+	//Set of already encountered Variables and Constants
+	private HashSet<FoLtlConstant> constants = new HashSet<>();
+	private HashSet<FoLtlVariable> variables = new HashSet<>();
+
+	public FoLtlLocalVisitor(){
+		super();
+	}
+
+	public FoLtlLocalVisitor(HashSet<FoLtlConstant> constants, HashSet<FoLtlVariable> variables){
+		super();
+		this.constants = constants;
+		this.variables = variables;
+	}
 
 	@Override
 	public FoLtlFormula visitStart(@NotNull FOFormulaParserParser.StartContext ctx) {
@@ -39,14 +56,16 @@ public class FoLtlLocalVisitor extends FOFormulaParserBaseVisitor<FoLtlFormula> 
 
 			var = var.substring(1);
 
+			FoLtlVariable qvar = this.getVariable(var);
+
 			switch (qf){
 
 				case "Forall":
-					res = new FoLtlLocalForallFormula(visit(ctx.getChild(2)), new FoLtlVariable(var));
+					res = new FoLtlLocalForallFormula(visit(ctx.getChild(2)), qvar);
 					break;
 
 				case "Exists":
-					res = new FoLtlLocalExistsFormula(visit(ctx.getChild(2)), new FoLtlVariable(var));
+					res = new FoLtlLocalExistsFormula(visit(ctx.getChild(2)), qvar);
 					break;
 
 				default:
@@ -274,9 +293,9 @@ public class FoLtlLocalVisitor extends FOFormulaParserBaseVisitor<FoLtlFormula> 
 					default:
 
 						if (t.charAt(0) == '?'){
-							((FoLtlLocalAtom) res).addArguments(new FoLtlVariable(t.substring(1)));
+							((FoLtlLocalAtom) res).addArguments(this.getVariable(t.substring(1)));
 						} else {
-							((FoLtlLocalAtom) res).addArguments(new FoLtlConstant(t));
+							((FoLtlLocalAtom) res).addArguments(this.getConstant(t));
 						}
 
 						break;
@@ -313,22 +332,60 @@ public class FoLtlLocalVisitor extends FOFormulaParserBaseVisitor<FoLtlFormula> 
 			String t = ctx.getChild(0).getText();
 
 			if (t.charAt(0) == '?'){
-				left = new FoLtlVariable(t.substring(1));
+				left = this.getVariable(t.substring(1));
 			} else {
-				left = new FoLtlConstant(t);
+				left = this.getConstant(t);
 			}
 
 			t = ctx.getChild(2).getText();
 			if (t.charAt(0) == '?'){
-				right = new FoLtlVariable(t.substring(1));
+				right = this.getVariable(t.substring(1));
 			} else {
-				right = new FoLtlConstant(t);
+				right = this.getConstant(t);
 			}
 
 			res = new FoLtlLocalEqualityFormula(left, right);
 
 		} else {
 			res = visitChildren(ctx);
+		}
+
+		return res;
+	}
+
+	private FoLtlVariable getVariable(String name){
+		FoLtlVariable res = null;
+		Iterator<FoLtlVariable> i = this.variables.iterator();
+
+		while(i.hasNext()){
+			FoLtlVariable v = i.next();
+			if (v.getName().equals(name)){
+				res = v;
+			}
+		}
+
+		if (res == null){
+			res = new FoLtlVariable(name);
+			variables.add(res);
+		}
+
+		return res;
+	}
+
+	private FoLtlConstant getConstant(String name){
+		FoLtlConstant res = null;
+		Iterator<FoLtlConstant> i = this.constants.iterator();
+
+		while(i.hasNext()){
+			FoLtlConstant v = i.next();
+			if (v.getName().equals(name)){
+				res = v;
+			}
+		}
+
+		if (res == null){
+			res = new FoLtlConstant(name);
+			constants.add(res);
 		}
 
 		return res;
