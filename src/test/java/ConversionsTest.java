@@ -247,9 +247,24 @@ public class ConversionsTest {
 
 		FolSignature signature = new FolSignature();
 		signature.add(new Constant("a"));
+		signature.add(new Constant("b"));
 
 		//Atom conversions
 		FoLtlLocalFormula computed = (FoLtlLocalFormula) parseFoLtlFormula("P(a)");
+		FolFormula expected = parseTweetyFolFormula("type (P (Thing))\n", "P(a)", signature);
+		assertEquals("", expected, computed.toTweetyFol());
+
+		computed = (FoLtlLocalFormula) parseFoLtlFormula("TRUE");
+		expected = parseTweetyFolFormula("type (P (Thing))\n", "+", signature);
+		assertEquals("", expected, computed.toTweetyFol());
+
+		computed = (FoLtlLocalFormula) parseFoLtlFormula("FALSE");
+		expected = parseTweetyFolFormula("type (P (Thing))\n", "-", signature);
+		assertEquals("", expected, computed.toTweetyFol());
+
+		computed = (FoLtlLocalFormula) parseFoLtlFormula("a = b");
+		expected = parseTweetyFolFormula("type (Eq (Thing, Thing))\n", "Eq(a, b)", signature);
+		assertEquals("", expected, computed.toTweetyFol());
 
 
 	}

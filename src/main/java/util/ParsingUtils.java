@@ -249,4 +249,35 @@ public class ParsingUtils {
 		return output;
 	}
 
+	/**
+	 * Method to encapsulate the instructions needed to parse a given tweety fol formula
+	 * @param preds predicate declaration
+	 * @param input the input formula
+	 * @param sig the parser signature
+	 * @return the parsed formula
+	 */
+	public static net.sf.tweety.logics.fol.syntax.FolFormula
+		parseTweetyFolFormula(String preds, String input, FolSignature sig){
+		Formula output = null;
+
+		FolParser parser = new FolParser();
+		Reader sr = new StringReader(input);
+
+		parser.setSignature(sig);
+
+		try {
+			parser.parseTypeDeclaration(preds, sig);
+			output = parser.parseFormula(sr);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+		if(DEBUG) {
+			System.out.println("\n> Parsed formula: " + output.toString());
+			System.out.println("=============================================================================================");
+		}
+
+		return (net.sf.tweety.logics.fol.syntax.FolFormula) output;
+	}
+
 }
