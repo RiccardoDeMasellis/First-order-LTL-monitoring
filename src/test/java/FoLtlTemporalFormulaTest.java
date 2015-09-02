@@ -95,7 +95,7 @@ public class FoLtlTemporalFormulaTest {
 
 		builtFormula = rel2;
 
-		Assert.assertEquals("", "(((P(a)) AND (P(b))) U ((X(P(c))) TeAND (P(d)))) R (((WX((P(a)) -> (P(a)))) WU ((G(P(a))) " +
+		Assert.assertEquals("", "(((P(a)) AND (P(b))) U ((X(P(c))) TeAND (P(d)))) R (((WX((P(a)) IMPL (P(a)))) WU ((G(P(a))) " +
 				"R (P(a)))) Te<-> ((P(a)) U (P(a))))",	builtFormula.toString());
 
 		System.out.println("\nBuilt formula: " + builtFormula.toString());

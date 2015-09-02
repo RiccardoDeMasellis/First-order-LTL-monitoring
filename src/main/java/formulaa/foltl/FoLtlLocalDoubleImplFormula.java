@@ -27,6 +27,13 @@ public class FoLtlLocalDoubleImplFormula extends FoLtlBinaryFormula implements D
 		return new LTLfLocalDoubleImplFormula(left.propositionalize(domain, assignment), right.propositionalize(domain, assignment));
 	}
 
+	@Override
+	public String getAtomicName(){
+		FoLtlLocalFormula left = (FoLtlLocalFormula) this.getLeftFormula();
+		FoLtlLocalFormula right = (FoLtlLocalFormula) this.getRightFormula();
+		return left.getAtomicName() + this.stringOperator().toUpperCase() + right.getAtomicName();
+	}
+
 	/*
 	@Override
 	public boolean equals(Object o){

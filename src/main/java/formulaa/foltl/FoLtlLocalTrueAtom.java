@@ -19,6 +19,11 @@ public class FoLtlLocalTrueAtom extends FoLtlAtomicFormula implements FoLtlLocal
 	}
 
 	@Override
+	public String getAtomicName(){
+		return this.toString();
+	}
+
+	@Override
 	public formulaa.FormulaType getFormulaType(){
 		return formulaa.FormulaType.LOCAL_TRUE_ATOM;
 	}

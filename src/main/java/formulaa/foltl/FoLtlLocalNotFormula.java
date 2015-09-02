@@ -36,4 +36,10 @@ public class FoLtlLocalNotFormula extends FoLtlUnaryFormula implements NotFormul
 		return new Negation(nested.toTweetyFol());
 	}
 
+	@Override
+	public String getAtomicName(){
+		FoLtlLocalFormula nested = (FoLtlLocalFormula) this.getNestedFormula();
+		return this.stringOperator().toUpperCase() + nested.getAtomicName();
+	}
+
 }

@@ -10,6 +10,13 @@ import formulaa.Variable;
 public interface FoLtlLocalQuantifiedFormula extends FoLtlLocalFormula, LocalQuantifiedFormula {
 
 	@Override
+	default String getAtomicName(){
+		FoLtlVariable v = (FoLtlVariable) this.getQuantifiedVariable();
+		FoLtlLocalFormula nf = (FoLtlLocalFormula) this.getNestedFormula();
+		return this.stringOperator().toUpperCase() + "_var_" + v.getName() + nf.getAtomicName();
+	}
+
+	@Override
 	default FoLtlFormula quantifiedFormulaFactory(OperatorType quantifier, formulaa.Formula nestedFormula, Variable qvar){
 		FoLtlFormula res;
 

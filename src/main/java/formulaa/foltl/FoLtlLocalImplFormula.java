@@ -28,4 +28,11 @@ public class FoLtlLocalImplFormula extends FoLtlBinaryFormula implements ImplFor
 		return new LTLfLocalImplFormula(left.propositionalize(domain, assignment), right.propositionalize(domain, assignment));
 	}
 
+	@Override
+	public String getAtomicName(){
+		FoLtlLocalFormula left = (FoLtlLocalFormula) this.getLeftFormula();
+		FoLtlLocalFormula right = (FoLtlLocalFormula) this.getRightFormula();
+		return left.getAtomicName() + this.stringOperator().toUpperCase() + right.getAtomicName();
+	}
+
 }

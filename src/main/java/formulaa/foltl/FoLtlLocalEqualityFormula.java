@@ -72,6 +72,29 @@ public class FoLtlLocalEqualityFormula extends FoLtlAtomicFormula implements FoL
 	}
 
 	@Override
+	public String getAtomicName(){
+		FoLtlTerm left = this.getLeftTerm();
+		FoLtlTerm right = this.getRightTerm();
+		String res = "";
+
+		if (left instanceof FoLtlVariable){
+			res = res + "var_" + left.getName();
+		} else {
+			res = res + "con_" + left.getName();
+		}
+
+		res = res + "EQ";
+
+		if (right instanceof FoLtlVariable){
+			res = res + "var_" + right.getName();
+		} else {
+			res = res + "con_" + right.getName();
+		}
+
+		return res;
+	}
+
+	@Override
 	public String toString(){
 		return this.getLeftTerm().toString() + " = " + this.getRightTerm().toString();
 	}

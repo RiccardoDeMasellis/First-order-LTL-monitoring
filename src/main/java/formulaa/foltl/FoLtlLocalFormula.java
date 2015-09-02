@@ -16,4 +16,5 @@ public interface FoLtlLocalFormula extends FoLtlFormula, LocalFormula {
 
 	FolFormula toTweetyFol();
 
+	String getAtomicName();
 }
