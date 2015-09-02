@@ -4,6 +4,7 @@ import formula.ltlf.LTLfFormula;
 import formulaa.foltl.*;
 import net.sf.tweety.logics.commons.syntax.Constant;
 import net.sf.tweety.logics.commons.syntax.Sort;
+import net.sf.tweety.logics.commons.syntax.Variable;
 import net.sf.tweety.logics.fol.syntax.FolFormula;
 import net.sf.tweety.logics.fol.syntax.FolSignature;
 import net.sf.tweety.logics.pl.syntax.PropositionalFormula;
@@ -248,23 +249,66 @@ public class ConversionsTest {
 		FolSignature signature = new FolSignature();
 		signature.add(new Constant("a"));
 		signature.add(new Constant("b"));
+		signature.add(new Constant("c"));
+		signature.add(new Constant("d"));
 
 		//Atom conversions
 		FoLtlLocalFormula computed = (FoLtlLocalFormula) parseFoLtlFormula("P(a)");
-		FolFormula expected = parseTweetyFolFormula("type (P (Thing))\n", "P(a)", signature);
+		FolFormula expected = parseTweetyFolFormula("P(a)", signature, "type (P (Thing))\n");
 		assertEquals("", expected, computed.toTweetyFol());
 
 		computed = (FoLtlLocalFormula) parseFoLtlFormula("TRUE");
-		expected = parseTweetyFolFormula("type (P (Thing))\n", "+", signature);
+		expected = parseTweetyFolFormula("+", signature);
 		assertEquals("", expected, computed.toTweetyFol());
 
 		computed = (FoLtlLocalFormula) parseFoLtlFormula("FALSE");
-		expected = parseTweetyFolFormula("type (P (Thing))\n", "-", signature);
+		expected = parseTweetyFolFormula("-", signature);
 		assertEquals("", expected, computed.toTweetyFol());
 
 		computed = (FoLtlLocalFormula) parseFoLtlFormula("a = b");
-		expected = parseTweetyFolFormula("type (Eq (Thing, Thing))\n", "Eq(a, b)", signature);
+		expected = parseTweetyFolFormula("Eq(a, b)", signature, "type (Eq (Thing, Thing))\n" );
 		assertEquals("", expected, computed.toTweetyFol());
+
+		//Basic boolean operations
+		computed = (FoLtlLocalFormula) parseFoLtlFormula("! P(a)");
+		expected = parseTweetyFolFormula("! P(a)", signature, "type (P (Thing))", "type (Q ( Thing ))");
+		assertEquals("", expected, computed.toTweetyFol());
+
+		computed = (FoLtlLocalFormula) parseFoLtlFormula("P(a) && Q(b)");
+		expected = parseTweetyFolFormula("P(a) && Q(b)", signature, "type (P (Thing))", "type (Q ( Thing ))");
+		assertEquals("", expected, computed.toTweetyFol());
+
+		computed = (FoLtlLocalFormula) parseFoLtlFormula("P(a) || Q(b)");
+		expected = parseTweetyFolFormula("P(a) || Q(b)", signature, "type (P (Thing))", "type (Q ( Thing ))");
+		assertEquals("", expected, computed.toTweetyFol());
+
+		computed = (FoLtlLocalFormula) parseFoLtlFormula("P(a) -> Q(b)");
+		expected = parseTweetyFolFormula("!P(a) || Q(b)", signature, "type (P (Thing))", "type (Q ( Thing ))");
+		assertEquals("", expected, computed.toTweetyFol());
+
+		computed = (FoLtlLocalFormula) parseFoLtlFormula("P(a) <-> Q(b)");
+		expected = parseTweetyFolFormula("(!P(a) || Q(b)) && (!Q(b) || P(a))", signature, "type (P (Thing))", "type (Q ( Thing ))");
+		assertEquals("", expected, computed.toTweetyFol());
+
+		//Quantified formulas
+		computed = (FoLtlLocalFormula) parseFoLtlFormula("Forall ?x P(?x)");
+		expected = parseTweetyFolFormula("forall X : (P(X))", signature, "type (P (Thing))", "type (Q ( Thing ))");
+		assertEquals("", expected, computed.toTweetyFol());
+
+		computed = (FoLtlLocalFormula) parseFoLtlFormula("Exists ?x P(?x)");
+		expected = parseTweetyFolFormula("exists X : (P(X))", signature, "type (P (Thing))", "type (Q ( Thing ))");
+		assertEquals("", expected, computed.toTweetyFol());
+
+		//More Intricate conversions
+		computed = (FoLtlLocalFormula) parseFoLtlFormula("P(b) || Q(a) && ! V(a) -> J(b)");
+		expected = parseTweetyFolFormula("!P(b) && (!Q(a) || V(a)) || J(b)", signature,
+				"type (P (Thing))", "type (Q ( Thing ))", "type (V (Thing))", "type (J ( Thing ))");
+		assertEquals("", expected, computed.toTweetyFol());
+
+		computed = (FoLtlLocalFormula) parseFoLtlFormula("P(a) && (P(c) || P(b) || P(d)) -> P(c) && P(a)");
+		expected = parseTweetyFolFormula("(!P(a) || !P(c) && (!P(b) && !P(d))) || P(c) && P(a)", signature, "type (P (Thing))");
+		assertEquals("", expected, computed.toTweetyFol());
+
 
 
 	}
