@@ -45,7 +45,9 @@ public class FoltlSortTest {
 		assertNotEquals("", sort1, sort2);
 		System.out.println();
 
+		sort1bis.clear();
 		sort1bis.add(a);
+		sort1bis.add(b);
 
 		assertEquals("", sort1, sort1bis);
 		assertEquals("", sort1.hashCode(), sort1bis.hashCode());

@@ -14,10 +14,12 @@ public class FoLtlSort extends LinkedHashSet<FoLtlConstant> implements Sort {
 	public static final FoLtlSort DEFAULT = new FoLtlSort("default");
 
 	private String name;
+	private HashSet<FoLtlVariable> variables;
 
 	public FoLtlSort(String name){
 		super();
 		this.setName(name);
+		this.variables = new HashSet<>();
 	}
 
 	public String getName(){
@@ -28,9 +30,17 @@ public class FoLtlSort extends LinkedHashSet<FoLtlConstant> implements Sort {
 		this.name = name;
 	}
 
+	public void addVariable(FoLtlVariable v){
+		this.variables.add(v);
+	}
+
+	public HashSet<FoLtlVariable> getVariables(){
+		return this.variables;
+	}
+
 	@Override
 	public String toString(){
-		return "SORT " + this.getName() + "::" + super.toString();
+		return "SORT " + this.getName() + "::" + super.toString() + "::" + this.getVariables().toString();
 	}
 
 	@Override
@@ -58,10 +68,16 @@ public class FoLtlSort extends LinkedHashSet<FoLtlConstant> implements Sort {
 	public FoLtlSort clone(){
 		FoLtlSort res = new FoLtlSort(this.getName());
 		Iterator<FoLtlConstant> i = this.iterator();
+		Iterator<FoLtlVariable> vars = this.variables.iterator();
 
 		while (i.hasNext()){
 			FoLtlConstant c = i.next();
 			res.add(c);
+		}
+
+		while (vars.hasNext()){
+			FoLtlVariable v = vars.next();
+			res.addVariable(v);
 		}
 
 		return res;
