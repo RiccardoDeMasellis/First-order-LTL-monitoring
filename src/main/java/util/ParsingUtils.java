@@ -4,6 +4,7 @@ import antlr4_generated.*;
 import formulaa.fol.FolFormula;
 import formulaa.foltl.FoLtlFormula;
 import formula.ltlf.LTLfFormula;
+import formulaa.foltl.FoLtlVariable;
 import net.sf.tweety.commons.Formula;
 import net.sf.tweety.logics.fol.parser.FolParser;
 import net.sf.tweety.logics.fol.syntax.FolSignature;
@@ -19,6 +20,7 @@ import visitors.LTLfVisitors.LTLfVisitor;
 import java.io.IOException;
 import java.io.Reader;
 import java.io.StringReader;
+import java.util.HashSet;
 
 /**
  * Class that packs methods to encapsulates the parsing functionalities
@@ -280,6 +282,21 @@ public class ParsingUtils {
 		}
 
 		return (net.sf.tweety.logics.fol.syntax.FolFormula) output;
+	}
+
+	/**
+	 * Simple method to quickly build a set of variables
+	 * @param vars the variable names list
+	 * @return the set containing variables with the given name
+	 */
+	public static HashSet<FoLtlVariable> parseVariableSet(String... vars){
+		HashSet<FoLtlVariable> res = new HashSet<>();
+
+		for (String var : vars){
+			res.add(new FoLtlVariable(var));
+		}
+
+		return res;
 	}
 
 }

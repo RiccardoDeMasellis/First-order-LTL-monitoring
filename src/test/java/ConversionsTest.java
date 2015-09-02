@@ -313,6 +313,43 @@ public class ConversionsTest {
 
 	}
 
+	@Test
+	public void testVeriableRetrieve(){
+		//Used only to get parser's warning messages out of the way
+		parseFoLtlFormula("P(a)");
+
+		System.out.println("\n*** TEST VARIABLE RETRIEVAL ***\n");
+
+		FoLtlFormula formula = parseFoLtlFormula("Exists ?x (G (Forall ?y P(?x, ?y, ?z)))");
+		HashSet<FoLtlVariable> localVars = parseVariableSet("y");
+		HashSet<FoLtlVariable> acrossVars = parseVariableSet("x");
+		System.out.println("Formula: " + formula);
+		assertEquals("Local variables", localVars, formula.getLocalVariables());
+		assertEquals("Across variables", acrossVars, formula.getAcrossVariables());
+
+		formula = parseFoLtlFormula("Exists ?x ( (Forall ?y P(?x, ?y, ?z)))");
+		localVars = parseVariableSet("x", "y");
+		acrossVars = parseVariableSet();
+		System.out.println("Formula: " + formula);
+		assertEquals("Local variables", localVars, formula.getLocalVariables());
+		assertEquals("Across variables", acrossVars, formula.getAcrossVariables());
+
+		formula = parseFoLtlFormula("Exists ?x ( Forall ?z ( G (Forall ?y P(?x, ?y, ?z))))");
+		localVars = parseVariableSet("y");
+		acrossVars = parseVariableSet("x", "z");
+		System.out.println("Formula: " + formula);
+		assertEquals("Local variables", localVars, formula.getLocalVariables());
+		assertEquals("Across variables", acrossVars, formula.getAcrossVariables());
+
+		formula = parseFoLtlFormula("Exists ?x (Forall ?y ((P(?x) && (Forall ?k Q(?k))) U (Exists ?z P(?x, ?y, ?z))))");
+		localVars = parseVariableSet("z", "k");
+		acrossVars = parseVariableSet("x", "y");
+		System.out.println("Formula: " + formula);
+		assertEquals("Local variables", localVars, formula.getLocalVariables());
+		assertEquals("Across variables", acrossVars, formula.getAcrossVariables());
+
+	}
+
 	//<editor-fold desc="assertEquals" defaultstate="collapsed">
 	/**
 	 * Wrapper for the Assert.assertEquals method, used to print some description also in case of success
