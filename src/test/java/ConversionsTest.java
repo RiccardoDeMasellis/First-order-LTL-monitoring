@@ -11,6 +11,7 @@ import net.sf.tweety.logics.pl.syntax.PropositionalFormula;
 import org.junit.Assert;
 import org.junit.Test;
 
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedHashSet;
 
@@ -347,6 +348,36 @@ public class ConversionsTest {
 		System.out.println("Formula: " + formula);
 		assertEquals("Local variables", localVars, formula.getLocalVariables());
 		assertEquals("Across variables", acrossVars, formula.getAcrossVariables());
+
+	}
+
+	@Test
+	public void testLTLfTranslation(){
+		//Used only to get parser's warning messages out of the way
+		parseFoLtlFormula("P(a)");
+		parseLTLfFormula("a");
+
+		System.out.println("\n*** LTLf TRANSLATION TEST ***\n");
+
+		HashMap<FoLtlFormula, LTLfFormula> foltlTOltlf = new HashMap<>();
+		HashMap<LTLfFormula, FoLtlFormula> ltlfTOfoltl = new HashMap<>();
+
+		FoLtlFormula formula = parseFoLtlFormula("G P(a)");
+		LTLfFormula computed = formula.toLTLf(foltlTOltlf, ltlfTOfoltl);
+		System.out.println("FO-LTL -> LTLf: " + foltlTOltlf);
+		System.out.println("LTLf -> FO-LTL: " + ltlfTOfoltl);
+		System.out.println(computed);
+		System.out.println();
+
+		foltlTOltlf.clear();
+		ltlfTOfoltl.clear();
+
+		formula = parseFoLtlFormula("Forall ?x (P(?x) U (P(?x) && Q(tau)))");
+		computed = formula.toLTLf(foltlTOltlf, ltlfTOfoltl);
+		System.out.println("FO-LTL -> LTLf: " + foltlTOltlf);
+		System.out.println("LTLf -> FO-LTL: " + ltlfTOfoltl);
+		System.out.println(computed);
+		System.out.println();
 
 	}
 
