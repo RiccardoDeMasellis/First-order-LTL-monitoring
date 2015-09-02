@@ -1,5 +1,11 @@
 package formulaa.foltl;
 
+import formula.ltlf.LTLfFormula;
+import formula.ltlf.LTLfTempAndFormula;
+import formula.ltlf.LTLfWeakUntilFormula;
+
+import java.util.HashMap;
+
 /**
  * Created by Simone Calciolari on 06/08/15.
  */
@@ -38,6 +44,14 @@ public class FoLtlWeakUntilFormula extends FoLtlBinaryFormula implements FoLtlTe
 	@Override
 	public FoLtlFormula negate(){
 		return (FoLtlFormula) this.nnf().negate();
+	}
+
+	@Override
+	public LTLfFormula toLTLf(HashMap<FoLtlFormula, LTLfFormula> foltlTOltlf,
+														HashMap<LTLfFormula, FoLtlFormula> ltlfTOfoltl){
+		FoLtlFormula left = this.getLeftFormula();
+		FoLtlFormula right = this.getRightFormula();
+		return new LTLfWeakUntilFormula(left.toLTLf(foltlTOltlf, ltlfTOfoltl), right.toLTLf(foltlTOltlf, ltlfTOfoltl));
 	}
 
 }

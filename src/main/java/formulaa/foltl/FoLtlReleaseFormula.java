@@ -1,5 +1,11 @@
 package formulaa.foltl;
 
+import formula.ltlf.LTLfFormula;
+import formula.ltlf.LTLfReleaseFormula;
+import formula.ltlf.LTLfTempAndFormula;
+
+import java.util.HashMap;
+
 /**
  * Created by Simone Calciolari on 06/08/15.
  */
@@ -31,6 +37,14 @@ public class FoLtlReleaseFormula extends FoLtlBinaryFormula implements FoLtlTemp
 		FoLtlFormula left = (FoLtlFormula) getLeftFormula().negate();
 		FoLtlFormula right = (FoLtlFormula) getRightFormula().negate();
 		return new FoLtlUntilFormula(left, right);
+	}
+
+	@Override
+	public LTLfFormula toLTLf(HashMap<FoLtlFormula, LTLfFormula> foltlTOltlf,
+														HashMap<LTLfFormula, FoLtlFormula> ltlfTOfoltl){
+		FoLtlFormula left = this.getLeftFormula();
+		FoLtlFormula right = this.getRightFormula();
+		return new LTLfReleaseFormula(left.toLTLf(foltlTOltlf, ltlfTOfoltl), right.toLTLf(foltlTOltlf, ltlfTOfoltl));
 	}
 
 }

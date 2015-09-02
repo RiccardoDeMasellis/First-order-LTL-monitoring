@@ -1,5 +1,11 @@
 package formulaa.foltl;
 
+import formula.ltlf.LTLfFormula;
+import formula.ltlf.LTLfTempAndFormula;
+import formula.ltlf.LTLfTempOrFormula;
+
+import java.util.HashMap;
+
 /**
  * Created by Simone Calciolari on 06/08/15.
  */
@@ -17,6 +23,14 @@ public class FoLtlTempOrFormula extends FoLtlBinaryFormula implements formulaa.O
 	@Override
 	public String stringOperator(){
 		return "TeOR";
+	}
+
+	@Override
+	public LTLfFormula toLTLf(HashMap<FoLtlFormula, LTLfFormula> foltlTOltlf,
+														HashMap<LTLfFormula, FoLtlFormula> ltlfTOfoltl){
+		FoLtlFormula left = this.getLeftFormula();
+		FoLtlFormula right = this.getRightFormula();
+		return new LTLfTempOrFormula(left.toLTLf(foltlTOltlf, ltlfTOfoltl), right.toLTLf(foltlTOltlf, ltlfTOfoltl));
 	}
 
 	/*

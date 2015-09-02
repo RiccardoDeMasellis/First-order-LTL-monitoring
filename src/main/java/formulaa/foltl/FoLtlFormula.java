@@ -1,7 +1,9 @@
 package formulaa.foltl;
 
+import formula.ltlf.LTLfFormula;
 import formulaa.Formula;
 
+import java.util.HashMap;
 import java.util.HashSet;
 
 /**
@@ -10,6 +12,8 @@ import java.util.HashSet;
 public interface FoLtlFormula extends Formula {
 
 	FoLtlFormula substitute(HashSet<FoLtlConstant> domain, FoLtlAssignment assignment);
+
+	LTLfFormula toLTLf(HashMap<FoLtlFormula, LTLfFormula> foltlTOltlf, HashMap<LTLfFormula, FoLtlFormula> ltlfTOfoltl);
 
 	void assignSort(FoLtlVariable variable, FoLtlSort sort);
 

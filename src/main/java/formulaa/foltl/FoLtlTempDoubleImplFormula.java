@@ -1,6 +1,11 @@
 package formulaa.foltl;
 
+import formula.ltlf.LTLfFormula;
+import formula.ltlf.LTLfTempAndFormula;
+import formula.ltlf.LTLfTempDoubleImplFormula;
 import formulaa.DoubleImplFormula;
+
+import java.util.HashMap;
 
 /**
  * Created by Simone Calciolari on 06/08/15.
@@ -18,7 +23,15 @@ public class FoLtlTempDoubleImplFormula extends FoLtlBinaryFormula implements Do
 
 	@Override
 	public String stringOperator(){
-		return "Te<->";
+		return "TeDIMPL";
+	}
+
+	@Override
+	public LTLfFormula toLTLf(HashMap<FoLtlFormula, LTLfFormula> foltlTOltlf,
+														HashMap<LTLfFormula, FoLtlFormula> ltlfTOfoltl){
+		FoLtlFormula left = this.getLeftFormula();
+		FoLtlFormula right = this.getRightFormula();
+		return new LTLfTempDoubleImplFormula(left.toLTLf(foltlTOltlf, ltlfTOfoltl), right.toLTLf(foltlTOltlf, ltlfTOfoltl));
 	}
 
 	/*
