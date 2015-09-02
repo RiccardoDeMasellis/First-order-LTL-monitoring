@@ -3,6 +3,8 @@ package formulaa.foltl;
 import formulaa.TrueAtom;
 import formula.ltlf.LTLfLocalFormula;
 import formula.ltlf.LTLfLocalTrueFormula;
+import net.sf.tweety.logics.fol.syntax.FolFormula;
+import net.sf.tweety.logics.fol.syntax.Tautology;
 
 import java.util.LinkedHashSet;
 
@@ -31,4 +33,8 @@ public class FoLtlLocalTrueAtom extends FoLtlAtomicFormula implements FoLtlLocal
 		return new LTLfLocalTrueFormula();
 	}
 
+	@Override
+	public FolFormula toTweetyFol(){
+		return new Tautology();
+	}
 }

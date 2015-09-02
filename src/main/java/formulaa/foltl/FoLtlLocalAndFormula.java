@@ -4,6 +4,8 @@ import formulaa.AndFormula;
 import formulaa.FormulaType;
 import formula.ltlf.LTLfLocalAndFormula;
 import formula.ltlf.LTLfLocalFormula;
+import net.sf.tweety.logics.fol.syntax.Conjunction;
+import net.sf.tweety.logics.fol.syntax.FolFormula;
 
 import java.util.LinkedHashSet;
 
@@ -26,6 +28,13 @@ public class FoLtlLocalAndFormula extends FoLtlBinaryFormula implements AndFormu
 		FoLtlLocalFormula left = (FoLtlLocalFormula) this.getLeftFormula();
 		FoLtlLocalFormula right = (FoLtlLocalFormula) this.getRightFormula();
 		return new LTLfLocalAndFormula(left.propositionalize(domain, assignment), right.propositionalize(domain, assignment));
+	}
+
+	@Override
+	public FolFormula toTweetyFol(){
+		FoLtlLocalFormula left = (FoLtlLocalFormula) this.getLeftFormula();
+		FoLtlLocalFormula right = (FoLtlLocalFormula) this.getRightFormula();
+		return new Conjunction(left.toTweetyFol(), right.toTweetyFol());
 	}
 
 	/*

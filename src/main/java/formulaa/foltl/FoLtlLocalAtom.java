@@ -3,6 +3,11 @@ package formulaa.foltl;
 import formulaa.LocalAtom;
 import formula.ltlf.LTLfLocalFormula;
 import formula.ltlf.LTLfLocalVar;
+import net.sf.tweety.logics.commons.syntax.Constant;
+import net.sf.tweety.logics.commons.syntax.Predicate;
+import net.sf.tweety.logics.commons.syntax.Variable;
+import net.sf.tweety.logics.fol.syntax.FOLAtom;
+import net.sf.tweety.logics.fol.syntax.FolFormula;
 
 import java.util.HashSet;
 import java.util.Iterator;
@@ -291,6 +296,24 @@ public class FoLtlLocalAtom extends FoLtlAtomicFormula implements FoLtlLocalForm
 		}
 
 		return new LTLfLocalVar(name);
+	}
+
+	@Override
+	public FolFormula toTweetyFol(){
+		Predicate predicate = new Predicate(this.getPredicate().getName(), this.getPredicate().getArity());
+		FOLAtom res = new FOLAtom(predicate);
+		Iterator <FoLtlTerm> i = this.getArguments().iterator();
+
+		while (i.hasNext()){
+			FoLtlTerm next = i.next();
+			if (next instanceof FoLtlVariable){
+				res.addArgument(new Variable(next.getName().toUpperCase()));
+			} else {
+				res.addArgument(new Constant(next.getName().toLowerCase()));
+			}
+		}
+
+		return res;
 	}
 
 }

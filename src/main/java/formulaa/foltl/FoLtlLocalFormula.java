@@ -2,6 +2,7 @@ package formulaa.foltl;
 
 import formulaa.LocalFormula;
 import formula.ltlf.LTLfLocalFormula;
+import net.sf.tweety.logics.fol.syntax.FolFormula;
 
 import java.util.HashSet;
 import java.util.LinkedHashSet;
@@ -12,5 +13,7 @@ import java.util.LinkedHashSet;
 public interface FoLtlLocalFormula extends FoLtlFormula, LocalFormula {
 
 	LTLfLocalFormula propositionalize(LinkedHashSet<FoLtlConstant> domain, FoLtlAssignment assignment);
+
+	FolFormula toTweetyFol();
 
 }

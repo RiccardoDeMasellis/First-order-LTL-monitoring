@@ -4,6 +4,11 @@ import formulaa.EqualityFormula;
 import formula.ltlf.LTLfLocalFalseFormula;
 import formula.ltlf.LTLfLocalFormula;
 import formula.ltlf.LTLfLocalTrueFormula;
+import net.sf.tweety.logics.commons.syntax.Constant;
+import net.sf.tweety.logics.commons.syntax.Predicate;
+import net.sf.tweety.logics.commons.syntax.Variable;
+import net.sf.tweety.logics.fol.syntax.FOLAtom;
+import net.sf.tweety.logics.fol.syntax.FolFormula;
 
 import java.util.HashSet;
 import java.util.LinkedHashSet;
@@ -41,6 +46,29 @@ public class FoLtlLocalEqualityFormula extends FoLtlAtomicFormula implements FoL
 		if (right.equals(variable)){
 			((FoLtlVariable) right).setSort(sort);
 		}
+	}
+
+	@Override
+	public FolFormula toTweetyFol(){
+		FoLtlTerm left = this.getLeftTerm();
+		FoLtlTerm right = this.getRightTerm();
+
+		Predicate eq = new Predicate("Eq", 2);
+		FOLAtom res = new FOLAtom(eq);
+
+		if (left instanceof FoLtlVariable){
+			res.addArgument(new Variable(left.getName().toUpperCase()));
+		} else {
+			res.addArgument(new Constant(left.getName().toLowerCase()));
+		}
+
+		if (right instanceof FoLtlVariable){
+			res.addArgument(new Variable(right.getName().toUpperCase()));
+		} else {
+			res.addArgument(new Constant(right.getName().toLowerCase()));
+		}
+
+		return res;
 	}
 
 	@Override

@@ -4,6 +4,9 @@ import antlr4_generated.*;
 import formulaa.fol.FolFormula;
 import formulaa.foltl.FoLtlFormula;
 import formula.ltlf.LTLfFormula;
+import net.sf.tweety.commons.Formula;
+import net.sf.tweety.logics.fol.parser.FolParser;
+import net.sf.tweety.logics.fol.syntax.FolSignature;
 import net.sf.tweety.logics.pl.parser.PlParser;
 import net.sf.tweety.logics.pl.syntax.PropositionalFormula;
 import org.antlr.v4.runtime.ANTLRInputStream;
@@ -13,6 +16,7 @@ import visitors.FOLTLVisitors.*;
 import visitors.FOLVisitors.*;
 import visitors.LTLfVisitors.LTLfVisitor;
 
+import java.io.IOException;
 import java.io.Reader;
 import java.io.StringReader;
 

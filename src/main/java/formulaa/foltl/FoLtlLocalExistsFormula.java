@@ -3,6 +3,8 @@ package formulaa.foltl;
 import formulaa.ExistsQuantifiedFormula;
 import formula.ltlf.LTLfLocalFormula;
 import formula.ltlf.LTLfLocalOrFormula;
+import net.sf.tweety.logics.commons.syntax.Variable;
+import net.sf.tweety.logics.fol.syntax.FolFormula;
 
 import java.util.Iterator;
 import java.util.LinkedHashSet;
@@ -53,6 +55,13 @@ public class FoLtlLocalExistsFormula extends FoLtlQuantifiedFormula implements F
 		}
 
 		return res;
+	}
+
+	@Override
+	public FolFormula toTweetyFol(){
+		FoLtlLocalFormula nested = (FoLtlLocalFormula) this.getNestedFormula();
+		return new net.sf.tweety.logics.fol.syntax.ExistsQuantifiedFormula(nested.toTweetyFol(),
+				new Variable(this.getQuantifiedVariable().getName().toUpperCase()));
 	}
 
 }

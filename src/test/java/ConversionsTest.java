@@ -2,6 +2,10 @@ import static util.ParsingUtils.*;
 
 import formula.ltlf.LTLfFormula;
 import formulaa.foltl.*;
+import net.sf.tweety.logics.commons.syntax.Constant;
+import net.sf.tweety.logics.commons.syntax.Sort;
+import net.sf.tweety.logics.fol.syntax.FolFormula;
+import net.sf.tweety.logics.fol.syntax.FolSignature;
 import net.sf.tweety.logics.pl.syntax.PropositionalFormula;
 import org.junit.Assert;
 import org.junit.Test;
@@ -12,7 +16,7 @@ import java.util.LinkedHashSet;
 /**
  * Created by Simone Calciolari on 31/08/15.
  */
-public class PropositionalizationTest {
+public class ConversionsTest {
 
 	@Test
 	public void testPropositionalization(){
@@ -108,7 +112,7 @@ public class PropositionalizationTest {
 		assertEquals("", expected, computed.propositionalize(domain, assignment));
 
 
-		//Testing with sorts
+		//Testing expansion with sorts
 
 		FoLtlSort sortAB = new FoLtlSort("AB");
 		sortAB.add(new FoLtlConstant("a"));
@@ -129,6 +133,11 @@ public class PropositionalizationTest {
 		computed = (FoLtlLocalFormula) parseFoLtlFormula("Exists ?x P(?x)");
 		computed.assignSort(new FoLtlVariable("x"), sortC);
 		expected = parseLTLfFormula("pc");
+		assertEquals("", expected, computed.propositionalize(domain, assignment));
+
+		computed = (FoLtlLocalFormula) parseFoLtlFormula("Exists ?x (Exists ?y P(?x, ?y))");
+		computed.assignSort(new FoLtlVariable("x"), sortAB);
+		expected = parseLTLfFormula("(pbc || pbb || pba) || (pac || pab || paa)");
 		assertEquals("", expected, computed.propositionalize(domain, assignment));
 
 	}
@@ -225,6 +234,23 @@ public class PropositionalizationTest {
 		computed = (FoLtlLocalFormula) parseFoLtlFormula("Exists ?x (Exists ?y (P(?x) && P(?y)))");
 		expected = parseTweetyFormula("(pa && pa || pa && pb) || (pb && pa || pb && pb)");
 		assertEquals("", expected, computed.propositionalize(domain, assignment).toTweetyProp());
+
+	}
+
+	@Test
+	public void testTweetyFols(){
+
+		//Get parser warnings out of the way
+		parseFoLtlFormula("P(a)");
+
+		System.out.println("\n*** TWEETY FOL TRANSLATION TEST ***\n");
+
+		FolSignature signature = new FolSignature();
+		signature.add(new Constant("a"));
+
+		//Atom conversions
+		FoLtlLocalFormula computed = (FoLtlLocalFormula) parseFoLtlFormula("P(a)");
+
 
 	}
 

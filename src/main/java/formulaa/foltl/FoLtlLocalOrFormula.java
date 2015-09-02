@@ -3,6 +3,9 @@ package formulaa.foltl;
 import formulaa.OrFormula;
 import formula.ltlf.LTLfLocalFormula;
 import formula.ltlf.LTLfLocalOrFormula;
+import net.sf.tweety.logics.fol.syntax.Conjunction;
+import net.sf.tweety.logics.fol.syntax.Disjunction;
+import net.sf.tweety.logics.fol.syntax.FolFormula;
 
 import java.util.LinkedHashSet;
 
@@ -25,6 +28,13 @@ public class FoLtlLocalOrFormula extends FoLtlBinaryFormula implements OrFormula
 		FoLtlLocalFormula left = (FoLtlLocalFormula) this.getLeftFormula();
 		FoLtlLocalFormula right = (FoLtlLocalFormula) this.getRightFormula();
 		return new LTLfLocalOrFormula(left.propositionalize(domain, assignment), right.propositionalize(domain, assignment));
+	}
+
+	@Override
+	public FolFormula toTweetyFol(){
+		FoLtlLocalFormula left = (FoLtlLocalFormula) this.getLeftFormula();
+		FoLtlLocalFormula right = (FoLtlLocalFormula) this.getRightFormula();
+		return new Disjunction(left.toTweetyFol(), right.toTweetyFol());
 	}
 
 	/*
