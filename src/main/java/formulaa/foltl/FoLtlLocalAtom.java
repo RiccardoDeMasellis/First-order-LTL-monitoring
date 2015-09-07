@@ -87,6 +87,11 @@ public class FoLtlLocalAtom extends FoLtlAtomicFormula implements FoLtlLocalForm
 		return this.arguments;
 	}
 
+	/**
+	 * Given a variable and a sort, assigns the sort to every occurrence of such variable
+	 * @param variable the variable
+	 * @param sort the sort
+	 */
 	@Override
 	public void assignSort(FoLtlVariable variable, FoLtlSort sort){
 		Iterator<FoLtlTerm> i = this.getArguments().iterator();
@@ -177,6 +182,13 @@ public class FoLtlLocalAtom extends FoLtlAtomicFormula implements FoLtlLocalForm
 		return res;
 	}
 
+	/**
+	 * Given the domain and an assignment substitutes all the variables in this Formula
+	 * according to the assignment
+	 * @param domain the domain
+	 * @param assignment the assignment
+	 * @return a new FoltlFormula where variables are substituted by constants according to the given assignment
+	 */
 	@Override
 	public FoLtlFormula substitute(HashSet<FoLtlConstant> domain, FoLtlAssignment assignment){
 		FoLtlLocalAtom res = new FoLtlLocalAtom(this.getPredicate());
@@ -278,6 +290,13 @@ public class FoLtlLocalAtom extends FoLtlAtomicFormula implements FoLtlLocalForm
 		return res;
 	}
 
+	/**
+	 * Given the domain and an assignment, tranforms this formula into an equivalent propositional formula
+	 * (Built with FLLOAT LTLf structures)
+	 * @param domain the domain
+	 * @param assignment a given assignment
+	 * @return
+	 */
 	@Override
 	public LTLfLocalFormula propositionalize(LinkedHashSet<FoLtlConstant> domain, FoLtlAssignment assignment){
 		String name = this.getPredicate().toString().toLowerCase();
@@ -298,6 +317,10 @@ public class FoLtlLocalAtom extends FoLtlAtomicFormula implements FoLtlLocalForm
 		return new LTLfLocalVar(name);
 	}
 
+	/**
+	 * Translates this formula into an equivalent FolFormula using Tweety data structures
+	 * @return
+	 */
 	@Override
 	public FolFormula toTweetyFol(){
 		Predicate predicate = new Predicate(this.getPredicate().getName(), this.getPredicate().getArity());
@@ -316,6 +339,10 @@ public class FoLtlLocalAtom extends FoLtlAtomicFormula implements FoLtlLocalForm
 		return res;
 	}
 
+	/**
+	 * Gets a string representation of this formula usable as a name for an atomic proposition
+	 * @return
+	 */
 	@Override
 	public String getAtomicName(){
 		String res = this.getPredicate().getName().toUpperCase();

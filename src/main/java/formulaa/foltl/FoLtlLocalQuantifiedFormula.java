@@ -9,6 +9,10 @@ import formulaa.Variable;
  */
 public interface FoLtlLocalQuantifiedFormula extends FoLtlLocalFormula, LocalQuantifiedFormula {
 
+	/**
+	 * Gets a string representation of this formula usable as a name for an atomic proposition
+	 * @return
+	 */
 	@Override
 	default String getAtomicName(){
 		FoLtlVariable v = (FoLtlVariable) this.getQuantifiedVariable();
@@ -16,6 +20,13 @@ public interface FoLtlLocalQuantifiedFormula extends FoLtlLocalFormula, LocalQua
 		return this.stringOperator().toUpperCase() + "_var_" + v.getName() + nf.getAtomicName();
 	}
 
+	/**
+	 * Used to get new Instances of Local Quantified Formulas given their parameters
+	 * @param quantifier the type of quantifier
+	 * @param nestedFormula the quantified formula
+	 * @param qvar the quantified variable
+	 * @return the desired Instance
+	 */
 	@Override
 	default FoLtlFormula quantifiedFormulaFactory(OperatorType quantifier, formulaa.Formula nestedFormula, Variable qvar){
 		FoLtlFormula res;

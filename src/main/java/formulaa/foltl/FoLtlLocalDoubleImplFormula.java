@@ -20,6 +20,13 @@ public class FoLtlLocalDoubleImplFormula extends FoLtlBinaryFormula implements D
 		return formulaa.FormulaType.LOCAL_DOUBLE_IMPL;
 	}
 
+	/**
+	 * Given the domain and an assignment, transforms this formula into an equivalent propositional formula
+	 * (Built with FLLOAT LTLf structures)
+	 * @param domain the domain
+	 * @param assignment a given assignment
+	 * @return
+	 */
 	@Override
 	public LTLfLocalFormula propositionalize(LinkedHashSet<FoLtlConstant> domain, FoLtlAssignment assignment){
 		FoLtlLocalFormula left = (FoLtlLocalFormula) this.getLeftFormula();
@@ -27,6 +34,10 @@ public class FoLtlLocalDoubleImplFormula extends FoLtlBinaryFormula implements D
 		return new LTLfLocalDoubleImplFormula(left.propositionalize(domain, assignment), right.propositionalize(domain, assignment));
 	}
 
+	/**
+	 * Gets a string representation of this formula usable as a name for an atomic proposition
+	 * @return
+	 */
 	@Override
 	public String getAtomicName(){
 		FoLtlLocalFormula left = (FoLtlLocalFormula) this.getLeftFormula();

@@ -18,6 +18,10 @@ public class FoLtlLocalTrueAtom extends FoLtlAtomicFormula implements FoLtlLocal
 		return "TRUE";
 	}
 
+	/**
+	 * Gets a string representation of this formula usable as a name for an atomic proposition
+	 * @return
+	 */
 	@Override
 	public String getAtomicName(){
 		return this.toString();
@@ -28,16 +32,31 @@ public class FoLtlLocalTrueAtom extends FoLtlAtomicFormula implements FoLtlLocal
 		return formulaa.FormulaType.LOCAL_TRUE_ATOM;
 	}
 
+	/**
+	 * Returns the negation of this formula i.e. a FALSE atom
+	 * @return
+	 */
 	@Override
 	public FoLtlFormula negate(){
 		return new FoLtlLocalFalseAtom();
 	}
 
+	/**
+	 * Given the domain and an assignment, tranforms this formula into an equivalent propositional formula
+	 * (Built with FLLOAT LTLf structures)
+	 * @param domain the domain
+	 * @param assignment a given assignment
+	 * @return
+	 */
 	@Override
 	public LTLfLocalFormula propositionalize(LinkedHashSet<FoLtlConstant> domain, FoLtlAssignment assignment){
 		return new LTLfLocalTrueFormula();
 	}
 
+	/**
+	 * Translates this formula into an equivalent FolFormula using Tweety data structures
+	 * @return
+	 */
 	@Override
 	public FolFormula toTweetyFol(){
 		return new Tautology();

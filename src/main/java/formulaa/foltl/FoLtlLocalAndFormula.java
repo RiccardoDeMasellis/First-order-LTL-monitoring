@@ -23,6 +23,13 @@ public class FoLtlLocalAndFormula extends FoLtlBinaryFormula implements AndFormu
 		return FormulaType.LOCAL_AND;
 	}
 
+	/**
+	 * Given the domain and an assignment, transforms this formula into an equivalent propositional formula
+	 * (Built with FLLOAT LTLf structures)
+	 * @param domain the domain
+	 * @param assignment a given assignment
+	 * @return
+	 */
 	@Override
 	public LTLfLocalFormula propositionalize(LinkedHashSet<FoLtlConstant> domain, FoLtlAssignment assignment){
 		FoLtlLocalFormula left = (FoLtlLocalFormula) this.getLeftFormula();
@@ -30,6 +37,10 @@ public class FoLtlLocalAndFormula extends FoLtlBinaryFormula implements AndFormu
 		return new LTLfLocalAndFormula(left.propositionalize(domain, assignment), right.propositionalize(domain, assignment));
 	}
 
+	/**
+	 * Translates this formula into an equivalent FolFormula using Tweety data structures
+	 * @return
+	 */
 	@Override
 	public FolFormula toTweetyFol(){
 		FoLtlLocalFormula left = (FoLtlLocalFormula) this.getLeftFormula();
@@ -37,6 +48,10 @@ public class FoLtlLocalAndFormula extends FoLtlBinaryFormula implements AndFormu
 		return new Conjunction(left.toTweetyFol(), right.toTweetyFol());
 	}
 
+	/**
+	 * Gets a string representation of this formula usable as a name for an atomic proposition
+	 * @return
+	 */
 	@Override
 	public String getAtomicName(){
 		FoLtlLocalFormula left = (FoLtlLocalFormula) this.getLeftFormula();

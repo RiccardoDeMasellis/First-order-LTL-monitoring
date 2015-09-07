@@ -34,6 +34,11 @@ public class FoLtlLocalEqualityFormula extends FoLtlAtomicFormula implements FoL
 		return right;
 	}
 
+	/**
+	 * Given a variable and a sort, assigns the sort to every occurrence of such variable
+	 * @param variable the variable
+	 * @param sort the sort
+	 */
 	@Override
 	public void assignSort(FoLtlVariable variable, FoLtlSort sort){
 		FoLtlTerm left = this.getLeftTerm();
@@ -48,6 +53,10 @@ public class FoLtlLocalEqualityFormula extends FoLtlAtomicFormula implements FoL
 		}
 	}
 
+	/**
+	 * Translates this formula into an equivalent FolFormula using Tweety data structures
+	 * @return
+	 */
 	@Override
 	public FolFormula toTweetyFol(){
 		FoLtlTerm left = this.getLeftTerm();
@@ -71,6 +80,10 @@ public class FoLtlLocalEqualityFormula extends FoLtlAtomicFormula implements FoL
 		return res;
 	}
 
+	/**
+	 * Gets a string representation of this formula usable as a name for an atomic proposition
+	 * @return
+	 */
 	@Override
 	public String getAtomicName(){
 		FoLtlTerm left = this.getLeftTerm();
@@ -131,6 +144,13 @@ public class FoLtlLocalEqualityFormula extends FoLtlAtomicFormula implements FoL
 		return this.formulaFactory(this.getFormulaType(), this.getLeftTerm().clone(), this.getRightTerm().clone(), null, null);
 	}
 
+	/**
+	 * Given the domain and an assignment substitutes all the variables in this Formula
+	 * according to the assignment
+	 * @param domain the domain
+	 * @param assignment the assignment
+	 * @return a new FoltlFormula where variables are substituted by constants according to the given assignment
+	 */
 	@Override
 	public FoLtlFormula substitute(HashSet<FoLtlConstant> domain, FoLtlAssignment assignment){
 		FoLtlTerm left = this.getLeftTerm();
@@ -153,6 +173,13 @@ public class FoLtlLocalEqualityFormula extends FoLtlAtomicFormula implements FoL
 		return new FoLtlLocalEqualityFormula(left, right);
 	}
 
+	/**
+	 * Given the domain and an assignment, tranforms this formula into an equivalent propositional formula
+	 * (Built with FLLOAT LTLf structures)
+	 * @param domain the domain
+	 * @param assignment a given assignment
+	 * @return
+	 */
 	@Override
 	public LTLfLocalFormula propositionalize(LinkedHashSet<FoLtlConstant> domain, FoLtlAssignment assignment){
 		FoLtlLocalEqualityFormula sub = (FoLtlLocalEqualityFormula) this.substitute(domain, assignment);
