@@ -7,6 +7,8 @@ import java.util.HashSet;
 import java.util.Iterator;
 
 /**
+ * Class that represents a FOLTL across-state forall quantified formula.
+ * <p>
  * Created by Simone Calciolari on 06/08/15.
  */
 public class FoLtlAcrossForallFormula extends FoLtlQuantifiedFormula implements FoLtlAcrossQuantifiedFormula,
