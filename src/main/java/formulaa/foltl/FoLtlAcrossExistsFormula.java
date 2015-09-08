@@ -1,7 +1,7 @@
 package formulaa.foltl;
 
 import formulaa.ExistsQuantifiedFormula;
-import formulaa.OperatorType;
+import formulaa.foltl.semantics.FoLtlAssignment;
 
 import java.util.HashSet;
 import java.util.Iterator;

@@ -3,6 +3,7 @@ package formulaa.foltl;
 import formulaa.DoubleImplFormula;
 import formula.ltlf.LTLfLocalDoubleImplFormula;
 import formula.ltlf.LTLfLocalFormula;
+import formulaa.foltl.semantics.FoLtlAssignment;
 
 import java.util.LinkedHashSet;
 

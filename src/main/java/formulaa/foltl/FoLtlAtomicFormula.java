@@ -2,6 +2,7 @@ package formulaa.foltl;
 
 import formulaa.AtomicFormula;
 import formulaa.FormulaType;
+import formulaa.foltl.semantics.FoLtlAssignment;
 
 import java.util.HashSet;
 import java.util.Iterator;

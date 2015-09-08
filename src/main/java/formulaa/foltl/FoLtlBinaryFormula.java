@@ -1,6 +1,7 @@
 package formulaa.foltl;
 
 import formulaa.BinaryFormula;
+import formulaa.foltl.semantics.FoLtlAssignment;
 
 import java.util.HashSet;
 

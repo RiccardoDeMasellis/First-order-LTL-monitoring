@@ -3,7 +3,7 @@ package formulaa.foltl;
 import formulaa.OrFormula;
 import formula.ltlf.LTLfLocalFormula;
 import formula.ltlf.LTLfLocalOrFormula;
-import net.sf.tweety.logics.fol.syntax.Conjunction;
+import formulaa.foltl.semantics.FoLtlAssignment;
 import net.sf.tweety.logics.fol.syntax.Disjunction;
 import net.sf.tweety.logics.fol.syntax.FolFormula;
 

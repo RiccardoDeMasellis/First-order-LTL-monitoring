@@ -1,4 +1,7 @@
-package formulaa.foltl;
+package formulaa.foltl.semantics;
+
+import formulaa.foltl.FoLtlConstant;
+import formulaa.foltl.FoLtlVariable;
 
 import java.util.HashMap;
 

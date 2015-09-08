@@ -2,6 +2,7 @@ package formulaa.foltl;
 
 import formula.ltlf.LTLfFormula;
 import formulaa.Formula;
+import formulaa.foltl.semantics.FoLtlAssignment;
 
 import java.util.HashMap;
 import java.util.HashSet;

@@ -4,6 +4,7 @@ import formulaa.FormulaType;
 import formulaa.ImplFormula;
 import formula.ltlf.LTLfLocalFormula;
 import formula.ltlf.LTLfLocalImplFormula;
+import formulaa.foltl.semantics.FoLtlAssignment;
 
 import java.util.LinkedHashSet;
 

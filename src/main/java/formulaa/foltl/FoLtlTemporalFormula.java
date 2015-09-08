@@ -1,6 +1,8 @@
 package formulaa.foltl;
 
 import formulaa.TemporalFormula;
+import formulaa.foltl.semantics.FoLtlAssignment;
+
 import java.util.HashSet;
 
 /**

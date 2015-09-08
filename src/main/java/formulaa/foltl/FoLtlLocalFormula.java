@@ -4,10 +4,10 @@ import formula.ltlf.LTLfFormula;
 import formula.ltlf.LTLfLocalVar;
 import formulaa.LocalFormula;
 import formula.ltlf.LTLfLocalFormula;
+import formulaa.foltl.semantics.FoLtlAssignment;
 import net.sf.tweety.logics.fol.syntax.FolFormula;
 
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.LinkedHashSet;
 
 /**

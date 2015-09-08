@@ -2,9 +2,8 @@ import static util.ParsingUtils.*;
 
 import formula.ltlf.LTLfFormula;
 import formulaa.foltl.*;
+import formulaa.foltl.semantics.FoLtlAssignment;
 import net.sf.tweety.logics.commons.syntax.Constant;
-import net.sf.tweety.logics.commons.syntax.Sort;
-import net.sf.tweety.logics.commons.syntax.Variable;
 import net.sf.tweety.logics.fol.syntax.FolFormula;
 import net.sf.tweety.logics.fol.syntax.FolSignature;
 import net.sf.tweety.logics.pl.syntax.PropositionalFormula;

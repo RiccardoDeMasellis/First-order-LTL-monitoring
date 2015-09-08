@@ -3,9 +3,9 @@ package formulaa.foltl;
 import formulaa.FalseAtom;
 import formula.ltlf.LTLfLocalFalseFormula;
 import formula.ltlf.LTLfLocalFormula;
+import formulaa.foltl.semantics.FoLtlAssignment;
 import net.sf.tweety.logics.fol.syntax.Contradiction;
 import net.sf.tweety.logics.fol.syntax.FolFormula;
-import net.sf.tweety.logics.fol.syntax.Tautology;
 
 import java.util.LinkedHashSet;
 

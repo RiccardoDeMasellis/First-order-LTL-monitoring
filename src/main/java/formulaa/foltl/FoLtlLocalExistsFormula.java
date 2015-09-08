@@ -3,6 +3,7 @@ package formulaa.foltl;
 import formulaa.ExistsQuantifiedFormula;
 import formula.ltlf.LTLfLocalFormula;
 import formula.ltlf.LTLfLocalOrFormula;
+import formulaa.foltl.semantics.FoLtlAssignment;
 import net.sf.tweety.logics.commons.syntax.Variable;
 import net.sf.tweety.logics.fol.syntax.FolFormula;
 

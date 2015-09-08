@@ -4,7 +4,7 @@ import formulaa.FormulaType;
 import formulaa.NotFormula;
 import formula.ltlf.LTLfLocalFormula;
 import formula.ltlf.LTLfLocalNotFormula;
-import net.sf.tweety.logics.fol.syntax.Conjunction;
+import formulaa.foltl.semantics.FoLtlAssignment;
 import net.sf.tweety.logics.fol.syntax.FolFormula;
 import net.sf.tweety.logics.fol.syntax.Negation;
 
