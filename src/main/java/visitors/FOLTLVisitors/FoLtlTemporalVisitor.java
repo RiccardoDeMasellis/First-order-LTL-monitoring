@@ -552,7 +552,8 @@ public class FoLtlTemporalVisitor extends FOLTLFormulaParserBaseVisitor<FoLtlFor
 			switch (t) {
 
 				case "LAST": case "Last": case "last":
-					res = new FoLtlTempLastAtom();
+					//res = new FoLtlTempLastAtom();
+					res = new FoLtlTempNotFormula(new FoLtlNextFormula(new FoLtlLocalTrueAtom()));
 					break;
 
 				case "(": case ")":
@@ -603,7 +604,9 @@ public class FoLtlTemporalVisitor extends FOLTLFormulaParserBaseVisitor<FoLtlFor
 		res = localVisitor.visit(tree);
 
 		return res;
-	}private FoLtlVariable getVariable(String name){
+	}
+
+	private FoLtlVariable getVariable(String name){
 		FoLtlVariable res = null;
 		Iterator<FoLtlVariable> i = this.variables.iterator();
 

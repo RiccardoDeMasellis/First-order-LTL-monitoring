@@ -294,7 +294,8 @@ public class FoLtlTemporalFormulaTest {
 				parseFoLtlFormula("Forall ?x (Forall ?y (P(?x) & Q(?x, ?x) | G false U Q(?y, ?y)))"));
 
 		//G P(a) U LAST
-		target = new FoLtlUntilFormula(new FoLtlGloballyFormula(Pa), new FoLtlTempLastAtom());
+		FoLtlFormula last = new FoLtlTempNotFormula(new FoLtlNextFormula(new FoLtlLocalTrueAtom()));
+		target = new FoLtlUntilFormula(new FoLtlGloballyFormula(Pa), last);
 
 		Assert.assertEquals("", target,
 				parseFoLtlFormula("G P(a) U LAST"));

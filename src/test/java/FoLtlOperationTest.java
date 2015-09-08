@@ -1241,7 +1241,7 @@ public class FoLtlOperationTest {
 
 		//LAST ATOM
 		input = parseFoLtlFormula("LAST");
-		target = parseFoLtlFormula("! (Last)");
+		target = parseFoLtlFormula("X (TRUE)");
 		assertEquals(input.toString(), target, input.negate());
 
 		//LOCAL ATOM
