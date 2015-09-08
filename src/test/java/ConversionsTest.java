@@ -1,13 +1,16 @@
 import static util.ParsingUtils.*;
 
 import formula.ltlf.LTLfFormula;
+import formula.ltlf.LTLfLocalFormula;
 import formulaa.foltl.*;
 import formulaa.foltl.semantics.FoLtlAssignment;
 import net.sf.tweety.logics.commons.syntax.Constant;
 import net.sf.tweety.logics.fol.syntax.FolFormula;
 import net.sf.tweety.logics.fol.syntax.FolSignature;
+import net.sf.tweety.logics.pl.syntax.Proposition;
 import net.sf.tweety.logics.pl.syntax.PropositionalFormula;
 import org.junit.Assert;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import java.util.HashMap;
@@ -353,30 +356,54 @@ public class ConversionsTest {
 	@Test
 	public void testLTLfTranslation(){
 		//Used only to get parser's warning messages out of the way
-		parseFoLtlFormula("P(a)");
+		parseFoLtlFormula("P(abcd)");
 		parseLTLfFormula("a");
 
-		System.out.println("\n*** LTLf TRANSLATION TEST ***\n");
+		System.out.println("\n\n*** LTLf TRANSLATION TEST ***\n");
 
 		HashMap<FoLtlFormula, LTLfFormula> foltlTOltlf = new HashMap<>();
 		HashMap<LTLfFormula, FoLtlFormula> ltlfTOfoltl = new HashMap<>();
 
 		FoLtlFormula formula = parseFoLtlFormula("G P(a)");
 		LTLfFormula computed = formula.toLTLf(foltlTOltlf, ltlfTOfoltl);
+		LTLfFormula expected = parseLTLfFormula("G pa");
+
 		System.out.println("FO-LTL -> LTLf: " + foltlTOltlf);
 		System.out.println("LTLf -> FO-LTL: " + ltlfTOfoltl);
-		System.out.println(computed);
+		System.out.println();
+		assertEquals("", expected, computed);
 		System.out.println();
 
 		foltlTOltlf.clear();
 		ltlfTOfoltl.clear();
 
+
 		formula = parseFoLtlFormula("Forall ?x (P(?x) U (P(?x) && Q(tau)))");
 		computed = formula.toLTLf(foltlTOltlf, ltlfTOfoltl);
+		expected = parseLTLfFormula("px U (pxandqtau)");
+
 		System.out.println("FO-LTL -> LTLf: " + foltlTOltlf);
 		System.out.println("LTLf -> FO-LTL: " + ltlfTOfoltl);
-		System.out.println(computed);
 		System.out.println();
+		assertEquals("", expected, computed);
+		System.out.println();
+
+		foltlTOltlf.clear();
+		ltlfTOfoltl.clear();
+
+
+		formula = parseFoLtlFormula("Forall ?x (P(?x) U (Exists ?y T(?x, ?y))))");
+		computed = formula.toLTLf(foltlTOltlf, ltlfTOfoltl);
+		expected = parseLTLfFormula("px U existsytxy");
+
+		System.out.println("FO-LTL -> LTLf: " + foltlTOltlf);
+		System.out.println("LTLf -> FO-LTL: " + ltlfTOfoltl);
+		System.out.println();
+		assertEquals("", expected, computed);
+		System.out.println();
+
+		foltlTOltlf.clear();
+		ltlfTOfoltl.clear();
 
 	}
 

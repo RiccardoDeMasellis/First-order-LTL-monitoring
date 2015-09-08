@@ -25,7 +25,7 @@ public class FoLtlLocalFalseAtom extends FoLtlAtomicFormula implements FoLtlLoca
 	 */
 	@Override
 	public String getAtomicName(){
-		return this.toString();
+		return this.toString().toLowerCase();
 	}
 
 	@Override

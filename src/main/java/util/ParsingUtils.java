@@ -23,7 +23,7 @@ import java.io.StringReader;
 import java.util.HashSet;
 
 /**
- * Class that packs methods to encapsulates the parsing functionalities
+ * Class that packs methods to encapsulates the parsing functionalities.
  * Created by Simone Calciolari on 31/08/15.
  */
 public class ParsingUtils {

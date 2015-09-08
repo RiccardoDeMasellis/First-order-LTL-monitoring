@@ -57,7 +57,7 @@ public class FoLtlLocalAndFormula extends FoLtlBinaryFormula implements AndFormu
 	public String getAtomicName(){
 		FoLtlLocalFormula left = (FoLtlLocalFormula) this.getLeftFormula();
 		FoLtlLocalFormula right = (FoLtlLocalFormula) this.getRightFormula();
-		return left.getAtomicName() + this.stringOperator().toUpperCase() + right.getAtomicName();
+		return left.getAtomicName() + this.stringOperator().toLowerCase() + right.getAtomicName();
 	}
 
 	/*
