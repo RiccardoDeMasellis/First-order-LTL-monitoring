@@ -119,6 +119,13 @@ public abstract class FoLtlQuantifiedFormula implements FoLtlFormula, Quantified
 				(FoLtlVariable) this.getQuantifiedVariable().clone());
 	}
 
+	/**
+	 * Used to get instances with the desired properties
+	 * @param type the quantifier type
+	 * @param nested the quantified formula
+	 * @param qvar the quantified variable
+	 * @return the desired instances
+	 */
 	public FoLtlFormula formulaFactory(formulaa.FormulaType type, FoLtlFormula nested, FoLtlVariable qvar){
 
 		FoLtlFormula res;
