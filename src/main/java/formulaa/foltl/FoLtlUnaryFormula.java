@@ -8,7 +8,7 @@ import java.util.HashSet;
 
 /**
  * Abstract class that represents the generic FO-LTL unary formula.
- * <p></p>
+ * <br>
  * Created by Simone Calciolari on 06/08/15.
  * @author Simone Calciolari
  */

@@ -14,7 +14,7 @@ import java.util.*;
 
 /**
  * Class that represents a FO-LTL first order atom.
- * <p></p>
+ * <br>
  * Created by Simone Calciolari on 06/08/15.
  * @author Simone Calciolari
  */

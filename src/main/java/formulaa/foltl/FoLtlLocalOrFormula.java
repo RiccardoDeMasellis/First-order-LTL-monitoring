@@ -11,7 +11,7 @@ import java.util.LinkedHashSet;
 
 /**
  * Class that represents a FO-LTL local OR formula.
- * <p></p>
+ * <br>
  * Created by Simone Calciolari on 06/08/15.
  * @author Simone Calciolari
  */

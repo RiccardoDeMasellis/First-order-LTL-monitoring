@@ -7,7 +7,7 @@ import java.util.HashSet;
 
 /**
  * Abstract class that represents the generic FO-LTL quantified formula.
- * <p></p>
+ * <br>
  * Created by Simone Calciolari on 06/08/15.
  * @author Simone Calciolari
  */

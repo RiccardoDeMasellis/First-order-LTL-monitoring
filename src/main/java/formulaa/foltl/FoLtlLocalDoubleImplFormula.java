@@ -9,7 +9,7 @@ import java.util.LinkedHashSet;
 
 /**
  * Class that represents a FO-LTL local double implication.
- * <p></p>
+ * <br>
  * Created by Simone Calciolari on 06/08/15.
  * @author Simone Calciolari
  */

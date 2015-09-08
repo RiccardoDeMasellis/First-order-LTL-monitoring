@@ -8,7 +8,7 @@ import java.util.LinkedHashSet;
 
 /**
  * Class that represents a FO-LTL sort.
- * <p></p>
+ * <br>
  * Created by Simone Calciolari on 19/08/15.
  * @author Simone Calciolari
  */

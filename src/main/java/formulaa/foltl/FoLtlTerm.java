@@ -5,7 +5,7 @@ import formulaa.Term;
 
 /**
  * Abstract class that represents a FO-LTL term.
- * <p></p>
+ * <br>
  * Created by Simone Calciolari on 06/08/15.
  * @author Simone Calciolari
  */

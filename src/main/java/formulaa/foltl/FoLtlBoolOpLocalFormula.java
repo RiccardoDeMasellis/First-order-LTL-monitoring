@@ -5,7 +5,7 @@ import net.sf.tweety.logics.fol.syntax.FolFormula;
 
 /**
  * Interface that represents the genric FO-LTL local boolean formula.
- * <p></p>
+ * <br>
  * Created by Simone Calciolari on 06/08/15.
  * @author Simone Calciolari
  */

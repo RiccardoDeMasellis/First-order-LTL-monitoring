@@ -4,7 +4,7 @@ import formulaa.Variable;
 
 /**
  * Class that represents a FO-LTL variable.
- * <p></p>
+ * <br>
  * Created by Simone Calciolari on 06/08/15.
  * @author Simone Calciolari
  */

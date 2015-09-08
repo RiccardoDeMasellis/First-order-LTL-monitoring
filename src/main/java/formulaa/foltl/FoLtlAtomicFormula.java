@@ -10,7 +10,7 @@ import java.util.LinkedList;
 
 /**
  * Abstract class that represents the generic FO-LTL atomic formula.
- * <p>
+ * <br>
  * Created by Simone Calciolari on 06/08/15.
  * @author Simone Calciolari
  */

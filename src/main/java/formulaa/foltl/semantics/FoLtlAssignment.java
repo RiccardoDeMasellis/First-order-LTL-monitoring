@@ -7,7 +7,7 @@ import java.util.HashMap;
 
 /**
  * Class that represents an assignment of constants to variables.
- * <p>
+ * <br>
  * Created by Simone Calciolari on 20/08/15.
  * @author Simone Calciolari
  */

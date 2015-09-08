@@ -10,7 +10,7 @@ import java.util.HashMap;
 
 /**
  * Interface that represents a generic FOLTL across-state quantified formula.
- * <p>
+ * <br>
  * Created by Simone Calciolari on 10/08/15.
  * @author Simone Calciolari
  */

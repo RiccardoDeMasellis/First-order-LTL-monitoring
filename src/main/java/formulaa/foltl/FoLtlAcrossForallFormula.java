@@ -8,7 +8,7 @@ import java.util.Iterator;
 
 /**
  * Class that represents a FOLTL across-state forall quantified formula.
- * <p>
+ * <br>
  * Created by Simone Calciolari on 06/08/15.
  * @author Simone Calciolari
  */

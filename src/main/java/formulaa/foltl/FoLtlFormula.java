@@ -9,7 +9,7 @@ import java.util.HashSet;
 
 /**
  * Interface that represents the generic FO-LTL formula.
- * <p></p>
+ * <br>
  * Created by Simone Calciolari on 06/08/15.
  * @author Simone Calciolari
  */

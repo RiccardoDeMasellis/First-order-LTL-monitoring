@@ -6,7 +6,7 @@ import formulaa.Variable;
 
 /**
  * Interface that represents the generic FO-LTL local quantified formula.
- * <p></p>
+ * <br>
  * Created by Simone Calciolari on 06/08/15.
  * @author Simone Calciolari
  */
