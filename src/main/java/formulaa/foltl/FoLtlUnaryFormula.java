@@ -21,16 +21,41 @@ public abstract class FoLtlUnaryFormula implements FoLtlFormula, UnaryFormula {
 		return this.nestedFormula;
 	}
 
+	/**
+	 * Given the domain and an assignment substitutes all the variables in this Formula
+	 * according to the assignment
+	 * @param domain the domain
+	 * @param assignment the assignment
+	 * @return a new FoltlFormula where variables are substituted by constants according to the given assignment
+	 */
+	@Override
+	public FoLtlFormula substitute(HashSet<FoLtlConstant> domain, FoLtlAssignment assignment){
+		return this.formulaFactory(this.getFormulaType(), this.getNestedFormula().substitute(domain, assignment));
+	}
+
+	/**
+	 * Given a variable and a sort, assigns the sort to every occurrence of such variable
+	 * @param variable the variable
+	 * @param sort the sort
+	 */
 	@Override
 	public void assignSort(FoLtlVariable variable, FoLtlSort sort){
 		this.getNestedFormula().assignSort(variable, sort);
 	}
 
+	/**
+	 * Returns all the across quantified variables
+	 * @return
+	 */
 	@Override
 	public HashSet<FoLtlVariable> getAcrossVariables(){
 		return this.getNestedFormula().getAcrossVariables();
 	}
 
+	/**
+	 * Returns all the local quantified variables
+	 * @return
+	 */
 	@Override
 	public HashSet<FoLtlVariable> getLocalVariables(){
 		return this.getNestedFormula().getLocalVariables();
@@ -63,11 +88,12 @@ public abstract class FoLtlUnaryFormula implements FoLtlFormula, UnaryFormula {
 		return this.formulaFactory(this.getFormulaType(), this.getNestedFormula().clone());
 	}
 
-	@Override
-	public FoLtlFormula substitute(HashSet<FoLtlConstant> domain, FoLtlAssignment assignment){
-		return this.formulaFactory(this.getFormulaType(), this.getNestedFormula().substitute(domain, assignment));
-	}
-
+	/**
+	 * Used to get an instance with the desired properties
+	 * @param type the operator type
+	 * @param nested the nested sub formula
+	 * @return the desired instance
+	 */
 	public FoLtlFormula formulaFactory(FormulaType type, FoLtlFormula nested){
 
 		FoLtlFormula res;

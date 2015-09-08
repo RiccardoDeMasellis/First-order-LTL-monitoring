@@ -25,6 +25,10 @@ public class FoLtlWeakUntilFormula extends FoLtlBinaryFormula implements FoLtlTe
 		return "WU";
 	}
 
+	/**
+	 * Returns a representation of this formula's negation normal form
+	 * @return
+	 */
 	//phi WU psi == psi R (phi OR psi)
 	@Override
 	public FoLtlFormula nnf(){
@@ -33,7 +37,7 @@ public class FoLtlWeakUntilFormula extends FoLtlBinaryFormula implements FoLtlTe
 		FoLtlFormula or;
 
 		if (left instanceof FoLtlLocalFormula && right instanceof FoLtlLocalFormula){
-				or = new FoLtlLocalOrFormula(left, right);
+			or = new FoLtlLocalOrFormula(left, right);
 		} else {
 			or = new FoLtlTempOrFormula(left, right);
 		}
@@ -41,11 +45,22 @@ public class FoLtlWeakUntilFormula extends FoLtlBinaryFormula implements FoLtlTe
 		return new FoLtlReleaseFormula(right, or).nnf();
 	}
 
+	/**
+	 * returns the negation of this formula
+	 * @return
+	 */
 	@Override
 	public FoLtlFormula negate(){
 		return (FoLtlFormula) this.nnf().negate();
 	}
 
+	/**
+	 * Translates this formula into a FLLOAT LTLf formula, where to every original local (FOL) formula
+	 * corresponds an atomic proposition.
+	 * @param foltlTOltlf a map that allows to transform foltl local formulas to ltlf atomic proposition
+	 * @param ltlfTOfoltl a map that allows to do the inverse
+	 * @return the newly built LTLf formula
+	 */
 	@Override
 	public LTLfFormula toLTLf(HashMap<FoLtlFormula, LTLfFormula> foltlTOltlf,
 														HashMap<LTLfFormula, FoLtlFormula> ltlfTOfoltl){

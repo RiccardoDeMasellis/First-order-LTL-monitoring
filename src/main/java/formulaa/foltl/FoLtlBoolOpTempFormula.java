@@ -8,6 +8,13 @@ import formulaa.Formula;
  */
 public interface FoLtlBoolOpTempFormula extends FoLtlBoolOpFormula, FoLtlTemporalFormula {
 
+	/**
+	 * Builds an instance of a temporal boolean formula with the desired parameters
+	 * @param op the boolean operator
+	 * @param left the left sub formula (used as nested for NOT operator)
+	 * @param right the right sub formula
+	 * @return the desired instance
+	 */
 	@Override
 	default FoLtlFormula boolFormulaFactory(OperatorType op, Formula left, Formula right){
 		FoLtlFormula res;

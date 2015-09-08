@@ -693,7 +693,6 @@ public class FoLtlOperationTest {
 	@Test
 	public void testClone(){
 
-		//TODO add controls to check if pointers are different (of the kind assertFalse(a == a.clone())
 		System.out.println("\n*** CLONE TEST ***\n");
 
 		System.out.println("BASIC COMPARISONS\n");

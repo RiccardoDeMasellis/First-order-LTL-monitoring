@@ -2,7 +2,6 @@ package formulaa.foltl;
 
 import formula.ltlf.LTLfFormula;
 import formula.ltlf.LTLfReleaseFormula;
-import formula.ltlf.LTLfTempAndFormula;
 
 import java.util.HashMap;
 
@@ -25,6 +24,10 @@ public class FoLtlReleaseFormula extends FoLtlBinaryFormula implements FoLtlTemp
 		return "R";
 	}
 
+	/**
+	 * Returns a representation of this formula's negation normal form
+	 * @return
+	 */
 	@Override
 	public FoLtlFormula nnf(){
 		FoLtlFormula left = (FoLtlFormula) getLeftFormula().nnf();
@@ -32,6 +35,10 @@ public class FoLtlReleaseFormula extends FoLtlBinaryFormula implements FoLtlTemp
 		return new FoLtlReleaseFormula(left, right);
 	}
 
+	/**
+	 * returns the negation of this formula
+	 * @return
+	 */
 	@Override
 	public FoLtlFormula negate(){
 		FoLtlFormula left = (FoLtlFormula) getLeftFormula().negate();
@@ -39,6 +46,13 @@ public class FoLtlReleaseFormula extends FoLtlBinaryFormula implements FoLtlTemp
 		return new FoLtlUntilFormula(left, right);
 	}
 
+	/**
+	 * Translates this formula into a FLLOAT LTLf formula, where to every original local (FOL) formula
+	 * corresponds an atomic proposition.
+	 * @param foltlTOltlf a map that allows to transform foltl local formulas to ltlf atomic proposition
+	 * @param ltlfTOfoltl a map that allows to do the inverse
+	 * @return the newly built LTLf formula
+	 */
 	@Override
 	public LTLfFormula toLTLf(HashMap<FoLtlFormula, LTLfFormula> foltlTOltlf,
 														HashMap<LTLfFormula, FoLtlFormula> ltlfTOfoltl){

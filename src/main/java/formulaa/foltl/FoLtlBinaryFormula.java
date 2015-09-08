@@ -25,12 +25,34 @@ public abstract class FoLtlBinaryFormula implements FoLtlFormula, BinaryFormula 
 		return right;
 	}
 
+	/**
+	 * Given the domain and an assignment substitutes all the variables in this Formula
+	 * according to the assignment
+	 * @param domain the domain
+	 * @param assignment the assignment
+	 * @return a new FoltlFormula where variables are substituted by constants according to the given assignment
+	 */
+	@Override
+	public FoLtlFormula substitute(HashSet<FoLtlConstant> domain, FoLtlAssignment assignment){
+		return this.formulaFactory(this.getFormulaType(), this.getLeftFormula().substitute(domain, assignment),
+				this.getRightFormula().substitute(domain, assignment));
+	}
+
+	/**
+	 * Given a variable and a sort, assigns the sort to every occurrence of such variable
+	 * @param variable the variable
+	 * @param sort the sort
+	 */
 	@Override
 	public void assignSort(FoLtlVariable variable, FoLtlSort sort){
 		this.getLeftFormula().assignSort(variable, sort);
 		this.getRightFormula().assignSort(variable, sort);
 	}
 
+	/**
+	 * Returns all the across quantified variables
+	 * @return
+	 */
 	@Override
 	public HashSet<FoLtlVariable> getAcrossVariables(){
 		HashSet<FoLtlVariable> res = this.getLeftFormula().getAcrossVariables();
@@ -38,6 +60,10 @@ public abstract class FoLtlBinaryFormula implements FoLtlFormula, BinaryFormula 
 		return res;
 	}
 
+	/**
+	 * Returns all the local quantified variables
+	 * @return
+	 */
 	@Override
 	public HashSet<FoLtlVariable> getLocalVariables(){
 		HashSet<FoLtlVariable> res = this.getLeftFormula().getLocalVariables();
@@ -77,12 +103,13 @@ public abstract class FoLtlBinaryFormula implements FoLtlFormula, BinaryFormula 
 		return this.formulaFactory(this.getFormulaType(), this.getLeftFormula().clone(), this.getRightFormula().clone());
 	}
 
-	@Override
-	public FoLtlFormula substitute(HashSet<FoLtlConstant> domain, FoLtlAssignment assignment){
-		return this.formulaFactory(this.getFormulaType(), this.getLeftFormula().substitute(domain, assignment),
-				this.getRightFormula().substitute(domain, assignment));
-	}
-
+	/**
+	 * Used to get an instance with the desired properties
+	 * @param type the operator type
+	 * @param left the left sub formula
+	 * @param right the right sub formula
+	 * @return the desired instance
+	 */
 	public FoLtlFormula formulaFactory(formulaa.FormulaType type, FoLtlFormula left, FoLtlFormula right){
 		FoLtlFormula res;
 

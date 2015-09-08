@@ -45,6 +45,10 @@ public interface FoLtlFormula extends Formula {
 	 */
 	HashSet<FoLtlVariable> getAcrossVariables();
 
+	/**
+	 * Returns all the local quantified variables
+	 * @return
+	 */
 	HashSet<FoLtlVariable> getLocalVariables();
 
 	FoLtlFormula clone();
