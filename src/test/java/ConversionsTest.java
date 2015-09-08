@@ -6,12 +6,9 @@ import formulaa.foltl.semantics.FoLtlAssignment;
 import net.sf.tweety.logics.commons.syntax.Constant;
 import net.sf.tweety.logics.fol.syntax.FolFormula;
 import net.sf.tweety.logics.fol.syntax.FolSignature;
-import net.sf.tweety.logics.pl.syntax.Proposition;
 import net.sf.tweety.logics.pl.syntax.PropositionalFormula;
 import org.junit.Assert;
-import org.junit.Ignore;
 import org.junit.Test;
-
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedHashSet;
@@ -395,8 +392,10 @@ public class ConversionsTest {
 		LTLfUntilFormula unt = (LTLfUntilFormula) expected;
 		LTLfFormula leftatom = unt.getLeftFormula();
 		LTLfFormula rightatom = unt.getRightFormula();
+
 		reverse = new FoLtlAcrossForallFormula(new FoLtlUntilFormula(ltlfTOfoltl.get(leftatom), ltlfTOfoltl.get(rightatom)),
 				new FoLtlVariable("x"));
+
 		assertEquals("Reverse translation", formula, reverse);
 
 		System.out.println();
@@ -417,8 +416,10 @@ public class ConversionsTest {
 		unt = (LTLfUntilFormula) expected;
 		leftatom = unt.getLeftFormula();
 		rightatom = unt.getRightFormula();
+
 		reverse = new FoLtlAcrossForallFormula(new FoLtlUntilFormula(ltlfTOfoltl.get(leftatom), ltlfTOfoltl.get(rightatom)),
 				new FoLtlVariable("x"));
+
 		assertEquals("Reverse translation", formula, reverse);
 
 		System.out.println();
@@ -441,11 +442,13 @@ public class ConversionsTest {
 		atom = teand.getLeftFormula();
 		leftatom = unt.getLeftFormula();
 		rightatom = unt.getRightFormula();
+
 		reverse = new FoLtlAcrossForallFormula(
 				new FoLtlAcrossExistsFormula(new FoLtlTempAndFormula(ltlfTOfoltl.get(atom),
 							new FoLtlUntilFormula(ltlfTOfoltl.get(leftatom), ltlfTOfoltl.get(rightatom))),
 						new FoLtlVariable("y")),
 				new FoLtlVariable("x"));
+
 		assertEquals("Reverse translation", formula, reverse);
 
 		System.out.println();
@@ -462,11 +465,25 @@ public class ConversionsTest {
 		System.out.println("LTLf -> FO-LTL: " + ltlfTOfoltl);
 		System.out.println();
 		assertEquals("Translation", expected, computed);
+
+		unt = (LTLfUntilFormula) expected;
+		atom = unt.getLeftFormula();
+		LTLfUntilFormula unt2 = (LTLfUntilFormula) unt.getRightFormula();
+		LTLfFormula atom2 = unt2.getLeftFormula();
+		glob = (LTLfGloballyFormula) unt2.getRightFormula();
+		LTLfFormula atom3 = glob.getNestedFormula();
+
+		reverse = new FoLtlGloballyFormula(ltlfTOfoltl.get(atom3));
+		reverse = new FoLtlUntilFormula(ltlfTOfoltl.get(atom2), reverse);
+		reverse = new FoLtlUntilFormula(ltlfTOfoltl.get(atom), reverse);
+		reverse = new FoLtlAcrossForallFormula(reverse, new FoLtlVariable("y"));
+
+		assertEquals("Reverse translation", formula, reverse);
+
 		System.out.println();
 
 		foltlTOltlf.clear();
 		ltlfTOfoltl.clear();
-
 	}
 
 	//<editor-fold desc="assertEquals" defaultstate="collapsed">
@@ -478,9 +495,13 @@ public class ConversionsTest {
 	 */
 	private static void assertEquals(String description, Object expected, Object computed) {
 
+		if (description.equals("")){
+			description = "assertEquals";
+		}
+
 		try {
 			Assert.assertEquals(description, expected, computed);
-			System.out.println(description + ": EQUALS");
+			System.out.println(description + ": SUCCESS");
 			System.out.println("\t> Expected: " + expected.toString());
 			System.out.println("\t> Computed: " + computed.toString());
 			System.out.println();
@@ -500,9 +521,16 @@ public class ConversionsTest {
 	 */
 	private static void assertNotEquals(String description, Object expected, Object computed) {
 
+		if (description.equals("")){
+			description = "assertNotEquals";
+		}
+
 		try {
-			Assert.assertNotEquals("", expected, computed);
-			System.out.println("\t> " + description + ": NOT EQUALS");
+			Assert.assertNotEquals(description, expected, computed);
+			System.out.println(description + ": SUCCESS");
+			System.out.println("\t> Expected: " + expected.toString());
+			System.out.println("\t> Computed: " + computed.toString());
+			System.out.println();
 		} catch (AssertionError e){
 			throw e;
 		}

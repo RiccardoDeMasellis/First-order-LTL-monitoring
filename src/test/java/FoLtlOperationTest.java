@@ -9,9 +9,6 @@ import static util.ParsingUtils.*;
  */
 public class FoLtlOperationTest {
 
-	//Boolean flag used to display extra information during the execution
-	private static final boolean DEBUG = false;
-
 	@Test
 	public void testEquals(){
 
@@ -1383,9 +1380,13 @@ public class FoLtlOperationTest {
 	 */
 	private static void assertEquals(String description, Object expected, Object computed) {
 
+		if (description.equals("")){
+			description = "assertEquals";
+		}
+
 		try {
 			Assert.assertEquals(description, expected, computed);
-			System.out.println(description + ": EQUALS");
+			System.out.println(description + ": SUCCESS");
 			System.out.println("\t> Expected: " + expected.toString());
 			System.out.println("\t> Computed: " + computed.toString());
 			System.out.println();
@@ -1405,9 +1406,16 @@ public class FoLtlOperationTest {
 	 */
 	private static void assertNotEquals(String description, Object expected, Object computed) {
 
+		if (description.equals("")){
+			description = "assertNotEquals";
+		}
+
 		try {
-			Assert.assertNotEquals("", expected, computed);
-			System.out.println("\t> " + description + ": NOT EQUALS");
+			Assert.assertNotEquals(description, expected, computed);
+			System.out.println(description + ": SUCCESS");
+			System.out.println("\t> Expected: " + expected.toString());
+			System.out.println("\t> Computed: " + computed.toString());
+			System.out.println();
 		} catch (AssertionError e){
 			throw e;
 		}
