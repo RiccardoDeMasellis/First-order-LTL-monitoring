@@ -1,6 +1,7 @@
 import static util.ParsingUtils.*;
 
 import formula.ltlf.LTLfFormula;
+import formula.ltlf.LTLfGloballyFormula;
 import formula.ltlf.LTLfLocalFormula;
 import formulaa.foltl.*;
 import formulaa.foltl.semantics.FoLtlAssignment;
@@ -395,6 +396,34 @@ public class ConversionsTest {
 		formula = parseFoLtlFormula("Forall ?x (P(?x) U (Exists ?y T(?x, ?y))))");
 		computed = formula.toLTLf(foltlTOltlf, ltlfTOfoltl);
 		expected = parseLTLfFormula("px U existsytxy");
+
+		System.out.println("FO-LTL -> LTLf: " + foltlTOltlf);
+		System.out.println("LTLf -> FO-LTL: " + ltlfTOfoltl);
+		System.out.println();
+		assertEquals("", expected, computed);
+		System.out.println();
+
+		foltlTOltlf.clear();
+		ltlfTOfoltl.clear();
+
+
+		formula = parseFoLtlFormula("Forall ?x (Exists ?y (P(?x) && (P(?y) U (Exists ?z P(?z)))))");
+		computed = formula.toLTLf(foltlTOltlf, ltlfTOfoltl);
+		expected = parseLTLfFormula("px && (py U existszpz)");
+
+		System.out.println("FO-LTL -> LTLf: " + foltlTOltlf);
+		System.out.println("LTLf -> FO-LTL: " + ltlfTOfoltl);
+		System.out.println();
+		assertEquals("", expected, computed);
+		System.out.println();
+
+		foltlTOltlf.clear();
+		ltlfTOfoltl.clear();
+
+
+		formula = parseFoLtlFormula("Forall ?y (P(?y) && Q(a, b, ?y) U (P(a) U (G (Exists ?x P(?x)))))");
+		computed = formula.toLTLf(foltlTOltlf, ltlfTOfoltl);
+		expected = parseLTLfFormula("pyandqaby U (pa U (G existsxpx))");
 
 		System.out.println("FO-LTL -> LTLf: " + foltlTOltlf);
 		System.out.println("LTLf -> FO-LTL: " + ltlfTOfoltl);
