@@ -5,14 +5,13 @@ import formulaa.OperatorType;
 import formulaa.Variable;
 
 /**
- * Created by Simone Calciolari on 10/08/15.
+ * Interface that represents the generic FO-LTL local quantified formula.
+ * <p></p>
+ * Created by Simone Calciolari on 06/08/15.
+ * @author Simone Calciolari
  */
 public interface FoLtlLocalQuantifiedFormula extends FoLtlLocalFormula, LocalQuantifiedFormula {
 
-	/**
-	 * Gets a string representation of this formula usable as a name for an atomic proposition
-	 * @return
-	 */
 	@Override
 	default String getAtomicName(){
 		FoLtlVariable v = (FoLtlVariable) this.getQuantifiedVariable();

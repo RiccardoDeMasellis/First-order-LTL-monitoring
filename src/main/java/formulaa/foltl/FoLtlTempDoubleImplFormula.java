@@ -7,7 +7,10 @@ import formulaa.DoubleImplFormula;
 import java.util.HashMap;
 
 /**
+ * Class that represents a FO-LTL temporal double implication.
+ * <p></p>
  * Created by Simone Calciolari on 06/08/15.
+ * @author Simone Calciolari
  */
 public class FoLtlTempDoubleImplFormula extends FoLtlBinaryFormula implements DoubleImplFormula, FoLtlBoolOpTempFormula {
 
@@ -25,13 +28,6 @@ public class FoLtlTempDoubleImplFormula extends FoLtlBinaryFormula implements Do
 		return "TeDIMPL";
 	}
 
-	/**
-	 * Translates this formula into a FLLOAT LTLf formula, where to every original local (FOL) formula
-	 * corresponds an atomic proposition.
-	 * @param foltlTOltlf a map that allows to transform foltl local formulas to ltlf atomic proposition
-	 * @param ltlfTOfoltl a map that allows to do the inverse
-	 * @return the newly built LTLf formula
-	 */
 	@Override
 	public LTLfFormula toLTLf(HashMap<FoLtlFormula, LTLfFormula> foltlTOltlf,
 														HashMap<LTLfFormula, FoLtlFormula> ltlfTOfoltl){

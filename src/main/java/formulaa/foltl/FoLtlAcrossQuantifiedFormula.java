@@ -16,13 +16,6 @@ import java.util.HashMap;
  */
 public interface FoLtlAcrossQuantifiedFormula extends FoLtlTemporalFormula, AcrossQuantifiedFormula {
 
-	/**
-	 * Translates this formula into a FLLOAT LTLf formula, where to every original local (FOL) formula
-	 * corresponds an atomic proposition.
-	 * @param foltlTOltlf a map that allows to transform foltl local formulas to ltlf atomic proposition
-	 * @param ltlfTOfoltl a map that allows to do the inverse
-	 * @return the newly built LTLf formula
-	 */
 	@Override
 	default LTLfFormula toLTLf(HashMap<FoLtlFormula, LTLfFormula> foltlTOltlf,
 														 HashMap<LTLfFormula, FoLtlFormula> ltlfTOfoltl){

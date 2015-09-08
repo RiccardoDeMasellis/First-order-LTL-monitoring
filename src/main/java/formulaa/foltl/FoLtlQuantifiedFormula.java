@@ -6,7 +6,10 @@ import formulaa.foltl.semantics.FoLtlAssignment;
 import java.util.HashSet;
 
 /**
+ * Abstract class that represents the generic FO-LTL quantified formula.
+ * <p></p>
  * Created by Simone Calciolari on 06/08/15.
+ * @author Simone Calciolari
  */
 public abstract class FoLtlQuantifiedFormula implements FoLtlFormula, QuantifiedFormula {
 
@@ -26,24 +29,12 @@ public abstract class FoLtlQuantifiedFormula implements FoLtlFormula, Quantified
 		return this.quantifiedVariable;
 	}
 
-	/**
-	 * Given the domain and an assignment substitutes all the variables in this Formula
-	 * according to the assignment
-	 * @param domain the domain
-	 * @param assignment the assignment
-	 * @return a new FoltlFormula where variables are substituted by constants according to the given assignment
-	 */
 	@Override
 	public FoLtlFormula substitute(HashSet<FoLtlConstant> domain, FoLtlAssignment assignment){
 		return this.formulaFactory(this.getFormulaType(), this.getNestedFormula().substitute(domain, assignment),
 				(FoLtlVariable) this.getQuantifiedVariable().clone());
 	}
 
-	/**
-	 * Given a variable and a sort, assigns the sort to every occurrence of such variable
-	 * @param variable the variable
-	 * @param sort the sort
-	 */
 	@Override
 	public void assignSort(FoLtlVariable variable, FoLtlSort sort){
 		FoLtlVariable qvar = this.getQuantifiedVariable();
@@ -54,10 +45,6 @@ public abstract class FoLtlQuantifiedFormula implements FoLtlFormula, Quantified
 		}
 	}
 
-	/**
-	 * Returns all the across quantified variables
-	 * @return
-	 */
 	@Override
 	public HashSet<FoLtlVariable> getAcrossVariables(){
 		HashSet<FoLtlVariable> res = this.getNestedFormula().getAcrossVariables();
@@ -69,10 +56,6 @@ public abstract class FoLtlQuantifiedFormula implements FoLtlFormula, Quantified
 		return res;
 	}
 
-	/**
-	 * Returns all the local quantified variables
-	 * @return
-	 */
 	@Override
 	public HashSet<FoLtlVariable> getLocalVariables(){
 		HashSet<FoLtlVariable> res = this.getNestedFormula().getLocalVariables();

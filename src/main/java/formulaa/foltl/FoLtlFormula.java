@@ -8,7 +8,10 @@ import java.util.HashMap;
 import java.util.HashSet;
 
 /**
+ * Interface that represents the generic FO-LTL formula.
+ * <p></p>
  * Created by Simone Calciolari on 06/08/15.
+ * @author Simone Calciolari
  */
 public interface FoLtlFormula extends Formula {
 
@@ -41,14 +44,14 @@ public interface FoLtlFormula extends Formula {
 	//(which shouldn't be there at all btw)
 
 	/**
-	 * Returns all the across quantified variables
-	 * @return
+	 * Returns all the variables quantified by across state quantifiers.
+	 * @return an HashSet containing all the across-state variables.
 	 */
 	HashSet<FoLtlVariable> getAcrossVariables();
 
 	/**
-	 * Returns all the local quantified variables
-	 * @return
+	 * Returns all the variables quantified by local quantifiers.
+	 * @return an HashSet containing all the local variables.
 	 */
 	HashSet<FoLtlVariable> getLocalVariables();
 

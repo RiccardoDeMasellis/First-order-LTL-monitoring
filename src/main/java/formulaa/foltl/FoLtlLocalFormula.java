@@ -11,7 +11,10 @@ import java.util.HashMap;
 import java.util.LinkedHashSet;
 
 /**
+ * Interface that represents the generic FO-LTL local formula.
+ * <p></p>
  * Created by Simone Calciolari on 06/08/15.
+ * @author Simone Calciolari
  */
 public interface FoLtlLocalFormula extends FoLtlFormula, LocalFormula {
 
@@ -20,17 +23,10 @@ public interface FoLtlLocalFormula extends FoLtlFormula, LocalFormula {
 	 * (Built with FLLOAT LTLf structures)
 	 * @param domain the domain
 	 * @param assignment a given assignment
-	 * @return
+	 * @return a LTLfLocalFormula equivalent to this formula.
 	 */
 	LTLfLocalFormula propositionalize(LinkedHashSet<FoLtlConstant> domain, FoLtlAssignment assignment);
 
-	/**
-	 * Translates this formula into a FLLOAT LTLf formula, where to every original local (FOL) formula
-	 * corresponds an atomic proposition.
-	 * @param foltlTOltlf a map that allows to transform foltl local formulas to ltlf atomic proposition
-	 * @param ltlfTOfoltl a map that allows to do the inverse
-	 * @return the newly built LTLf formula
-	 */
 	@Override
 	default LTLfFormula toLTLf(HashMap<FoLtlFormula, LTLfFormula> foltlTOltlf,
 														 HashMap<LTLfFormula, FoLtlFormula> ltlfTOfoltl){
@@ -42,13 +38,13 @@ public interface FoLtlLocalFormula extends FoLtlFormula, LocalFormula {
 
 	/**
 	 * Translates this formula into an equivalent FolFormula using Tweety data structures
-	 * @return
+	 * @return a net.sf.tweety.logics.fol.syntax.FolFormula logically equivalent to the original
 	 */
 	FolFormula toTweetyFol();
 
 	/**
 	 * Gets a string representation of this formula usable as a name for an atomic proposition
-	 * @return
+	 * @return a String representing this formula
 	 */
 	String getAtomicName();
 }

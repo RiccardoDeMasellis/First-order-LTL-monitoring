@@ -11,7 +11,10 @@ import java.util.Iterator;
 import java.util.LinkedHashSet;
 
 /**
+ * Class that represents a FO-LTL local existensial formula.
+ * <p></p>
  * Created by Simone Calciolari on 06/08/15.
+ * @author Simone Calciolari
  */
 public class FoLtlLocalExistsFormula extends FoLtlQuantifiedFormula implements FoLtlLocalQuantifiedFormula,
 		ExistsQuantifiedFormula {
@@ -25,13 +28,6 @@ public class FoLtlLocalExistsFormula extends FoLtlQuantifiedFormula implements F
 		return formulaa.FormulaType.LOCAL_EXISTS;
 	}
 
-	/**
-	 * Given the domain and an assignment, tranforms this formula into an equivalent propositional formula
-	 * (Built with FLLOAT LTLf structures)
-	 * @param domain the domain
-	 * @param assignment a given assignment
-	 * @return
-	 */
 	@Override
 	public LTLfLocalFormula propositionalize(LinkedHashSet<FoLtlConstant> domain, FoLtlAssignment assignment){
 		LTLfLocalFormula res = null;
@@ -65,10 +61,6 @@ public class FoLtlLocalExistsFormula extends FoLtlQuantifiedFormula implements F
 		return res;
 	}
 
-	/**
-	 * Translates this formula into an equivalent FolFormula using Tweety data structures
-	 * @return
-	 */
 	@Override
 	public FolFormula toTweetyFol(){
 		FoLtlLocalFormula nested = (FoLtlLocalFormula) this.getNestedFormula();

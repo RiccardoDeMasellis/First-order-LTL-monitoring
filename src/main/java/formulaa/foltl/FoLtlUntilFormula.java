@@ -6,7 +6,10 @@ import formula.ltlf.LTLfUntilFormula;
 import java.util.HashMap;
 
 /**
+ * Class that represents a FO-LTL until formula.
+ * <p></p>
  * Created by Simone Calciolari on 06/08/15.
+ * @author Simone Calciolari
  */
 public class FoLtlUntilFormula extends FoLtlBinaryFormula implements FoLtlTempOpTempFormula {
 
@@ -24,10 +27,6 @@ public class FoLtlUntilFormula extends FoLtlBinaryFormula implements FoLtlTempOp
 		return "U";
 	}
 
-	/**
-	 * Returns a representation of this formula's negation normal form
-	 * @return
-	 */
 	@Override
 	public FoLtlFormula nnf(){
 		FoLtlFormula left = (FoLtlFormula) getLeftFormula().nnf();
@@ -35,10 +34,6 @@ public class FoLtlUntilFormula extends FoLtlBinaryFormula implements FoLtlTempOp
 		return new FoLtlUntilFormula(left, right);
 	}
 
-	/**
-	 * returns the negation of this formula
-	 * @return
-	 */
 	@Override
 	public FoLtlFormula negate(){
 		FoLtlFormula left = (FoLtlFormula) getLeftFormula().negate();
@@ -46,13 +41,6 @@ public class FoLtlUntilFormula extends FoLtlBinaryFormula implements FoLtlTempOp
 		return new FoLtlReleaseFormula(left, right);
 	}
 
-	/**
-	 * Translates this formula into a FLLOAT LTLf formula, where to every original local (FOL) formula
-	 * corresponds an atomic proposition.
-	 * @param foltlTOltlf a map that allows to transform foltl local formulas to ltlf atomic proposition
-	 * @param ltlfTOfoltl a map that allows to do the inverse
-	 * @return the newly built LTLf formula
-	 */
 	@Override
 	public LTLfFormula toLTLf(HashMap<FoLtlFormula, LTLfFormula> foltlTOltlf,
 														HashMap<LTLfFormula, FoLtlFormula> ltlfTOfoltl){

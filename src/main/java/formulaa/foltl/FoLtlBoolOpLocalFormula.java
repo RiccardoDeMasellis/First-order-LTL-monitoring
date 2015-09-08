@@ -4,14 +4,13 @@ import formulaa.OperatorType;
 import net.sf.tweety.logics.fol.syntax.FolFormula;
 
 /**
+ * Interface that represents the genric FO-LTL local boolean formula.
+ * <p></p>
  * Created by Simone Calciolari on 06/08/15.
+ * @author Simone Calciolari
  */
 public interface FoLtlBoolOpLocalFormula extends FoLtlBoolOpFormula, FoLtlLocalFormula {
 
-	/**
-	 * Translates this formula into an equivalent FolFormula using Tweety data structures
-	 * @return
-	 */
 	@Override
 	default FolFormula toTweetyFol(){
 		return ((FoLtlLocalFormula) this.nnf()).toTweetyFol();

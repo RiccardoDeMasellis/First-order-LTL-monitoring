@@ -4,7 +4,10 @@ import formulaa.OperatorType;
 import formulaa.Formula;
 
 /**
+ * Interface that represents the genric FO-LTL temporal boolean formula.
+ * <p></p>
  * Created by Simone Calciolari on 06/08/15.
+ * @author Simone Calciolari
  */
 public interface FoLtlBoolOpTempFormula extends FoLtlBoolOpFormula, FoLtlTemporalFormula {
 

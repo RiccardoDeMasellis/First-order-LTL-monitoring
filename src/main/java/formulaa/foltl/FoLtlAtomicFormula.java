@@ -9,14 +9,31 @@ import java.util.Iterator;
 import java.util.LinkedList;
 
 /**
+ * Abstract class that represents the generic FO-LTL atomic formula.
+ * <p>
  * Created by Simone Calciolari on 06/08/15.
+ * @author Simone Calciolari
  */
 public abstract class FoLtlAtomicFormula implements FoLtlFormula, AtomicFormula {
 
-	/**
-	 * Returns the negation of this formula
-	 * @return
-	 */
+	@Override
+	public FoLtlFormula substitute(HashSet<FoLtlConstant> domain, FoLtlAssignment assignment){
+		return this.clone();
+	}
+
+	@Override
+	public void assignSort(FoLtlVariable variable, FoLtlSort sort){}
+
+	@Override
+	public HashSet<FoLtlVariable> getAcrossVariables(){
+		return new HashSet<>();
+	}
+
+	@Override
+	public HashSet<FoLtlVariable> getLocalVariables(){
+		return new HashSet<>();
+	}
+
 	@Override
 	public FoLtlFormula negate(){
 		return new FoLtlLocalNotFormula(this.clone());
@@ -35,44 +52,6 @@ public abstract class FoLtlAtomicFormula implements FoLtlFormula, AtomicFormula 
 	@Override
 	public FoLtlFormula clone(){
 		return this.formulaFactory(this.getFormulaType(), null, null, null, null);
-	}
-
-	/**
-	 * Given the domain and an assignment substitutes all the variables in this Formula
-	 * according to the assignment
-	 * @param domain the domain
-	 * @param assignment the assignment
-	 * @return a new FoltlFormula where variables are substituted by constants according to the given assignment
-	 */
-	@Override
-	 public FoLtlFormula substitute(HashSet<FoLtlConstant> domain, FoLtlAssignment assignment){
-		return this.clone();
-	}
-
-	/**
-	 * Given a variable and a sort, assigns the sort to every occurrence of such variable
-	 * @param variable the variable
-	 * @param sort the sort
-	 */
-	@Override
-	public void assignSort(FoLtlVariable variable, FoLtlSort sort){}
-
-	/**
-	 * Returns all the across quantified variables
-	 * @return
-	 */
-	@Override
-	public HashSet<FoLtlVariable> getAcrossVariables(){
-		return new HashSet<>();
-	}
-
-	/**
-	 * Returns all the across quantified variables
-	 * @return
-	 */
-	@Override
-	public HashSet<FoLtlVariable> getLocalVariables(){
-		return new HashSet<>();
 	}
 
 	/**

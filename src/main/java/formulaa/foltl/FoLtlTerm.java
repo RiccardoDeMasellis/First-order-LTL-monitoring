@@ -4,7 +4,10 @@ import formulaa.FormulaType;
 import formulaa.Term;
 
 /**
+ * Abstract class that represents a FO-LTL term.
+ * <p></p>
  * Created by Simone Calciolari on 06/08/15.
+ * @author Simone Calciolari
  */
 public abstract class FoLtlTerm implements Term {
 
@@ -47,6 +50,12 @@ public abstract class FoLtlTerm implements Term {
 		return res;
 	}
 
+	/**
+	 * Builds an instance with the desired properties.
+	 * @param type the type of term desired.
+	 * @param name the name of the term.
+	 * @return the desired instance.
+	 */
 	public FoLtlTerm termFactory(FormulaType type, String name){
 		FoLtlTerm res;
 

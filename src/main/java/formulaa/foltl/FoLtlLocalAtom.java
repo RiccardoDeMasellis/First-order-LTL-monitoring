@@ -10,13 +10,13 @@ import net.sf.tweety.logics.commons.syntax.Variable;
 import net.sf.tweety.logics.fol.syntax.FOLAtom;
 import net.sf.tweety.logics.fol.syntax.FolFormula;
 
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.LinkedHashSet;
-import java.util.LinkedList;
+import java.util.*;
 
 /**
+ * Class that represents a FO-LTL first order atom.
+ * <p></p>
  * Created by Simone Calciolari on 06/08/15.
+ * @author Simone Calciolari
  */
 public class FoLtlLocalAtom extends FoLtlAtomicFormula implements FoLtlLocalFormula, LocalAtom {
 
@@ -28,12 +28,19 @@ public class FoLtlLocalAtom extends FoLtlAtomicFormula implements FoLtlLocalForm
 	//Keeps track of the current argument number
 	private int nArgs;
 
+	/**
+	 * Instantiates a new atom with no arguments, no predicate and unspecified arity.
+	 */
 	public FoLtlLocalAtom(){
 		this.arguments = new LinkedList<>();
 		this.pArity = -1;
 		this.nArgs = 0;
 	}
 
+	/**
+	 * Instantiates a new atom with a given predicate and no arguments.
+	 * @param predicate the predicate for this atom.
+	 */
 	public FoLtlLocalAtom(FoLtlPredicate predicate){
 		this.predicate = predicate;
 		this.pArity = predicate.getArity();
@@ -41,6 +48,12 @@ public class FoLtlLocalAtom extends FoLtlAtomicFormula implements FoLtlLocalForm
 		this.nArgs = 0;
 	}
 
+	/**
+	 * Instantiates a new atom with a given predicate and the specified arguments.
+	 * @param predicate the predicate for this atom.
+	 * @param arguments the arguments.
+	 * @throws RuntimeException if the given arguments are more than the predicate's arity allows.
+	 */
 	public FoLtlLocalAtom(FoLtlPredicate predicate, FoLtlTerm... arguments){
 		this.predicate = predicate;
 		this.pArity = predicate.getArity();
@@ -55,9 +68,33 @@ public class FoLtlLocalAtom extends FoLtlAtomicFormula implements FoLtlLocalForm
 				throw new RuntimeException("Too many arguments");
 			}
 		}
-
 	}
 
+	/**
+	 * Instantiates a new atom with a given predicate and the specified collection of arguments.
+	 * @param predicate the predicate for this atom.
+	 * @param arguments the argument collection.
+	 * @throws RuntimeException if the given arguments are more than the predicate's arity allows.
+	 */
+	public FoLtlLocalAtom(FoLtlPredicate predicate, Collection<FoLtlTerm> arguments){
+		this.predicate = predicate;
+		this.pArity = predicate.getArity();
+		this.arguments = new LinkedList<>();
+		int argSize = arguments.size();
+
+		if (argSize <= this.pArity){
+			this.arguments.addAll(arguments);
+			this.nArgs = argSize;
+		} else {
+			throw new RuntimeException("Too many arguments");
+		}
+	}
+
+	/**
+	 * Allows to set the predicate for this atom.
+	 * @param predicate the predicate to set.
+	 * @throws RuntimeException if the predicate's arity is lower than the current number of arguments.
+	 */
 	public void setPredicate(FoLtlPredicate predicate){
 		if (predicate.getArity() >= this.nArgs) {
 			this.predicate = predicate;
@@ -67,6 +104,11 @@ public class FoLtlLocalAtom extends FoLtlAtomicFormula implements FoLtlLocalForm
 		}
 	}
 
+	/**
+	 * Allows to add the given arguments to the atoms
+	 * @param arguments the arguments to be added
+	 * @throws RuntimeException if the given arguments are more than the predicate's arity allows.
+	 */
 	public void addArguments(FoLtlTerm... arguments){
 
 		for (FoLtlTerm arg : arguments){
@@ -80,19 +122,22 @@ public class FoLtlLocalAtom extends FoLtlAtomicFormula implements FoLtlLocalForm
 
 	}
 
+	/**
+	 * Returns the predicate.
+	 * @return the FoLtlPredicate
+	 */
 	public FoLtlPredicate getPredicate(){
 		return this.predicate;
 	}
 
+	/**
+	 * Returns the argument list.
+	 * @return a LinkedList containing the arguments (FoLtlTerm).
+	 */
 	public LinkedList<FoLtlTerm> getArguments(){
 		return this.arguments;
 	}
 
-	/**
-	 * Given a variable and a sort, assigns the sort to every occurrence of such variable
-	 * @param variable the variable
-	 * @param sort the sort
-	 */
 	@Override
 	public void assignSort(FoLtlVariable variable, FoLtlSort sort){
 		Iterator<FoLtlTerm> i = this.getArguments().iterator();
@@ -105,91 +150,6 @@ public class FoLtlLocalAtom extends FoLtlAtomicFormula implements FoLtlLocalForm
 		}
 	}
 
-	@Override
-	public  String toString(){
-		String s = predicate.toString() + "(";
-
-		if (arguments.size() == pArity  || pArity <= 0) {
-			int j = 0;
-			Iterator<FoLtlTerm> i = arguments.iterator();
-
-			while (i.hasNext()) {
-
-				FoLtlTerm arg = i.next();
-
-				if (j > 0) {
-					s = s + ", ";
-				}
-
-				s = s + arg.toString();
-
-				j++;
-
-			}
-		} else {
-			throw new RuntimeException("Incomplete argument list");
-		}
-
-		s = s +")";
-
-		return s;
-	}
-
-	@Override
-	public formulaa.FormulaType getFormulaType() {
-		return formulaa.FormulaType.LOCAL_ATOM;
-	}
-
-	@Override
-	public int hashCode(){
-		int res;
-		res = this.getPredicate() != null ? this.getPredicate().hashCode() : 0;
-
-		Iterator<FoLtlTerm> i = this.getArguments().iterator();
-
-		while (i.hasNext()){
-			FoLtlTerm t = i.next();
-			res = 31 * res;
-			res = res + (t != null ? t.hashCode() : 0);
-		}
-
-		return res;
-	}
-
-	@Override
-	public FoLtlFormula clone() {
-		LinkedList<FoLtlTerm> newArgs = new LinkedList<>();
-		Iterator<FoLtlTerm> i = this.getArguments().iterator();
-
-		while (i.hasNext()){
-			FoLtlTerm t = i.next();
-			newArgs.add(t);
-		}
-
-		return this.formulaFactory(this.getFormulaType(), null, null, this.getPredicate().clone(), newArgs);
-
-	}
-
-	@Override
-	public boolean equals(Object o){
-		boolean res = false;
-
-		if (o != null && this.getClass().equals(o.getClass())){
-			FoLtlLocalAtom other = (FoLtlLocalAtom) o;
-			res = this.getPredicate().equals(other.getPredicate())
-					&& this.getArguments().equals(other.getArguments());
-		}
-
-		return res;
-	}
-
-	/**
-	 * Given the domain and an assignment substitutes all the variables in this Formula
-	 * according to the assignment
-	 * @param domain the domain
-	 * @param assignment the assignment
-	 * @return a new FoltlFormula where variables are substituted by constants according to the given assignment
-	 */
 	@Override
 	public FoLtlFormula substitute(HashSet<FoLtlConstant> domain, FoLtlAssignment assignment){
 		FoLtlLocalAtom res = new FoLtlLocalAtom(this.getPredicate());
@@ -291,13 +251,6 @@ public class FoLtlLocalAtom extends FoLtlAtomicFormula implements FoLtlLocalForm
 		return res;
 	}
 
-	/**
-	 * Given the domain and an assignment, tranforms this formula into an equivalent propositional formula
-	 * (Built with FLLOAT LTLf structures)
-	 * @param domain the domain
-	 * @param assignment a given assignment
-	 * @return
-	 */
 	@Override
 	public LTLfLocalFormula propositionalize(LinkedHashSet<FoLtlConstant> domain, FoLtlAssignment assignment){
 		String name = this.getPredicate().toString().toLowerCase();
@@ -318,10 +271,6 @@ public class FoLtlLocalAtom extends FoLtlAtomicFormula implements FoLtlLocalForm
 		return new LTLfLocalVar(name);
 	}
 
-	/**
-	 * Translates this formula into an equivalent FolFormula using Tweety data structures
-	 * @return
-	 */
 	@Override
 	public FolFormula toTweetyFol(){
 		Predicate predicate = new Predicate(this.getPredicate().getName(), this.getPredicate().getArity());
@@ -340,10 +289,6 @@ public class FoLtlLocalAtom extends FoLtlAtomicFormula implements FoLtlLocalForm
 		return res;
 	}
 
-	/**
-	 * Gets a string representation of this formula usable as a name for an atomic proposition
-	 * @return
-	 */
 	@Override
 	public String getAtomicName(){
 		String res = this.getPredicate().getName().toLowerCase();
@@ -356,6 +301,84 @@ public class FoLtlLocalAtom extends FoLtlAtomicFormula implements FoLtlLocalForm
 			} else {
 				res = res + next.getName().toLowerCase();
 			}
+		}
+
+		return res;
+	}
+
+	@Override
+	public  String toString(){
+		String s = predicate.toString() + "(";
+
+		if (arguments.size() == pArity  || pArity <= 0) {
+			int j = 0;
+			Iterator<FoLtlTerm> i = arguments.iterator();
+
+			while (i.hasNext()) {
+
+				FoLtlTerm arg = i.next();
+
+				if (j > 0) {
+					s = s + ", ";
+				}
+
+				s = s + arg.toString();
+
+				j++;
+
+			}
+		} else {
+			throw new RuntimeException("Incomplete argument list");
+		}
+
+		s = s +")";
+
+		return s;
+	}
+
+	@Override
+	public formulaa.FormulaType getFormulaType() {
+		return formulaa.FormulaType.LOCAL_ATOM;
+	}
+
+	@Override
+	public int hashCode(){
+		int res;
+		res = this.getPredicate() != null ? this.getPredicate().hashCode() : 0;
+
+		Iterator<FoLtlTerm> i = this.getArguments().iterator();
+
+		while (i.hasNext()){
+			FoLtlTerm t = i.next();
+			res = 31 * res;
+			res = res + (t != null ? t.hashCode() : 0);
+		}
+
+		return res;
+	}
+
+	@Override
+	public FoLtlFormula clone() {
+		LinkedList<FoLtlTerm> newArgs = new LinkedList<>();
+		Iterator<FoLtlTerm> i = this.getArguments().iterator();
+
+		while (i.hasNext()){
+			FoLtlTerm t = i.next();
+			newArgs.add(t);
+		}
+
+		return this.formulaFactory(this.getFormulaType(), null, null, this.getPredicate().clone(), newArgs);
+
+	}
+
+	@Override
+	public boolean equals(Object o){
+		boolean res = false;
+
+		if (o != null && this.getClass().equals(o.getClass())){
+			FoLtlLocalAtom other = (FoLtlLocalAtom) o;
+			res = this.getPredicate().equals(other.getPredicate())
+					&& this.getArguments().equals(other.getArguments());
 		}
 
 		return res;

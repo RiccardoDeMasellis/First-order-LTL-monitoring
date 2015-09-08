@@ -7,7 +7,10 @@ import formulaa.ImplFormula;
 import java.util.HashMap;
 
 /**
+ * Class that represents a FO-LTL temporal implication.
+ * <p></p>
  * Created by Simone Calciolari on 06/08/15.
+ * @author Simone Calciolari
  */
 public class FoLtlTempImplFormula extends FoLtlBinaryFormula implements ImplFormula, FoLtlBoolOpTempFormula {
 
