@@ -1,4 +1,5 @@
 import static util.ParsingUtils.*;
+import static util.TweetyTranslator.*;
 
 import formula.ltlf.*;
 import formulaa.foltl.*;
@@ -6,6 +7,7 @@ import formulaa.foltl.semantics.FoLtlAssignment;
 import net.sf.tweety.logics.commons.syntax.Constant;
 import net.sf.tweety.logics.fol.syntax.FolFormula;
 import net.sf.tweety.logics.fol.syntax.FolSignature;
+import net.sf.tweety.logics.pl.syntax.Conjunction;
 import net.sf.tweety.logics.pl.syntax.Proposition;
 import net.sf.tweety.logics.pl.syntax.PropositionalFormula;
 import org.junit.Assert;
@@ -558,6 +560,14 @@ public class ConversionsTest {
 
 		foltlTOltlf.clear();
 		ltlfTOfoltl.clear();
+	}
+
+	@Test
+	public void testTweetyPropToLTLf(){
+
+		PropositionalFormula pf = new Conjunction(new Proposition("a"), new Proposition("b"));
+		System.out.println(tweetyPropToLTLf(pf));
+
 	}
 
 	//<editor-fold desc="assertEquals" defaultstate="collapsed">
