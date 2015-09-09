@@ -37,6 +37,7 @@ public class AutomatonTest {
 	public void testAutomaton(){
 		parseFoLtlFormula("P(a)");
 		System.out.println();
+		System.out.println();
 
 		FoLtlFormula formula = parseFoLtlFormula("P(a) U P(b)");
 		//System.out.println(formula);
@@ -81,12 +82,12 @@ public class AutomatonTest {
 			oldTOnew.put(s, news);
 		}
 
-		//Signature for our test case
+		//Signature for our test case (Must be generated automatically)
 		PropositionalSignature sig = new PropositionalSignature();
 		sig.add(new Proposition("P_a"));
 		sig.add(new Proposition("P_b"));
 
-		//Da sistemare
+		//To be done better and somewhere else
 		ltlfTOfoltl.put(new LTLfLocalVar("last"), new FoLtlTempNotFormula(new FoLtlNextFormula(new FoLtlLocalTrueAtom())));
 
 		states = automaton.states().iterator();
@@ -97,41 +98,34 @@ public class AutomatonTest {
 
 			while (oldtransitions.hasNext()){
 				Transition<PossibleWorld> oldt = oldtransitions.next();
+				System.out.println("Old transition: " + oldt);
 				State oldEnd = oldt.end();
 
 				PossibleWorld pw = oldt.label();
-				System.out.println(pw);
+				System.out.println("\n\t\tPssible world: " + pw);
 
 				PropositionalFormula cj = pw.getCompleteConjunction(sig);
-				System.out.println(cj);
 
 				LTLfFormula ltlff = tweetyPropToLTLf(cj);
-				System.out.println(ltlff);
+				System.out.println("\t\tComplete conjunction (LTLf): " + ltlff);
 
 				FoLtlFormula label = ltlfToFoLtl(tweetyPropToLTLf(cj), ltlfTOfoltl);
+				System.out.println("\t\tLabel (FO-LTL): " + label + "\n");
 
 				Transition<FoLtlFormula> t = new Transition<>(oldTOnew.get(s), label, oldTOnew.get(oldEnd));
+				System.out.println("New transition: " + t);
 
 				try {
 					translated.addTransition(t);
-					System.out.println("ok");
 				} catch (NoSuchStateException e) {
-					System.out.println("not ok");
 					throw new RuntimeException(e);
 				}
+
+				System.out.println("\n");
 
 			}
 
 		}
-
-		System.out.println(translated.states());
-
-		states = translated.states().iterator();
-
-		while (states.hasNext()){
-			System.out.println(translated.delta(states.next()));
-		}
-
 
 		fos = null;
 		try {
