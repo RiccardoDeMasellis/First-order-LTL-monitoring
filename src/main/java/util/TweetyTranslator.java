@@ -45,7 +45,7 @@ public class TweetyTranslator {
 
 			for (int i = size-2; i>=0; i--){
 				PropositionalFormula pf = ((Conjunction) propformula).get(i);
-				res = new LTLfLocalAndFormula(tweetyPropToLTLf(pf), res);
+				res = new LTLfTempAndFormula(tweetyPropToLTLf(pf), res);
 			}
 
 		} else if (propformula instanceof Disjunction){
@@ -55,13 +55,13 @@ public class TweetyTranslator {
 
 			for (int i = size-2; i>=0; i--){
 				PropositionalFormula pf = ((Disjunction) propformula).get(i);
-				res = new LTLfLocalOrFormula(tweetyPropToLTLf(pf), res);
+				res = new LTLfTempOrFormula(tweetyPropToLTLf(pf), res);
 			}
 
 		} else if (propformula instanceof Negation){
 			PropositionalFormula pNested = ((Negation) propformula).getFormula();
 			LTLfFormula nested = tweetyPropToLTLf(pNested);
-			res = new LTLfLocalNotFormula(nested);
+			res = new LTLfTempNotFormula(nested);
 
 		} else if (propformula instanceof Proposition){
 			res = tweetyPropToLTLfVar((Proposition) propformula);
