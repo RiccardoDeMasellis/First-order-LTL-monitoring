@@ -8,6 +8,7 @@ import net.sf.tweety.logics.commons.syntax.Constant;
 import net.sf.tweety.logics.fol.syntax.FolFormula;
 import net.sf.tweety.logics.fol.syntax.FolSignature;
 import net.sf.tweety.logics.pl.syntax.Conjunction;
+import net.sf.tweety.logics.pl.syntax.Disjunction;
 import net.sf.tweety.logics.pl.syntax.Proposition;
 import net.sf.tweety.logics.pl.syntax.PropositionalFormula;
 import org.junit.Assert;
@@ -15,6 +16,7 @@ import org.junit.Test;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedHashSet;
+import java.util.LinkedList;
 
 /**
  * Created by Simone Calciolari on 31/08/15.
@@ -565,7 +567,17 @@ public class ConversionsTest {
 	@Test
 	public void testTweetyPropToLTLf(){
 
-		PropositionalFormula pf = new Conjunction(new Proposition("a"), new Proposition("b"));
+		LinkedList<PropositionalFormula> props = new LinkedList<>();
+		props.add(new Proposition("a"));
+		props.add(new Proposition("b"));
+		props.add(new Proposition("c"));
+		props.add(new Proposition("d"));
+		props.add(new Proposition("e"));
+
+		PropositionalFormula pf = new Conjunction(props);
+		System.out.println(tweetyPropToLTLf(pf));
+
+		pf = new Disjunction(props);
 		System.out.println(tweetyPropToLTLf(pf));
 
 	}

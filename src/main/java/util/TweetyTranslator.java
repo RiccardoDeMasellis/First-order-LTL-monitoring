@@ -31,28 +31,26 @@ public class TweetyTranslator {
 
 
 	public static LTLfFormula tweetyPropToLTLf(PropositionalFormula propformula){
-		LTLfFormula res = null;
+		LTLfFormula res;
 
 		if (propformula instanceof Conjunction){
-			Set<PropositionalFormula> formulas = ((Conjunction) propformula).getFormulas();
 
-			for (PropositionalFormula pf : formulas){
-				if (res == null){
-					res = tweetyPropToLTLf(pf);
-				} else {
-					res = new LTLfLocalAndFormula(tweetyPropToLTLf(pf), res);
-				}
+			int size = ((Conjunction) propformula).size();
+			res = tweetyPropToLTLf(((Conjunction) propformula).get(size - 1));
+
+			for (int i = size-2; i>=0; i--){
+				PropositionalFormula pf = ((Conjunction) propformula).get(i);
+				res = new LTLfLocalAndFormula(tweetyPropToLTLf(pf), res);
 			}
 
 		} else if (propformula instanceof Disjunction){
-			Set<PropositionalFormula> formulas = ((Disjunction) propformula).getFormulas();
 
-			for (PropositionalFormula pf : formulas){
-				if (res == null){
-					res = tweetyPropToLTLf(pf);
-				} else {
-					res = new LTLfLocalOrFormula(tweetyPropToLTLf(pf), res);
-				}
+			int size = ((Disjunction) propformula).size();
+			res = tweetyPropToLTLf(((Disjunction) propformula).get(size - 1));
+
+			for (int i = size-2; i>=0; i--){
+				PropositionalFormula pf = ((Disjunction) propformula).get(i);
+				res = new LTLfLocalOrFormula(tweetyPropToLTLf(pf), res);
 			}
 
 		} else if (propformula instanceof Negation){
