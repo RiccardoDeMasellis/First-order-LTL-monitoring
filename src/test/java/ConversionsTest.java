@@ -355,216 +355,6 @@ public class ConversionsTest {
 	}
 
 	@Test
-	public void testLTLfTranslation(){
-		//Used only to get parser's warning messages out of the way
-		parseFoLtlFormula("P(abcd)");
-		parseLTLfFormula("a");
-
-		System.out.println("\n\n*** LTLf TRANSLATION TEST ***\n");
-
-		HashMap<FoLtlFormula, LTLfFormula> foltlTOltlf = new HashMap<>();
-		HashMap<LTLfFormula, FoLtlFormula> ltlfTOfoltl = new HashMap<>();
-
-		FoLtlFormula formula = parseFoLtlFormula("G P(a)");
-		LTLfFormula computed = formula.toLTLf(foltlTOltlf, ltlfTOfoltl);
-		LTLfFormula expected = parseLTLfFormula("G P_a");
-
-		System.out.println("FO-LTL -> LTLf: " + foltlTOltlf);
-		System.out.println("LTLf -> FO-LTL: " + ltlfTOfoltl);
-		System.out.println();
-		assertEquals("Translation", expected, computed);
-
-		LTLfGloballyFormula glob = (LTLfGloballyFormula) expected;
-		LTLfFormula atom = glob.getNestedFormula();
-		FoLtlFormula reverse = new FoLtlGloballyFormula(ltlfTOfoltl.get(atom));
-		assertEquals("Reverse translation", formula, reverse);
-
-		System.out.println();
-
-		foltlTOltlf.clear();
-		ltlfTOfoltl.clear();
-
-
-		formula = parseFoLtlFormula("Forall ?x (P(?x) U (P(?x) && Q(tau)))");
-		computed = formula.toLTLf(foltlTOltlf, ltlfTOfoltl);
-		expected = parseLTLfFormula("P_?x U P_?x_AND_Q_tau");
-
-		System.out.println("FO-LTL -> LTLf: " + foltlTOltlf);
-		System.out.println("LTLf -> FO-LTL: " + ltlfTOfoltl);
-		System.out.println();
-		assertEquals("Translation", expected, computed);
-
-		LTLfUntilFormula unt = (LTLfUntilFormula) expected;
-		LTLfFormula leftatom = unt.getLeftFormula();
-		LTLfFormula rightatom = unt.getRightFormula();
-
-		reverse = new FoLtlAcrossForallFormula(new FoLtlUntilFormula(ltlfTOfoltl.get(leftatom), ltlfTOfoltl.get(rightatom)),
-				new FoLtlVariable("x"));
-
-		assertEquals("Reverse translation", formula, reverse);
-
-		System.out.println();
-
-		foltlTOltlf.clear();
-		ltlfTOfoltl.clear();
-
-
-		formula = parseFoLtlFormula("Forall ?x (P(?x) U (Exists ?y T(?x, ?y))))");
-		computed = formula.toLTLf(foltlTOltlf, ltlfTOfoltl);
-		expected = parseLTLfFormula("P_?x U Exists_?y_T_?x_?y");
-
-		System.out.println("FO-LTL -> LTLf: " + foltlTOltlf);
-		System.out.println("LTLf -> FO-LTL: " + ltlfTOfoltl);
-		System.out.println();
-		assertEquals("Translation", expected, computed);
-
-		unt = (LTLfUntilFormula) expected;
-		leftatom = unt.getLeftFormula();
-		rightatom = unt.getRightFormula();
-
-		reverse = new FoLtlAcrossForallFormula(new FoLtlUntilFormula(ltlfTOfoltl.get(leftatom), ltlfTOfoltl.get(rightatom)),
-				new FoLtlVariable("x"));
-
-		assertEquals("Reverse translation", formula, reverse);
-
-		System.out.println();
-
-		foltlTOltlf.clear();
-		ltlfTOfoltl.clear();
-
-
-		formula = parseFoLtlFormula("Forall ?x (Exists ?y (P(?x) && (P(?y) U (Exists ?z P(?z)))))");
-		computed = formula.toLTLf(foltlTOltlf, ltlfTOfoltl);
-		expected = parseLTLfFormula("P_?x && (P_?y U Exists_?z_P_?z)");
-
-		System.out.println("FO-LTL -> LTLf: " + foltlTOltlf);
-		System.out.println("LTLf -> FO-LTL: " + ltlfTOfoltl);
-		System.out.println();
-		assertEquals("Translation", expected, computed);
-
-		LTLfTempAndFormula teand = (LTLfTempAndFormula) expected;
-		unt = (LTLfUntilFormula) teand.getRightFormula();
-		atom = teand.getLeftFormula();
-		leftatom = unt.getLeftFormula();
-		rightatom = unt.getRightFormula();
-
-		reverse = new FoLtlAcrossForallFormula(
-				new FoLtlAcrossExistsFormula(new FoLtlTempAndFormula(ltlfTOfoltl.get(atom),
-							new FoLtlUntilFormula(ltlfTOfoltl.get(leftatom), ltlfTOfoltl.get(rightatom))),
-						new FoLtlVariable("y")),
-				new FoLtlVariable("x"));
-
-		assertEquals("Reverse translation", formula, reverse);
-
-		System.out.println();
-
-		foltlTOltlf.clear();
-		ltlfTOfoltl.clear();
-
-
-		formula = parseFoLtlFormula("Forall ?y (P(?y) && Q(a, b, ?y) U (P(a) U (G (Exists ?x P(?x)))))");
-		computed = formula.toLTLf(foltlTOltlf, ltlfTOfoltl);
-		expected = parseLTLfFormula("P_?y_AND_Q_a_b_?y U (P_a U (G Exists_?x_P_?x))");
-
-		System.out.println("FO-LTL -> LTLf: " + foltlTOltlf);
-		System.out.println("LTLf -> FO-LTL: " + ltlfTOfoltl);
-		System.out.println();
-		assertEquals("Translation", expected, computed);
-
-		unt = (LTLfUntilFormula) expected;
-		atom = unt.getLeftFormula();
-		LTLfUntilFormula unt2 = (LTLfUntilFormula) unt.getRightFormula();
-		LTLfFormula atom2 = unt2.getLeftFormula();
-		glob = (LTLfGloballyFormula) unt2.getRightFormula();
-		LTLfFormula atom3 = glob.getNestedFormula();
-
-		reverse = new FoLtlGloballyFormula(ltlfTOfoltl.get(atom3));
-		reverse = new FoLtlUntilFormula(ltlfTOfoltl.get(atom2), reverse);
-		reverse = new FoLtlUntilFormula(ltlfTOfoltl.get(atom), reverse);
-		reverse = new FoLtlAcrossForallFormula(reverse, new FoLtlVariable("y"));
-
-		assertEquals("Reverse translation", formula, reverse);
-
-		System.out.println();
-
-		foltlTOltlf.clear();
-		ltlfTOfoltl.clear();
-
-
-		formula = parseFoLtlFormula("P(?x) U P(x)");
-		computed = formula.toLTLf(foltlTOltlf, ltlfTOfoltl);
-		expected = parseLTLfFormula("P_?x U P_x");
-
-		System.out.println("FO-LTL -> LTLf: " + foltlTOltlf);
-		System.out.println("LTLf -> FO-LTL: " + ltlfTOfoltl);
-		System.out.println();
-		assertEquals("Translation", expected, computed);
-
-		unt = (LTLfUntilFormula) expected;
-		leftatom = unt.getLeftFormula();
-		rightatom = unt.getRightFormula();
-
-		reverse = new FoLtlUntilFormula(ltlfTOfoltl.get(leftatom), ltlfTOfoltl.get(rightatom));
-
-		assertEquals("Reverse translation", formula, reverse);
-
-		System.out.println();
-
-		foltlTOltlf.clear();
-		ltlfTOfoltl.clear();
-
-
-		formula = parseFoLtlFormula("?x1234 = asdrubale U P(x)");
-		computed = formula.toLTLf(foltlTOltlf, ltlfTOfoltl);
-		expected = parseLTLfFormula("?x1234_EQ_asdrubale U P_x");
-
-		System.out.println("FO-LTL -> LTLf: " + foltlTOltlf);
-		System.out.println("LTLf -> FO-LTL: " + ltlfTOfoltl);
-		System.out.println();
-		assertEquals("Translation", expected, computed);
-
-		unt = (LTLfUntilFormula) expected;
-		leftatom = unt.getLeftFormula();
-		rightatom = unt.getRightFormula();
-
-		reverse = new FoLtlUntilFormula(ltlfTOfoltl.get(leftatom), ltlfTOfoltl.get(rightatom));
-
-		assertEquals("Reverse translation", formula, reverse);
-
-		System.out.println();
-
-		foltlTOltlf.clear();
-		ltlfTOfoltl.clear();
-
-
-		formula = parseFoLtlFormula("Forall ?x (Exists ?y ((?x = ?y) U (X (Exists ?z (Q(?x, ?z) && P(?y))))))");
-		computed = formula.toLTLf(foltlTOltlf, ltlfTOfoltl);
-		expected = parseLTLfFormula("?x_EQ_?y U X Exists_?z_Q_?x_?z_AND_P_?y");
-
-		System.out.println("FO-LTL -> LTLf: " + foltlTOltlf);
-		System.out.println("LTLf -> FO-LTL: " + ltlfTOfoltl);
-		System.out.println();
-		assertEquals("Translation", expected, computed);
-
-		unt = (LTLfUntilFormula) expected;
-		atom = unt.getLeftFormula();
-		LTLfNextFormula next = (LTLfNextFormula) unt.getRightFormula();
-		atom2 = next.getNestedFormula();
-
-		reverse = new FoLtlNextFormula(ltlfTOfoltl.get(atom2));
-		reverse = new FoLtlUntilFormula(ltlfTOfoltl.get(atom), reverse);
-		reverse = new FoLtlAcrossExistsFormula(reverse, new FoLtlVariable("y"));
-		reverse = new FoLtlAcrossForallFormula(reverse, new FoLtlVariable("x"));
-
-		assertEquals("Reverse translation", formula, reverse);
-
-		System.out.println();
-
-		foltlTOltlf.clear();
-		ltlfTOfoltl.clear();
-	}
-
-	@Test
 	public void testTweetyPropToLTLf(){
 		//Used only to get parser's warning messages out of the way
 		parseFoLtlFormula("P(abcd)");
@@ -587,27 +377,235 @@ public class ConversionsTest {
 	}
 
 	@Test
-	public void testLTLfToFoLtl(){
+	public void testLTLfTranslation(){
 		//Used only to get parser's warning messages out of the way
 		parseFoLtlFormula("P(abcd)");
 		parseLTLfFormula("a");
-		System.out.println();
+
+		System.out.println("\n\n*** LTLf TRANSLATION TEST ***\n");
 
 		HashMap<FoLtlFormula, LTLfFormula> foltlTOltlf = new HashMap<>();
 		HashMap<LTLfFormula, FoLtlFormula> ltlfTOfoltl = new HashMap<>();
 
-		FoLtlFormula original = parseFoLtlFormula("Forall ?x (Exists ?y ((?x = ?y) U (X (Exists ?z (Q(?x, ?z) && P(?y))))))");
-		FoLtlFormula expected = original;
+		FoLtlFormula original = parseFoLtlFormula("G P(a)");
+		LTLfFormula translated = original.toLTLf(foltlTOltlf, ltlfTOfoltl);
+		LTLfFormula ltlfExpected = parseLTLfFormula("G P_a");
 
-		//Get rid of the across-state quantifiers
-		while (expected instanceof FoLtlAcrossQuantifiedFormula){
-			expected = (FoLtlFormula) ((FoLtlAcrossQuantifiedFormula) expected).getNestedFormula();
+		System.out.println("Original formula: " + original);
+		System.out.println("\nTranslation maps: ");
+		System.out.println("FO-LTL -> LTLf: " + foltlTOltlf);
+		System.out.println("LTLf -> FO-LTL: " + ltlfTOfoltl);
+		System.out.println();
+
+		assertEquals("Translation", ltlfExpected, translated);
+
+		FoLtlFormula reverse = ltlfToFoLtl(ltlfExpected, ltlfTOfoltl);
+		FoLtlFormula foltlExpected = original;
+
+		//Get rid of across-state quantifiers
+		while (foltlExpected instanceof FoLtlAcrossQuantifiedFormula){
+			foltlExpected = (FoLtlFormula) ((FoLtlAcrossQuantifiedFormula) foltlExpected).getNestedFormula();
 		}
 
-		LTLfFormula translated = original.toLTLf(foltlTOltlf, ltlfTOfoltl);
-		LTLfFormula computed = parseLTLfFormula("?x_EQ_?y U X Exists_?z_Q_?x_?z_AND_P_?y");
+		assertEquals("Reverse translation", foltlExpected, reverse);
 
-		assertEquals("", expected, ltlfToFoLtl(computed, ltlfTOfoltl));
+		System.out.println();
+
+		foltlTOltlf.clear();
+		ltlfTOfoltl.clear();
+
+
+		original = parseFoLtlFormula("Forall ?x (P(?x) U (P(?x) && Q(tau)))");
+		translated = original.toLTLf(foltlTOltlf, ltlfTOfoltl);
+		ltlfExpected = parseLTLfFormula("P_?x U P_?x_AND_Q_tau");
+
+		System.out.println("Original formula: " + original);
+		System.out.println("\nTranslation maps: ");
+		System.out.println("FO-LTL -> LTLf: " + foltlTOltlf);
+		System.out.println("LTLf -> FO-LTL: " + ltlfTOfoltl);
+		System.out.println();
+
+		assertEquals("Translation", ltlfExpected, translated);
+
+		reverse = ltlfToFoLtl(ltlfExpected, ltlfTOfoltl);
+		foltlExpected = original;
+
+		//Get rid of across-state quantifiers
+		while (foltlExpected instanceof FoLtlAcrossQuantifiedFormula){
+			foltlExpected = (FoLtlFormula) ((FoLtlAcrossQuantifiedFormula) foltlExpected).getNestedFormula();
+		}
+
+		assertEquals("Reverse translation", foltlExpected, reverse);
+
+		System.out.println();
+
+		foltlTOltlf.clear();
+		ltlfTOfoltl.clear();
+
+
+		original = parseFoLtlFormula("Forall ?x (P(?x) U (Exists ?y T(?x, ?y))))");
+		translated = original.toLTLf(foltlTOltlf, ltlfTOfoltl);
+		ltlfExpected = parseLTLfFormula("P_?x U Exists_?y_T_?x_?y");
+
+		System.out.println("Original formula: " + original);
+		System.out.println("\nTranslation maps: ");
+		System.out.println("FO-LTL -> LTLf: " + foltlTOltlf);
+		System.out.println("LTLf -> FO-LTL: " + ltlfTOfoltl);
+		System.out.println();
+
+		assertEquals("Translation", ltlfExpected, translated);
+
+		reverse = ltlfToFoLtl(ltlfExpected, ltlfTOfoltl);
+		foltlExpected = original;
+
+		//Get rid of across-state quantifiers
+		while (foltlExpected instanceof FoLtlAcrossQuantifiedFormula){
+			foltlExpected = (FoLtlFormula) ((FoLtlAcrossQuantifiedFormula) foltlExpected).getNestedFormula();
+		}
+
+		assertEquals("Reverse translation", foltlExpected, reverse);
+
+		System.out.println();
+
+		foltlTOltlf.clear();
+		ltlfTOfoltl.clear();
+
+
+		original = parseFoLtlFormula("Forall ?x (Exists ?y (P(?x) && (P(?y) U (Exists ?z P(?z)))))");
+		translated = original.toLTLf(foltlTOltlf, ltlfTOfoltl);
+		ltlfExpected = parseLTLfFormula("P_?x && (P_?y U Exists_?z_P_?z)");
+
+		System.out.println("Original formula: " + original);
+		System.out.println("\nTranslation maps: ");
+		System.out.println("FO-LTL -> LTLf: " + foltlTOltlf);
+		System.out.println("LTLf -> FO-LTL: " + ltlfTOfoltl);
+		System.out.println();
+
+		assertEquals("Translation", ltlfExpected, translated);
+
+		reverse = ltlfToFoLtl(ltlfExpected, ltlfTOfoltl);
+		foltlExpected = original;
+
+		//Get rid of across-state quantifiers
+		while (foltlExpected instanceof FoLtlAcrossQuantifiedFormula){
+			foltlExpected = (FoLtlFormula) ((FoLtlAcrossQuantifiedFormula) foltlExpected).getNestedFormula();
+		}
+
+		assertEquals("Reverse translation", foltlExpected, reverse);
+
+		System.out.println();
+
+		foltlTOltlf.clear();
+		ltlfTOfoltl.clear();
+
+
+		original = parseFoLtlFormula("Forall ?y (P(?y) && Q(a, b, ?y) U (P(a) U (G (Exists ?x P(?x)))))");
+		translated = original.toLTLf(foltlTOltlf, ltlfTOfoltl);
+		ltlfExpected = parseLTLfFormula("P_?y_AND_Q_a_b_?y U (P_a U (G Exists_?x_P_?x))");
+
+		System.out.println("Original formula: " + original);
+		System.out.println("\nTranslation maps: ");
+		System.out.println("FO-LTL -> LTLf: " + foltlTOltlf);
+		System.out.println("LTLf -> FO-LTL: " + ltlfTOfoltl);
+		System.out.println();
+
+		assertEquals("Translation", ltlfExpected, translated);
+
+		reverse = ltlfToFoLtl(ltlfExpected, ltlfTOfoltl);
+		foltlExpected = original;
+
+		//Get rid of across-state quantifiers
+		while (foltlExpected instanceof FoLtlAcrossQuantifiedFormula){
+			foltlExpected = (FoLtlFormula) ((FoLtlAcrossQuantifiedFormula) foltlExpected).getNestedFormula();
+		}
+
+		assertEquals("Reverse translation", foltlExpected, reverse);
+
+		System.out.println();
+
+		foltlTOltlf.clear();
+		ltlfTOfoltl.clear();
+
+
+		original = parseFoLtlFormula("P(?x) U P(x)");
+		translated = original.toLTLf(foltlTOltlf, ltlfTOfoltl);
+		ltlfExpected = parseLTLfFormula("P_?x U P_x");
+
+		System.out.println("Original formula: " + original);
+		System.out.println("\nTranslation maps: ");
+		System.out.println("FO-LTL -> LTLf: " + foltlTOltlf);
+		System.out.println("LTLf -> FO-LTL: " + ltlfTOfoltl);
+		System.out.println();
+
+		assertEquals("Translation", ltlfExpected, translated);
+
+		reverse = ltlfToFoLtl(ltlfExpected, ltlfTOfoltl);
+		foltlExpected = original;
+
+		//Get rid of across-state quantifiers
+		while (foltlExpected instanceof FoLtlAcrossQuantifiedFormula){
+			foltlExpected = (FoLtlFormula) ((FoLtlAcrossQuantifiedFormula) foltlExpected).getNestedFormula();
+		}
+
+		assertEquals("Reverse translation", foltlExpected, reverse);
+
+		System.out.println();
+
+		foltlTOltlf.clear();
+		ltlfTOfoltl.clear();
+
+
+		original = parseFoLtlFormula("?x1234 = asdrubale U P(x)");
+		translated = original.toLTLf(foltlTOltlf, ltlfTOfoltl);
+		ltlfExpected = parseLTLfFormula("?x1234_EQ_asdrubale U P_x");
+
+		System.out.println("Original formula: " + original);
+		System.out.println("\nTranslation maps: ");
+		System.out.println("FO-LTL -> LTLf: " + foltlTOltlf);
+		System.out.println("LTLf -> FO-LTL: " + ltlfTOfoltl);
+		System.out.println();
+
+		assertEquals("Translation", ltlfExpected, translated);
+
+		reverse = ltlfToFoLtl(ltlfExpected, ltlfTOfoltl);
+		foltlExpected = original;
+
+		//Get rid of across-state quantifiers
+		while (foltlExpected instanceof FoLtlAcrossQuantifiedFormula){
+			foltlExpected = (FoLtlFormula) ((FoLtlAcrossQuantifiedFormula) foltlExpected).getNestedFormula();
+		}
+
+		assertEquals("Reverse translation", foltlExpected, reverse);
+
+		System.out.println();
+
+		foltlTOltlf.clear();
+		ltlfTOfoltl.clear();
+
+
+		original = parseFoLtlFormula("Forall ?x (Exists ?y ((?x = ?y) U (X (Exists ?z (Q(?x, ?z) && P(?y))))))");
+		translated = original.toLTLf(foltlTOltlf, ltlfTOfoltl);
+		ltlfExpected = parseLTLfFormula("?x_EQ_?y U X Exists_?z_Q_?x_?z_AND_P_?y");
+
+		System.out.println("Original formula: " + original);
+		System.out.println("\nTranslation maps: ");
+		System.out.println("FO-LTL -> LTLf: " + foltlTOltlf);
+		System.out.println("LTLf -> FO-LTL: " + ltlfTOfoltl);
+		System.out.println();
+
+		assertEquals("Translation", ltlfExpected, translated);
+
+		reverse = ltlfToFoLtl(ltlfExpected, ltlfTOfoltl);
+		foltlExpected = original;
+
+		//Get rid of across-state quantifiers
+		while (foltlExpected instanceof FoLtlAcrossQuantifiedFormula){
+			foltlExpected = (FoLtlFormula) ((FoLtlAcrossQuantifiedFormula) foltlExpected).getNestedFormula();
+		}
+
+		assertEquals("Reverse translation", foltlExpected, reverse);
+
+		System.out.println();
 
 		foltlTOltlf.clear();
 		ltlfTOfoltl.clear();
