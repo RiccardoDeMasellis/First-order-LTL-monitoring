@@ -129,17 +129,17 @@ public class FoLtlLocalEqualityFormula extends FoLtlAtomicFormula implements FoL
 		String res = "";
 
 		if (left instanceof FoLtlVariable){
-			res = res + left.getName();
+			res = res + "var" + left.getName();
 		} else {
-			res = res + left.getName();
+			res = res + "con" + left.getName();
 		}
 
 		res = res + "eq";
 
 		if (right instanceof FoLtlVariable){
-			res = res + right.getName();
+			res = res + "var" + right.getName();
 		} else {
-			res = res + right.getName();
+			res = res + "con" + right.getName();
 		}
 
 		return res;

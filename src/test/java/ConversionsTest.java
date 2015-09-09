@@ -362,7 +362,7 @@ public class ConversionsTest {
 
 		FoLtlFormula formula = parseFoLtlFormula("G P(a)");
 		LTLfFormula computed = formula.toLTLf(foltlTOltlf, ltlfTOfoltl);
-		LTLfFormula expected = parseLTLfFormula("G pa");
+		LTLfFormula expected = parseLTLfFormula("G pcona");
 
 		System.out.println("FO-LTL -> LTLf: " + foltlTOltlf);
 		System.out.println("LTLf -> FO-LTL: " + ltlfTOfoltl);
@@ -382,7 +382,7 @@ public class ConversionsTest {
 
 		formula = parseFoLtlFormula("Forall ?x (P(?x) U (P(?x) && Q(tau)))");
 		computed = formula.toLTLf(foltlTOltlf, ltlfTOfoltl);
-		expected = parseLTLfFormula("px U (pxandqtau)");
+		expected = parseLTLfFormula("pvarx U (pvarxandqcontau)");
 
 		System.out.println("FO-LTL -> LTLf: " + foltlTOltlf);
 		System.out.println("LTLf -> FO-LTL: " + ltlfTOfoltl);
@@ -406,7 +406,7 @@ public class ConversionsTest {
 
 		formula = parseFoLtlFormula("Forall ?x (P(?x) U (Exists ?y T(?x, ?y))))");
 		computed = formula.toLTLf(foltlTOltlf, ltlfTOfoltl);
-		expected = parseLTLfFormula("px U existsytxy");
+		expected = parseLTLfFormula("pvarx U existsytvarxvary");
 
 		System.out.println("FO-LTL -> LTLf: " + foltlTOltlf);
 		System.out.println("LTLf -> FO-LTL: " + ltlfTOfoltl);
@@ -430,7 +430,7 @@ public class ConversionsTest {
 
 		formula = parseFoLtlFormula("Forall ?x (Exists ?y (P(?x) && (P(?y) U (Exists ?z P(?z)))))");
 		computed = formula.toLTLf(foltlTOltlf, ltlfTOfoltl);
-		expected = parseLTLfFormula("px && (py U existszpz)");
+		expected = parseLTLfFormula("pvarx && (pvary U existszpvarz)");
 
 		System.out.println("FO-LTL -> LTLf: " + foltlTOltlf);
 		System.out.println("LTLf -> FO-LTL: " + ltlfTOfoltl);
@@ -459,7 +459,7 @@ public class ConversionsTest {
 
 		formula = parseFoLtlFormula("Forall ?y (P(?y) && Q(a, b, ?y) U (P(a) U (G (Exists ?x P(?x)))))");
 		computed = formula.toLTLf(foltlTOltlf, ltlfTOfoltl);
-		expected = parseLTLfFormula("pyandqaby U (pa U (G existsxpx))");
+		expected = parseLTLfFormula("pvaryandqconaconbvary U (pcona U (G existsxpvarx))");
 
 		System.out.println("FO-LTL -> LTLf: " + foltlTOltlf);
 		System.out.println("LTLf -> FO-LTL: " + ltlfTOfoltl);
@@ -479,6 +479,21 @@ public class ConversionsTest {
 		reverse = new FoLtlAcrossForallFormula(reverse, new FoLtlVariable("y"));
 
 		assertEquals("Reverse translation", formula, reverse);
+
+		System.out.println();
+
+		foltlTOltlf.clear();
+		ltlfTOfoltl.clear();
+
+
+		formula = parseFoLtlFormula("P(?x) U P(x)");
+		computed = formula.toLTLf(foltlTOltlf, ltlfTOfoltl);
+		expected = parseLTLfFormula("pvarx U pconx");
+
+		System.out.println("FO-LTL -> LTLf: " + foltlTOltlf);
+		System.out.println("LTLf -> FO-LTL: " + ltlfTOfoltl);
+		System.out.println();
+		assertEquals("Translation", expected, computed);
 
 		System.out.println();
 

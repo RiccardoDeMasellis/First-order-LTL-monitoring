@@ -297,9 +297,9 @@ public class FoLtlLocalAtom extends FoLtlAtomicFormula implements FoLtlLocalForm
 		while (i.hasNext()){
 			FoLtlTerm next = i.next();
 			if (next instanceof FoLtlVariable){
-				res = res + next.getName().toLowerCase();
+				res = res + "var" + next.getName().toLowerCase();
 			} else {
-				res = res + next.getName().toLowerCase();
+				res = res + "con" + next.getName().toLowerCase();
 			}
 		}
 
