@@ -35,7 +35,7 @@ public class FoLtlLocalDoubleImplFormula extends FoLtlBinaryFormula implements D
 	public String getAtomicName(){
 		FoLtlLocalFormula left = (FoLtlLocalFormula) this.getLeftFormula();
 		FoLtlLocalFormula right = (FoLtlLocalFormula) this.getRightFormula();
-		return left.getAtomicName() + this.stringOperator().toLowerCase() + right.getAtomicName();
+		return left.getAtomicName() + "_" + this.stringOperator().toUpperCase() + "_" + right.getAtomicName();
 	}
 
 	/*

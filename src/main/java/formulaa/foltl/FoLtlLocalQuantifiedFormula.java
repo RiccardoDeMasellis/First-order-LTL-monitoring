@@ -16,7 +16,7 @@ public interface FoLtlLocalQuantifiedFormula extends FoLtlLocalFormula, LocalQua
 	default String getAtomicName(){
 		FoLtlVariable v = (FoLtlVariable) this.getQuantifiedVariable();
 		FoLtlLocalFormula nf = (FoLtlLocalFormula) this.getNestedFormula();
-		return this.stringOperator().toLowerCase() + v.getName() + nf.getAtomicName();
+		return this.stringOperator() + "_" + v.toString() + '_' + nf.getAtomicName();
 	}
 
 	/**

@@ -42,7 +42,7 @@ public class FoLtlLocalNotFormula extends FoLtlUnaryFormula implements NotFormul
 	@Override
 	public String getAtomicName(){
 		FoLtlLocalFormula nested = (FoLtlLocalFormula) this.getNestedFormula();
-		return this.stringOperator().toLowerCase() + nested.getAtomicName();
+		return this.stringOperator().toUpperCase() + "_" + nested.getAtomicName();
 	}
 
 }

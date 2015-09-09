@@ -291,16 +291,20 @@ public class FoLtlLocalAtom extends FoLtlAtomicFormula implements FoLtlLocalForm
 
 	@Override
 	public String getAtomicName(){
-		String res = this.getPredicate().getName().toLowerCase();
+		String res = this.getPredicate().getName();
 		Iterator <FoLtlTerm> i = this.getArguments().iterator();
 
 		while (i.hasNext()){
 			FoLtlTerm next = i.next();
+			res += "_" + next.toString();
+
+			/*
 			if (next instanceof FoLtlVariable){
-				res = res + "var" + next.getName().toLowerCase();
+				res = res + "?" + next.getName().toLowerCase();
 			} else {
-				res = res + "con" + next.getName().toLowerCase();
+				res = res + next.getName().toLowerCase();
 			}
+			*/
 		}
 
 		return res;

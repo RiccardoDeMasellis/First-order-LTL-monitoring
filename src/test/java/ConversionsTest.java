@@ -6,6 +6,7 @@ import formulaa.foltl.semantics.FoLtlAssignment;
 import net.sf.tweety.logics.commons.syntax.Constant;
 import net.sf.tweety.logics.fol.syntax.FolFormula;
 import net.sf.tweety.logics.fol.syntax.FolSignature;
+import net.sf.tweety.logics.pl.syntax.Proposition;
 import net.sf.tweety.logics.pl.syntax.PropositionalFormula;
 import org.junit.Assert;
 import org.junit.Test;
@@ -362,7 +363,7 @@ public class ConversionsTest {
 
 		FoLtlFormula formula = parseFoLtlFormula("G P(a)");
 		LTLfFormula computed = formula.toLTLf(foltlTOltlf, ltlfTOfoltl);
-		LTLfFormula expected = parseLTLfFormula("G pcona");
+		LTLfFormula expected = parseLTLfFormula("G P_a");
 
 		System.out.println("FO-LTL -> LTLf: " + foltlTOltlf);
 		System.out.println("LTLf -> FO-LTL: " + ltlfTOfoltl);
@@ -382,7 +383,7 @@ public class ConversionsTest {
 
 		formula = parseFoLtlFormula("Forall ?x (P(?x) U (P(?x) && Q(tau)))");
 		computed = formula.toLTLf(foltlTOltlf, ltlfTOfoltl);
-		expected = parseLTLfFormula("pvarx U (pvarxandqcontau)");
+		expected = parseLTLfFormula("P_?x U P_?x_AND_Q_tau");
 
 		System.out.println("FO-LTL -> LTLf: " + foltlTOltlf);
 		System.out.println("LTLf -> FO-LTL: " + ltlfTOfoltl);
@@ -406,7 +407,7 @@ public class ConversionsTest {
 
 		formula = parseFoLtlFormula("Forall ?x (P(?x) U (Exists ?y T(?x, ?y))))");
 		computed = formula.toLTLf(foltlTOltlf, ltlfTOfoltl);
-		expected = parseLTLfFormula("pvarx U existsytvarxvary");
+		expected = parseLTLfFormula("P_?x U Exists_?y_T_?x_?y");
 
 		System.out.println("FO-LTL -> LTLf: " + foltlTOltlf);
 		System.out.println("LTLf -> FO-LTL: " + ltlfTOfoltl);
@@ -430,7 +431,7 @@ public class ConversionsTest {
 
 		formula = parseFoLtlFormula("Forall ?x (Exists ?y (P(?x) && (P(?y) U (Exists ?z P(?z)))))");
 		computed = formula.toLTLf(foltlTOltlf, ltlfTOfoltl);
-		expected = parseLTLfFormula("pvarx && (pvary U existszpvarz)");
+		expected = parseLTLfFormula("P_?x && (P_?y U Exists_?z_P_?z)");
 
 		System.out.println("FO-LTL -> LTLf: " + foltlTOltlf);
 		System.out.println("LTLf -> FO-LTL: " + ltlfTOfoltl);
@@ -459,7 +460,7 @@ public class ConversionsTest {
 
 		formula = parseFoLtlFormula("Forall ?y (P(?y) && Q(a, b, ?y) U (P(a) U (G (Exists ?x P(?x)))))");
 		computed = formula.toLTLf(foltlTOltlf, ltlfTOfoltl);
-		expected = parseLTLfFormula("pvaryandqconaconbvary U (pcona U (G existsxpvarx))");
+		expected = parseLTLfFormula("P_?y_AND_Q_a_b_?y U (P_a U (G Exists_?x_P_?x))");
 
 		System.out.println("FO-LTL -> LTLf: " + foltlTOltlf);
 		System.out.println("LTLf -> FO-LTL: " + ltlfTOfoltl);
@@ -488,7 +489,7 @@ public class ConversionsTest {
 
 		formula = parseFoLtlFormula("P(?x) U P(x)");
 		computed = formula.toLTLf(foltlTOltlf, ltlfTOfoltl);
-		expected = parseLTLfFormula("pvarx U pconx");
+		expected = parseLTLfFormula("P_?x U P_x");
 
 		System.out.println("FO-LTL -> LTLf: " + foltlTOltlf);
 		System.out.println("LTLf -> FO-LTL: " + ltlfTOfoltl);
