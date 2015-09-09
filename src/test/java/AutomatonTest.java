@@ -1,7 +1,7 @@
 import formula.ldlf.LDLfFormula;
 import formula.ltlf.LTLfFormula;
-import formulaa.foltl.FoLtlFormula;
-import formulaa.foltl.FoLtlLocalFormula;
+import formula.ltlf.LTLfLocalVar;
+import formulaa.foltl.*;
 import net.sf.tweety.logics.fol.syntax.Conjunction;
 import net.sf.tweety.logics.pl.semantics.PossibleWorld;
 import net.sf.tweety.logics.pl.syntax.Proposition;
@@ -85,6 +85,9 @@ public class AutomatonTest {
 		PropositionalSignature sig = new PropositionalSignature();
 		sig.add(new Proposition("P_a"));
 		sig.add(new Proposition("P_b"));
+
+		//Da sistemare
+		ltlfTOfoltl.put(new LTLfLocalVar("last"), new FoLtlTempNotFormula(new FoLtlNextFormula(new FoLtlLocalTrueAtom())));
 
 		states = automaton.states().iterator();
 
