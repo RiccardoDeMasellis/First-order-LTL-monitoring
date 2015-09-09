@@ -1,9 +1,10 @@
 package util;
 
 import formula.ltlf.*;
-import formulaa.foltl.FoLtlFormula;
+import formulaa.foltl.*;
 import net.sf.tweety.logics.pl.syntax.*;
 
+import java.util.HashMap;
 import java.util.Set;
 
 /**
@@ -29,7 +30,11 @@ public class TweetyTranslator {
 		return new LTLfLocalVar(prop.getName());
 	}
 
-
+	/**
+	 * Translates a given Tweety propositional formula into a LTLf(Local)Formula
+	 * @param propformula the formula to be translated
+	 * @return a LTLfFormula equivalent to the original
+	 */
 	public static LTLfFormula tweetyPropToLTLf(PropositionalFormula propformula){
 		LTLfFormula res;
 
@@ -69,6 +74,83 @@ public class TweetyTranslator {
 
 		} else {
 			throw new RuntimeException("Unknown propositional formula type");
+		}
+
+		return res;
+	}
+
+	/**
+	 * Translates a LTLfFormula into an open FoLtlFormula, given a map that translates LTLfLocalVars into FoLtlLocalFormulas.
+	 * @param ltlff the LTLfFormula to be translated.
+	 * @param map the map.
+	 * @return an open FoLtlFormula.
+	 */
+	public static FoLtlFormula ltlfToFoLtl(LTLfFormula ltlff, HashMap<LTLfFormula, FoLtlFormula> map){
+		FoLtlFormula res;
+
+		if (ltlff instanceof LTLfLocalVar){
+			res = map.get(ltlff);
+
+		} else if (ltlff instanceof LTLfTempDoubleImplFormula) {
+			FoLtlFormula left = ltlfToFoLtl(((LTLfTempDoubleImplFormula) ltlff).getLeftFormula(), map);
+			FoLtlFormula right = ltlfToFoLtl(((LTLfTempDoubleImplFormula) ltlff).getRightFormula(), map);
+			res = new FoLtlTempDoubleImplFormula(left, right);
+
+		} else if (ltlff instanceof LTLfTempImplFormula) {
+			FoLtlFormula left = ltlfToFoLtl(((LTLfTempImplFormula) ltlff).getLeftFormula(), map);
+			FoLtlFormula right = ltlfToFoLtl(((LTLfTempImplFormula) ltlff).getRightFormula(), map);
+			res = new FoLtlTempImplFormula(left, right);
+
+		} else if (ltlff instanceof LTLfTempOrFormula) {
+			FoLtlFormula left = ltlfToFoLtl(((LTLfTempOrFormula) ltlff).getLeftFormula(), map);
+			FoLtlFormula right = ltlfToFoLtl(((LTLfTempOrFormula) ltlff).getRightFormula(), map);
+			res = new FoLtlTempOrFormula(left, right);
+
+		} else if (ltlff instanceof LTLfTempAndFormula) {
+			FoLtlFormula left = ltlfToFoLtl(((LTLfTempAndFormula) ltlff).getLeftFormula(), map);
+			FoLtlFormula right = ltlfToFoLtl(((LTLfTempAndFormula) ltlff).getRightFormula(), map);
+			res = new FoLtlTempAndFormula(left, right);
+
+		} else if (ltlff instanceof LTLfWeakUntilFormula) {
+			FoLtlFormula left = ltlfToFoLtl(((LTLfWeakUntilFormula) ltlff).getLeftFormula(), map);
+			FoLtlFormula right = ltlfToFoLtl(((LTLfWeakUntilFormula) ltlff).getRightFormula(), map);
+			res = new FoLtlWeakUntilFormula(left, right);
+
+		} else if (ltlff instanceof LTLfReleaseFormula) {
+			FoLtlFormula left = ltlfToFoLtl(((LTLfReleaseFormula) ltlff).getLeftFormula(), map);
+			FoLtlFormula right = ltlfToFoLtl(((LTLfReleaseFormula) ltlff).getRightFormula(), map);
+			res = new FoLtlReleaseFormula(left, right);
+
+		} else if (ltlff instanceof LTLfUntilFormula) {
+			FoLtlFormula left = ltlfToFoLtl(((LTLfUntilFormula) ltlff).getLeftFormula(), map);
+			FoLtlFormula right = ltlfToFoLtl(((LTLfUntilFormula) ltlff).getRightFormula(), map);
+			res = new FoLtlUntilFormula(left, right);
+
+		} else if (ltlff instanceof LTLfGloballyFormula) {
+			FoLtlFormula nested = ltlfToFoLtl(((LTLfGloballyFormula) ltlff).getNestedFormula(), map);
+			res = new FoLtlGloballyFormula(nested);
+
+		} else if (ltlff instanceof LTLfEventuallyFormula) {
+			FoLtlFormula nested = ltlfToFoLtl(((LTLfEventuallyFormula) ltlff).getNestedFormula(), map);
+			res = new FoLtlEventuallyFormula(nested);
+
+		} else if (ltlff instanceof LTLfWeakNextFormula) {
+			FoLtlFormula nested = ltlfToFoLtl(((LTLfWeakNextFormula) ltlff).getNestedFormula(), map);
+			res = new FoLtlWeakNextFormula(nested);
+
+		} else if (ltlff instanceof LTLfNextFormula) {
+			FoLtlFormula nested = ltlfToFoLtl(((LTLfNextFormula) ltlff).getNestedFormula(), map);
+			res = new FoLtlNextFormula(nested);
+
+		} else if (ltlff instanceof LTLfTempNotFormula) {
+			FoLtlFormula nested = ltlfToFoLtl(((LTLfTempNotFormula) ltlff).getNestedFormula(), map);
+			res = new FoLtlTempNotFormula(nested);
+
+		} else if (ltlff instanceof LTLfLocalVar) {
+			res = map.get(ltlff);
+
+		} else {
+			throw new RuntimeException("Unknown LTLfFormula type");
 		}
 
 		return res;

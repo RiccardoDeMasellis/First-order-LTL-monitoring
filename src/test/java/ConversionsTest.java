@@ -566,6 +566,10 @@ public class ConversionsTest {
 
 	@Test
 	public void testTweetyPropToLTLf(){
+		//Used only to get parser's warning messages out of the way
+		parseFoLtlFormula("P(abcd)");
+		parseLTLfFormula("a");
+		System.out.println();
 
 		LinkedList<PropositionalFormula> props = new LinkedList<>();
 		props.add(new Proposition("a"));
@@ -580,6 +584,33 @@ public class ConversionsTest {
 		pf = new Disjunction(props);
 		System.out.println(tweetyPropToLTLf(pf));
 
+	}
+
+	@Test
+	public void testLTLfToFoLtl(){
+		//Used only to get parser's warning messages out of the way
+		parseFoLtlFormula("P(abcd)");
+		parseLTLfFormula("a");
+		System.out.println();
+
+		HashMap<FoLtlFormula, LTLfFormula> foltlTOltlf = new HashMap<>();
+		HashMap<LTLfFormula, FoLtlFormula> ltlfTOfoltl = new HashMap<>();
+
+		FoLtlFormula original = parseFoLtlFormula("Forall ?x (Exists ?y ((?x = ?y) U (X (Exists ?z (Q(?x, ?z) && P(?y))))))");
+		FoLtlFormula expected = original;
+
+		//Get rid of the across-state quantifiers
+		while (expected instanceof FoLtlAcrossQuantifiedFormula){
+			expected = (FoLtlFormula) ((FoLtlAcrossQuantifiedFormula) expected).getNestedFormula();
+		}
+
+		LTLfFormula translated = original.toLTLf(foltlTOltlf, ltlfTOfoltl);
+		LTLfFormula computed = parseLTLfFormula("?x_EQ_?y U X Exists_?z_Q_?x_?z_AND_P_?y");
+
+		assertEquals("", expected, ltlfToFoLtl(computed, ltlfTOfoltl));
+
+		foltlTOltlf.clear();
+		ltlfTOfoltl.clear();
 	}
 
 	//<editor-fold desc="assertEquals" defaultstate="collapsed">
