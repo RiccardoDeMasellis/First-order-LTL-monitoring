@@ -531,6 +531,33 @@ public class ConversionsTest {
 
 		foltlTOltlf.clear();
 		ltlfTOfoltl.clear();
+
+
+		formula = parseFoLtlFormula("Forall ?x (Exists ?y ((?x = ?y) U (X (Exists ?z (Q(?x, ?z) && P(?y))))))");
+		computed = formula.toLTLf(foltlTOltlf, ltlfTOfoltl);
+		expected = parseLTLfFormula("?x_EQ_?y U X Exists_?z_Q_?x_?z_AND_P_?y");
+
+		System.out.println("FO-LTL -> LTLf: " + foltlTOltlf);
+		System.out.println("LTLf -> FO-LTL: " + ltlfTOfoltl);
+		System.out.println();
+		assertEquals("Translation", expected, computed);
+
+		unt = (LTLfUntilFormula) expected;
+		atom = unt.getLeftFormula();
+		LTLfNextFormula next = (LTLfNextFormula) unt.getRightFormula();
+		atom2 = next.getNestedFormula();
+
+		reverse = new FoLtlNextFormula(ltlfTOfoltl.get(atom2));
+		reverse = new FoLtlUntilFormula(ltlfTOfoltl.get(atom), reverse);
+		reverse = new FoLtlAcrossExistsFormula(reverse, new FoLtlVariable("y"));
+		reverse = new FoLtlAcrossForallFormula(reverse, new FoLtlVariable("x"));
+
+		assertEquals("Reverse translation", formula, reverse);
+
+		System.out.println();
+
+		foltlTOltlf.clear();
+		ltlfTOfoltl.clear();
 	}
 
 	//<editor-fold desc="assertEquals" defaultstate="collapsed">
