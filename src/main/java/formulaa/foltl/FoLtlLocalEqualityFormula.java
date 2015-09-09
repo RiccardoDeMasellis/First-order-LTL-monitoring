@@ -128,8 +128,6 @@ public class FoLtlLocalEqualityFormula extends FoLtlAtomicFormula implements FoL
 		FoLtlTerm right = this.getRightTerm();
 		String res = "";
 
-		res += left.toString();
-
 		/*
 		if (left instanceof FoLtlVariable){
 			res = res + "var" + left.getName();
@@ -138,7 +136,9 @@ public class FoLtlLocalEqualityFormula extends FoLtlAtomicFormula implements FoL
 		}
 		*/
 
+		res += left.toString();
 		res = res + "_EQ_";
+		res += right.toString();
 
 		/*
 		if (right instanceof FoLtlVariable){

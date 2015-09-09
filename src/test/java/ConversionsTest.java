@@ -496,6 +496,37 @@ public class ConversionsTest {
 		System.out.println();
 		assertEquals("Translation", expected, computed);
 
+		unt = (LTLfUntilFormula) expected;
+		leftatom = unt.getLeftFormula();
+		rightatom = unt.getRightFormula();
+
+		reverse = new FoLtlUntilFormula(ltlfTOfoltl.get(leftatom), ltlfTOfoltl.get(rightatom));
+
+		assertEquals("Reverse translation", formula, reverse);
+
+		System.out.println();
+
+		foltlTOltlf.clear();
+		ltlfTOfoltl.clear();
+
+
+		formula = parseFoLtlFormula("?x1234 = asdrubale U P(x)");
+		computed = formula.toLTLf(foltlTOltlf, ltlfTOfoltl);
+		expected = parseLTLfFormula("?x1234_EQ_asdrubale U P_x");
+
+		System.out.println("FO-LTL -> LTLf: " + foltlTOltlf);
+		System.out.println("LTLf -> FO-LTL: " + ltlfTOfoltl);
+		System.out.println();
+		assertEquals("Translation", expected, computed);
+
+		unt = (LTLfUntilFormula) expected;
+		leftatom = unt.getLeftFormula();
+		rightatom = unt.getRightFormula();
+
+		reverse = new FoLtlUntilFormula(ltlfTOfoltl.get(leftatom), ltlfTOfoltl.get(rightatom));
+
+		assertEquals("Reverse translation", formula, reverse);
+
 		System.out.println();
 
 		foltlTOltlf.clear();
