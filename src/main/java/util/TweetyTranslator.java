@@ -146,7 +146,7 @@ public class TweetyTranslator {
 			FoLtlFormula nested = ltlfToFoLtl(((LTLfTempNotFormula) ltlff).getNestedFormula(), map);
 			res = new FoLtlTempNotFormula(nested);
 
-		} else if (ltlff instanceof LTLfLocalVar) {
+		} else if (ltlff instanceof LTLfLocalFormula) {
 			res = map.get(ltlff);
 
 		} else {
