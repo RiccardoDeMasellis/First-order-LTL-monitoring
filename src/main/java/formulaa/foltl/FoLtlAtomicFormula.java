@@ -14,7 +14,7 @@ import java.util.LinkedList;
  * Created by Simone Calciolari on 06/08/15.
  * @author Simone Calciolari
  */
-public abstract class FoLtlAtomicFormula implements FoLtlFormula, AtomicFormula {
+public abstract class FoLtlAtomicFormula implements FoLtlLocalFormula, AtomicFormula {
 
 	@Override
 	public FoLtlFormula substitute(HashSet<FoLtlConstant> domain, FoLtlAssignment assignment){
@@ -69,10 +69,6 @@ public abstract class FoLtlAtomicFormula implements FoLtlFormula, AtomicFormula 
 		FoLtlFormula res;
 
 		switch(type){
-
-			case TEMP_LAST_ATOM:
-				res = new FoLtlTempLastAtom();
-				break;
 
 			case LOCAL_EQUALITY:
 				res = new FoLtlLocalEqualityFormula(left, right);
