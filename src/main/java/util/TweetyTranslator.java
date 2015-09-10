@@ -2,9 +2,11 @@ package util;
 
 import formula.ltlf.*;
 import formulaa.foltl.*;
+import net.sf.tweety.logics.pl.semantics.PossibleWorld;
 import net.sf.tweety.logics.pl.syntax.*;
 
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Set;
 
 /**
@@ -151,6 +153,50 @@ public class TweetyTranslator {
 
 		} else {
 			throw new RuntimeException("Unknown LTLfFormula type");
+		}
+
+		return res;
+	}
+
+	/**
+	 * Transform a Tweety PossibleWorld into an open FoLtlFormula.
+	 * @param pw the PossibleWorld object.
+ 	 * @param sig the relative PropositionalSignature.
+	 * @param ltlfTOfoltl a map used to translate LTLfLocalVars into FoLtlLocalFormulas.
+	 * @return an open FoLtlFormula.
+	 */
+	public static FoLtlFormula tweetyPwToFoLtl(PossibleWorld pw, PropositionalSignature sig,
+																						 HashMap<LTLfFormula, FoLtlFormula> ltlfTOfoltl){
+
+		FoLtlFormula res;
+
+		PropositionalFormula cj = pw.getCompleteConjunction(sig);
+		LTLfFormula ltlff = tweetyPropToLTLf(cj);
+		res = ltlfToFoLtl(ltlff, ltlfTOfoltl);
+
+		return res;
+	}
+
+	/**
+	 * Given a map from LTLfFormula to FoLtlFormula (used during automata translation),
+	 * computes the corresponding Propositional Signature in Tweety data structures.
+	 * @param ltlfTOfoltl the map.
+	 * @return the computed PRopositionalSignature.
+	 */
+	public static PropositionalSignature getPropSignature(HashMap<LTLfFormula, FoLtlFormula> ltlfTOfoltl){
+		Iterator<LTLfFormula> ltlffs = ltlfTOfoltl.keySet().iterator();
+		PropositionalSignature res = new PropositionalSignature();
+
+		while (ltlffs.hasNext()){
+			LTLfFormula next = ltlffs.next();
+
+			if (next instanceof LTLfLocalFormula){
+				PropositionalFormula pf = ((LTLfLocalFormula) next).toTweetyProp();
+
+				if (pf instanceof Proposition){
+					res.add((Proposition) pf);
+				}
+			}
 		}
 
 		return res;
