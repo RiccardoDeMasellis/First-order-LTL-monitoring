@@ -81,7 +81,7 @@ public class AutomataTranslator {
 			while (oldTransitions.hasNext()){
 				//Get next transition
 				Transition<PossibleWorld> oldt = oldTransitions.next();
-				System.out.println("Original transition: " + oldt);
+
 				//Get its end state
 				State oldEnd = oldt.end();
 
@@ -92,8 +92,6 @@ public class AutomataTranslator {
 				FoLtlLabel newLabel;
 
 				if (pw instanceof EmptyTrace){
-					System.out.println("Empty trace found!");
-					System.out.println("Complete conjunction: " + pw.getCompleteConjunction(sig));
 					newLabel = new FoLtlEmptyTrace();
 				} else {
 					//Get the new label

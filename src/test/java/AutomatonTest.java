@@ -29,7 +29,6 @@ import static automata.AutomataTranslator.*;
  * AutomatonTest
  * <br>
  * Created by Simone Calciolari on 09/09/15.
- *
  * @author Simone Calciolari.
  */
 public class AutomatonTest {
@@ -41,15 +40,11 @@ public class AutomatonTest {
 		System.out.println();
 
 		FoLtlFormula formula = parseFoLtlFormula("P(a) U P(b)");
-		//System.out.println(formula);
 
 		HashMap<FoLtlFormula, LTLfFormula> foltlTOltlf = new HashMap<>();
 		HashMap<LTLfFormula, FoLtlFormula> ltlfTOfoltl = new HashMap<>();
 
 		LTLfFormula ltLfFormula = formula.toLTLf(foltlTOltlf, ltlfTOfoltl);
-		//System.out.println(ltLfFormula);
-		//System.out.println(foltlTOltlf);
-		//System.out.println(ltlfTOfoltl);
 
 		LDLfFormula ldLfFormula = ltLfFormula.toLDLf();
 

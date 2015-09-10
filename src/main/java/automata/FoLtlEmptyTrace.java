@@ -1,7 +1,7 @@
 package automata;
 
 /**
- * FoLtlEmptyTrace
+ * Represents an epsilon label of transitions of a FO-LTL Automaton.
  * <br>
  * Created by Simone Calciolari on 10/09/15.
  * @author Simone Calciolari.
