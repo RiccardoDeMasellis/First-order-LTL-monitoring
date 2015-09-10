@@ -237,7 +237,7 @@ public class ParsingUtils {
 	 * @param input the input formula
 	 * @return the parsed formula
 	 */
-	public static PropositionalFormula parseTweetyFormula(String input){
+	public static PropositionalFormula parseTweetyPropFormula(String input){
 		PropositionalFormula output;
 
 		PlParser parser = new PlParser();

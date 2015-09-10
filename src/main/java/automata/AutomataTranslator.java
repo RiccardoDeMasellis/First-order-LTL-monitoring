@@ -97,6 +97,7 @@ public class AutomataTranslator {
 					//Get the new label
 					newLabel = tweetyPwToFoLtl(pw, sig, ltlfTOfoltl);
 				}
+
 				//Create new transition
 				//Get start and end states
 				State newStart = oldToNewStates.get(oldStart);
