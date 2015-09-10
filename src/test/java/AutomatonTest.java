@@ -23,6 +23,7 @@ import java.util.Iterator;
 
 import static util.ParsingUtils.*;
 import static util.TweetyTranslator.*;
+import static automata.AutomataTranslator.*;
 
 /**
  * AutomatonTest
@@ -66,66 +67,9 @@ public class AutomatonTest {
 		ps.flush();
 		ps.close();
 
+		//AUTOMATON TRANSLATION
 
-		///////////////////////////////////////////////////////
-		//                  TEST TRANSLATION                 //
-		///////////////////////////////////////////////////////
-
-		Automaton translated = new Automaton();
-		Iterator<State> states = automaton.states().iterator();
-		HashMap<State, State> oldTOnew = new HashMap<>();
-
-		//Add all states to new automaton. Keep a map from old to new States.
-		while (states.hasNext()){
-			State s = states.next();
-			State news = translated.addState(s.isInitial(), s.isTerminal());
-			oldTOnew.put(s, news);
-		}
-
-		//Signature for our test case (Must be generated automatically)
-		PropositionalSignature sig = new PropositionalSignature();
-		sig.add(new Proposition("P_a"));
-		sig.add(new Proposition("P_b"));
-
-		//To be done better and somewhere else
-		ltlfTOfoltl.put(new LTLfLocalVar("last"), new FoLtlTempNotFormula(new FoLtlNextFormula(new FoLtlLocalTrueAtom())));
-
-		states = automaton.states().iterator();
-
-		while (states.hasNext()){
-			State s = states.next();
-			Iterator<Transition<PossibleWorld>> oldtransitions = automaton.delta(s).iterator();
-
-			while (oldtransitions.hasNext()){
-				Transition<PossibleWorld> oldt = oldtransitions.next();
-				System.out.println("Old transition: " + oldt);
-				State oldEnd = oldt.end();
-
-				PossibleWorld pw = oldt.label();
-				System.out.println("\n\t\tPssible world: " + pw);
-
-				PropositionalFormula cj = pw.getCompleteConjunction(sig);
-
-				LTLfFormula ltlff = tweetyPropToLTLf(cj);
-				System.out.println("\t\tComplete conjunction (LTLf): " + ltlff);
-
-				FoLtlFormula label = ltlfToFoLtl(tweetyPropToLTLf(cj), ltlfTOfoltl);
-				System.out.println("\t\tLabel (FO-LTL): " + label + "\n");
-
-				Transition<FoLtlFormula> t = new Transition<>(oldTOnew.get(s), label, oldTOnew.get(oldEnd));
-				System.out.println("New transition: " + t);
-
-				try {
-					translated.addTransition(t);
-				} catch (NoSuchStateException e) {
-					throw new RuntimeException(e);
-				}
-
-				System.out.println("\n");
-
-			}
-
-		}
+		Automaton translated = ldlfAutomataToFoLtl(automaton, ltlfTOfoltl);
 
 		fos = null;
 		try {
