@@ -4,14 +4,17 @@ import formulaa.FormulaType;
 import formulaa.NotFormula;
 import formula.ltlf.LTLfLocalFormula;
 import formula.ltlf.LTLfLocalNotFormula;
-import net.sf.tweety.logics.fol.syntax.Conjunction;
+import formulaa.foltl.semantics.FoLtlAssignment;
 import net.sf.tweety.logics.fol.syntax.FolFormula;
 import net.sf.tweety.logics.fol.syntax.Negation;
 
 import java.util.LinkedHashSet;
 
 /**
+ * Class that represents a FO-LTL local negation.
+ * <br>
  * Created by Simone Calciolari on 06/08/15.
+ * @author Simone Calciolari
  */
 public class FoLtlLocalNotFormula extends FoLtlUnaryFormula implements NotFormula, FoLtlBoolOpLocalFormula{
 
@@ -39,7 +42,7 @@ public class FoLtlLocalNotFormula extends FoLtlUnaryFormula implements NotFormul
 	@Override
 	public String getAtomicName(){
 		FoLtlLocalFormula nested = (FoLtlLocalFormula) this.getNestedFormula();
-		return this.stringOperator().toUpperCase() + nested.getAtomicName();
+		return this.stringOperator().toUpperCase() + "_" + nested.getAtomicName();
 	}
 
 }

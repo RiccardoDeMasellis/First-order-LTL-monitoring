@@ -9,9 +9,6 @@ import static util.ParsingUtils.*;
  */
 public class FoLtlOperationTest {
 
-	//Boolean flag used to display extra information during the execution
-	private static final boolean DEBUG = false;
-
 	@Test
 	public void testEquals(){
 
@@ -693,7 +690,6 @@ public class FoLtlOperationTest {
 	@Test
 	public void testClone(){
 
-		//TODO add controls to check if pointers are different (of the kind assertFalse(a == a.clone())
 		System.out.println("\n*** CLONE TEST ***\n");
 
 		System.out.println("BASIC COMPARISONS\n");
@@ -1242,7 +1238,7 @@ public class FoLtlOperationTest {
 
 		//LAST ATOM
 		input = parseFoLtlFormula("LAST");
-		target = parseFoLtlFormula("! (Last)");
+		target = parseFoLtlFormula("X (TRUE)");
 		assertEquals(input.toString(), target, input.negate());
 
 		//LOCAL ATOM
@@ -1384,9 +1380,13 @@ public class FoLtlOperationTest {
 	 */
 	private static void assertEquals(String description, Object expected, Object computed) {
 
+		if (description.equals("")){
+			description = "assertEquals";
+		}
+
 		try {
 			Assert.assertEquals(description, expected, computed);
-			System.out.println(description + ": EQUALS");
+			System.out.println(description + ": SUCCESS");
 			System.out.println("\t> Expected: " + expected.toString());
 			System.out.println("\t> Computed: " + computed.toString());
 			System.out.println();
@@ -1406,9 +1406,16 @@ public class FoLtlOperationTest {
 	 */
 	private static void assertNotEquals(String description, Object expected, Object computed) {
 
+		if (description.equals("")){
+			description = "assertNotEquals";
+		}
+
 		try {
-			Assert.assertNotEquals("", expected, computed);
-			System.out.println("\t> " + description + ": NOT EQUALS");
+			Assert.assertNotEquals(description, expected, computed);
+			System.out.println(description + ": SUCCESS");
+			System.out.println("\t> Expected: " + expected.toString());
+			System.out.println("\t> Computed: " + computed.toString());
+			System.out.println();
 		} catch (AssertionError e){
 			throw e;
 		}

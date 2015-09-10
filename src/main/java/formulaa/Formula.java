@@ -18,8 +18,16 @@ public interface Formula extends Cloneable{
 
 	Formula clone();
 
+	/**
+	 * Converts this formula in negation normal form.
+	 * @return a formula in negation normal form equivalent to the original.
+	 */
 	Formula nnf();
 
+	/**
+	 * Returns the negation of this formula
+	 * @return a formula representing the negation of this formula
+	 */
 	Formula negate();
 
 }

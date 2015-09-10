@@ -1,11 +1,15 @@
 package formulaa.foltl;
 
 import formulaa.QuantifiedFormula;
+import formulaa.foltl.semantics.FoLtlAssignment;
 
 import java.util.HashSet;
 
 /**
+ * Abstract class that represents the generic FO-LTL quantified formula.
+ * <br>
  * Created by Simone Calciolari on 06/08/15.
+ * @author Simone Calciolari
  */
 public abstract class FoLtlQuantifiedFormula implements FoLtlFormula, QuantifiedFormula {
 
@@ -23,6 +27,12 @@ public abstract class FoLtlQuantifiedFormula implements FoLtlFormula, Quantified
 
 	public FoLtlVariable getQuantifiedVariable(){
 		return this.quantifiedVariable;
+	}
+
+	@Override
+	public FoLtlFormula substitute(HashSet<FoLtlConstant> domain, FoLtlAssignment assignment){
+		return this.formulaFactory(this.getFormulaType(), this.getNestedFormula().substitute(domain, assignment),
+				(FoLtlVariable) this.getQuantifiedVariable().clone());
 	}
 
 	@Override
@@ -92,12 +102,13 @@ public abstract class FoLtlQuantifiedFormula implements FoLtlFormula, Quantified
 				(FoLtlVariable) this.getQuantifiedVariable().clone());
 	}
 
-	@Override
-	public FoLtlFormula substitute(HashSet<FoLtlConstant> domain, FoLtlAssignment assignment){
-		return this.formulaFactory(this.getFormulaType(), this.getNestedFormula().substitute(domain, assignment),
-					(FoLtlVariable) this.getQuantifiedVariable().clone());
-	}
-
+	/**
+	 * Used to get instances with the desired properties
+	 * @param type the quantifier type
+	 * @param nested the quantified formula
+	 * @param qvar the quantified variable
+	 * @return the desired instances
+	 */
 	public FoLtlFormula formulaFactory(formulaa.FormulaType type, FoLtlFormula nested, FoLtlVariable qvar){
 
 		FoLtlFormula res;

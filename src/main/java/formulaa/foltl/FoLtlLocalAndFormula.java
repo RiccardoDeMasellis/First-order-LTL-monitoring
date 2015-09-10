@@ -4,13 +4,17 @@ import formulaa.AndFormula;
 import formulaa.FormulaType;
 import formula.ltlf.LTLfLocalAndFormula;
 import formula.ltlf.LTLfLocalFormula;
+import formulaa.foltl.semantics.FoLtlAssignment;
 import net.sf.tweety.logics.fol.syntax.Conjunction;
 import net.sf.tweety.logics.fol.syntax.FolFormula;
 
 import java.util.LinkedHashSet;
 
 /**
+ * Class that represents a local AND FO-LTL formula.
+ * <br>
  * Created by Simone Calciolari on 06/08/15.
+ * @author Simone Calciolari
  */
 public class FoLtlLocalAndFormula extends FoLtlBinaryFormula implements AndFormula, FoLtlBoolOpLocalFormula {
 
@@ -41,7 +45,7 @@ public class FoLtlLocalAndFormula extends FoLtlBinaryFormula implements AndFormu
 	public String getAtomicName(){
 		FoLtlLocalFormula left = (FoLtlLocalFormula) this.getLeftFormula();
 		FoLtlLocalFormula right = (FoLtlLocalFormula) this.getRightFormula();
-		return left.getAtomicName() + this.stringOperator().toUpperCase() + right.getAtomicName();
+		return left.getAtomicName() + "_" + this.stringOperator().toUpperCase() + "_" + right.getAtomicName();
 	}
 
 	/*

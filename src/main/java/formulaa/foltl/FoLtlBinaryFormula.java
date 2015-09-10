@@ -1,11 +1,15 @@
 package formulaa.foltl;
 
 import formulaa.BinaryFormula;
+import formulaa.foltl.semantics.FoLtlAssignment;
 
 import java.util.HashSet;
 
 /**
+ * Abstract class that represents the generic FO-LTL binary formula.
+ * <br>
  * Created by Simone Calciolari on 06/08/15.
+ * @author Simone Calciolari
  */
 public abstract class FoLtlBinaryFormula implements FoLtlFormula, BinaryFormula {
 
@@ -23,6 +27,12 @@ public abstract class FoLtlBinaryFormula implements FoLtlFormula, BinaryFormula 
 
 	public FoLtlFormula getRightFormula() {
 		return right;
+	}
+
+	@Override
+	public FoLtlFormula substitute(HashSet<FoLtlConstant> domain, FoLtlAssignment assignment){
+		return this.formulaFactory(this.getFormulaType(), this.getLeftFormula().substitute(domain, assignment),
+				this.getRightFormula().substitute(domain, assignment));
 	}
 
 	@Override
@@ -77,12 +87,13 @@ public abstract class FoLtlBinaryFormula implements FoLtlFormula, BinaryFormula 
 		return this.formulaFactory(this.getFormulaType(), this.getLeftFormula().clone(), this.getRightFormula().clone());
 	}
 
-	@Override
-	public FoLtlFormula substitute(HashSet<FoLtlConstant> domain, FoLtlAssignment assignment){
-		return this.formulaFactory(this.getFormulaType(), this.getLeftFormula().substitute(domain, assignment),
-				this.getRightFormula().substitute(domain, assignment));
-	}
-
+	/**
+	 * Used to get an instance with the desired properties
+	 * @param type the operator type
+	 * @param left the left sub formula
+	 * @param right the right sub formula
+	 * @return the desired instance
+	 */
 	public FoLtlFormula formulaFactory(formulaa.FormulaType type, FoLtlFormula left, FoLtlFormula right){
 		FoLtlFormula res;
 

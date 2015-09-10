@@ -7,10 +7,16 @@ import java.util.Iterator;
 import java.util.LinkedHashSet;
 
 /**
+ * Class that represents a FO-LTL sort.
+ * <br>
  * Created by Simone Calciolari on 19/08/15.
+ * @author Simone Calciolari
  */
 public class FoLtlSort extends LinkedHashSet<FoLtlConstant> implements Sort {
 
+	/**
+	 * The default sort assigned to all variables when not specified otherwise.
+	 */
 	public static final FoLtlSort DEFAULT = new FoLtlSort("default");
 
 	private String name;

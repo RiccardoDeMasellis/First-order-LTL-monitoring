@@ -1,13 +1,16 @@
 package formulaa.foltl;
 
 import formulaa.ForallQuantifiedFormula;
-import formulaa.OperatorType;
+import formulaa.foltl.semantics.FoLtlAssignment;
 
 import java.util.HashSet;
 import java.util.Iterator;
 
 /**
+ * Class that represents a FOLTL across-state forall quantified formula.
+ * <br>
  * Created by Simone Calciolari on 06/08/15.
+ * @author Simone Calciolari
  */
 public class FoLtlAcrossForallFormula extends FoLtlQuantifiedFormula implements FoLtlAcrossQuantifiedFormula,
 		ForallQuantifiedFormula {

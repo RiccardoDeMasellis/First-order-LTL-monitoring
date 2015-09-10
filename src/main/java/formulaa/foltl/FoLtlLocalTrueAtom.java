@@ -3,24 +3,23 @@ package formulaa.foltl;
 import formulaa.TrueAtom;
 import formula.ltlf.LTLfLocalFormula;
 import formula.ltlf.LTLfLocalTrueFormula;
+import formulaa.foltl.semantics.FoLtlAssignment;
 import net.sf.tweety.logics.fol.syntax.FolFormula;
 import net.sf.tweety.logics.fol.syntax.Tautology;
 
 import java.util.LinkedHashSet;
 
 /**
+ * Class that represents a FO-LTL local true atom.
+ * <br>
  * Created by Simone Calciolari on 06/08/15.
+ * @author Simone Calciolari
  */
 public class FoLtlLocalTrueAtom extends FoLtlAtomicFormula implements FoLtlLocalFormula, TrueAtom {
 
 	@Override
-	public String toString(){
-		return "TRUE";
-	}
-
-	@Override
 	public String getAtomicName(){
-		return this.toString();
+		return this.toString().toUpperCase();
 	}
 
 	@Override
@@ -41,5 +40,10 @@ public class FoLtlLocalTrueAtom extends FoLtlAtomicFormula implements FoLtlLocal
 	@Override
 	public FolFormula toTweetyFol(){
 		return new Tautology();
+	}
+
+	@Override
+	public String toString(){
+		return "TRUE";
 	}
 }

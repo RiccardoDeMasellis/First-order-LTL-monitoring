@@ -3,25 +3,23 @@ package formulaa.foltl;
 import formulaa.FalseAtom;
 import formula.ltlf.LTLfLocalFalseFormula;
 import formula.ltlf.LTLfLocalFormula;
+import formulaa.foltl.semantics.FoLtlAssignment;
 import net.sf.tweety.logics.fol.syntax.Contradiction;
 import net.sf.tweety.logics.fol.syntax.FolFormula;
-import net.sf.tweety.logics.fol.syntax.Tautology;
 
 import java.util.LinkedHashSet;
 
 /**
+ * Class that represents a FO-LTL local false atom.
+ * <br>
  * Created by Simone Calciolari on 06/08/15.
+ * @author Simone Calciolari
  */
 public class FoLtlLocalFalseAtom extends FoLtlAtomicFormula implements FoLtlLocalFormula, FalseAtom {
 
 	@Override
-	public String toString(){
-		return "FALSE";
-	}
-
-	@Override
 	public String getAtomicName(){
-		return this.toString();
+		return this.toString().toUpperCase();
 	}
 
 	@Override
@@ -42,6 +40,11 @@ public class FoLtlLocalFalseAtom extends FoLtlAtomicFormula implements FoLtlLoca
 	@Override
 	public FolFormula toTweetyFol(){
 		return new Contradiction();
+	}
+
+	@Override
+	public String toString(){
+		return "FALSE";
 	}
 
 }

@@ -1,14 +1,16 @@
 package formulaa.foltl;
 
 import formula.ltlf.LTLfFormula;
-import formula.ltlf.LTLfTempAndFormula;
 import formula.ltlf.LTLfTempDoubleImplFormula;
 import formulaa.DoubleImplFormula;
 
 import java.util.HashMap;
 
 /**
+ * Class that represents a FO-LTL temporal double implication.
+ * <br>
  * Created by Simone Calciolari on 06/08/15.
+ * @author Simone Calciolari
  */
 public class FoLtlTempDoubleImplFormula extends FoLtlBinaryFormula implements DoubleImplFormula, FoLtlBoolOpTempFormula {
 

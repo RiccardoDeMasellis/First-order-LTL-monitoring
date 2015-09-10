@@ -5,7 +5,10 @@ import formula.ltlf.LTLfTempNotFormula;
 import java.util.HashMap;
 
 /**
+ * Class that represents a FO-LTL temporal negation.
+ * <br>
  * Created by Simone Calciolari on 06/08/15.
+ * @author Simone Calciolari
  */
 public class FoLtlTempNotFormula extends FoLtlUnaryFormula implements formulaa.NotFormula, FoLtlBoolOpTempFormula {
 

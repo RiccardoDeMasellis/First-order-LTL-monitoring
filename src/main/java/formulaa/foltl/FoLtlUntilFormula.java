@@ -1,13 +1,15 @@
 package formulaa.foltl;
 
 import formula.ltlf.LTLfFormula;
-import formula.ltlf.LTLfTempAndFormula;
 import formula.ltlf.LTLfUntilFormula;
 
 import java.util.HashMap;
 
 /**
+ * Class that represents a FO-LTL until formula.
+ * <br>
  * Created by Simone Calciolari on 06/08/15.
+ * @author Simone Calciolari
  */
 public class FoLtlUntilFormula extends FoLtlBinaryFormula implements FoLtlTempOpTempFormula {
 

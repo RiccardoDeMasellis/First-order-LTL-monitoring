@@ -3,11 +3,15 @@ package formulaa.foltl;
 import formulaa.DoubleImplFormula;
 import formula.ltlf.LTLfLocalDoubleImplFormula;
 import formula.ltlf.LTLfLocalFormula;
+import formulaa.foltl.semantics.FoLtlAssignment;
 
 import java.util.LinkedHashSet;
 
 /**
+ * Class that represents a FO-LTL local double implication.
+ * <br>
  * Created by Simone Calciolari on 06/08/15.
+ * @author Simone Calciolari
  */
 public class FoLtlLocalDoubleImplFormula extends FoLtlBinaryFormula implements DoubleImplFormula, FoLtlBoolOpLocalFormula {
 
@@ -31,7 +35,7 @@ public class FoLtlLocalDoubleImplFormula extends FoLtlBinaryFormula implements D
 	public String getAtomicName(){
 		FoLtlLocalFormula left = (FoLtlLocalFormula) this.getLeftFormula();
 		FoLtlLocalFormula right = (FoLtlLocalFormula) this.getRightFormula();
-		return left.getAtomicName() + this.stringOperator().toUpperCase() + right.getAtomicName();
+		return left.getAtomicName() + "_" + this.stringOperator().toUpperCase() + "_" + right.getAtomicName();
 	}
 
 	/*

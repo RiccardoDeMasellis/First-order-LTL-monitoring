@@ -2,12 +2,14 @@ package formulaa.foltl;
 
 import formula.ltlf.LTLfFormula;
 import formula.ltlf.LTLfReleaseFormula;
-import formula.ltlf.LTLfTempAndFormula;
 
 import java.util.HashMap;
 
 /**
+ * Class that represents a FO-LTL release formula.
+ * <br>
  * Created by Simone Calciolari on 06/08/15.
+ * @author Simone Calciolari
  */
 public class FoLtlReleaseFormula extends FoLtlBinaryFormula implements FoLtlTempOpTempFormula {
 

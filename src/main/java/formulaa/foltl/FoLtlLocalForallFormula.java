@@ -3,15 +3,18 @@ package formulaa.foltl;
 import formulaa.ForallQuantifiedFormula;
 import formula.ltlf.LTLfLocalAndFormula;
 import formula.ltlf.LTLfLocalFormula;
+import formulaa.foltl.semantics.FoLtlAssignment;
 import net.sf.tweety.logics.commons.syntax.Variable;
 import net.sf.tweety.logics.fol.syntax.FolFormula;
-import net.sf.tweety.logics.fol.syntax.Tautology;
 
 import java.util.Iterator;
 import java.util.LinkedHashSet;
 
 /**
+ * Class that represents a FO-LTL local forall quantified formula.
+ * <br>
  * Created by Simone Calciolari on 06/08/15.
+ * @author Simone Calciolari
  */
 public class FoLtlLocalForallFormula extends FoLtlQuantifiedFormula implements FoLtlLocalQuantifiedFormula,
 		ForallQuantifiedFormula {

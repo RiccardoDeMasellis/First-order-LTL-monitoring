@@ -7,7 +7,10 @@ import formula.ltlf.LTLfTempNotFormula;
 import java.util.HashMap;
 
 /**
+ * Class that represents a FO-LTL globally formula.
+ * <br>
  * Created by Simone Calciolari on 06/08/15.
+ * @author Simone Calciolari
  */
 public class FoLtlGloballyFormula extends FoLtlUnaryFormula implements FoLtlTempOpTempFormula {
 

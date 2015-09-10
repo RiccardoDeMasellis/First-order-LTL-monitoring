@@ -2,11 +2,15 @@ package formulaa.foltl;
 
 import formulaa.FormulaType;
 import formulaa.UnaryFormula;
+import formulaa.foltl.semantics.FoLtlAssignment;
 
 import java.util.HashSet;
 
 /**
+ * Abstract class that represents the generic FO-LTL unary formula.
+ * <br>
  * Created by Simone Calciolari on 06/08/15.
+ * @author Simone Calciolari
  */
 public abstract class FoLtlUnaryFormula implements FoLtlFormula, UnaryFormula {
 
@@ -19,6 +23,11 @@ public abstract class FoLtlUnaryFormula implements FoLtlFormula, UnaryFormula {
 	@Override
 	public FoLtlFormula getNestedFormula(){
 		return this.nestedFormula;
+	}
+
+	@Override
+	public FoLtlFormula substitute(HashSet<FoLtlConstant> domain, FoLtlAssignment assignment){
+		return this.formulaFactory(this.getFormulaType(), this.getNestedFormula().substitute(domain, assignment));
 	}
 
 	@Override
@@ -63,11 +72,12 @@ public abstract class FoLtlUnaryFormula implements FoLtlFormula, UnaryFormula {
 		return this.formulaFactory(this.getFormulaType(), this.getNestedFormula().clone());
 	}
 
-	@Override
-	public FoLtlFormula substitute(HashSet<FoLtlConstant> domain, FoLtlAssignment assignment){
-		return this.formulaFactory(this.getFormulaType(), this.getNestedFormula().substitute(domain, assignment));
-	}
-
+	/**
+	 * Used to get an instance with the desired properties
+	 * @param type the operator type
+	 * @param nested the nested sub formula
+	 * @return the desired instance
+	 */
 	public FoLtlFormula formulaFactory(FormulaType type, FoLtlFormula nested){
 
 		FoLtlFormula res;

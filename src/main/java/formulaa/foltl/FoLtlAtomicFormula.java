@@ -2,15 +2,37 @@ package formulaa.foltl;
 
 import formulaa.AtomicFormula;
 import formulaa.FormulaType;
+import formulaa.foltl.semantics.FoLtlAssignment;
 
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedList;
 
 /**
+ * Abstract class that represents the generic FO-LTL atomic formula.
+ * <br>
  * Created by Simone Calciolari on 06/08/15.
+ * @author Simone Calciolari
  */
 public abstract class FoLtlAtomicFormula implements FoLtlFormula, AtomicFormula {
+
+	@Override
+	public FoLtlFormula substitute(HashSet<FoLtlConstant> domain, FoLtlAssignment assignment){
+		return this.clone();
+	}
+
+	@Override
+	public void assignSort(FoLtlVariable variable, FoLtlSort sort){}
+
+	@Override
+	public HashSet<FoLtlVariable> getAcrossVariables(){
+		return new HashSet<>();
+	}
+
+	@Override
+	public HashSet<FoLtlVariable> getLocalVariables(){
+		return new HashSet<>();
+	}
 
 	@Override
 	public FoLtlFormula negate(){
@@ -30,25 +52,6 @@ public abstract class FoLtlAtomicFormula implements FoLtlFormula, AtomicFormula 
 	@Override
 	public FoLtlFormula clone(){
 		return this.formulaFactory(this.getFormulaType(), null, null, null, null);
-	}
-
-	@Override
-	 public FoLtlFormula substitute(HashSet<FoLtlConstant> domain, FoLtlAssignment assignment){
-		return this.clone();
-	}
-
-	@Override
-	public void assignSort(FoLtlVariable variable, FoLtlSort sort){
-	}
-
-	@Override
-	public HashSet<FoLtlVariable> getAcrossVariables(){
-		return new HashSet<>();
-	}
-
-	@Override
-	public HashSet<FoLtlVariable> getLocalVariables(){
-		return new HashSet<>();
 	}
 
 	/**

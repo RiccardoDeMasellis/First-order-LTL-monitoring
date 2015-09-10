@@ -9,7 +9,10 @@ import formulaa.Variable;
 import java.util.HashMap;
 
 /**
+ * Interface that represents a generic FOLTL across-state quantified formula.
+ * <br>
  * Created by Simone Calciolari on 10/08/15.
+ * @author Simone Calciolari
  */
 public interface FoLtlAcrossQuantifiedFormula extends FoLtlTemporalFormula, AcrossQuantifiedFormula {
 
@@ -19,6 +22,13 @@ public interface FoLtlAcrossQuantifiedFormula extends FoLtlTemporalFormula, Acro
 		return ((FoLtlFormula) this.getNestedFormula()).toLTLf(foltlTOltlf, ltlfTOfoltl);
 	}
 
+	/**
+	 * Returns an instance with the desired properties.
+	 * @param quantifier the quantifier type
+	 * @param nestedFormula the quantified formula
+	 * @param qvar the quantified variable
+	 * @return the desired instance
+	 */
 	@Override
 	default FoLtlFormula quantifiedFormulaFactory(OperatorType quantifier, Formula nestedFormula, Variable qvar){
 		FoLtlFormula res;

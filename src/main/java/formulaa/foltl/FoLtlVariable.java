@@ -3,7 +3,10 @@ package formulaa.foltl;
 import formulaa.Variable;
 
 /**
+ * Class that represents a FO-LTL variable.
+ * <br>
  * Created by Simone Calciolari on 06/08/15.
+ * @author Simone Calciolari
  */
 public class FoLtlVariable extends FoLtlTerm implements Variable {
 

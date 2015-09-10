@@ -9,9 +9,6 @@ import static util.ParsingUtils.*;
  */
 public class FoLtlLocalFormulaTest {
 
-	//Boolean flag; displays extra information during the execution when set to true;
-	private static final boolean DEBUG = true;
-
 	@Test
 	public void testLocalFormulaParsing(){
 		System.out.println("\n*** LOCAL FORMULA PARSING TEST ***");

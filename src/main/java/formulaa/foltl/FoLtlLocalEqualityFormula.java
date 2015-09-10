@@ -4,6 +4,7 @@ import formulaa.EqualityFormula;
 import formula.ltlf.LTLfLocalFalseFormula;
 import formula.ltlf.LTLfLocalFormula;
 import formula.ltlf.LTLfLocalTrueFormula;
+import formulaa.foltl.semantics.FoLtlAssignment;
 import net.sf.tweety.logics.commons.syntax.Constant;
 import net.sf.tweety.logics.commons.syntax.Predicate;
 import net.sf.tweety.logics.commons.syntax.Variable;
@@ -14,7 +15,10 @@ import java.util.HashSet;
 import java.util.LinkedHashSet;
 
 /**
+ * Class that represents a FO-LTL local equality formula.
+ * <br>
  * Created by Simone Calciolari on 06/08/15.
+ * @author Simone Calciolari
  */
 public class FoLtlLocalEqualityFormula extends FoLtlAtomicFormula implements FoLtlLocalFormula, EqualityFormula {
 
@@ -32,6 +36,53 @@ public class FoLtlLocalEqualityFormula extends FoLtlAtomicFormula implements FoL
 
 	public FoLtlTerm getRightTerm(){
 		return right;
+	}
+
+	@Override
+	public formulaa.FormulaType getFormulaType(){
+		return formulaa.FormulaType.LOCAL_EQUALITY;
+	}
+	@Override
+	public FoLtlFormula substitute(HashSet<FoLtlConstant> domain, FoLtlAssignment assignment){
+		FoLtlTerm left = this.getLeftTerm();
+		FoLtlTerm right = this.getRightTerm();
+
+		if (left instanceof FoLtlVariable){
+			FoLtlConstant c = assignment.get(left);
+			if (c != null){
+				left = c;
+			}
+		}
+
+		if (right instanceof FoLtlVariable){
+			FoLtlConstant c = assignment.get(right);
+			if (c != null){
+				right = c;
+			}
+		}
+
+		return new FoLtlLocalEqualityFormula(left, right);
+	}
+
+	@Override
+	public LTLfLocalFormula propositionalize(LinkedHashSet<FoLtlConstant> domain, FoLtlAssignment assignment){
+		FoLtlLocalEqualityFormula sub = (FoLtlLocalEqualityFormula) this.substitute(domain, assignment);
+		FoLtlTerm left = sub.getLeftTerm();
+		FoLtlTerm right = sub.getRightTerm();
+
+		LTLfLocalFormula res;
+
+		if (left instanceof FoLtlVariable || right instanceof FoLtlVariable){
+			throw new RuntimeException("Found open variable");
+		} else {
+			if (left.equals(right)){
+				res = new LTLfLocalTrueFormula();
+			} else {
+				res = new LTLfLocalFalseFormula();
+			}
+		}
+
+		return res;
 	}
 
 	@Override
@@ -77,19 +128,25 @@ public class FoLtlLocalEqualityFormula extends FoLtlAtomicFormula implements FoL
 		FoLtlTerm right = this.getRightTerm();
 		String res = "";
 
+		/*
 		if (left instanceof FoLtlVariable){
-			res = res + "var_" + left.getName();
+			res = res + "var" + left.getName();
 		} else {
-			res = res + "con_" + left.getName();
+			res = res + "con" + left.getName();
 		}
+		*/
 
-		res = res + "EQ";
+		res += left.toString();
+		res = res + "_EQ_";
+		res += right.toString();
 
+		/*
 		if (right instanceof FoLtlVariable){
-			res = res + "var_" + right.getName();
+			res = res + "var" + right.getName();
 		} else {
-			res = res + "con_" + right.getName();
+			res = res + "con" + right.getName();
 		}
+		*/
 
 		return res;
 	}
@@ -122,56 +179,8 @@ public class FoLtlLocalEqualityFormula extends FoLtlAtomicFormula implements FoL
 	}
 
 	@Override
-	public formulaa.FormulaType getFormulaType(){
-		return formulaa.FormulaType.LOCAL_EQUALITY;
-	}
-
-	@Override
 	public FoLtlFormula clone(){
 		return this.formulaFactory(this.getFormulaType(), this.getLeftTerm().clone(), this.getRightTerm().clone(), null, null);
-	}
-
-	@Override
-	public FoLtlFormula substitute(HashSet<FoLtlConstant> domain, FoLtlAssignment assignment){
-		FoLtlTerm left = this.getLeftTerm();
-		FoLtlTerm right = this.getRightTerm();
-
-		if (left instanceof FoLtlVariable){
-			FoLtlConstant c = assignment.get(left);
-			if (c != null){
-				left = c;
-			}
-		}
-
-		if (right instanceof FoLtlVariable){
-			FoLtlConstant c = assignment.get(right);
-			if (c != null){
-				right = c;
-			}
-		}
-
-		return new FoLtlLocalEqualityFormula(left, right);
-	}
-
-	@Override
-	public LTLfLocalFormula propositionalize(LinkedHashSet<FoLtlConstant> domain, FoLtlAssignment assignment){
-		FoLtlLocalEqualityFormula sub = (FoLtlLocalEqualityFormula) this.substitute(domain, assignment);
-		FoLtlTerm left = sub.getLeftTerm();
-		FoLtlTerm right = sub.getRightTerm();
-
-		LTLfLocalFormula res;
-
-		if (left instanceof FoLtlVariable || right instanceof FoLtlVariable){
-			throw new RuntimeException("Found open variable");
-		} else {
-			if (left.equals(right)){
-				res = new LTLfLocalTrueFormula();
-			} else {
-				res = new LTLfLocalFalseFormula();
-			}
-		}
-
-		return res;
 	}
 
 }

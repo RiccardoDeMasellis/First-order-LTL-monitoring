@@ -142,9 +142,13 @@ public class FoltlSortTest {
 	 */
 	private static void assertEquals(String description, Object expected, Object computed) {
 
+		if (description.equals("")){
+			description = "assertEquals";
+		}
+
 		try {
 			Assert.assertEquals(description, expected, computed);
-			System.out.println(description + ": EQUALS");
+			System.out.println(description + ": SUCCESS");
 			System.out.println("\t> Expected: " + expected.toString());
 			System.out.println("\t> Computed: " + computed.toString());
 			System.out.println();
@@ -164,9 +168,16 @@ public class FoltlSortTest {
 	 */
 	private static void assertNotEquals(String description, Object expected, Object computed) {
 
+		if (description.equals("")){
+			description = "assertNotEquals";
+		}
+
 		try {
-			Assert.assertNotEquals("", expected, computed);
-			System.out.println(description + ": NOT EQUALS");
+			Assert.assertNotEquals(description, expected, computed);
+			System.out.println(description + ": SUCCESS");
+			System.out.println("\t> Expected: " + expected.toString());
+			System.out.println("\t> Computed: " + computed.toString());
+			System.out.println();
 		} catch (AssertionError e){
 			throw e;
 		}

@@ -1,19 +1,22 @@
 import static util.ParsingUtils.*;
+import static util.TweetyTranslator.*;
 
-import formula.ltlf.LTLfFormula;
+import formula.ltlf.*;
 import formulaa.foltl.*;
+import formulaa.foltl.semantics.FoLtlAssignment;
 import net.sf.tweety.logics.commons.syntax.Constant;
-import net.sf.tweety.logics.commons.syntax.Sort;
-import net.sf.tweety.logics.commons.syntax.Variable;
 import net.sf.tweety.logics.fol.syntax.FolFormula;
 import net.sf.tweety.logics.fol.syntax.FolSignature;
+import net.sf.tweety.logics.pl.syntax.Conjunction;
+import net.sf.tweety.logics.pl.syntax.Disjunction;
+import net.sf.tweety.logics.pl.syntax.Proposition;
 import net.sf.tweety.logics.pl.syntax.PropositionalFormula;
 import org.junit.Assert;
 import org.junit.Test;
-
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedHashSet;
+import java.util.LinkedList;
 
 /**
  * Created by Simone Calciolari on 31/08/15.
@@ -352,33 +355,260 @@ public class ConversionsTest {
 	}
 
 	@Test
+	public void testTweetyPropToLTLf(){
+		//Used only to get parser's warning messages out of the way
+		parseFoLtlFormula("P(abcd)");
+		parseLTLfFormula("a");
+		System.out.println();
+
+		LinkedList<PropositionalFormula> props = new LinkedList<>();
+		props.add(new Proposition("a"));
+		props.add(new Proposition("b"));
+		props.add(new Proposition("c"));
+		props.add(new Proposition("d"));
+		props.add(new Proposition("e"));
+
+		PropositionalFormula pf = new Conjunction(props);
+		System.out.println(tweetyPropToLTLf(pf));
+
+		pf = new Disjunction(props);
+		System.out.println(tweetyPropToLTLf(pf));
+
+	}
+
+	@Test
 	public void testLTLfTranslation(){
 		//Used only to get parser's warning messages out of the way
-		parseFoLtlFormula("P(a)");
+		parseFoLtlFormula("P(abcd)");
 		parseLTLfFormula("a");
 
-		System.out.println("\n*** LTLf TRANSLATION TEST ***\n");
+		System.out.println("\n\n*** LTLf TRANSLATION TEST ***\n");
 
 		HashMap<FoLtlFormula, LTLfFormula> foltlTOltlf = new HashMap<>();
 		HashMap<LTLfFormula, FoLtlFormula> ltlfTOfoltl = new HashMap<>();
 
-		FoLtlFormula formula = parseFoLtlFormula("G P(a)");
-		LTLfFormula computed = formula.toLTLf(foltlTOltlf, ltlfTOfoltl);
+		FoLtlFormula original = parseFoLtlFormula("G P(a)");
+		LTLfFormula translated = original.toLTLf(foltlTOltlf, ltlfTOfoltl);
+		LTLfFormula ltlfExpected = parseLTLfFormula("G P_a");
+
+		System.out.println("Original formula: " + original);
+		System.out.println("\nTranslation maps: ");
 		System.out.println("FO-LTL -> LTLf: " + foltlTOltlf);
 		System.out.println("LTLf -> FO-LTL: " + ltlfTOfoltl);
-		System.out.println(computed);
+		System.out.println();
+
+		assertEquals("Translation", ltlfExpected, translated);
+
+		FoLtlFormula reverse = ltlfToFoLtl(ltlfExpected, ltlfTOfoltl);
+		FoLtlFormula foltlExpected = original;
+
+		//Get rid of across-state quantifiers
+		while (foltlExpected instanceof FoLtlAcrossQuantifiedFormula){
+			foltlExpected = (FoLtlFormula) ((FoLtlAcrossQuantifiedFormula) foltlExpected).getNestedFormula();
+		}
+
+		assertEquals("Reverse translation", foltlExpected, reverse);
+
 		System.out.println();
 
 		foltlTOltlf.clear();
 		ltlfTOfoltl.clear();
 
-		formula = parseFoLtlFormula("Forall ?x (P(?x) U (P(?x) && Q(tau)))");
-		computed = formula.toLTLf(foltlTOltlf, ltlfTOfoltl);
+
+		original = parseFoLtlFormula("Forall ?x (P(?x) U (P(?x) && Q(tau)))");
+		translated = original.toLTLf(foltlTOltlf, ltlfTOfoltl);
+		ltlfExpected = parseLTLfFormula("P_?x U P_?x_AND_Q_tau");
+
+		System.out.println("Original formula: " + original);
+		System.out.println("\nTranslation maps: ");
 		System.out.println("FO-LTL -> LTLf: " + foltlTOltlf);
 		System.out.println("LTLf -> FO-LTL: " + ltlfTOfoltl);
-		System.out.println(computed);
 		System.out.println();
 
+		assertEquals("Translation", ltlfExpected, translated);
+
+		reverse = ltlfToFoLtl(ltlfExpected, ltlfTOfoltl);
+		foltlExpected = original;
+
+		//Get rid of across-state quantifiers
+		while (foltlExpected instanceof FoLtlAcrossQuantifiedFormula){
+			foltlExpected = (FoLtlFormula) ((FoLtlAcrossQuantifiedFormula) foltlExpected).getNestedFormula();
+		}
+
+		assertEquals("Reverse translation", foltlExpected, reverse);
+
+		System.out.println();
+
+		foltlTOltlf.clear();
+		ltlfTOfoltl.clear();
+
+
+		original = parseFoLtlFormula("Forall ?x (P(?x) U (Exists ?y T(?x, ?y))))");
+		translated = original.toLTLf(foltlTOltlf, ltlfTOfoltl);
+		ltlfExpected = parseLTLfFormula("P_?x U Exists_?y_T_?x_?y");
+
+		System.out.println("Original formula: " + original);
+		System.out.println("\nTranslation maps: ");
+		System.out.println("FO-LTL -> LTLf: " + foltlTOltlf);
+		System.out.println("LTLf -> FO-LTL: " + ltlfTOfoltl);
+		System.out.println();
+
+		assertEquals("Translation", ltlfExpected, translated);
+
+		reverse = ltlfToFoLtl(ltlfExpected, ltlfTOfoltl);
+		foltlExpected = original;
+
+		//Get rid of across-state quantifiers
+		while (foltlExpected instanceof FoLtlAcrossQuantifiedFormula){
+			foltlExpected = (FoLtlFormula) ((FoLtlAcrossQuantifiedFormula) foltlExpected).getNestedFormula();
+		}
+
+		assertEquals("Reverse translation", foltlExpected, reverse);
+
+		System.out.println();
+
+		foltlTOltlf.clear();
+		ltlfTOfoltl.clear();
+
+
+		original = parseFoLtlFormula("Forall ?x (Exists ?y (P(?x) && (P(?y) U (Exists ?z P(?z)))))");
+		translated = original.toLTLf(foltlTOltlf, ltlfTOfoltl);
+		ltlfExpected = parseLTLfFormula("P_?x && (P_?y U Exists_?z_P_?z)");
+
+		System.out.println("Original formula: " + original);
+		System.out.println("\nTranslation maps: ");
+		System.out.println("FO-LTL -> LTLf: " + foltlTOltlf);
+		System.out.println("LTLf -> FO-LTL: " + ltlfTOfoltl);
+		System.out.println();
+
+		assertEquals("Translation", ltlfExpected, translated);
+
+		reverse = ltlfToFoLtl(ltlfExpected, ltlfTOfoltl);
+		foltlExpected = original;
+
+		//Get rid of across-state quantifiers
+		while (foltlExpected instanceof FoLtlAcrossQuantifiedFormula){
+			foltlExpected = (FoLtlFormula) ((FoLtlAcrossQuantifiedFormula) foltlExpected).getNestedFormula();
+		}
+
+		assertEquals("Reverse translation", foltlExpected, reverse);
+
+		System.out.println();
+
+		foltlTOltlf.clear();
+		ltlfTOfoltl.clear();
+
+
+		original = parseFoLtlFormula("Forall ?y (P(?y) && Q(a, b, ?y) U (P(a) U (G (Exists ?x P(?x)))))");
+		translated = original.toLTLf(foltlTOltlf, ltlfTOfoltl);
+		ltlfExpected = parseLTLfFormula("P_?y_AND_Q_a_b_?y U (P_a U (G Exists_?x_P_?x))");
+
+		System.out.println("Original formula: " + original);
+		System.out.println("\nTranslation maps: ");
+		System.out.println("FO-LTL -> LTLf: " + foltlTOltlf);
+		System.out.println("LTLf -> FO-LTL: " + ltlfTOfoltl);
+		System.out.println();
+
+		assertEquals("Translation", ltlfExpected, translated);
+
+		reverse = ltlfToFoLtl(ltlfExpected, ltlfTOfoltl);
+		foltlExpected = original;
+
+		//Get rid of across-state quantifiers
+		while (foltlExpected instanceof FoLtlAcrossQuantifiedFormula){
+			foltlExpected = (FoLtlFormula) ((FoLtlAcrossQuantifiedFormula) foltlExpected).getNestedFormula();
+		}
+
+		assertEquals("Reverse translation", foltlExpected, reverse);
+
+		System.out.println();
+
+		foltlTOltlf.clear();
+		ltlfTOfoltl.clear();
+
+
+		original = parseFoLtlFormula("P(?x) U P(x)");
+		translated = original.toLTLf(foltlTOltlf, ltlfTOfoltl);
+		ltlfExpected = parseLTLfFormula("P_?x U P_x");
+
+		System.out.println("Original formula: " + original);
+		System.out.println("\nTranslation maps: ");
+		System.out.println("FO-LTL -> LTLf: " + foltlTOltlf);
+		System.out.println("LTLf -> FO-LTL: " + ltlfTOfoltl);
+		System.out.println();
+
+		assertEquals("Translation", ltlfExpected, translated);
+
+		reverse = ltlfToFoLtl(ltlfExpected, ltlfTOfoltl);
+		foltlExpected = original;
+
+		//Get rid of across-state quantifiers
+		while (foltlExpected instanceof FoLtlAcrossQuantifiedFormula){
+			foltlExpected = (FoLtlFormula) ((FoLtlAcrossQuantifiedFormula) foltlExpected).getNestedFormula();
+		}
+
+		assertEquals("Reverse translation", foltlExpected, reverse);
+
+		System.out.println();
+
+		foltlTOltlf.clear();
+		ltlfTOfoltl.clear();
+
+
+		original = parseFoLtlFormula("?x1234 = asdrubale U P(x)");
+		translated = original.toLTLf(foltlTOltlf, ltlfTOfoltl);
+		ltlfExpected = parseLTLfFormula("?x1234_EQ_asdrubale U P_x");
+
+		System.out.println("Original formula: " + original);
+		System.out.println("\nTranslation maps: ");
+		System.out.println("FO-LTL -> LTLf: " + foltlTOltlf);
+		System.out.println("LTLf -> FO-LTL: " + ltlfTOfoltl);
+		System.out.println();
+
+		assertEquals("Translation", ltlfExpected, translated);
+
+		reverse = ltlfToFoLtl(ltlfExpected, ltlfTOfoltl);
+		foltlExpected = original;
+
+		//Get rid of across-state quantifiers
+		while (foltlExpected instanceof FoLtlAcrossQuantifiedFormula){
+			foltlExpected = (FoLtlFormula) ((FoLtlAcrossQuantifiedFormula) foltlExpected).getNestedFormula();
+		}
+
+		assertEquals("Reverse translation", foltlExpected, reverse);
+
+		System.out.println();
+
+		foltlTOltlf.clear();
+		ltlfTOfoltl.clear();
+
+
+		original = parseFoLtlFormula("Forall ?x (Exists ?y ((?x = ?y) U (X (Exists ?z (Q(?x, ?z) && P(?y))))))");
+		translated = original.toLTLf(foltlTOltlf, ltlfTOfoltl);
+		ltlfExpected = parseLTLfFormula("?x_EQ_?y U X Exists_?z_Q_?x_?z_AND_P_?y");
+
+		System.out.println("Original formula: " + original);
+		System.out.println("\nTranslation maps: ");
+		System.out.println("FO-LTL -> LTLf: " + foltlTOltlf);
+		System.out.println("LTLf -> FO-LTL: " + ltlfTOfoltl);
+		System.out.println();
+
+		assertEquals("Translation", ltlfExpected, translated);
+
+		reverse = ltlfToFoLtl(ltlfExpected, ltlfTOfoltl);
+		foltlExpected = original;
+
+		//Get rid of across-state quantifiers
+		while (foltlExpected instanceof FoLtlAcrossQuantifiedFormula){
+			foltlExpected = (FoLtlFormula) ((FoLtlAcrossQuantifiedFormula) foltlExpected).getNestedFormula();
+		}
+
+		assertEquals("Reverse translation", foltlExpected, reverse);
+
+		System.out.println();
+
+		foltlTOltlf.clear();
+		ltlfTOfoltl.clear();
 	}
 
 	//<editor-fold desc="assertEquals" defaultstate="collapsed">
@@ -390,9 +620,13 @@ public class ConversionsTest {
 	 */
 	private static void assertEquals(String description, Object expected, Object computed) {
 
+		if (description.equals("")){
+			description = "assertEquals";
+		}
+
 		try {
 			Assert.assertEquals(description, expected, computed);
-			System.out.println(description + ": EQUALS");
+			System.out.println(description + ": SUCCESS");
 			System.out.println("\t> Expected: " + expected.toString());
 			System.out.println("\t> Computed: " + computed.toString());
 			System.out.println();
@@ -412,9 +646,16 @@ public class ConversionsTest {
 	 */
 	private static void assertNotEquals(String description, Object expected, Object computed) {
 
+		if (description.equals("")){
+			description = "assertNotEquals";
+		}
+
 		try {
-			Assert.assertNotEquals("", expected, computed);
-			System.out.println("\t> " + description + ": NOT EQUALS");
+			Assert.assertNotEquals(description, expected, computed);
+			System.out.println(description + ": SUCCESS");
+			System.out.println("\t> Expected: " + expected.toString());
+			System.out.println("\t> Computed: " + computed.toString());
+			System.out.println();
 		} catch (AssertionError e){
 			throw e;
 		}

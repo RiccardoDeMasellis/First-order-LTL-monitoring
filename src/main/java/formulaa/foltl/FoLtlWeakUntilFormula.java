@@ -7,7 +7,10 @@ import formula.ltlf.LTLfWeakUntilFormula;
 import java.util.HashMap;
 
 /**
+ * Class that represents a FO-LTL weak until formula.
+ * <br>
  * Created by Simone Calciolari on 06/08/15.
+ * @author Simone Calciolari
  */
 public class FoLtlWeakUntilFormula extends FoLtlBinaryFormula implements FoLtlTempOpTempFormula {
 
@@ -33,7 +36,7 @@ public class FoLtlWeakUntilFormula extends FoLtlBinaryFormula implements FoLtlTe
 		FoLtlFormula or;
 
 		if (left instanceof FoLtlLocalFormula && right instanceof FoLtlLocalFormula){
-				or = new FoLtlLocalOrFormula(left, right);
+			or = new FoLtlLocalOrFormula(left, right);
 		} else {
 			or = new FoLtlTempOrFormula(left, right);
 		}

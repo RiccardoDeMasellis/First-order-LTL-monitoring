@@ -1,13 +1,15 @@
 package formulaa.foltl;
 
 import formula.ltlf.LTLfFormula;
-import formula.ltlf.LTLfTempAndFormula;
 import formula.ltlf.LTLfTempOrFormula;
 
 import java.util.HashMap;
 
 /**
+ * Class that represents a FO-LTL temporal OR formula.
+ * <br>
  * Created by Simone Calciolari on 06/08/15.
+ * @author Simone Calciolari
  */
 public class FoLtlTempOrFormula extends FoLtlBinaryFormula implements formulaa.OrFormula, FoLtlBoolOpTempFormula {
 

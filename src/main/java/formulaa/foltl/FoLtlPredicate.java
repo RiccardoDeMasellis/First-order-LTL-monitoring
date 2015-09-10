@@ -3,7 +3,10 @@ package formulaa.foltl;
 import formulaa.Predicate;
 
 /**
+ * Class that represents a FO-LTL local true atom.
+ * <br>
  * Created by Simone Calciolari on 06/08/15.
+ * @author Simone Calciolari
  */
 public class FoLtlPredicate implements Predicate {
 

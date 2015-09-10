@@ -6,7 +6,10 @@ import formula.ltlf.LTLfTempAndFormula;
 import java.util.HashMap;
 
 /**
+ * Class that represents a FO-LTL temporal AND formula.
+ * <br>
  * Created by Simone Calciolari on 06/08/15.
+ * @author Simone Calciolari
  */
 public class FoLtlTempAndFormula extends FoLtlBinaryFormula implements formulaa.AndFormula, FoLtlBoolOpTempFormula {
 

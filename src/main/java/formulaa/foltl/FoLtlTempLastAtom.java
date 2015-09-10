@@ -5,7 +5,10 @@ import formula.ltlf.LTLfFormula;
 import java.util.HashMap;
 
 /**
+ * Class that represents a FO-LTL temporal last atom.
+ * <br>
  * Created by Simone Calciolari on 06/08/15.
+ * @author Simone Calciolari
  */
 public class FoLtlTempLastAtom extends FoLtlAtomicFormula implements FoLtlTemporalFormula {
 
@@ -26,7 +29,6 @@ public class FoLtlTempLastAtom extends FoLtlAtomicFormula implements FoLtlTempor
 	@Override
 	public LTLfFormula toLTLf(HashMap<FoLtlFormula, LTLfFormula> foltlTOltlf,
 														HashMap<LTLfFormula, FoLtlFormula> ltlfTOfoltl){
-		//TODO return correct thing (?)
 		return null;
 	}
 
