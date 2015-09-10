@@ -1,5 +1,6 @@
 package util;
 
+import evaluations.PropositionLast;
 import formula.ltlf.*;
 import formulaa.foltl.*;
 import net.sf.tweety.logics.pl.semantics.PossibleWorld;
@@ -22,15 +23,6 @@ public class TweetyTranslator {
 	 * Protected since this class is not intended to be instantiated.
 	 */
 	protected TweetyTranslator(){}
-
-	/**
-	 * Translates a given tweety Proposition into a LTLfLocalVar.
-	 * @param prop the tweety Proposition.
-	 * @return a LTLfLocalVar with the same name.
-	 */
-	public static LTLfLocalVar tweetyPropToLTLfVar(Proposition prop){
-		return new LTLfLocalVar(prop.getName());
-	}
 
 	/**
 	 * Translates a given Tweety propositional formula into a LTLf(Local)Formula
@@ -66,7 +58,11 @@ public class TweetyTranslator {
 			res = new LTLfTempNotFormula(nested);
 
 		} else if (propformula instanceof Proposition){
-			res = tweetyPropToLTLfVar((Proposition) propformula);
+			if (propformula instanceof PropositionLast){
+				res = new LTLfLocalVar((PropositionLast) propformula);
+			} else {
+				res = new LTLfLocalVar((Proposition) propformula);
+			}
 
 		} else if (propformula instanceof Tautology){
 			res = new LTLfLocalTrueFormula();
@@ -194,8 +190,16 @@ public class TweetyTranslator {
 				PropositionalFormula pf = ((LTLfLocalFormula) next).toTweetyProp();
 
 				if (pf instanceof Proposition){
-					res.add((Proposition) pf);
+					if (pf instanceof PropositionLast){
+						res.add((PropositionLast) pf);
+					} else {
+						res.add((Proposition) pf);
+					}
+				} else {
+					throw new RuntimeException("Tweety Proposition expected");
 				}
+			} else {
+				throw new RuntimeException("Wrong LTLf formula type");
 			}
 		}
 

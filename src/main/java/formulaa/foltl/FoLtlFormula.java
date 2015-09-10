@@ -1,5 +1,6 @@
 package formulaa.foltl;
 
+import automata.FoLtlLabel;
 import formula.ltlf.LTLfFormula;
 import formulaa.Formula;
 import formulaa.foltl.semantics.FoLtlAssignment;
@@ -13,7 +14,7 @@ import java.util.HashSet;
  * Created by Simone Calciolari on 06/08/15.
  * @author Simone Calciolari
  */
-public interface FoLtlFormula extends Formula {
+public interface FoLtlFormula extends Formula, FoLtlLabel {
 
 	/**
 	 * Given the domain and an assignment substitutes all the variables in this Formula

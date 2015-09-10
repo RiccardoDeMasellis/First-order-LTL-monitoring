@@ -2,6 +2,8 @@ package automata;
 
 import static util.TweetyTranslator.*;
 
+import evaluations.EmptyTrace;
+import evaluations.PropositionLast;
 import formula.ltlf.LTLfFormula;
 import formula.ltlf.LTLfLocalVar;
 import formulaa.foltl.FoLtlFormula;
@@ -41,6 +43,14 @@ public class AutomataTranslator {
 	public static Automaton ldlfAutomataToFoLtl(Automaton original, HashMap<LTLfFormula, FoLtlFormula> ltlfTOfoltl){
 		Automaton res = new Automaton();
 
+		//Update the map to handle last atoms (still to be improved)
+		//TODO put in a better place
+		ltlfTOfoltl.put(new LTLfLocalVar(new PropositionLast()),
+				new FoLtlTempNotFormula(new FoLtlNextFormula(new FoLtlLocalTrueAtom())));
+
+		//Get the signature
+		PropositionalSignature sig = getPropSignature(ltlfTOfoltl);
+
 		//ADD STATES TO THE NEW AUTOMATON
 		//Original states iterator
 		Iterator<State> originalStates = original.states().iterator();
@@ -71,6 +81,7 @@ public class AutomataTranslator {
 			while (oldTransitions.hasNext()){
 				//Get next transition
 				Transition<PossibleWorld> oldt = oldTransitions.next();
+				System.out.println("Original transition: " + oldt);
 				//Get its end state
 				State oldEnd = oldt.end();
 
@@ -78,23 +89,22 @@ public class AutomataTranslator {
 				PossibleWorld pw = oldt.label();
 
 				//Translate original label
+				FoLtlLabel newLabel;
 
-				//Get the signature
-				PropositionalSignature sig = getPropSignature(ltlfTOfoltl);
-
-				//Update the map to handle last atoms (still to be improved)
-				ltlfTOfoltl.put(new LTLfLocalVar("last"),
-						new FoLtlTempNotFormula(new FoLtlNextFormula(new FoLtlLocalTrueAtom())));
-
-				//Get the new label
-				FoLtlFormula newLabel = tweetyPwToFoLtl(pw, sig, ltlfTOfoltl);
-
+				if (pw instanceof EmptyTrace){
+					System.out.println("Empty trace found!");
+					System.out.println("Complete conjunction: " + pw.getCompleteConjunction(sig));
+					newLabel = new FoLtlEmptyTrace();
+				} else {
+					//Get the new label
+					newLabel = tweetyPwToFoLtl(pw, sig, ltlfTOfoltl);
+				}
 				//Create new transition
 				//Get start and end states
 				State newStart = oldToNewStates.get(oldStart);
 				State newEnd = oldToNewStates.get(oldEnd);
 
-				Transition<FoLtlFormula> newt = new Transition<>(newStart, newLabel, newEnd);
+				Transition<FoLtlLabel> newt = new Transition<>(newStart, newLabel, newEnd);
 
 				//Add it to translated automaton
 				try {
