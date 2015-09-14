@@ -40,12 +40,7 @@ public class TweetyTranslator {
 			for (int i = size-2; i>=0; i--){
 				PropositionalFormula pf = ((Conjunction) propformula).get(i);
 				LTLfFormula ltlff = tweetyPropToLTLf(pf);
-
-				if (ltlff instanceof LTLfTempFormula || res instanceof LTLfTempFormula){
-					res = new LTLfTempAndFormula(ltlff, res);
-				} else {
-					res = new LTLfLocalAndFormula(ltlff, res);
-				}
+				res = new LTLfLocalAndFormula(ltlff, res);
 			}
 
 		} else if (propformula instanceof Disjunction){
@@ -56,32 +51,16 @@ public class TweetyTranslator {
 			for (int i = size-2; i>=0; i--){
 				PropositionalFormula pf = ((Disjunction) propformula).get(i);
 				LTLfFormula ltlff = tweetyPropToLTLf(pf);
-
-				if (ltlff instanceof LTLfTempFormula || res instanceof LTLfTempFormula){
-					res = new LTLfTempOrFormula(ltlff, res);
-				} else {
-					res = new LTLfLocalOrFormula(ltlff, res);
-				}
+				res = new LTLfLocalOrFormula(ltlff, res);
 			}
 
 		} else if (propformula instanceof Negation){
 			PropositionalFormula pNested = ((Negation) propformula).getFormula();
 			LTLfFormula nested = tweetyPropToLTLf(pNested);
-
-			if (nested instanceof LTLfTempFormula) {
-				res = new LTLfTempNotFormula(nested);
-			} else {
-				res = new LTLfLocalNotFormula(nested);
-			}
+			res = new LTLfLocalNotFormula(nested);
 
 		} else if (propformula instanceof Proposition){
-
-			if (propformula instanceof PropositionLast){
-				//Substitute last with its interpretation
-				res = new LTLfTempNotFormula(new LTLfNextFormula(new LTLfLocalTrueFormula()));
-			} else {
-				res = new LTLfLocalVar((Proposition) propformula);
-			}
+			res = new LTLfLocalVar((Proposition) propformula);
 
 		} else if (propformula instanceof Tautology){
 			res = new LTLfLocalTrueFormula();

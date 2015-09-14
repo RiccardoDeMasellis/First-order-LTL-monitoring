@@ -396,10 +396,6 @@ public class ConversionsTest {
 		expected = parseLTLfFormula("a <-> b");
 		assertEquals("Original: " + computed, tweetyPropToLTLf(computed), expected.nnf());
 
-		computed = new PropositionLast();
-		expected = parseLTLfFormula("! (X (TRUE))");
-		assertEquals("Original: " + computed, tweetyPropToLTLf(computed), expected);
-
 	}
 
 	@Test
