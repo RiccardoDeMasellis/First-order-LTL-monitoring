@@ -2,6 +2,7 @@ import formula.ldlf.LDLfFormula;
 import formula.ltlf.LTLfFormula;
 import formulaa.foltl.*;
 import org.junit.Assert;
+import org.junit.Ignore;
 import org.junit.Test;
 import rationals.Automaton;
 import utils.AutomatonUtils;
@@ -27,10 +28,9 @@ public class AutomatonTest {
 
 	@Test
 	public void testAutomaton(){
-		parseFoLtlFormula("P(a)");
-		System.out.println("\n\nTEST AUTOMATA TRANSLATION\n");
+		System.out.println("TEST AUTOMATA TRANSLATION\n");
 
-		FoLtlFormula inputFormula = parseFoLtlFormula("P(a) U P(b)");
+		FoLtlFormula inputFormula = parseFoLtlFormula("P(a) U (P(b) && P(c))");
 
 		HashMap<FoLtlFormula, LTLfFormula> foltlTOltlf = new HashMap<>();
 		HashMap<LTLfFormula, FoLtlFormula> ltlfTOfoltl = new HashMap<>();

@@ -202,7 +202,7 @@ public class TweetyTranslator {
 	 * Given a map from LTLfFormula to FoLtlFormula (used during automata translation),
 	 * computes the corresponding Propositional Signature in Tweety data structures.
 	 * @param ltlfTOfoltl the map.
-	 * @return the computed PRopositionalSignature.
+	 * @return the computed PropositionalSignature.
 	 */
 	public static PropositionalSignature getPropSignature(HashMap<LTLfFormula, FoLtlFormula> ltlfTOfoltl){
 		Iterator<LTLfFormula> ltlffs = ltlfTOfoltl.keySet().iterator();

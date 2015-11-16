@@ -2,15 +2,11 @@ package automata;
 
 import static util.TweetyTranslator.*;
 
-import evaluations.EmptyTrace;
-import evaluations.PropositionLast;
+import automaton.EmptyTrace;
+import automaton.PossibleWorldWrap;
+import automaton.TransitionLabel;
 import formula.ltlf.LTLfFormula;
-import formula.ltlf.LTLfLocalVar;
 import formulaa.foltl.FoLtlFormula;
-import formulaa.foltl.FoLtlLocalTrueAtom;
-import formulaa.foltl.FoLtlNextFormula;
-import formulaa.foltl.FoLtlTempNotFormula;
-import net.sf.tweety.logics.pl.semantics.PossibleWorld;
 import net.sf.tweety.logics.pl.syntax.PropositionalSignature;
 import rationals.Automaton;
 import rationals.NoSuchStateException;
@@ -77,27 +73,29 @@ public class AutomataTranslator {
 		while (originalStates.hasNext()){
 
 			State oldStart = originalStates.next();
-			Iterator<Transition<PossibleWorld>> oldTransitions = original.delta(oldStart).iterator();
+			Iterator<Transition<TransitionLabel>> oldTransitions = original.delta(oldStart).iterator();
 
 			//Iterate over all transition starting from the current (old) state.
 			while (oldTransitions.hasNext()){
 				//Get next transition
-				Transition<PossibleWorld> oldt = oldTransitions.next();
+				Transition<TransitionLabel> oldt = oldTransitions.next();
 
 				//Get its end state
 				State oldEnd = oldt.end();
 
 				//Get original label
-				PossibleWorld pw = oldt.label();
+				TransitionLabel oldLabel = oldt.label();
 
 				//Translate original label
 				FoLtlLabel newLabel;
 
-				if (pw instanceof EmptyTrace){
+				if (oldLabel instanceof EmptyTrace){
 					newLabel = new FoLtlEmptyTrace();
-				} else {
+				} else if (oldLabel instanceof PossibleWorldWrap) {
 					//Get the new label
-					newLabel = tweetyPwToFoLtl(pw, sig, ltlfTOfoltl);
+					newLabel = tweetyPwToFoLtl((PossibleWorldWrap) oldLabel, sig, ltlfTOfoltl);
+				} else {
+					throw new RuntimeException("Unknown transition label type");
 				}
 
 				//Create new transition
