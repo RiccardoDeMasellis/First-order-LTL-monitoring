@@ -6,6 +6,7 @@ import formulaa.foltl.semantics.FoLtlAssignment;
 
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.LinkedHashSet;
 import java.util.LinkedList;
 
 /**
@@ -19,6 +20,11 @@ public abstract class FoLtlAtomicFormula implements FoLtlLocalFormula, AtomicFor
 	@Override
 	public FoLtlFormula substitute(HashSet<FoLtlConstant> domain, FoLtlAssignment assignment){
 		return this.clone();
+	}
+
+	@Override
+	public FoLtlFormula quantifierExpansion(LinkedHashSet<FoLtlConstant> domain, FoLtlAssignment assignment){
+		return this.substitute(domain, assignment);
 	}
 
 	@Override

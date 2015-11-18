@@ -152,7 +152,7 @@ public class FoLtlLocalAtom extends FoLtlAtomicFormula implements FoLtlLocalForm
 
 	@Override
 	public FoLtlFormula substitute(HashSet<FoLtlConstant> domain, FoLtlAssignment assignment){
-		FoLtlLocalAtom res = new FoLtlLocalAtom(this.getPredicate());
+		FoLtlLocalAtom res = new FoLtlLocalAtom(this.getPredicate().clone());
 
 		Iterator<FoLtlTerm> i = this.getArguments().iterator();
 

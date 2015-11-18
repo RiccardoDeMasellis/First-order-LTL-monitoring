@@ -62,6 +62,38 @@ public class FoLtlLocalExistsFormula extends FoLtlQuantifiedFormula implements F
 	}
 
 	@Override
+	public FoLtlFormula quantifierExpansion(LinkedHashSet<FoLtlConstant> domain, FoLtlAssignment assignment){
+		FoLtlFormula res = null;
+		FoLtlLocalFormula nested = (FoLtlLocalFormula) this.getNestedFormula().clone();
+		FoLtlVariable v = this.getQuantifiedVariable();
+
+		Iterator<FoLtlConstant> i;
+
+		if (!v.getSort().isEmpty()){
+			i = v.getSort().iterator();
+		} else {
+			i = domain.iterator();
+		}
+
+		while (i.hasNext()){
+			FoLtlConstant c = i.next();
+			assignment.put(v, c);
+
+			FoLtlFormula temp = nested.quantifierExpansion(domain, assignment);
+
+			if (res == null){
+				res = temp;
+			} else {
+				res = new FoLtlLocalOrFormula(temp, res);
+			}
+
+			assignment.remove(v);
+		}
+
+		return res;
+	}
+
+	@Override
 	public FolFormula toTweetyFol(){
 		FoLtlLocalFormula nested = (FoLtlLocalFormula) this.getNestedFormula();
 		return new net.sf.tweety.logics.fol.syntax.ExistsQuantifiedFormula(nested.toTweetyFol(),

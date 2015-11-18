@@ -23,14 +23,14 @@ import static automata.AutomataTranslator.*;
  */
 public class AutomatonTest {
 
-	//Used to display verbose debug mesages during execution
+	//Used to display verbose debug messages during execution
 	private static final boolean DEBUG = true;
 
 	@Test
 	public void testAutomaton(){
 		System.out.println("TEST AUTOMATA TRANSLATION\n");
 
-		FoLtlFormula inputFormula = parseFoLtlFormula("P(a) U (P(b) && P(c))");
+		FoLtlFormula inputFormula = parseFoLtlFormula("Forall ?x (P(a) U (P(b) && P(?x)))");
 
 		HashMap<FoLtlFormula, LTLfFormula> foltlTOltlf = new HashMap<>();
 		HashMap<LTLfFormula, FoLtlFormula> ltlfTOfoltl = new HashMap<>();
@@ -39,7 +39,7 @@ public class AutomatonTest {
 		LDLfFormula ldlfFormula = ltlfFormula.toLDLf();
 
 		Automaton original = AutomatonUtils.ldlf2Automaton(ldlfFormula, ldlfFormula.getSignature());
-		Automaton expected = ldlfAutomataToFoLtl(original, ltlfTOfoltl);
+		Automaton computed = ldlfAutomataToFoLtl(original, ltlfTOfoltl);
 
 		//<editor-fold desc="Writes graphs to disk" defaultstate="collapsed">
 
@@ -67,11 +67,10 @@ public class AutomatonTest {
 		}
 
 		ps = new PrintStream(fos);
-		ps.println(AutomatonUtils.toDot(expected));
+		ps.println(AutomatonUtils.toDot(computed));
 		ps.flush();
 		ps.close();
 		//</editor-fold>
-
 	}
 
 	//<editor-fold desc="assertEquals" defaultstate="collapsed">

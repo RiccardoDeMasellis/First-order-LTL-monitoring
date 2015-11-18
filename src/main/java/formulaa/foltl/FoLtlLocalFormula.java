@@ -27,6 +27,27 @@ public interface FoLtlLocalFormula extends FoLtlFormula, LocalFormula {
 	 */
 	LTLfLocalFormula propositionalize(LinkedHashSet<FoLtlConstant> domain, FoLtlAssignment assignment);
 
+	/**
+	 *
+	 * Given the domain and an assignment, tranforms this formula into an equivalent one
+	 * where the quantifiers are expanded as conjunctions (Forall) or Disjunctions(Exists)
+	 * @param domain the domain
+	 * @param assignment the given assignment
+	 * @return a FoLtlLocalFormula equivalent to this formula.
+	 */
+	FoLtlFormula quantifierExpansion(LinkedHashSet<FoLtlConstant> domain, FoLtlAssignment assignment);
+
+	/**
+	 *
+	 * Given the domain and an assignment, tranforms this formula into an equivalent one
+	 * where the quantifiers are expanded as conjunctions (Forall) or Disjunctions(Exists)
+	 * @param domain the domain
+	 * @return a FoLtlLocalFormula equivalent to this formula.
+	 */
+	default FoLtlFormula quantifierExpansion(LinkedHashSet<FoLtlConstant> domain){
+		return this.quantifierExpansion(domain, new FoLtlAssignment());
+	}
+
 	@Override
 	default LTLfFormula toLTLf(HashMap<FoLtlFormula, LTLfFormula> foltlTOltlf,
 														 HashMap<LTLfFormula, FoLtlFormula> ltlfTOfoltl){

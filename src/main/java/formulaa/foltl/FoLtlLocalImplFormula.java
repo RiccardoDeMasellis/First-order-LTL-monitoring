@@ -33,6 +33,14 @@ public class FoLtlLocalImplFormula extends FoLtlBinaryFormula implements ImplFor
 	}
 
 	@Override
+	public FoLtlFormula quantifierExpansion(LinkedHashSet<FoLtlConstant> domain, FoLtlAssignment assignment){
+		FoLtlLocalFormula left = (FoLtlLocalFormula) this.getLeftFormula().clone();
+		FoLtlLocalFormula right = (FoLtlLocalFormula) this.getRightFormula().clone();
+		return new FoLtlLocalImplFormula(left.quantifierExpansion(domain, assignment),
+				right.quantifierExpansion(domain, assignment));
+	}
+
+	@Override
 	public String getAtomicName(){
 		FoLtlLocalFormula left = (FoLtlLocalFormula) this.getLeftFormula();
 		FoLtlLocalFormula right = (FoLtlLocalFormula) this.getRightFormula();

@@ -42,6 +42,7 @@ public class FoLtlLocalEqualityFormula extends FoLtlAtomicFormula implements FoL
 	public formulaa.FormulaType getFormulaType(){
 		return formulaa.FormulaType.LOCAL_EQUALITY;
 	}
+
 	@Override
 	public FoLtlFormula substitute(HashSet<FoLtlConstant> domain, FoLtlAssignment assignment){
 		FoLtlTerm left = this.getLeftTerm();
