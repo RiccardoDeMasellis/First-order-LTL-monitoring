@@ -1,23 +1,19 @@
 import static util.ParsingUtils.*;
 import static util.TweetyTranslator.*;
 
-import evaluations.PropositionLast;
 import formula.ltlf.*;
 import formulaa.foltl.*;
 import formulaa.foltl.semantics.FoLtlAssignment;
 import net.sf.tweety.logics.commons.syntax.Constant;
 import net.sf.tweety.logics.fol.syntax.FolFormula;
 import net.sf.tweety.logics.fol.syntax.FolSignature;
-import net.sf.tweety.logics.pl.syntax.Conjunction;
-import net.sf.tweety.logics.pl.syntax.Disjunction;
-import net.sf.tweety.logics.pl.syntax.Proposition;
+import net.sf.tweety.logics.pl.sat.Sat4jSolver;
 import net.sf.tweety.logics.pl.syntax.PropositionalFormula;
 import org.junit.Assert;
 import org.junit.Test;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedHashSet;
-import java.util.LinkedList;
 
 /**
  * Created by Simone Calciolari on 31/08/15.
@@ -276,7 +272,7 @@ public class ConversionsTest {
 
 	@Test
 	public void testStisfiability(){
-		System.out.println("*** SATISFIABILITY TEST ***\n");
+		System.out.println("*** SATISFIABILITY TEST *** \n");
 
 		//FoLtlAssignment assignment = new FoLtlAssignment();
 		LinkedHashSet<FoLtlConstant> domain = new LinkedHashSet<>();
@@ -284,66 +280,101 @@ public class ConversionsTest {
 		domain.add(new FoLtlConstant("b"));
 		FoLtlAssignment assignment = new FoLtlAssignment();
 
-		//Atom conversions
+		//Simple satisfiable formulas
 		String input = "P(a)";
-		FoLtlFormula original = parseFoLtlFormula(input);
-		FoLtlLocalFormula expanded =((FoLtlLocalFormula) original).quantifierExpansion(domain);
-		FoLtlFormula substituted = parseFoLtlFormula(input);
-		assertEquals("", expected, computed.quantifierExpansion(domain));
+		FoLtlLocalFormula computed = (FoLtlLocalFormula) parseFoLtlFormula(input);
+		assertTrue(computed + " is satisfiable", computed.isSatisfiable(domain, assignment));
 
-		computed = (FoLtlLocalFormula) parseFoLtlFormula("TRUE");
-		expected = parseFoLtlFormula("TRUE");
-		assertEquals("", expected, computed.quantifierExpansion(domain));
+		input = "TRUE";
+		computed = (FoLtlLocalFormula) parseFoLtlFormula(input);
+		assertTrue(computed + " is satisfiable", computed.isSatisfiable(domain, assignment));
 
-		computed = (FoLtlLocalFormula) parseFoLtlFormula("FALSE");
-		expected = parseFoLtlFormula("FALSE");
-		assertEquals("", expected, computed.quantifierExpansion(domain));
+		input = "a = a";
+		computed = (FoLtlLocalFormula) parseFoLtlFormula(input);
+		assertTrue(computed + " is satisfiable", computed.isSatisfiable(domain, assignment));
 
-		computed = (FoLtlLocalFormula) parseFoLtlFormula("a = b");
-		expected = parseFoLtlFormula("a = b");
-		assertEquals("", expected, computed.quantifierExpansion(domain));
+		input = "! P(b)";
+		computed = (FoLtlLocalFormula) parseFoLtlFormula(input);
+		assertTrue(computed + " is satisfiable", computed.isSatisfiable(domain, assignment));
 
-		computed = (FoLtlLocalFormula) parseFoLtlFormula("a = a");
-		expected = parseFoLtlFormula("a = a");
-		assertEquals("", expected, computed.quantifierExpansion(domain));
+		input = "P(a) && P(b)";
+		computed = (FoLtlLocalFormula) parseFoLtlFormula(input);
+		assertTrue(computed + " is satisfiable", computed.isSatisfiable(domain, assignment));
 
-		//Simple boolean conversions
-		computed = (FoLtlLocalFormula) parseFoLtlFormula("! P(b)");
-		expected = parseFoLtlFormula("! P(b)");
-		assertEquals("", expected, computed.quantifierExpansion(domain));
+		input = "P(a) && ! P(b)";
+		computed = (FoLtlLocalFormula) parseFoLtlFormula(input);
+		assertTrue(computed + " is satisfiable", computed.isSatisfiable(domain, assignment));
 
-		computed = (FoLtlLocalFormula) parseFoLtlFormula("P(a) && P(b)");
-		expected = parseFoLtlFormula("P(a) && P(b)");
-		assertEquals("", expected, computed.quantifierExpansion(domain));
+		input = "P(a) | P(b)";
+		computed = (FoLtlLocalFormula) parseFoLtlFormula(input);
+		assertTrue(computed + " is satisfiable", computed.isSatisfiable(domain, assignment));
 
-		computed = (FoLtlLocalFormula) parseFoLtlFormula("P(a) | P(b)");
-		expected = parseFoLtlFormula("P(a) || P(b)");
-		assertEquals("", expected, computed.quantifierExpansion(domain));
+		input = "P(a) -> P(b)";
+		computed = (FoLtlLocalFormula) parseFoLtlFormula(input);
+		assertTrue(computed + " is satisfiable", computed.isSatisfiable(domain, assignment));
 
-		computed = (FoLtlLocalFormula) parseFoLtlFormula("P(a) -> P(b)");
-		expected = parseFoLtlFormula("P(a) -> P(b)");
-		assertEquals("", expected, computed.quantifierExpansion(domain));
+		input = "P(a) <-> P(b)";
+		computed = (FoLtlLocalFormula) parseFoLtlFormula(input);
+		assertTrue(computed + " is satisfiable", computed.isSatisfiable(domain, assignment));
 
-		computed = (FoLtlLocalFormula) parseFoLtlFormula("P(a) <-> P(b)");
-		expected = parseFoLtlFormula("P(a) <-> P(b)");
-		assertEquals("", expected, computed.quantifierExpansion(domain));
+		input = "((P(a) -> Q(a)) -> P(a)) -> P(a)";
+		computed = (FoLtlLocalFormula) parseFoLtlFormula(input);
+		assertTrue(computed + " is satisfiable", computed.isSatisfiable(domain, assignment));
 
+		input = "! (P(a) | Q(a) -> P(a) & Q(a))";
+		computed = (FoLtlLocalFormula) parseFoLtlFormula(input);
+		assertTrue(computed + " is satisfiable", computed.isSatisfiable(domain, assignment));
+
+		input = "(P(a) <-> Q(a)) -> (!Q(a) <-> P(a))";
+		computed = (FoLtlLocalFormula) parseFoLtlFormula(input);
+		assertTrue(computed + " is satisfiable", computed.isSatisfiable(domain, assignment));
+
+		input = "(C(a) -> A(a)) & (!C(a) -> B(a)) & (!(A(a) -> !B(a)))";
+		computed = (FoLtlLocalFormula) parseFoLtlFormula(input);
+		assertTrue(computed + " is satisfiable", computed.isSatisfiable(domain, assignment));
+
+		input = "(P(a) || K(a)) & (!K(a) | !V(a)) & (Q(a) | !V(a)) & (!Q(a) | S(a)) " +
+				"& (!S(a) | !K(a) | M(a)) & (!M(a) | K(a) | !S(a))";
+		computed = (FoLtlLocalFormula) parseFoLtlFormula(input);
+		assertTrue(computed + " is satisfiable", computed.isSatisfiable(domain, assignment));
+
+		input = "(A(a) | B(a) | D(a)) & (!A(a) | B(a) | !C(a)) " +
+				"& (!A(a) | C(a) | D(a)) & (!A(a) | !B(a) | C(a))";
+		computed = (FoLtlLocalFormula) parseFoLtlFormula(input);
+		assertTrue(computed + " is satisfiable", computed.isSatisfiable(domain, assignment));
+
+		input = "!((A(a) & B(a) -> C(a)) -> (A(a) -> C(a)))";
+		computed = (FoLtlLocalFormula) parseFoLtlFormula(input);
+		assertTrue(computed + " is satisfiable", computed.isSatisfiable(domain, assignment));
+
+
+
+
+		//Simple unsatisfiable formulas
+		input = "false";
+		computed = (FoLtlLocalFormula) parseFoLtlFormula(input);
+		assertFalse(computed + " is unsatisfiable", computed.isSatisfiable(domain, assignment));
+
+		input = "a = b";
+		computed = (FoLtlLocalFormula) parseFoLtlFormula(input);
+		assertFalse(computed + " is unsatisfiable", computed.isSatisfiable(domain, assignment));
+
+		input = "P(a) & !P(a)";
+		computed = (FoLtlLocalFormula) parseFoLtlFormula(input);
+		assertFalse(computed + " is unsatisfiable", computed.isSatisfiable(domain, assignment));
+
+		input = "!P(a) <-> P(a)";
+		computed = (FoLtlLocalFormula) parseFoLtlFormula(input);
+		assertFalse(computed + " is unsatisfiable", computed.isSatisfiable(domain, assignment));
+
+		input = "! (((P(a) -> Q(b)) -> P(a)) -> P(a))";
+		computed = (FoLtlLocalFormula) parseFoLtlFormula(input);
+		assertFalse(computed + " is unsatisfiable", computed.isSatisfiable(domain, assignment));
+
+
+
+		/*
 		//More intricate boolean conversions
-		computed = (FoLtlLocalFormula) parseFoLtlFormula("P(p) || Q(a) && ! V(r) -> J(s)");
-		expected = parseFoLtlFormula("P(p) || Q(a) && ! V(r) -> J(s)");
-		assertEquals("", expected, computed.quantifierExpansion(domain));
-
-		computed = (FoLtlLocalFormula) parseFoLtlFormula("P(a) -> P(a) -> P(a) -> P(a)");
-		expected = parseFoLtlFormula("P(a) -> (P(a) -> (P(a) -> P(a)))");
-		assertEquals("", expected, computed.quantifierExpansion(domain));
-
-		computed = (FoLtlLocalFormula) parseFoLtlFormula("!(!(!P(a)))");
-		expected = parseFoLtlFormula("!(!(!P(a)))");
-		assertEquals("", expected, computed.quantifierExpansion(domain));
-
-		computed = (FoLtlLocalFormula) parseFoLtlFormula("P(a) && (P(c) || P(b) || P(d)) -> P(s) && P(rst)");
-		expected = parseFoLtlFormula("P(a) && (P(c) || P(b) || P(d)) -> P(s) && P(rst)");
-		assertEquals("", expected, computed.quantifierExpansion(domain));
 
 		//Testing quantifiers and substitutions
 		input = "Exists ?x P(?x)";
@@ -399,6 +430,7 @@ public class ConversionsTest {
 		computed.assignSort(new FoLtlVariable("x"), sortAB);
 		expected = parseFoLtlFormula("(P(b, c) || P(b, b) || P(b, a)) || (P(a, c) || P(a, b) || P(a, a))");
 		assertEquals(input, expected, computed.quantifierExpansion(domain));
+		*/
 	}
 
 	@Test
@@ -930,6 +962,52 @@ public class ConversionsTest {
 			System.out.println(description + ": SUCCESS");
 			System.out.println("\t> Expected: " + expected.toString());
 			System.out.println("\t> Computed: " + computed.toString());
+			System.out.println();
+		} catch (AssertionError e){
+			throw e;
+		}
+
+	}
+	//</editor-fold>
+
+	//<editor-fold desc="assertTrue" defaultstate="collapsed">
+	/**
+	 * Wrapper for the Assert.assertTrue method, used to print some description also in case of success
+	 * @param description brief description of the current test case
+	 * @param condition boolean condition to be tested
+	 */
+	private static void assertTrue(String description, boolean condition) {
+
+		if (description.equals("")){
+			description = "assertTrue";
+		}
+
+		try {
+			Assert.assertTrue(description, condition);
+			System.out.println(description + ": SUCCESS");
+			System.out.println();
+		} catch (AssertionError e){
+			throw e;
+		}
+
+	}
+	//</editor-fold>
+
+	//<editor-fold desc="assertFalse" defaultstate="collapsed">
+	/**
+	 * Wrapper for the Assert.assertFalse method, used to print some description also in case of success
+	 * @param description brief description of the current test case
+	 * @param condition boolean condition to be tested
+	 */
+	private static void assertFalse(String description, boolean condition) {
+
+		if (description.equals("")){
+			description = "assertFalse";
+		}
+
+		try {
+			Assert.assertFalse(description, condition);
+			System.out.println(description + ": SUCCESS");
 			System.out.println();
 		} catch (AssertionError e){
 			throw e;
