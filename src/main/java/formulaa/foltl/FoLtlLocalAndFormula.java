@@ -35,7 +35,7 @@ public class FoLtlLocalAndFormula extends FoLtlBinaryFormula implements AndFormu
 	}
 
 	@Override
-	public FoLtlFormula quantifierExpansion(LinkedHashSet<FoLtlConstant> domain, FoLtlAssignment assignment){
+	public FoLtlLocalFormula quantifierExpansion(LinkedHashSet<FoLtlConstant> domain, FoLtlAssignment assignment){
 		FoLtlLocalFormula left = (FoLtlLocalFormula) this.getLeftFormula().clone();
 		FoLtlLocalFormula right = (FoLtlLocalFormula) this.getRightFormula().clone();
 		return new FoLtlLocalAndFormula(left.quantifierExpansion(domain, assignment),

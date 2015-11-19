@@ -23,8 +23,8 @@ public abstract class FoLtlAtomicFormula implements FoLtlLocalFormula, AtomicFor
 	}
 
 	@Override
-	public FoLtlFormula quantifierExpansion(LinkedHashSet<FoLtlConstant> domain, FoLtlAssignment assignment){
-		return this.substitute(assignment);
+	public FoLtlLocalFormula quantifierExpansion(LinkedHashSet<FoLtlConstant> domain, FoLtlAssignment assignment){
+		return (FoLtlLocalFormula) this.substitute(assignment);
 	}
 
 	@Override

@@ -275,6 +275,133 @@ public class ConversionsTest {
 	}
 
 	@Test
+	public void testStisfiability(){
+		System.out.println("*** SATISFIABILITY TEST ***\n");
+
+		//FoLtlAssignment assignment = new FoLtlAssignment();
+		LinkedHashSet<FoLtlConstant> domain = new LinkedHashSet<>();
+		domain.add(new FoLtlConstant("a"));
+		domain.add(new FoLtlConstant("b"));
+		FoLtlAssignment assignment = new FoLtlAssignment();
+
+		//Atom conversions
+		String input = "P(a)";
+		FoLtlFormula original = parseFoLtlFormula(input);
+		FoLtlLocalFormula expanded =((FoLtlLocalFormula) original).quantifierExpansion(domain);
+		FoLtlFormula substituted = parseFoLtlFormula(input);
+		assertEquals("", expected, computed.quantifierExpansion(domain));
+
+		computed = (FoLtlLocalFormula) parseFoLtlFormula("TRUE");
+		expected = parseFoLtlFormula("TRUE");
+		assertEquals("", expected, computed.quantifierExpansion(domain));
+
+		computed = (FoLtlLocalFormula) parseFoLtlFormula("FALSE");
+		expected = parseFoLtlFormula("FALSE");
+		assertEquals("", expected, computed.quantifierExpansion(domain));
+
+		computed = (FoLtlLocalFormula) parseFoLtlFormula("a = b");
+		expected = parseFoLtlFormula("a = b");
+		assertEquals("", expected, computed.quantifierExpansion(domain));
+
+		computed = (FoLtlLocalFormula) parseFoLtlFormula("a = a");
+		expected = parseFoLtlFormula("a = a");
+		assertEquals("", expected, computed.quantifierExpansion(domain));
+
+		//Simple boolean conversions
+		computed = (FoLtlLocalFormula) parseFoLtlFormula("! P(b)");
+		expected = parseFoLtlFormula("! P(b)");
+		assertEquals("", expected, computed.quantifierExpansion(domain));
+
+		computed = (FoLtlLocalFormula) parseFoLtlFormula("P(a) && P(b)");
+		expected = parseFoLtlFormula("P(a) && P(b)");
+		assertEquals("", expected, computed.quantifierExpansion(domain));
+
+		computed = (FoLtlLocalFormula) parseFoLtlFormula("P(a) | P(b)");
+		expected = parseFoLtlFormula("P(a) || P(b)");
+		assertEquals("", expected, computed.quantifierExpansion(domain));
+
+		computed = (FoLtlLocalFormula) parseFoLtlFormula("P(a) -> P(b)");
+		expected = parseFoLtlFormula("P(a) -> P(b)");
+		assertEquals("", expected, computed.quantifierExpansion(domain));
+
+		computed = (FoLtlLocalFormula) parseFoLtlFormula("P(a) <-> P(b)");
+		expected = parseFoLtlFormula("P(a) <-> P(b)");
+		assertEquals("", expected, computed.quantifierExpansion(domain));
+
+		//More intricate boolean conversions
+		computed = (FoLtlLocalFormula) parseFoLtlFormula("P(p) || Q(a) && ! V(r) -> J(s)");
+		expected = parseFoLtlFormula("P(p) || Q(a) && ! V(r) -> J(s)");
+		assertEquals("", expected, computed.quantifierExpansion(domain));
+
+		computed = (FoLtlLocalFormula) parseFoLtlFormula("P(a) -> P(a) -> P(a) -> P(a)");
+		expected = parseFoLtlFormula("P(a) -> (P(a) -> (P(a) -> P(a)))");
+		assertEquals("", expected, computed.quantifierExpansion(domain));
+
+		computed = (FoLtlLocalFormula) parseFoLtlFormula("!(!(!P(a)))");
+		expected = parseFoLtlFormula("!(!(!P(a)))");
+		assertEquals("", expected, computed.quantifierExpansion(domain));
+
+		computed = (FoLtlLocalFormula) parseFoLtlFormula("P(a) && (P(c) || P(b) || P(d)) -> P(s) && P(rst)");
+		expected = parseFoLtlFormula("P(a) && (P(c) || P(b) || P(d)) -> P(s) && P(rst)");
+		assertEquals("", expected, computed.quantifierExpansion(domain));
+
+		//Testing quantifiers and substitutions
+		input = "Exists ?x P(?x)";
+		computed = (FoLtlLocalFormula) parseFoLtlFormula(input);
+		expected = parseFoLtlFormula("P(b) || P(a)");
+		assertEquals(input, expected, computed.quantifierExpansion(domain));
+
+		input = "Forall ?x P(?x)";
+		computed = (FoLtlLocalFormula) parseFoLtlFormula(input);
+		expected = parseFoLtlFormula("P(b) && P(a)");
+		assertEquals(input, expected, computed.quantifierExpansion(domain));
+
+		input = "Exists ?x P(?x) && P(d)";
+		computed = (FoLtlLocalFormula) parseFoLtlFormula(input);
+		expected = parseFoLtlFormula("(P(b) && P(d)) || (P(a) && P(d))");
+		assertEquals(input, expected, computed.quantifierExpansion(domain));
+
+		input = "Forall ?x P(?x) -> P(?z)";
+		computed = (FoLtlLocalFormula) parseFoLtlFormula(input);
+		expected = parseFoLtlFormula("(P(b) -> P(?z)) && (P(a) -> P(?z))");
+		assertEquals(input, expected, computed.quantifierExpansion(domain));
+
+		input = "Exists ?x (Exists ?y (P(?x) && P(?y)))";
+		computed = (FoLtlLocalFormula) parseFoLtlFormula(input);
+		expected = parseFoLtlFormula("(P(b) & P(b) || (P(b) & P(a))) || ((P(a) & P(b)) | (P(a) & P(a)))");
+		assertEquals(input, expected, computed.quantifierExpansion(domain));
+
+
+		//Testing expansion with sorts
+		FoLtlSort sortAB = new FoLtlSort("AB");
+		sortAB.add(new FoLtlConstant("a"));
+		sortAB.add(new FoLtlConstant("b"));
+
+		FoLtlSort sortC = new FoLtlSort("C");
+		sortC.add(new FoLtlConstant("c"));
+
+		System.out.println("\nSORT EXPANSION TEST\n");
+
+		input = "Exists ?x P(?x)";
+		computed = (FoLtlLocalFormula) parseFoLtlFormula(input);
+		computed.assignSort(new FoLtlVariable("x"), sortAB);
+		expected = parseFoLtlFormula("P(b) || P(a)");
+		assertEquals(input, expected, computed.quantifierExpansion(domain));
+
+		input = "Exists ?x P(?x)";
+		computed = (FoLtlLocalFormula) parseFoLtlFormula(input);
+		computed.assignSort(new FoLtlVariable("x"), sortC);
+		expected = parseFoLtlFormula("P(c)");
+		assertEquals(input, expected, computed.quantifierExpansion(domain));
+
+		input = "Exists ?x (Exists ?y P(?x, ?y))";
+		computed = (FoLtlLocalFormula) parseFoLtlFormula(input);
+		computed.assignSort(new FoLtlVariable("x"), sortAB);
+		expected = parseFoLtlFormula("(P(b, c) || P(b, b) || P(b, a)) || (P(a, c) || P(a, b) || P(a, a))");
+		assertEquals(input, expected, computed.quantifierExpansion(domain));
+	}
+
+	@Test
 	public void testTweetyProps(){
 		//Used only to get parser's warning messages out of the way
 		parseFoLtlFormula("P(a)");

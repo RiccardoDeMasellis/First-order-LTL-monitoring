@@ -34,7 +34,7 @@ public class FoLtlLocalNotFormula extends FoLtlUnaryFormula implements NotFormul
 	}
 
 	@Override
-	public FoLtlFormula quantifierExpansion(LinkedHashSet<FoLtlConstant> domain, FoLtlAssignment assignment){
+	public FoLtlLocalFormula quantifierExpansion(LinkedHashSet<FoLtlConstant> domain, FoLtlAssignment assignment){
 		FoLtlLocalFormula nested = (FoLtlLocalFormula) this.getNestedFormula().clone();
 		return new FoLtlLocalNotFormula(nested.quantifierExpansion(domain, assignment));
 	}
