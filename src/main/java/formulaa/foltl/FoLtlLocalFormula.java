@@ -38,7 +38,7 @@ public interface FoLtlLocalFormula extends FoLtlFormula, LocalFormula {
 	 * @param assignment the given assignment
 	 * @return a FoLtlLocalFormula equivalent to this formula.
 	 */
-	FoLtlFormula quantifierExpansion(LinkedHashSet<FoLtlConstant> domain, FoLtlAssignment assignment);
+	FoLtlLocalFormula quantifierExpansion(LinkedHashSet<FoLtlConstant> domain, FoLtlAssignment assignment);
 
 	/**
 	 *
@@ -47,7 +47,7 @@ public interface FoLtlLocalFormula extends FoLtlFormula, LocalFormula {
 	 * @param domain the domain
 	 * @return a FoLtlLocalFormula equivalent to this formula.
 	 */
-	default FoLtlFormula quantifierExpansion(LinkedHashSet<FoLtlConstant> domain){
+	default FoLtlLocalFormula quantifierExpansion(LinkedHashSet<FoLtlConstant> domain){
 		return this.quantifierExpansion(domain, new FoLtlAssignment());
 	}
 

@@ -63,7 +63,7 @@ public class FoLtlLocalForallFormula extends FoLtlQuantifiedFormula implements F
 
 	@Override
 	public FoLtlLocalFormula quantifierExpansion(LinkedHashSet<FoLtlConstant> domain, FoLtlAssignment assignment){
-		FoLtlFormula res = null;
+		FoLtlLocalFormula res = null;
 		FoLtlLocalFormula nested = (FoLtlLocalFormula) this.getNestedFormula().clone();
 		FoLtlVariable v = this.getQuantifiedVariable();
 
@@ -79,7 +79,7 @@ public class FoLtlLocalForallFormula extends FoLtlQuantifiedFormula implements F
 			FoLtlConstant c = i.next();
 			assignment.put(v, c);
 
-			FoLtlFormula temp = nested.quantifierExpansion(domain, assignment);
+			FoLtlLocalFormula temp = nested.quantifierExpansion(domain, assignment);
 
 			if (res == null){
 				res = temp;
