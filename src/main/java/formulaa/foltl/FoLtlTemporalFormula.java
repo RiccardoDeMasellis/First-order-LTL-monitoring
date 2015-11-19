@@ -14,7 +14,7 @@ import java.util.HashSet;
 public interface FoLtlTemporalFormula extends FoLtlFormula, TemporalFormula {
 
 	default FoLtlFormula temporalExpansion(HashSet<FoLtlConstant> domain, FoLtlAssignment assignment){
-		return this.substitute(domain, assignment);
+		return this.substitute(assignment);
 	}
 
 }

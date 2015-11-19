@@ -30,9 +30,9 @@ public abstract class FoLtlBinaryFormula implements FoLtlFormula, BinaryFormula 
 	}
 
 	@Override
-	public FoLtlFormula substitute(HashSet<FoLtlConstant> domain, FoLtlAssignment assignment){
-		return this.formulaFactory(this.getFormulaType(), this.getLeftFormula().substitute(domain, assignment),
-				this.getRightFormula().substitute(domain, assignment));
+	public FoLtlFormula substitute(FoLtlAssignment assignment){
+		return this.formulaFactory(this.getFormulaType(), this.getLeftFormula().substitute(assignment),
+				this.getRightFormula().substitute(assignment));
 	}
 
 	@Override

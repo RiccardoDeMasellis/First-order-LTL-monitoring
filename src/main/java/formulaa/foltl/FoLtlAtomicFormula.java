@@ -18,13 +18,13 @@ import java.util.LinkedList;
 public abstract class FoLtlAtomicFormula implements FoLtlLocalFormula, AtomicFormula {
 
 	@Override
-	public FoLtlFormula substitute(HashSet<FoLtlConstant> domain, FoLtlAssignment assignment){
+	public FoLtlFormula substitute(FoLtlAssignment assignment){
 		return this.clone();
 	}
 
 	@Override
 	public FoLtlFormula quantifierExpansion(LinkedHashSet<FoLtlConstant> domain, FoLtlAssignment assignment){
-		return this.substitute(domain, assignment);
+		return this.substitute(assignment);
 	}
 
 	@Override

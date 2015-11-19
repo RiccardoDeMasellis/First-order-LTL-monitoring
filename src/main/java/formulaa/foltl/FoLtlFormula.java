@@ -19,11 +19,10 @@ public interface FoLtlFormula extends Formula, FoLtlLabel {
 	/**
 	 * Given the domain and an assignment substitutes all the variables in this Formula
 	 * according to the assignment
-	 * @param domain the domain
 	 * @param assignment the assignment
 	 * @return a new FoltlFormula where variables are substituted by constants according to the given assignment
 	 */
-	FoLtlFormula substitute(HashSet<FoLtlConstant> domain, FoLtlAssignment assignment);
+	FoLtlFormula substitute(FoLtlAssignment assignment);
 
 	/**
 	 * Translates this formula into a FLLOAT LTLf formula, where to every original local (FOL) formula
