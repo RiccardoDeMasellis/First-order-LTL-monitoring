@@ -301,4 +301,29 @@ public class ParsingUtils {
 		return res;
 	}
 
+	/**
+	 * Simple method that takes a string (ideally an expression with round parenthesis) and
+	 * returns a new string consisting of the input string, with a new line underneath with
+	 * matching numbers on corresponding open and close parenthesis
+	 * @param input the input string
+	 * @return the output string
+	 */
+	public static String parenthesisMatcher(String input){
+		String output = "";
+		int count = 0;
+
+		for (int i = 0; i < input.length(); i++){
+			if (input.charAt(i) == '('){
+				output = output + count;
+				count++;
+			} else if (input.charAt(i) == ')'){
+				count--;
+				output = output + count;
+			} else {
+				output = output + " ";
+			}
+		}
+
+		return input + "\n" + output;
+	}
 }
