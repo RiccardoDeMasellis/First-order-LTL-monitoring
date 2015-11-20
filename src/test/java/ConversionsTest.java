@@ -274,10 +274,12 @@ public class ConversionsTest {
 	public void testStisfiability(){
 		System.out.println("*** SATISFIABILITY TEST *** \n");
 
-		//FoLtlAssignment assignment = new FoLtlAssignment();
 		LinkedHashSet<FoLtlConstant> domain = new LinkedHashSet<>();
 		domain.add(new FoLtlConstant("a"));
 		domain.add(new FoLtlConstant("b"));
+
+		System.out.println("Domain: " + domain.toString() + "\n");
+
 		FoLtlAssignment assignment = new FoLtlAssignment();
 
 		//Simple satisfiable formulas
@@ -348,8 +350,6 @@ public class ConversionsTest {
 		assertTrue(computed + " is satisfiable", computed.isSatisfiable(domain, assignment));
 
 
-
-
 		//Simple unsatisfiable formulas
 		input = "false";
 		computed = (FoLtlLocalFormula) parseFoLtlFormula(input);
@@ -371,38 +371,81 @@ public class ConversionsTest {
 		computed = (FoLtlLocalFormula) parseFoLtlFormula(input);
 		assertFalse(computed + " is unsatisfiable", computed.isSatisfiable(domain, assignment));
 
+		input = "! (((A(a) & B(a)) -> C(a)) -> ((A(a) -> C(a)) | (B(a) -> C(a))))";
+		computed = (FoLtlLocalFormula) parseFoLtlFormula(input);
+		assertFalse(computed + " is unsatisfiable", computed.isSatisfiable(domain, assignment));
+
+		input = "! (((A(a) -> B(a)) -> A(a)) -> A(a))";
+		computed = (FoLtlLocalFormula) parseFoLtlFormula(input);
+		assertFalse(computed + " is unsatisfiable", computed.isSatisfiable(domain, assignment));
+
+		input = "! ((A(a) -> B(a)) -> (!A(a) | B(a)))";
+		computed = (FoLtlLocalFormula) parseFoLtlFormula(input);
+		assertFalse(computed + " is unsatisfiable", computed.isSatisfiable(domain, assignment));
+
+		input = "! ((A(a) -> B(a)) -> (!A(a) | B(a)))";
+		computed = (FoLtlLocalFormula) parseFoLtlFormula(input);
+		assertFalse(computed + " is unsatisfiable", computed.isSatisfiable(domain, assignment));
+
+		input = "!(!(A(a) -> B(a)) -> (A(a) & !B(a)))";
+		computed = (FoLtlLocalFormula) parseFoLtlFormula(input);
+		assertFalse(computed + " is unsatisfiable", computed.isSatisfiable(domain, assignment));
 
 
-		/*
-		//More intricate boolean conversions
-
-		//Testing quantifiers and substitutions
+		//Satisfiable formulas with quantifiers
 		input = "Exists ?x P(?x)";
 		computed = (FoLtlLocalFormula) parseFoLtlFormula(input);
-		expected = parseFoLtlFormula("P(b) || P(a)");
-		assertEquals(input, expected, computed.quantifierExpansion(domain));
+		assertTrue(computed + " is satisfiable", computed.isSatisfiable(domain, assignment));
 
 		input = "Forall ?x P(?x)";
 		computed = (FoLtlLocalFormula) parseFoLtlFormula(input);
-		expected = parseFoLtlFormula("P(b) && P(a)");
-		assertEquals(input, expected, computed.quantifierExpansion(domain));
-
-		input = "Exists ?x P(?x) && P(d)";
-		computed = (FoLtlLocalFormula) parseFoLtlFormula(input);
-		expected = parseFoLtlFormula("(P(b) && P(d)) || (P(a) && P(d))");
-		assertEquals(input, expected, computed.quantifierExpansion(domain));
-
-		input = "Forall ?x P(?x) -> P(?z)";
-		computed = (FoLtlLocalFormula) parseFoLtlFormula(input);
-		expected = parseFoLtlFormula("(P(b) -> P(?z)) && (P(a) -> P(?z))");
-		assertEquals(input, expected, computed.quantifierExpansion(domain));
+		assertTrue(computed + " is satisfiable", computed.isSatisfiable(domain, assignment));
 
 		input = "Exists ?x (Exists ?y (P(?x) && P(?y)))";
 		computed = (FoLtlLocalFormula) parseFoLtlFormula(input);
-		expected = parseFoLtlFormula("(P(b) & P(b) || (P(b) & P(a))) || ((P(a) & P(b)) | (P(a) & P(a)))");
-		assertEquals(input, expected, computed.quantifierExpansion(domain));
+		assertTrue(computed + " is satisfiable", computed.isSatisfiable(domain, assignment));
+
+		//D = {1, 2}
+		input = "!((Forall ?x (Exists ?y (P(?x, ?y)))) -> (Forall ?y (Exists ?x (P(?x, ?y)))))";
+		computed = (FoLtlLocalFormula) parseFoLtlFormula(input);
+		assertTrue(computed + " is satisfiable", computed.isSatisfiable(domain, assignment));
+
+		input = "((Forall ?x (Forall ?y (P(?x) & P(?y) -> Q(?x, ?y))))" +
+				" -> (Forall ?x (P(?x) -> (Exists ?y (Q(?x, ?y))))))";
+		computed = (FoLtlLocalFormula) parseFoLtlFormula(input);
+		assertTrue(computed + " is satisfiable", computed.isSatisfiable(domain, assignment));
+
+		input = "(P(a, b) <-> (Exists ?x (Exists ?y (P(?x, ?y)))))";
+		computed = (FoLtlLocalFormula) parseFoLtlFormula(input);
+		assertTrue(computed + " is satisfiable", computed.isSatisfiable(domain, assignment));
+
+		input = "((Forall ?x (Forall ?y (Forall ?z (P(?x, ?y) & P(?x, ?z) -> P(?y, ?z))))) " +
+				"-> (Forall ?x ((Exists ?w (P(?w, ?x))) -> P(?x, ?x))))";
+		computed = (FoLtlLocalFormula) parseFoLtlFormula(input);
+		assertTrue(computed + " is satisfiable", computed.isSatisfiable(domain, assignment));
 
 
+		//Unsatisfiable formulas with quantifiers
+		input = "(Forall ?x P(?x)) && !P(a)";
+		computed = (FoLtlLocalFormula) parseFoLtlFormula(input);
+		assertFalse(computed + " is unsatisfiable", computed.isSatisfiable(domain, assignment));
+
+		input = "!((Forall ?x (Forall ?y (P(?x) & P(?y) -> Q(?x, ?y))))" +
+				" -> (Forall ?x (P(?x) -> (Exists ?y (Q(?x, ?y))))))";
+		computed = (FoLtlLocalFormula) parseFoLtlFormula(input);
+		assertFalse(computed + " is unsatisfiable", computed.isSatisfiable(domain, assignment));
+
+		input = "!((Forall ?x (Forall ?y (Forall ?z (P(?x, ?y) & P(?x, ?z) -> P(?y, ?z))))) " +
+				"-> (Forall ?x ((Exists ?w (P(?w, ?x))) -> P(?x, ?x))))";
+		computed = (FoLtlLocalFormula) parseFoLtlFormula(input);
+		assertFalse(computed + " is unsatisfiable", computed.isSatisfiable(domain, assignment));
+
+
+
+
+
+
+		/*
 		//Testing expansion with sorts
 		FoLtlSort sortAB = new FoLtlSort("AB");
 		sortAB.add(new FoLtlConstant("a"));
