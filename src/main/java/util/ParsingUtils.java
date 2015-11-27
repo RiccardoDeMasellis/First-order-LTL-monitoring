@@ -2,6 +2,7 @@ package util;
 
 import antlr4_generated.*;
 import formulaa.fol.FolFormula;
+import formulaa.foltl.FoLtlConstant;
 import formulaa.foltl.FoLtlFormula;
 import formula.ltlf.LTLfFormula;
 import formulaa.foltl.FoLtlVariable;
@@ -23,6 +24,7 @@ import java.io.IOException;
 import java.io.Reader;
 import java.io.StringReader;
 import java.util.HashSet;
+import java.util.LinkedHashSet;
 
 /**
  * Class that packs methods to encapsulates the parsing functionalities.
@@ -325,6 +327,21 @@ public class ParsingUtils {
 
 		for (String var : vars){
 			res.add(new FoLtlVariable(var));
+		}
+
+		return res;
+	}
+
+	/**
+	 * Simple method to quickly build a set of constants
+	 * @param cons the constants names list
+	 * @return the set containing constants with the given name
+	 */
+	public static LinkedHashSet<FoLtlConstant> parseConstantSet(String... cons){
+		LinkedHashSet<FoLtlConstant> res = new LinkedHashSet<>();
+
+		for (String c : cons){
+			res.add(new FoLtlConstant(c));
 		}
 
 		return res;
