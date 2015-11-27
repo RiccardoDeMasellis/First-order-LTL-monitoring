@@ -20,10 +20,18 @@ import org.junit.Test;
  * SemanticsTest
  * <br>
  * Created by Simone Calciolari on 27/11/15.
- *
  * @author Simone Calciolari.
  */
 public class SemanticsTest {
+
+	@Test
+	public void testSubstitution(){
+		FoLtlAssignment assignment = new FoLtlAssignment();
+
+		FoLtlFormula computed = parseFoLtlFormula("P(?x) & P(?y) || P(?x)");
+		FoLtlFormula expeted = parseFoLtlFormula("(P(a) && P(b) || P(a))");
+		assignment.put(new FoLtlVariable("x"), new FoLtlConstant("a"));
+	}
 
 	@Test
 	public void testQuantifierExpansion(){

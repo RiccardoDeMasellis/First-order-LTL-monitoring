@@ -1,4 +1,5 @@
 import formulaa.foltl.*;
+import formulaa.foltl.semantics.FoLtlAssignment;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -135,7 +136,24 @@ public class FoLtlStructuresTest {
 
 	@Test
 	public void	testAssignmentParsing(){
-		System.out.println(parseFoltlAssignment("?x <- a; ?y <- b;"));
+		System.out.println("*** TEST ASSIGNMENT PARSING ***\n");
+
+		FoLtlAssignment computed = parseFoltlAssignment("");
+		FoLtlAssignment expected = new FoLtlAssignment();
+		assertEquals("", expected, computed);
+
+		computed = parseFoltlAssignment("?x <- a; ?y <- b;");
+		expected = new FoLtlAssignment();
+		expected.put(new FoLtlVariable("x"), new FoLtlConstant("a"));
+		expected.put(new FoLtlVariable("y"), new FoLtlConstant("b"));
+		assertEquals("", expected, computed);
+
+		computed = parseFoltlAssignment("?x <- a; ?y <- b; ?x <- b;");
+		expected = new FoLtlAssignment();
+		expected.put(new FoLtlVariable("x"), new FoLtlConstant("a"));
+		expected.put(new FoLtlVariable("y"), new FoLtlConstant("b"));
+		expected.put(new FoLtlVariable("x"), new FoLtlConstant("b"));
+		assertEquals("", expected, computed);
 	}
 
 	//<editor-fold desc="assertEquals" defaultstate="collapsed">

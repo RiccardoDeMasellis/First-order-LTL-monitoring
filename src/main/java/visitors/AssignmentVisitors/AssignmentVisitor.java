@@ -31,21 +31,14 @@ public class AssignmentVisitor extends FoLtlAssignmentBaseVisitor<FoLtlAssignmen
 
 	@Override
 	public FoLtlAssignment visitAssignmentDefinition(FoLtlAssignmentParser.AssignmentDefinitionContext ctx){
-		FoLtlAssignment res;
+		FoLtlAssignment res = new FoLtlAssignment();
 
-		if (ctx.getChildCount() > 0){
-			res = new FoLtlAssignment();
+		for (int i = 0; i < ctx.getChildCount(); i++){
+			res.putAll(visit(ctx.getChild(i)));
 
-			for (int i = 0; i < ctx.getChildCount(); i++){
-				res.putAll(visit(ctx.getChild(i)));
-
-				if (DEBUG){
-					System.out.println(res);
-				}
+			if (DEBUG){
+				System.out.println(res);
 			}
-
-		} else {
-			res = visitChildren(ctx);
 		}
 
 		return res;
