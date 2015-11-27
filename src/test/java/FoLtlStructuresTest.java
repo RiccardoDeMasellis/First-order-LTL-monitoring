@@ -7,7 +7,7 @@ import static util.ParsingUtils.*;
 /**
  * Created by Simone Calciolari on 19/08/15.
  */
-public class FoltlSortTest {
+public class FoLtlStructuresTest {
 
 	@Test
 	public void testSortOperations(){
@@ -131,6 +131,11 @@ public class FoltlSortTest {
 		Assert.assertTrue(qvar.getSort() == ((FoLtlVariable) atom.getArguments().getFirst()).getSort());
 		assertEquals("", qvar.getSort(), ((FoLtlVariable) atom.getArguments().getFirst()).getSort());
 
+	}
+
+	@Test
+	public void	testAssignmentParsing(){
+		System.out.println(parseFoltlAssignment("?x <- a; ?y <- b;"));
 	}
 
 	//<editor-fold desc="assertEquals" defaultstate="collapsed">

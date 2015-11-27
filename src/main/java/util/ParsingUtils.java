@@ -5,6 +5,7 @@ import formulaa.fol.FolFormula;
 import formulaa.foltl.FoLtlFormula;
 import formula.ltlf.LTLfFormula;
 import formulaa.foltl.FoLtlVariable;
+import formulaa.foltl.semantics.FoLtlAssignment;
 import net.sf.tweety.commons.Formula;
 import net.sf.tweety.logics.fol.parser.FolParser;
 import net.sf.tweety.logics.fol.syntax.FolSignature;
@@ -13,6 +14,7 @@ import net.sf.tweety.logics.pl.syntax.PropositionalFormula;
 import org.antlr.v4.runtime.ANTLRInputStream;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.tree.ParseTree;
+import visitors.AssignmentVisitors.AssignmentVisitor;
 import visitors.FOLTLVisitors.*;
 import visitors.FOLVisitors.*;
 import visitors.LTLfVisitors.LTLfVisitor;
@@ -284,6 +286,33 @@ public class ParsingUtils {
 		}
 
 		return (net.sf.tweety.logics.fol.syntax.FolFormula) output;
+	}
+
+	public static FoLtlAssignment parseFoltlAssignment(String input){
+		FoLtlAssignment output;
+
+		//Instantiates default lexer and parser
+		FoLtlAssignmentLexer lexer = new FoLtlAssignmentLexer(new ANTLRInputStream(input));
+		FoLtlAssignmentParser parser = new FoLtlAssignmentParser(new CommonTokenStream(lexer));
+
+		//Gets the parsing tree
+		ParseTree tree = parser.assignmentDefinition();
+
+		if (DEBUG){
+			System.out.println("\n");
+			String o = tree.toStringTree(parser);
+			System.out.println("> Default parsing tree:\n> " + o + "\n");
+		}
+
+		//Calling our own visitor
+		AssignmentVisitor visitor = new AssignmentVisitor();
+		output = visitor.visit(tree);
+
+		if(DEBUG) {
+			System.out.println("\n> Parsed Assignment: " + output.toString());
+		}
+
+		return output;
 	}
 
 	/**
