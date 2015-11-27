@@ -1,4 +1,4 @@
-// Generated from SortDefinition.g4 by ANTLR 4.3
+// Generated from SortDefinition.g4 by ANTLR 4.5
 
 	package antlr4_generated;
 
@@ -20,29 +20,26 @@ public class SortDefinitionBaseVisitor<T> extends AbstractParseTreeVisitor<T> im
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitSortAssignment(@NotNull SortDefinitionParser.SortAssignmentContext ctx) { return visitChildren(ctx); }
-
+	@Override public T visitStart(SortDefinitionParser.StartContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitStart(@NotNull SortDefinitionParser.StartContext ctx) { return visitChildren(ctx); }
-
+	@Override public T visitSortDefinition(SortDefinitionParser.SortDefinitionContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitSortDefinition(@NotNull SortDefinitionParser.SortDefinitionContext ctx) { return visitChildren(ctx); }
-
+	@Override public T visitSortDeclaration(SortDefinitionParser.SortDeclarationContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitSortDeclaration(@NotNull SortDefinitionParser.SortDeclarationContext ctx) { return visitChildren(ctx); }
+	@Override public T visitSortAssignment(SortDefinitionParser.SortAssignmentContext ctx) { return visitChildren(ctx); }
 }

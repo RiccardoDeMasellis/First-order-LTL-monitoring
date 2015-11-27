@@ -1,4 +1,4 @@
-// Generated from FOLTLFormulaParser.g4 by ANTLR 4.3
+// Generated from FOLTLFormulaParser.g4 by ANTLR 4.5
 
     package antlr4_generated;
 
@@ -13,7 +13,7 @@ import java.util.ArrayList;
 
 @SuppressWarnings({"all", "warnings", "unchecked", "unused", "cast"})
 public class FOLTLFormulaParserParser extends Parser {
-	static { RuntimeMetaData.checkVersion("4.3", RuntimeMetaData.VERSION); }
+	static { RuntimeMetaData.checkVersion("4.5", RuntimeMetaData.VERSION); }
 
 	protected static final DFA[] _decisionToDFA;
 	protected static final PredictionContextCache _sharedContextCache =
@@ -23,12 +23,6 @@ public class FOLTLFormulaParserParser extends Parser {
 		WEAKNEXT=8, NEXT=9, LPAREN=10, RPAREN=11, DOUBLEIMPLY=12, IMPLY=13, AND=14, 
 		OR=15, NOT=16, FORALL=17, EXISTS=18, EQUAL=19, FALSEATOM=20, TRUEATOM=21, 
 		VARIABLE=22, CONSTANT=23, PREPOSITION=24, WS=25;
-	public static final String[] tokenNames = {
-		"<INVALID>", "','", "LAST", "WEAKUNTIL", "UNTIL", "RELEASE", "GLOBALLY", 
-		"EVENTUALLY", "WEAKNEXT", "NEXT", "'('", "')'", "'<->'", "'->'", "AND", 
-		"OR", "'!'", "'Forall'", "'Exists'", "'='", "FALSEATOM", "TRUEATOM", "VARIABLE", 
-		"CONSTANT", "PREPOSITION", "WS"
-	};
 	public static final int
 		RULE_start = 0, RULE_foltlFormula = 1, RULE_acrossQuantifiedFormula = 2, 
 		RULE_temporalDoubleImplication = 3, RULE_temporalImplication = 4, RULE_temporalDisjunction = 5, 
@@ -47,11 +41,51 @@ public class FOLTLFormulaParserParser extends Parser {
 		"predicate"
 	};
 
-	@Override
-	public String getGrammarFileName() { return "FOLTLFormulaParser.g4"; }
+	private static final String[] _LITERAL_NAMES = {
+		null, "','", null, null, null, null, null, null, null, null, "'('", "')'", 
+		"'<->'", "'->'", null, null, "'!'", "'Forall'", "'Exists'", "'='"
+	};
+	private static final String[] _SYMBOLIC_NAMES = {
+		null, null, "LAST", "WEAKUNTIL", "UNTIL", "RELEASE", "GLOBALLY", "EVENTUALLY", 
+		"WEAKNEXT", "NEXT", "LPAREN", "RPAREN", "DOUBLEIMPLY", "IMPLY", "AND", 
+		"OR", "NOT", "FORALL", "EXISTS", "EQUAL", "FALSEATOM", "TRUEATOM", "VARIABLE", 
+		"CONSTANT", "PREPOSITION", "WS"
+	};
+	public static final Vocabulary VOCABULARY = new VocabularyImpl(_LITERAL_NAMES, _SYMBOLIC_NAMES);
+
+	/**
+	 * @deprecated Use {@link #VOCABULARY} instead.
+	 */
+	@Deprecated
+	public static final String[] tokenNames;
+	static {
+		tokenNames = new String[_SYMBOLIC_NAMES.length];
+		for (int i = 0; i < tokenNames.length; i++) {
+			tokenNames[i] = VOCABULARY.getLiteralName(i);
+			if (tokenNames[i] == null) {
+				tokenNames[i] = VOCABULARY.getSymbolicName(i);
+			}
+
+			if (tokenNames[i] == null) {
+				tokenNames[i] = "<INVALID>";
+			}
+		}
+	}
 
 	@Override
-	public String[] getTokenNames() { return tokenNames; }
+	@Deprecated
+	public String[] getTokenNames() {
+		return tokenNames;
+	}
+
+	@Override
+
+	public Vocabulary getVocabulary() {
+		return VOCABULARY;
+	}
+
+	@Override
+	public String getGrammarFileName() { return "FOLTLFormulaParser.g4"; }
 
 	@Override
 	public String[] getRuleNames() { return ruleNames; }
@@ -88,8 +122,10 @@ public class FOLTLFormulaParserParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(50); foltlFormula();
-			setState(51); match(EOF);
+			setState(50);
+			foltlFormula();
+			setState(51);
+			match(EOF);
 			}
 		}
 		catch (RecognitionException re) {
@@ -130,14 +166,15 @@ public class FOLTLFormulaParserParser extends Parser {
 			case 1:
 				enterOuterAlt(_localctx, 1);
 				{
-				setState(53); localQuantifiedFormula();
+				setState(53);
+				localQuantifiedFormula();
 				}
 				break;
-
 			case 2:
 				enterOuterAlt(_localctx, 2);
 				{
-				setState(54); acrossQuantifiedFormula();
+				setState(54);
+				acrossQuantifiedFormula();
 				}
 				break;
 			}
@@ -154,14 +191,14 @@ public class FOLTLFormulaParserParser extends Parser {
 	}
 
 	public static class AcrossQuantifiedFormulaContext extends ParserRuleContext {
-		public TerminalNode EXISTS() { return getToken(FOLTLFormulaParserParser.EXISTS, 0); }
 		public TerminalNode LPAREN() { return getToken(FOLTLFormulaParserParser.LPAREN, 0); }
-		public TerminalNode RPAREN() { return getToken(FOLTLFormulaParserParser.RPAREN, 0); }
-		public TerminalNode FORALL() { return getToken(FOLTLFormulaParserParser.FORALL, 0); }
 		public AcrossQuantifiedFormulaContext acrossQuantifiedFormula() {
 			return getRuleContext(AcrossQuantifiedFormulaContext.class,0);
 		}
+		public TerminalNode RPAREN() { return getToken(FOLTLFormulaParserParser.RPAREN, 0); }
 		public TerminalNode VARIABLE() { return getToken(FOLTLFormulaParserParser.VARIABLE, 0); }
+		public TerminalNode FORALL() { return getToken(FOLTLFormulaParserParser.FORALL, 0); }
+		public TerminalNode EXISTS() { return getToken(FOLTLFormulaParserParser.EXISTS, 0); }
 		public TemporalDoubleImplicationContext temporalDoubleImplication() {
 			return getRuleContext(TemporalDoubleImplicationContext.class,0);
 		}
@@ -191,20 +228,25 @@ public class FOLTLFormulaParserParser extends Parser {
 				_la = _input.LA(1);
 				if ( !(_la==FORALL || _la==EXISTS) ) {
 				_errHandler.recoverInline(this);
+				} else {
+					consume();
 				}
-				consume();
-				setState(58); match(VARIABLE);
+				setState(58);
+				match(VARIABLE);
 				}
-				setState(60); match(LPAREN);
-				setState(61); acrossQuantifiedFormula();
-				setState(62); match(RPAREN);
+				setState(60);
+				match(LPAREN);
+				setState(61);
+				acrossQuantifiedFormula();
+				setState(62);
+				match(RPAREN);
 				}
 				break;
-
 			case 2:
 				enterOuterAlt(_localctx, 2);
 				{
-				setState(64); temporalDoubleImplication();
+				setState(64);
+				temporalDoubleImplication();
 				}
 				break;
 			}
@@ -221,13 +263,13 @@ public class FOLTLFormulaParserParser extends Parser {
 	}
 
 	public static class TemporalDoubleImplicationContext extends ParserRuleContext {
-		public List<TerminalNode> DOUBLEIMPLY() { return getTokens(FOLTLFormulaParserParser.DOUBLEIMPLY); }
 		public List<TemporalImplicationContext> temporalImplication() {
 			return getRuleContexts(TemporalImplicationContext.class);
 		}
 		public TemporalImplicationContext temporalImplication(int i) {
 			return getRuleContext(TemporalImplicationContext.class,i);
 		}
+		public List<TerminalNode> DOUBLEIMPLY() { return getTokens(FOLTLFormulaParserParser.DOUBLEIMPLY); }
 		public TerminalNode DOUBLEIMPLY(int i) {
 			return getToken(FOLTLFormulaParserParser.DOUBLEIMPLY, i);
 		}
@@ -249,15 +291,18 @@ public class FOLTLFormulaParserParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(67); temporalImplication();
+			setState(67);
+			temporalImplication();
 			setState(72);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
 			while (_la==DOUBLEIMPLY) {
 				{
 				{
-				setState(68); match(DOUBLEIMPLY);
-				setState(69); temporalImplication();
+				setState(68);
+				match(DOUBLEIMPLY);
+				setState(69);
+				temporalImplication();
 				}
 				}
 				setState(74);
@@ -278,15 +323,15 @@ public class FOLTLFormulaParserParser extends Parser {
 	}
 
 	public static class TemporalImplicationContext extends ParserRuleContext {
-		public List<TerminalNode> IMPLY() { return getTokens(FOLTLFormulaParserParser.IMPLY); }
-		public TerminalNode IMPLY(int i) {
-			return getToken(FOLTLFormulaParserParser.IMPLY, i);
-		}
 		public List<TemporalDisjunctionContext> temporalDisjunction() {
 			return getRuleContexts(TemporalDisjunctionContext.class);
 		}
 		public TemporalDisjunctionContext temporalDisjunction(int i) {
 			return getRuleContext(TemporalDisjunctionContext.class,i);
+		}
+		public List<TerminalNode> IMPLY() { return getTokens(FOLTLFormulaParserParser.IMPLY); }
+		public TerminalNode IMPLY(int i) {
+			return getToken(FOLTLFormulaParserParser.IMPLY, i);
 		}
 		public TemporalImplicationContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
@@ -306,15 +351,18 @@ public class FOLTLFormulaParserParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(75); temporalDisjunction();
+			setState(75);
+			temporalDisjunction();
 			setState(80);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
 			while (_la==IMPLY) {
 				{
 				{
-				setState(76); match(IMPLY);
-				setState(77); temporalDisjunction();
+				setState(76);
+				match(IMPLY);
+				setState(77);
+				temporalDisjunction();
 				}
 				}
 				setState(82);
@@ -363,15 +411,18 @@ public class FOLTLFormulaParserParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(83); temporalConjunction();
+			setState(83);
+			temporalConjunction();
 			setState(88);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
 			while (_la==OR) {
 				{
 				{
-				setState(84); match(OR);
-				setState(85); temporalConjunction();
+				setState(84);
+				match(OR);
+				setState(85);
+				temporalConjunction();
 				}
 				}
 				setState(90);
@@ -392,15 +443,15 @@ public class FOLTLFormulaParserParser extends Parser {
 	}
 
 	public static class TemporalConjunctionContext extends ParserRuleContext {
-		public TerminalNode AND(int i) {
-			return getToken(FOLTLFormulaParserParser.AND, i);
+		public List<WeakUntilContext> weakUntil() {
+			return getRuleContexts(WeakUntilContext.class);
 		}
-		public List<TerminalNode> AND() { return getTokens(FOLTLFormulaParserParser.AND); }
 		public WeakUntilContext weakUntil(int i) {
 			return getRuleContext(WeakUntilContext.class,i);
 		}
-		public List<WeakUntilContext> weakUntil() {
-			return getRuleContexts(WeakUntilContext.class);
+		public List<TerminalNode> AND() { return getTokens(FOLTLFormulaParserParser.AND); }
+		public TerminalNode AND(int i) {
+			return getToken(FOLTLFormulaParserParser.AND, i);
 		}
 		public TemporalConjunctionContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
@@ -420,15 +471,18 @@ public class FOLTLFormulaParserParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(91); weakUntil();
+			setState(91);
+			weakUntil();
 			setState(96);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
 			while (_la==AND) {
 				{
 				{
-				setState(92); match(AND);
-				setState(93); weakUntil();
+				setState(92);
+				match(AND);
+				setState(93);
+				weakUntil();
 				}
 				}
 				setState(98);
@@ -452,12 +506,12 @@ public class FOLTLFormulaParserParser extends Parser {
 		public List<ReleaseContext> release() {
 			return getRuleContexts(ReleaseContext.class);
 		}
+		public ReleaseContext release(int i) {
+			return getRuleContext(ReleaseContext.class,i);
+		}
 		public List<TerminalNode> WEAKUNTIL() { return getTokens(FOLTLFormulaParserParser.WEAKUNTIL); }
 		public TerminalNode WEAKUNTIL(int i) {
 			return getToken(FOLTLFormulaParserParser.WEAKUNTIL, i);
-		}
-		public ReleaseContext release(int i) {
-			return getRuleContext(ReleaseContext.class,i);
 		}
 		public WeakUntilContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
@@ -477,15 +531,18 @@ public class FOLTLFormulaParserParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(99); release();
+			setState(99);
+			release();
 			setState(104);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
 			while (_la==WEAKUNTIL) {
 				{
 				{
-				setState(100); match(WEAKUNTIL);
-				setState(101); release();
+				setState(100);
+				match(WEAKUNTIL);
+				setState(101);
+				release();
 				}
 				}
 				setState(106);
@@ -506,16 +563,16 @@ public class FOLTLFormulaParserParser extends Parser {
 	}
 
 	public static class ReleaseContext extends ParserRuleContext {
-		public TerminalNode RELEASE(int i) {
-			return getToken(FOLTLFormulaParserParser.RELEASE, i);
+		public List<UntilContext> until() {
+			return getRuleContexts(UntilContext.class);
 		}
 		public UntilContext until(int i) {
 			return getRuleContext(UntilContext.class,i);
 		}
-		public List<UntilContext> until() {
-			return getRuleContexts(UntilContext.class);
-		}
 		public List<TerminalNode> RELEASE() { return getTokens(FOLTLFormulaParserParser.RELEASE); }
+		public TerminalNode RELEASE(int i) {
+			return getToken(FOLTLFormulaParserParser.RELEASE, i);
+		}
 		public ReleaseContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
@@ -534,15 +591,18 @@ public class FOLTLFormulaParserParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(107); until();
+			setState(107);
+			until();
 			setState(112);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
 			while (_la==RELEASE) {
 				{
 				{
-				setState(108); match(RELEASE);
-				setState(109); until();
+				setState(108);
+				match(RELEASE);
+				setState(109);
+				until();
 				}
 				}
 				setState(114);
@@ -563,15 +623,15 @@ public class FOLTLFormulaParserParser extends Parser {
 	}
 
 	public static class UntilContext extends ParserRuleContext {
+		public List<GloballyContext> globally() {
+			return getRuleContexts(GloballyContext.class);
+		}
 		public GloballyContext globally(int i) {
 			return getRuleContext(GloballyContext.class,i);
 		}
+		public List<TerminalNode> UNTIL() { return getTokens(FOLTLFormulaParserParser.UNTIL); }
 		public TerminalNode UNTIL(int i) {
 			return getToken(FOLTLFormulaParserParser.UNTIL, i);
-		}
-		public List<TerminalNode> UNTIL() { return getTokens(FOLTLFormulaParserParser.UNTIL); }
-		public List<GloballyContext> globally() {
-			return getRuleContexts(GloballyContext.class);
 		}
 		public UntilContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
@@ -591,15 +651,18 @@ public class FOLTLFormulaParserParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(115); globally();
+			setState(115);
+			globally();
 			setState(120);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
 			while (_la==UNTIL) {
 				{
 				{
-				setState(116); match(UNTIL);
-				setState(117); globally();
+				setState(116);
+				match(UNTIL);
+				setState(117);
+				globally();
 				}
 				}
 				setState(122);
@@ -646,11 +709,13 @@ public class FOLTLFormulaParserParser extends Parser {
 			_la = _input.LA(1);
 			if (_la==GLOBALLY) {
 				{
-				setState(123); match(GLOBALLY);
+				setState(123);
+				match(GLOBALLY);
 				}
 			}
 
-			setState(126); eventually();
+			setState(126);
+			eventually();
 			}
 		}
 		catch (RecognitionException re) {
@@ -665,10 +730,10 @@ public class FOLTLFormulaParserParser extends Parser {
 	}
 
 	public static class EventuallyContext extends ParserRuleContext {
-		public TerminalNode EVENTUALLY() { return getToken(FOLTLFormulaParserParser.EVENTUALLY, 0); }
 		public WeakNextContext weakNext() {
 			return getRuleContext(WeakNextContext.class,0);
 		}
+		public TerminalNode EVENTUALLY() { return getToken(FOLTLFormulaParserParser.EVENTUALLY, 0); }
 		public EventuallyContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
@@ -691,11 +756,13 @@ public class FOLTLFormulaParserParser extends Parser {
 			_la = _input.LA(1);
 			if (_la==EVENTUALLY) {
 				{
-				setState(128); match(EVENTUALLY);
+				setState(128);
+				match(EVENTUALLY);
 				}
 			}
 
-			setState(131); weakNext();
+			setState(131);
+			weakNext();
 			}
 		}
 		catch (RecognitionException re) {
@@ -710,10 +777,10 @@ public class FOLTLFormulaParserParser extends Parser {
 	}
 
 	public static class WeakNextContext extends ParserRuleContext {
-		public TerminalNode WEAKNEXT() { return getToken(FOLTLFormulaParserParser.WEAKNEXT, 0); }
 		public NextContext next() {
 			return getRuleContext(NextContext.class,0);
 		}
+		public TerminalNode WEAKNEXT() { return getToken(FOLTLFormulaParserParser.WEAKNEXT, 0); }
 		public WeakNextContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
@@ -736,11 +803,13 @@ public class FOLTLFormulaParserParser extends Parser {
 			_la = _input.LA(1);
 			if (_la==WEAKNEXT) {
 				{
-				setState(133); match(WEAKNEXT);
+				setState(133);
+				match(WEAKNEXT);
 				}
 			}
 
-			setState(136); next();
+			setState(136);
+			next();
 			}
 		}
 		catch (RecognitionException re) {
@@ -755,10 +824,10 @@ public class FOLTLFormulaParserParser extends Parser {
 	}
 
 	public static class NextContext extends ParserRuleContext {
-		public TerminalNode NEXT() { return getToken(FOLTLFormulaParserParser.NEXT, 0); }
 		public TemporalNegationContext temporalNegation() {
 			return getRuleContext(TemporalNegationContext.class,0);
 		}
+		public TerminalNode NEXT() { return getToken(FOLTLFormulaParserParser.NEXT, 0); }
 		public NextContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
@@ -781,11 +850,13 @@ public class FOLTLFormulaParserParser extends Parser {
 			_la = _input.LA(1);
 			if (_la==NEXT) {
 				{
-				setState(138); match(NEXT);
+				setState(138);
+				match(NEXT);
 				}
 			}
 
-			setState(141); temporalNegation();
+			setState(141);
+			temporalNegation();
 			}
 		}
 		catch (RecognitionException re) {
@@ -800,15 +871,15 @@ public class FOLTLFormulaParserParser extends Parser {
 	}
 
 	public static class TemporalNegationContext extends ParserRuleContext {
-		public TerminalNode NOT() { return getToken(FOLTLFormulaParserParser.NOT, 0); }
-		public TerminalNode LPAREN() { return getToken(FOLTLFormulaParserParser.LPAREN, 0); }
 		public LtlfAtomContext ltlfAtom() {
 			return getRuleContext(LtlfAtomContext.class,0);
 		}
-		public TerminalNode RPAREN() { return getToken(FOLTLFormulaParserParser.RPAREN, 0); }
+		public TerminalNode LPAREN() { return getToken(FOLTLFormulaParserParser.LPAREN, 0); }
 		public TemporalDoubleImplicationContext temporalDoubleImplication() {
 			return getRuleContext(TemporalDoubleImplicationContext.class,0);
 		}
+		public TerminalNode RPAREN() { return getToken(FOLTLFormulaParserParser.RPAREN, 0); }
+		public TerminalNode NOT() { return getToken(FOLTLFormulaParserParser.NOT, 0); }
 		public TemporalNegationContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
@@ -830,10 +901,10 @@ public class FOLTLFormulaParserParser extends Parser {
 			case 1:
 				enterOuterAlt(_localctx, 1);
 				{
-				setState(143); ltlfAtom();
+				setState(143);
+				ltlfAtom();
 				}
 				break;
-
 			case 2:
 				enterOuterAlt(_localctx, 2);
 				{
@@ -841,13 +912,17 @@ public class FOLTLFormulaParserParser extends Parser {
 				_la = _input.LA(1);
 				if (_la==NOT) {
 					{
-					setState(144); match(NOT);
+					setState(144);
+					match(NOT);
 					}
 				}
 
-				setState(147); match(LPAREN);
-				setState(148); temporalDoubleImplication();
-				setState(149); match(RPAREN);
+				setState(147);
+				match(LPAREN);
+				setState(148);
+				temporalDoubleImplication();
+				setState(149);
+				match(RPAREN);
 				}
 				break;
 			}
@@ -864,10 +939,10 @@ public class FOLTLFormulaParserParser extends Parser {
 	}
 
 	public static class LtlfAtomContext extends ParserRuleContext {
+		public TerminalNode LAST() { return getToken(FOLTLFormulaParserParser.LAST, 0); }
 		public LocalQuantifiedFormulaContext localQuantifiedFormula() {
 			return getRuleContext(LocalQuantifiedFormulaContext.class,0);
 		}
-		public TerminalNode LAST() { return getToken(FOLTLFormulaParserParser.LAST, 0); }
 		public LtlfAtomContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
@@ -888,7 +963,8 @@ public class FOLTLFormulaParserParser extends Parser {
 			case LAST:
 				enterOuterAlt(_localctx, 1);
 				{
-				setState(153); match(LAST);
+				setState(153);
+				match(LAST);
 				}
 				break;
 			case LPAREN:
@@ -902,7 +978,8 @@ public class FOLTLFormulaParserParser extends Parser {
 			case PREPOSITION:
 				enterOuterAlt(_localctx, 2);
 				{
-				setState(154); localQuantifiedFormula();
+				setState(154);
+				localQuantifiedFormula();
 				}
 				break;
 			default:
@@ -921,12 +998,12 @@ public class FOLTLFormulaParserParser extends Parser {
 	}
 
 	public static class LocalQuantifiedFormulaContext extends ParserRuleContext {
-		public TerminalNode EXISTS() { return getToken(FOLTLFormulaParserParser.EXISTS, 0); }
 		public LocalDoubleImplicationContext localDoubleImplication() {
 			return getRuleContext(LocalDoubleImplicationContext.class,0);
 		}
-		public TerminalNode FORALL() { return getToken(FOLTLFormulaParserParser.FORALL, 0); }
 		public TerminalNode VARIABLE() { return getToken(FOLTLFormulaParserParser.VARIABLE, 0); }
+		public TerminalNode FORALL() { return getToken(FOLTLFormulaParserParser.FORALL, 0); }
+		public TerminalNode EXISTS() { return getToken(FOLTLFormulaParserParser.EXISTS, 0); }
 		public LocalQuantifiedFormulaContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
@@ -953,13 +1030,16 @@ public class FOLTLFormulaParserParser extends Parser {
 				_la = _input.LA(1);
 				if ( !(_la==FORALL || _la==EXISTS) ) {
 				_errHandler.recoverInline(this);
+				} else {
+					consume();
 				}
-				consume();
-				setState(158); match(VARIABLE);
+				setState(158);
+				match(VARIABLE);
 				}
 			}
 
-			setState(161); localDoubleImplication();
+			setState(161);
+			localDoubleImplication();
 			}
 		}
 		catch (RecognitionException re) {
@@ -977,10 +1057,10 @@ public class FOLTLFormulaParserParser extends Parser {
 		public List<LocalImplicationContext> localImplication() {
 			return getRuleContexts(LocalImplicationContext.class);
 		}
-		public List<TerminalNode> DOUBLEIMPLY() { return getTokens(FOLTLFormulaParserParser.DOUBLEIMPLY); }
 		public LocalImplicationContext localImplication(int i) {
 			return getRuleContext(LocalImplicationContext.class,i);
 		}
+		public List<TerminalNode> DOUBLEIMPLY() { return getTokens(FOLTLFormulaParserParser.DOUBLEIMPLY); }
 		public TerminalNode DOUBLEIMPLY(int i) {
 			return getToken(FOLTLFormulaParserParser.DOUBLEIMPLY, i);
 		}
@@ -1002,7 +1082,8 @@ public class FOLTLFormulaParserParser extends Parser {
 			int _alt;
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(163); localImplication();
+			setState(163);
+			localImplication();
 			setState(168);
 			_errHandler.sync(this);
 			_alt = getInterpreter().adaptivePredict(_input,17,_ctx);
@@ -1010,8 +1091,10 @@ public class FOLTLFormulaParserParser extends Parser {
 				if ( _alt==1 ) {
 					{
 					{
-					setState(164); match(DOUBLEIMPLY);
-					setState(165); localImplication();
+					setState(164);
+					match(DOUBLEIMPLY);
+					setState(165);
+					localImplication();
 					}
 					} 
 				}
@@ -1033,15 +1116,15 @@ public class FOLTLFormulaParserParser extends Parser {
 	}
 
 	public static class LocalImplicationContext extends ParserRuleContext {
-		public List<TerminalNode> IMPLY() { return getTokens(FOLTLFormulaParserParser.IMPLY); }
-		public TerminalNode IMPLY(int i) {
-			return getToken(FOLTLFormulaParserParser.IMPLY, i);
-		}
 		public List<LocalDisjunctionContext> localDisjunction() {
 			return getRuleContexts(LocalDisjunctionContext.class);
 		}
 		public LocalDisjunctionContext localDisjunction(int i) {
 			return getRuleContext(LocalDisjunctionContext.class,i);
+		}
+		public List<TerminalNode> IMPLY() { return getTokens(FOLTLFormulaParserParser.IMPLY); }
+		public TerminalNode IMPLY(int i) {
+			return getToken(FOLTLFormulaParserParser.IMPLY, i);
 		}
 		public LocalImplicationContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
@@ -1061,7 +1144,8 @@ public class FOLTLFormulaParserParser extends Parser {
 			int _alt;
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(171); localDisjunction();
+			setState(171);
+			localDisjunction();
 			setState(176);
 			_errHandler.sync(this);
 			_alt = getInterpreter().adaptivePredict(_input,18,_ctx);
@@ -1069,8 +1153,10 @@ public class FOLTLFormulaParserParser extends Parser {
 				if ( _alt==1 ) {
 					{
 					{
-					setState(172); match(IMPLY);
-					setState(173); localDisjunction();
+					setState(172);
+					match(IMPLY);
+					setState(173);
+					localDisjunction();
 					}
 					} 
 				}
@@ -1092,13 +1178,13 @@ public class FOLTLFormulaParserParser extends Parser {
 	}
 
 	public static class LocalDisjunctionContext extends ParserRuleContext {
+		public List<LocalConjunctionContext> localConjunction() {
+			return getRuleContexts(LocalConjunctionContext.class);
+		}
 		public LocalConjunctionContext localConjunction(int i) {
 			return getRuleContext(LocalConjunctionContext.class,i);
 		}
 		public List<TerminalNode> OR() { return getTokens(FOLTLFormulaParserParser.OR); }
-		public List<LocalConjunctionContext> localConjunction() {
-			return getRuleContexts(LocalConjunctionContext.class);
-		}
 		public TerminalNode OR(int i) {
 			return getToken(FOLTLFormulaParserParser.OR, i);
 		}
@@ -1120,7 +1206,8 @@ public class FOLTLFormulaParserParser extends Parser {
 			int _alt;
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(179); localConjunction();
+			setState(179);
+			localConjunction();
 			setState(184);
 			_errHandler.sync(this);
 			_alt = getInterpreter().adaptivePredict(_input,19,_ctx);
@@ -1128,8 +1215,10 @@ public class FOLTLFormulaParserParser extends Parser {
 				if ( _alt==1 ) {
 					{
 					{
-					setState(180); match(OR);
-					setState(181); localConjunction();
+					setState(180);
+					match(OR);
+					setState(181);
+					localConjunction();
 					}
 					} 
 				}
@@ -1151,16 +1240,16 @@ public class FOLTLFormulaParserParser extends Parser {
 	}
 
 	public static class LocalConjunctionContext extends ParserRuleContext {
-		public LocalNegationContext localNegation(int i) {
-			return getRuleContext(LocalNegationContext.class,i);
-		}
-		public TerminalNode AND(int i) {
-			return getToken(FOLTLFormulaParserParser.AND, i);
-		}
 		public List<LocalNegationContext> localNegation() {
 			return getRuleContexts(LocalNegationContext.class);
 		}
+		public LocalNegationContext localNegation(int i) {
+			return getRuleContext(LocalNegationContext.class,i);
+		}
 		public List<TerminalNode> AND() { return getTokens(FOLTLFormulaParserParser.AND); }
+		public TerminalNode AND(int i) {
+			return getToken(FOLTLFormulaParserParser.AND, i);
+		}
 		public LocalConjunctionContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
@@ -1179,7 +1268,8 @@ public class FOLTLFormulaParserParser extends Parser {
 			int _alt;
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(187); localNegation();
+			setState(187);
+			localNegation();
 			setState(192);
 			_errHandler.sync(this);
 			_alt = getInterpreter().adaptivePredict(_input,20,_ctx);
@@ -1187,8 +1277,10 @@ public class FOLTLFormulaParserParser extends Parser {
 				if ( _alt==1 ) {
 					{
 					{
-					setState(188); match(AND);
-					setState(189); localNegation();
+					setState(188);
+					match(AND);
+					setState(189);
+					localNegation();
 					}
 					} 
 				}
@@ -1213,12 +1305,12 @@ public class FOLTLFormulaParserParser extends Parser {
 		public FolAtomContext folAtom() {
 			return getRuleContext(FolAtomContext.class,0);
 		}
-		public TerminalNode NOT() { return getToken(FOLTLFormulaParserParser.NOT, 0); }
 		public TerminalNode LPAREN() { return getToken(FOLTLFormulaParserParser.LPAREN, 0); }
-		public TerminalNode RPAREN() { return getToken(FOLTLFormulaParserParser.RPAREN, 0); }
 		public LocalQuantifiedFormulaContext localQuantifiedFormula() {
 			return getRuleContext(LocalQuantifiedFormulaContext.class,0);
 		}
+		public TerminalNode RPAREN() { return getToken(FOLTLFormulaParserParser.RPAREN, 0); }
+		public TerminalNode NOT() { return getToken(FOLTLFormulaParserParser.NOT, 0); }
 		public LocalNegationContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
@@ -1241,7 +1333,8 @@ public class FOLTLFormulaParserParser extends Parser {
 			_la = _input.LA(1);
 			if (_la==NOT) {
 				{
-				setState(195); match(NOT);
+				setState(195);
+				match(NOT);
 				}
 			}
 
@@ -1253,14 +1346,18 @@ public class FOLTLFormulaParserParser extends Parser {
 			case CONSTANT:
 			case PREPOSITION:
 				{
-				setState(198); folAtom();
+				setState(198);
+				folAtom();
 				}
 				break;
 			case LPAREN:
 				{
-				setState(199); match(LPAREN);
-				setState(200); localQuantifiedFormula();
-				setState(201); match(RPAREN);
+				setState(199);
+				match(LPAREN);
+				setState(200);
+				localQuantifiedFormula();
+				setState(201);
+				match(RPAREN);
 				}
 				break;
 			default:
@@ -1280,14 +1377,14 @@ public class FOLTLFormulaParserParser extends Parser {
 	}
 
 	public static class FolAtomContext extends ParserRuleContext {
-		public TerminalNode TRUEATOM() { return getToken(FOLTLFormulaParserParser.TRUEATOM, 0); }
-		public EqualityContext equality() {
-			return getRuleContext(EqualityContext.class,0);
-		}
-		public TerminalNode FALSEATOM() { return getToken(FOLTLFormulaParserParser.FALSEATOM, 0); }
 		public PredicateContext predicate() {
 			return getRuleContext(PredicateContext.class,0);
 		}
+		public EqualityContext equality() {
+			return getRuleContext(EqualityContext.class,0);
+		}
+		public TerminalNode TRUEATOM() { return getToken(FOLTLFormulaParserParser.TRUEATOM, 0); }
+		public TerminalNode FALSEATOM() { return getToken(FOLTLFormulaParserParser.FALSEATOM, 0); }
 		public FolAtomContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
@@ -1308,26 +1405,30 @@ public class FOLTLFormulaParserParser extends Parser {
 			case PREPOSITION:
 				enterOuterAlt(_localctx, 1);
 				{
-				setState(205); predicate();
+				setState(205);
+				predicate();
 				}
 				break;
 			case VARIABLE:
 			case CONSTANT:
 				enterOuterAlt(_localctx, 2);
 				{
-				setState(206); equality();
+				setState(206);
+				equality();
 				}
 				break;
 			case TRUEATOM:
 				enterOuterAlt(_localctx, 3);
 				{
-				setState(207); match(TRUEATOM);
+				setState(207);
+				match(TRUEATOM);
 				}
 				break;
 			case FALSEATOM:
 				enterOuterAlt(_localctx, 4);
 				{
-				setState(208); match(FALSEATOM);
+				setState(208);
+				match(FALSEATOM);
 				}
 				break;
 			default:
@@ -1347,13 +1448,13 @@ public class FOLTLFormulaParserParser extends Parser {
 
 	public static class EqualityContext extends ParserRuleContext {
 		public TerminalNode EQUAL() { return getToken(FOLTLFormulaParserParser.EQUAL, 0); }
-		public TerminalNode CONSTANT(int i) {
-			return getToken(FOLTLFormulaParserParser.CONSTANT, i);
-		}
 		public List<TerminalNode> VARIABLE() { return getTokens(FOLTLFormulaParserParser.VARIABLE); }
-		public List<TerminalNode> CONSTANT() { return getTokens(FOLTLFormulaParserParser.CONSTANT); }
 		public TerminalNode VARIABLE(int i) {
 			return getToken(FOLTLFormulaParserParser.VARIABLE, i);
+		}
+		public List<TerminalNode> CONSTANT() { return getTokens(FOLTLFormulaParserParser.CONSTANT); }
+		public TerminalNode CONSTANT(int i) {
+			return getToken(FOLTLFormulaParserParser.CONSTANT, i);
 		}
 		public EqualityContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
@@ -1377,15 +1478,18 @@ public class FOLTLFormulaParserParser extends Parser {
 			_la = _input.LA(1);
 			if ( !(_la==VARIABLE || _la==CONSTANT) ) {
 			_errHandler.recoverInline(this);
+			} else {
+				consume();
 			}
-			consume();
-			setState(212); match(EQUAL);
+			setState(212);
+			match(EQUAL);
 			setState(213);
 			_la = _input.LA(1);
 			if ( !(_la==VARIABLE || _la==CONSTANT) ) {
 			_errHandler.recoverInline(this);
+			} else {
+				consume();
 			}
-			consume();
 			}
 		}
 		catch (RecognitionException re) {
@@ -1401,15 +1505,15 @@ public class FOLTLFormulaParserParser extends Parser {
 
 	public static class PredicateContext extends ParserRuleContext {
 		public TerminalNode PREPOSITION() { return getToken(FOLTLFormulaParserParser.PREPOSITION, 0); }
-		public TerminalNode CONSTANT(int i) {
-			return getToken(FOLTLFormulaParserParser.CONSTANT, i);
-		}
 		public TerminalNode LPAREN() { return getToken(FOLTLFormulaParserParser.LPAREN, 0); }
 		public TerminalNode RPAREN() { return getToken(FOLTLFormulaParserParser.RPAREN, 0); }
 		public List<TerminalNode> VARIABLE() { return getTokens(FOLTLFormulaParserParser.VARIABLE); }
-		public List<TerminalNode> CONSTANT() { return getTokens(FOLTLFormulaParserParser.CONSTANT); }
 		public TerminalNode VARIABLE(int i) {
 			return getToken(FOLTLFormulaParserParser.VARIABLE, i);
+		}
+		public List<TerminalNode> CONSTANT() { return getTokens(FOLTLFormulaParserParser.CONSTANT); }
+		public TerminalNode CONSTANT(int i) {
+			return getToken(FOLTLFormulaParserParser.CONSTANT, i);
 		}
 		public PredicateContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
@@ -1429,34 +1533,40 @@ public class FOLTLFormulaParserParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(215); match(PREPOSITION);
-			setState(216); match(LPAREN);
+			setState(215);
+			match(PREPOSITION);
+			setState(216);
+			match(LPAREN);
 			setState(217);
 			_la = _input.LA(1);
 			if ( !(_la==VARIABLE || _la==CONSTANT) ) {
 			_errHandler.recoverInline(this);
+			} else {
+				consume();
 			}
-			consume();
 			setState(222);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
 			while (_la==T__0) {
 				{
 				{
-				setState(218); match(T__0);
+				setState(218);
+				match(T__0);
 				setState(219);
 				_la = _input.LA(1);
 				if ( !(_la==VARIABLE || _la==CONSTANT) ) {
 				_errHandler.recoverInline(this);
+				} else {
+					consume();
 				}
-				consume();
 				}
 				}
 				setState(224);
 				_errHandler.sync(this);
 				_la = _input.LA(1);
 			}
-			setState(225); match(RPAREN);
+			setState(225);
+			match(RPAREN);
 			}
 		}
 		catch (RecognitionException re) {

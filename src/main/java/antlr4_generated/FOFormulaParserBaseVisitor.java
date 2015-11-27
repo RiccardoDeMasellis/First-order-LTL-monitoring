@@ -1,4 +1,4 @@
-// Generated from FOFormulaParser.g4 by ANTLR 4.3
+// Generated from FOFormulaParser.g4 by ANTLR 4.5
 
     package antlr4_generated;
 
@@ -20,77 +20,68 @@ public class FOFormulaParserBaseVisitor<T> extends AbstractParseTreeVisitor<T> i
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitLocalDoubleImplication(@NotNull FOFormulaParserParser.LocalDoubleImplicationContext ctx) { return visitChildren(ctx); }
-
+	@Override public T visitStart(FOFormulaParserParser.StartContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitPredicate(@NotNull FOFormulaParserParser.PredicateContext ctx) { return visitChildren(ctx); }
-
+	@Override public T visitLocalQuantifiedFormula(FOFormulaParserParser.LocalQuantifiedFormulaContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitLocalNegation(@NotNull FOFormulaParserParser.LocalNegationContext ctx) { return visitChildren(ctx); }
-
+	@Override public T visitLocalDoubleImplication(FOFormulaParserParser.LocalDoubleImplicationContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitFolAtom(@NotNull FOFormulaParserParser.FolAtomContext ctx) { return visitChildren(ctx); }
-
+	@Override public T visitLocalImplication(FOFormulaParserParser.LocalImplicationContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitStart(@NotNull FOFormulaParserParser.StartContext ctx) { return visitChildren(ctx); }
-
+	@Override public T visitLocalDisjunction(FOFormulaParserParser.LocalDisjunctionContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitLocalConjunction(@NotNull FOFormulaParserParser.LocalConjunctionContext ctx) { return visitChildren(ctx); }
-
+	@Override public T visitLocalConjunction(FOFormulaParserParser.LocalConjunctionContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitLocalQuantifiedFormula(@NotNull FOFormulaParserParser.LocalQuantifiedFormulaContext ctx) { return visitChildren(ctx); }
-
+	@Override public T visitLocalNegation(FOFormulaParserParser.LocalNegationContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitEquality(@NotNull FOFormulaParserParser.EqualityContext ctx) { return visitChildren(ctx); }
-
+	@Override public T visitFolAtom(FOFormulaParserParser.FolAtomContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitLocalDisjunction(@NotNull FOFormulaParserParser.LocalDisjunctionContext ctx) { return visitChildren(ctx); }
-
+	@Override public T visitEquality(FOFormulaParserParser.EqualityContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitLocalImplication(@NotNull FOFormulaParserParser.LocalImplicationContext ctx) { return visitChildren(ctx); }
+	@Override public T visitPredicate(FOFormulaParserParser.PredicateContext ctx) { return visitChildren(ctx); }
 }

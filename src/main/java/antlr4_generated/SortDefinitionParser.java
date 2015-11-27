@@ -1,4 +1,4 @@
-// Generated from SortDefinition.g4 by ANTLR 4.3
+// Generated from SortDefinition.g4 by ANTLR 4.5
 
 	package antlr4_generated;
 
@@ -13,29 +13,62 @@ import java.util.ArrayList;
 
 @SuppressWarnings({"all", "warnings", "unchecked", "unused", "cast"})
 public class SortDefinitionParser extends Parser {
-	static { RuntimeMetaData.checkVersion("4.3", RuntimeMetaData.VERSION); }
+	static { RuntimeMetaData.checkVersion("4.5", RuntimeMetaData.VERSION); }
 
 	protected static final DFA[] _decisionToDFA;
 	protected static final PredictionContextCache _sharedContextCache =
 		new PredictionContextCache();
 	public static final int
-		T__4=1, T__3=2, T__2=3, T__1=4, T__0=5, LS=6, VARIABLE=7, CONSTANT=8, 
+		T__0=1, T__1=2, T__2=3, T__3=4, T__4=5, LS=6, VARIABLE=7, CONSTANT=8, 
 		PREPOSITION=9, WS=10, SORTNAME=11;
-	public static final String[] tokenNames = {
-		"<INVALID>", "':='", "'<-'", "'{'", "','", "'}'", "';'", "VARIABLE", "CONSTANT", 
-		"PREPOSITION", "WS", "SORTNAME"
-	};
 	public static final int
 		RULE_start = 0, RULE_sortDefinition = 1, RULE_sortDeclaration = 2, RULE_sortAssignment = 3;
 	public static final String[] ruleNames = {
 		"start", "sortDefinition", "sortDeclaration", "sortAssignment"
 	};
 
-	@Override
-	public String getGrammarFileName() { return "SortDefinition.g4"; }
+	private static final String[] _LITERAL_NAMES = {
+		null, "':='", "'{'", "','", "'}'", "'<-'", "';'"
+	};
+	private static final String[] _SYMBOLIC_NAMES = {
+		null, null, null, null, null, null, "LS", "VARIABLE", "CONSTANT", "PREPOSITION", 
+		"WS", "SORTNAME"
+	};
+	public static final Vocabulary VOCABULARY = new VocabularyImpl(_LITERAL_NAMES, _SYMBOLIC_NAMES);
+
+	/**
+	 * @deprecated Use {@link #VOCABULARY} instead.
+	 */
+	@Deprecated
+	public static final String[] tokenNames;
+	static {
+		tokenNames = new String[_SYMBOLIC_NAMES.length];
+		for (int i = 0; i < tokenNames.length; i++) {
+			tokenNames[i] = VOCABULARY.getLiteralName(i);
+			if (tokenNames[i] == null) {
+				tokenNames[i] = VOCABULARY.getSymbolicName(i);
+			}
+
+			if (tokenNames[i] == null) {
+				tokenNames[i] = "<INVALID>";
+			}
+		}
+	}
 
 	@Override
-	public String[] getTokenNames() { return tokenNames; }
+	@Deprecated
+	public String[] getTokenNames() {
+		return tokenNames;
+	}
+
+	@Override
+
+	public Vocabulary getVocabulary() {
+		return VOCABULARY;
+	}
+
+	@Override
+	public String getGrammarFileName() { return "SortDefinition.g4"; }
 
 	@Override
 	public String[] getRuleNames() { return ruleNames; }
@@ -51,10 +84,10 @@ public class SortDefinitionParser extends Parser {
 		_interp = new ParserATNSimulator(this,_ATN,_decisionToDFA,_sharedContextCache);
 	}
 	public static class StartContext extends ParserRuleContext {
-		public TerminalNode EOF() { return getToken(SortDefinitionParser.EOF, 0); }
 		public SortDefinitionContext sortDefinition() {
 			return getRuleContext(SortDefinitionContext.class,0);
 		}
+		public TerminalNode EOF() { return getToken(SortDefinitionParser.EOF, 0); }
 		public StartContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
@@ -72,8 +105,10 @@ public class SortDefinitionParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(8); sortDefinition();
-			setState(9); match(EOF);
+			setState(8);
+			sortDefinition();
+			setState(9);
+			match(EOF);
 			}
 		}
 		catch (RecognitionException re) {
@@ -91,14 +126,14 @@ public class SortDefinitionParser extends Parser {
 		public List<SortDeclarationContext> sortDeclaration() {
 			return getRuleContexts(SortDeclarationContext.class);
 		}
-		public SortAssignmentContext sortAssignment(int i) {
-			return getRuleContext(SortAssignmentContext.class,i);
-		}
 		public SortDeclarationContext sortDeclaration(int i) {
 			return getRuleContext(SortDeclarationContext.class,i);
 		}
 		public List<SortAssignmentContext> sortAssignment() {
 			return getRuleContexts(SortAssignmentContext.class);
+		}
+		public SortAssignmentContext sortAssignment(int i) {
+			return getRuleContext(SortAssignmentContext.class,i);
 		}
 		public SortDefinitionContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
@@ -124,7 +159,8 @@ public class SortDefinitionParser extends Parser {
 			while (_la==SORTNAME) {
 				{
 				{
-				setState(11); sortDeclaration();
+				setState(11);
+				sortDeclaration();
 				}
 				}
 				setState(16);
@@ -137,7 +173,8 @@ public class SortDefinitionParser extends Parser {
 			while (_la==VARIABLE) {
 				{
 				{
-				setState(17); sortAssignment();
+				setState(17);
+				sortAssignment();
 				}
 				}
 				setState(22);
@@ -158,12 +195,12 @@ public class SortDefinitionParser extends Parser {
 	}
 
 	public static class SortDeclarationContext extends ParserRuleContext {
+		public TerminalNode SORTNAME() { return getToken(SortDefinitionParser.SORTNAME, 0); }
+		public List<TerminalNode> CONSTANT() { return getTokens(SortDefinitionParser.CONSTANT); }
 		public TerminalNode CONSTANT(int i) {
 			return getToken(SortDefinitionParser.CONSTANT, i);
 		}
 		public TerminalNode LS() { return getToken(SortDefinitionParser.LS, 0); }
-		public List<TerminalNode> CONSTANT() { return getTokens(SortDefinitionParser.CONSTANT); }
-		public TerminalNode SORTNAME() { return getToken(SortDefinitionParser.SORTNAME, 0); }
 		public SortDeclarationContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
@@ -182,26 +219,34 @@ public class SortDefinitionParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(23); match(SORTNAME);
-			setState(24); match(T__4);
-			setState(25); match(T__2);
-			setState(26); match(CONSTANT);
+			setState(23);
+			match(SORTNAME);
+			setState(24);
+			match(T__0);
+			setState(25);
+			match(T__1);
+			setState(26);
+			match(CONSTANT);
 			setState(31);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
-			while (_la==T__1) {
+			while (_la==T__2) {
 				{
 				{
-				setState(27); match(T__1);
-				setState(28); match(CONSTANT);
+				setState(27);
+				match(T__2);
+				setState(28);
+				match(CONSTANT);
 				}
 				}
 				setState(33);
 				_errHandler.sync(this);
 				_la = _input.LA(1);
 			}
-			setState(34); match(T__0);
-			setState(35); match(LS);
+			setState(34);
+			match(T__3);
+			setState(35);
+			match(LS);
 			}
 		}
 		catch (RecognitionException re) {
@@ -216,9 +261,9 @@ public class SortDefinitionParser extends Parser {
 	}
 
 	public static class SortAssignmentContext extends ParserRuleContext {
-		public TerminalNode LS() { return getToken(SortDefinitionParser.LS, 0); }
 		public TerminalNode VARIABLE() { return getToken(SortDefinitionParser.VARIABLE, 0); }
 		public TerminalNode SORTNAME() { return getToken(SortDefinitionParser.SORTNAME, 0); }
+		public TerminalNode LS() { return getToken(SortDefinitionParser.LS, 0); }
 		public SortAssignmentContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
@@ -236,10 +281,14 @@ public class SortDefinitionParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(37); match(VARIABLE);
-			setState(38); match(T__3);
-			setState(39); match(SORTNAME);
-			setState(40); match(LS);
+			setState(37);
+			match(VARIABLE);
+			setState(38);
+			match(T__4);
+			setState(39);
+			match(SORTNAME);
+			setState(40);
+			match(LS);
 			}
 		}
 		catch (RecognitionException re) {
@@ -262,9 +311,9 @@ public class SortDefinitionParser extends Parser {
 		"\2\2\2\r\17\5\6\4\2\16\r\3\2\2\2\17\22\3\2\2\2\20\16\3\2\2\2\20\21\3\2"+
 		"\2\2\21\26\3\2\2\2\22\20\3\2\2\2\23\25\5\b\5\2\24\23\3\2\2\2\25\30\3\2"+
 		"\2\2\26\24\3\2\2\2\26\27\3\2\2\2\27\5\3\2\2\2\30\26\3\2\2\2\31\32\7\r"+
-		"\2\2\32\33\7\3\2\2\33\34\7\5\2\2\34!\7\n\2\2\35\36\7\6\2\2\36 \7\n\2\2"+
+		"\2\2\32\33\7\3\2\2\33\34\7\4\2\2\34!\7\n\2\2\35\36\7\5\2\2\36 \7\n\2\2"+
 		"\37\35\3\2\2\2 #\3\2\2\2!\37\3\2\2\2!\"\3\2\2\2\"$\3\2\2\2#!\3\2\2\2$"+
-		"%\7\7\2\2%&\7\b\2\2&\7\3\2\2\2\'(\7\t\2\2()\7\4\2\2)*\7\r\2\2*+\7\b\2"+
+		"%\7\6\2\2%&\7\b\2\2&\7\3\2\2\2\'(\7\t\2\2()\7\7\2\2)*\7\r\2\2*+\7\b\2"+
 		"\2+\t\3\2\2\2\5\20\26!";
 	public static final ATN _ATN =
 		new ATNDeserializer().deserialize(_serializedATN.toCharArray());
