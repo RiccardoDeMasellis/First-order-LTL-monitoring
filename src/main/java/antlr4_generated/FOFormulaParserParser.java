@@ -1,4 +1,4 @@
-// Generated from FOFormulaParser.g4 by ANTLR 4.3
+// Generated from FOFormulaParser.g4 by ANTLR 4.5
 
     package antlr4_generated;
 
@@ -13,7 +13,7 @@ import java.util.ArrayList;
 
 @SuppressWarnings({"all", "warnings", "unchecked", "unused", "cast"})
 public class FOFormulaParserParser extends Parser {
-	static { RuntimeMetaData.checkVersion("4.3", RuntimeMetaData.VERSION); }
+	static { RuntimeMetaData.checkVersion("4.5", RuntimeMetaData.VERSION); }
 
 	protected static final DFA[] _decisionToDFA;
 	protected static final PredictionContextCache _sharedContextCache =
@@ -22,11 +22,6 @@ public class FOFormulaParserParser extends Parser {
 		T__0=1, LPAREN=2, RPAREN=3, DOUBLEIMPLY=4, IMPLY=5, AND=6, OR=7, NOT=8, 
 		FORALL=9, EXISTS=10, EQUAL=11, FALSEATOM=12, TRUEATOM=13, VARIABLE=14, 
 		CONSTANT=15, PREPOSITION=16, WS=17;
-	public static final String[] tokenNames = {
-		"<INVALID>", "','", "'('", "')'", "'<->'", "'->'", "AND", "OR", "'!'", 
-		"'Forall'", "'Exists'", "'='", "FALSEATOM", "TRUEATOM", "VARIABLE", "CONSTANT", 
-		"PREPOSITION", "WS"
-	};
 	public static final int
 		RULE_start = 0, RULE_localQuantifiedFormula = 1, RULE_localDoubleImplication = 2, 
 		RULE_localImplication = 3, RULE_localDisjunction = 4, RULE_localConjunction = 5, 
@@ -37,11 +32,50 @@ public class FOFormulaParserParser extends Parser {
 		"predicate"
 	};
 
-	@Override
-	public String getGrammarFileName() { return "FOFormulaParser.g4"; }
+	private static final String[] _LITERAL_NAMES = {
+		null, "','", "'('", "')'", "'<->'", "'->'", null, null, "'!'", "'Forall'", 
+		"'Exists'", "'='"
+	};
+	private static final String[] _SYMBOLIC_NAMES = {
+		null, null, "LPAREN", "RPAREN", "DOUBLEIMPLY", "IMPLY", "AND", "OR", "NOT", 
+		"FORALL", "EXISTS", "EQUAL", "FALSEATOM", "TRUEATOM", "VARIABLE", "CONSTANT", 
+		"PREPOSITION", "WS"
+	};
+	public static final Vocabulary VOCABULARY = new VocabularyImpl(_LITERAL_NAMES, _SYMBOLIC_NAMES);
+
+	/**
+	 * @deprecated Use {@link #VOCABULARY} instead.
+	 */
+	@Deprecated
+	public static final String[] tokenNames;
+	static {
+		tokenNames = new String[_SYMBOLIC_NAMES.length];
+		for (int i = 0; i < tokenNames.length; i++) {
+			tokenNames[i] = VOCABULARY.getLiteralName(i);
+			if (tokenNames[i] == null) {
+				tokenNames[i] = VOCABULARY.getSymbolicName(i);
+			}
+
+			if (tokenNames[i] == null) {
+				tokenNames[i] = "<INVALID>";
+			}
+		}
+	}
 
 	@Override
-	public String[] getTokenNames() { return tokenNames; }
+	@Deprecated
+	public String[] getTokenNames() {
+		return tokenNames;
+	}
+
+	@Override
+
+	public Vocabulary getVocabulary() {
+		return VOCABULARY;
+	}
+
+	@Override
+	public String getGrammarFileName() { return "FOFormulaParser.g4"; }
 
 	@Override
 	public String[] getRuleNames() { return ruleNames; }
@@ -57,10 +91,10 @@ public class FOFormulaParserParser extends Parser {
 		_interp = new ParserATNSimulator(this,_ATN,_decisionToDFA,_sharedContextCache);
 	}
 	public static class StartContext extends ParserRuleContext {
-		public TerminalNode EOF() { return getToken(FOFormulaParserParser.EOF, 0); }
 		public LocalQuantifiedFormulaContext localQuantifiedFormula() {
 			return getRuleContext(LocalQuantifiedFormulaContext.class,0);
 		}
+		public TerminalNode EOF() { return getToken(FOFormulaParserParser.EOF, 0); }
 		public StartContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
@@ -78,8 +112,10 @@ public class FOFormulaParserParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(20); localQuantifiedFormula();
-			setState(21); match(EOF);
+			setState(20);
+			localQuantifiedFormula();
+			setState(21);
+			match(EOF);
 			}
 		}
 		catch (RecognitionException re) {
@@ -94,12 +130,12 @@ public class FOFormulaParserParser extends Parser {
 	}
 
 	public static class LocalQuantifiedFormulaContext extends ParserRuleContext {
-		public TerminalNode EXISTS() { return getToken(FOFormulaParserParser.EXISTS, 0); }
 		public LocalDoubleImplicationContext localDoubleImplication() {
 			return getRuleContext(LocalDoubleImplicationContext.class,0);
 		}
-		public TerminalNode FORALL() { return getToken(FOFormulaParserParser.FORALL, 0); }
 		public TerminalNode VARIABLE() { return getToken(FOFormulaParserParser.VARIABLE, 0); }
+		public TerminalNode FORALL() { return getToken(FOFormulaParserParser.FORALL, 0); }
+		public TerminalNode EXISTS() { return getToken(FOFormulaParserParser.EXISTS, 0); }
 		public LocalQuantifiedFormulaContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
@@ -126,13 +162,16 @@ public class FOFormulaParserParser extends Parser {
 				_la = _input.LA(1);
 				if ( !(_la==FORALL || _la==EXISTS) ) {
 				_errHandler.recoverInline(this);
+				} else {
+					consume();
 				}
-				consume();
-				setState(24); match(VARIABLE);
+				setState(24);
+				match(VARIABLE);
 				}
 			}
 
-			setState(27); localDoubleImplication();
+			setState(27);
+			localDoubleImplication();
 			}
 		}
 		catch (RecognitionException re) {
@@ -150,10 +189,10 @@ public class FOFormulaParserParser extends Parser {
 		public List<LocalImplicationContext> localImplication() {
 			return getRuleContexts(LocalImplicationContext.class);
 		}
-		public List<TerminalNode> DOUBLEIMPLY() { return getTokens(FOFormulaParserParser.DOUBLEIMPLY); }
 		public LocalImplicationContext localImplication(int i) {
 			return getRuleContext(LocalImplicationContext.class,i);
 		}
+		public List<TerminalNode> DOUBLEIMPLY() { return getTokens(FOFormulaParserParser.DOUBLEIMPLY); }
 		public TerminalNode DOUBLEIMPLY(int i) {
 			return getToken(FOFormulaParserParser.DOUBLEIMPLY, i);
 		}
@@ -175,15 +214,18 @@ public class FOFormulaParserParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(29); localImplication();
+			setState(29);
+			localImplication();
 			setState(34);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
 			while (_la==DOUBLEIMPLY) {
 				{
 				{
-				setState(30); match(DOUBLEIMPLY);
-				setState(31); localImplication();
+				setState(30);
+				match(DOUBLEIMPLY);
+				setState(31);
+				localImplication();
 				}
 				}
 				setState(36);
@@ -204,15 +246,15 @@ public class FOFormulaParserParser extends Parser {
 	}
 
 	public static class LocalImplicationContext extends ParserRuleContext {
-		public List<TerminalNode> IMPLY() { return getTokens(FOFormulaParserParser.IMPLY); }
-		public TerminalNode IMPLY(int i) {
-			return getToken(FOFormulaParserParser.IMPLY, i);
-		}
 		public List<LocalDisjunctionContext> localDisjunction() {
 			return getRuleContexts(LocalDisjunctionContext.class);
 		}
 		public LocalDisjunctionContext localDisjunction(int i) {
 			return getRuleContext(LocalDisjunctionContext.class,i);
+		}
+		public List<TerminalNode> IMPLY() { return getTokens(FOFormulaParserParser.IMPLY); }
+		public TerminalNode IMPLY(int i) {
+			return getToken(FOFormulaParserParser.IMPLY, i);
 		}
 		public LocalImplicationContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
@@ -232,15 +274,18 @@ public class FOFormulaParserParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(37); localDisjunction();
+			setState(37);
+			localDisjunction();
 			setState(42);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
 			while (_la==IMPLY) {
 				{
 				{
-				setState(38); match(IMPLY);
-				setState(39); localDisjunction();
+				setState(38);
+				match(IMPLY);
+				setState(39);
+				localDisjunction();
 				}
 				}
 				setState(44);
@@ -261,13 +306,13 @@ public class FOFormulaParserParser extends Parser {
 	}
 
 	public static class LocalDisjunctionContext extends ParserRuleContext {
+		public List<LocalConjunctionContext> localConjunction() {
+			return getRuleContexts(LocalConjunctionContext.class);
+		}
 		public LocalConjunctionContext localConjunction(int i) {
 			return getRuleContext(LocalConjunctionContext.class,i);
 		}
 		public List<TerminalNode> OR() { return getTokens(FOFormulaParserParser.OR); }
-		public List<LocalConjunctionContext> localConjunction() {
-			return getRuleContexts(LocalConjunctionContext.class);
-		}
 		public TerminalNode OR(int i) {
 			return getToken(FOFormulaParserParser.OR, i);
 		}
@@ -289,15 +334,18 @@ public class FOFormulaParserParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(45); localConjunction();
+			setState(45);
+			localConjunction();
 			setState(50);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
 			while (_la==OR) {
 				{
 				{
-				setState(46); match(OR);
-				setState(47); localConjunction();
+				setState(46);
+				match(OR);
+				setState(47);
+				localConjunction();
 				}
 				}
 				setState(52);
@@ -318,16 +366,16 @@ public class FOFormulaParserParser extends Parser {
 	}
 
 	public static class LocalConjunctionContext extends ParserRuleContext {
-		public LocalNegationContext localNegation(int i) {
-			return getRuleContext(LocalNegationContext.class,i);
-		}
-		public TerminalNode AND(int i) {
-			return getToken(FOFormulaParserParser.AND, i);
-		}
 		public List<LocalNegationContext> localNegation() {
 			return getRuleContexts(LocalNegationContext.class);
 		}
+		public LocalNegationContext localNegation(int i) {
+			return getRuleContext(LocalNegationContext.class,i);
+		}
 		public List<TerminalNode> AND() { return getTokens(FOFormulaParserParser.AND); }
+		public TerminalNode AND(int i) {
+			return getToken(FOFormulaParserParser.AND, i);
+		}
 		public LocalConjunctionContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
@@ -346,15 +394,18 @@ public class FOFormulaParserParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(53); localNegation();
+			setState(53);
+			localNegation();
 			setState(58);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
 			while (_la==AND) {
 				{
 				{
-				setState(54); match(AND);
-				setState(55); localNegation();
+				setState(54);
+				match(AND);
+				setState(55);
+				localNegation();
 				}
 				}
 				setState(60);
@@ -378,12 +429,12 @@ public class FOFormulaParserParser extends Parser {
 		public FolAtomContext folAtom() {
 			return getRuleContext(FolAtomContext.class,0);
 		}
-		public TerminalNode NOT() { return getToken(FOFormulaParserParser.NOT, 0); }
 		public TerminalNode LPAREN() { return getToken(FOFormulaParserParser.LPAREN, 0); }
-		public TerminalNode RPAREN() { return getToken(FOFormulaParserParser.RPAREN, 0); }
 		public LocalQuantifiedFormulaContext localQuantifiedFormula() {
 			return getRuleContext(LocalQuantifiedFormulaContext.class,0);
 		}
+		public TerminalNode RPAREN() { return getToken(FOFormulaParserParser.RPAREN, 0); }
+		public TerminalNode NOT() { return getToken(FOFormulaParserParser.NOT, 0); }
 		public LocalNegationContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
@@ -406,7 +457,8 @@ public class FOFormulaParserParser extends Parser {
 			_la = _input.LA(1);
 			if (_la==NOT) {
 				{
-				setState(61); match(NOT);
+				setState(61);
+				match(NOT);
 				}
 			}
 
@@ -418,14 +470,18 @@ public class FOFormulaParserParser extends Parser {
 			case CONSTANT:
 			case PREPOSITION:
 				{
-				setState(64); folAtom();
+				setState(64);
+				folAtom();
 				}
 				break;
 			case LPAREN:
 				{
-				setState(65); match(LPAREN);
-				setState(66); localQuantifiedFormula();
-				setState(67); match(RPAREN);
+				setState(65);
+				match(LPAREN);
+				setState(66);
+				localQuantifiedFormula();
+				setState(67);
+				match(RPAREN);
 				}
 				break;
 			default:
@@ -445,14 +501,14 @@ public class FOFormulaParserParser extends Parser {
 	}
 
 	public static class FolAtomContext extends ParserRuleContext {
-		public TerminalNode TRUEATOM() { return getToken(FOFormulaParserParser.TRUEATOM, 0); }
-		public EqualityContext equality() {
-			return getRuleContext(EqualityContext.class,0);
-		}
-		public TerminalNode FALSEATOM() { return getToken(FOFormulaParserParser.FALSEATOM, 0); }
 		public PredicateContext predicate() {
 			return getRuleContext(PredicateContext.class,0);
 		}
+		public EqualityContext equality() {
+			return getRuleContext(EqualityContext.class,0);
+		}
+		public TerminalNode TRUEATOM() { return getToken(FOFormulaParserParser.TRUEATOM, 0); }
+		public TerminalNode FALSEATOM() { return getToken(FOFormulaParserParser.FALSEATOM, 0); }
 		public FolAtomContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
@@ -473,26 +529,30 @@ public class FOFormulaParserParser extends Parser {
 			case PREPOSITION:
 				enterOuterAlt(_localctx, 1);
 				{
-				setState(71); predicate();
+				setState(71);
+				predicate();
 				}
 				break;
 			case VARIABLE:
 			case CONSTANT:
 				enterOuterAlt(_localctx, 2);
 				{
-				setState(72); equality();
+				setState(72);
+				equality();
 				}
 				break;
 			case TRUEATOM:
 				enterOuterAlt(_localctx, 3);
 				{
-				setState(73); match(TRUEATOM);
+				setState(73);
+				match(TRUEATOM);
 				}
 				break;
 			case FALSEATOM:
 				enterOuterAlt(_localctx, 4);
 				{
-				setState(74); match(FALSEATOM);
+				setState(74);
+				match(FALSEATOM);
 				}
 				break;
 			default:
@@ -512,13 +572,13 @@ public class FOFormulaParserParser extends Parser {
 
 	public static class EqualityContext extends ParserRuleContext {
 		public TerminalNode EQUAL() { return getToken(FOFormulaParserParser.EQUAL, 0); }
-		public TerminalNode CONSTANT(int i) {
-			return getToken(FOFormulaParserParser.CONSTANT, i);
-		}
 		public List<TerminalNode> VARIABLE() { return getTokens(FOFormulaParserParser.VARIABLE); }
-		public List<TerminalNode> CONSTANT() { return getTokens(FOFormulaParserParser.CONSTANT); }
 		public TerminalNode VARIABLE(int i) {
 			return getToken(FOFormulaParserParser.VARIABLE, i);
+		}
+		public List<TerminalNode> CONSTANT() { return getTokens(FOFormulaParserParser.CONSTANT); }
+		public TerminalNode CONSTANT(int i) {
+			return getToken(FOFormulaParserParser.CONSTANT, i);
 		}
 		public EqualityContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
@@ -542,15 +602,18 @@ public class FOFormulaParserParser extends Parser {
 			_la = _input.LA(1);
 			if ( !(_la==VARIABLE || _la==CONSTANT) ) {
 			_errHandler.recoverInline(this);
+			} else {
+				consume();
 			}
-			consume();
-			setState(78); match(EQUAL);
+			setState(78);
+			match(EQUAL);
 			setState(79);
 			_la = _input.LA(1);
 			if ( !(_la==VARIABLE || _la==CONSTANT) ) {
 			_errHandler.recoverInline(this);
+			} else {
+				consume();
 			}
-			consume();
 			}
 		}
 		catch (RecognitionException re) {
@@ -566,15 +629,15 @@ public class FOFormulaParserParser extends Parser {
 
 	public static class PredicateContext extends ParserRuleContext {
 		public TerminalNode PREPOSITION() { return getToken(FOFormulaParserParser.PREPOSITION, 0); }
-		public TerminalNode CONSTANT(int i) {
-			return getToken(FOFormulaParserParser.CONSTANT, i);
-		}
 		public TerminalNode LPAREN() { return getToken(FOFormulaParserParser.LPAREN, 0); }
 		public TerminalNode RPAREN() { return getToken(FOFormulaParserParser.RPAREN, 0); }
 		public List<TerminalNode> VARIABLE() { return getTokens(FOFormulaParserParser.VARIABLE); }
-		public List<TerminalNode> CONSTANT() { return getTokens(FOFormulaParserParser.CONSTANT); }
 		public TerminalNode VARIABLE(int i) {
 			return getToken(FOFormulaParserParser.VARIABLE, i);
+		}
+		public List<TerminalNode> CONSTANT() { return getTokens(FOFormulaParserParser.CONSTANT); }
+		public TerminalNode CONSTANT(int i) {
+			return getToken(FOFormulaParserParser.CONSTANT, i);
 		}
 		public PredicateContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
@@ -594,34 +657,40 @@ public class FOFormulaParserParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(81); match(PREPOSITION);
-			setState(82); match(LPAREN);
+			setState(81);
+			match(PREPOSITION);
+			setState(82);
+			match(LPAREN);
 			setState(83);
 			_la = _input.LA(1);
 			if ( !(_la==VARIABLE || _la==CONSTANT) ) {
 			_errHandler.recoverInline(this);
+			} else {
+				consume();
 			}
-			consume();
 			setState(88);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
 			while (_la==T__0) {
 				{
 				{
-				setState(84); match(T__0);
+				setState(84);
+				match(T__0);
 				setState(85);
 				_la = _input.LA(1);
 				if ( !(_la==VARIABLE || _la==CONSTANT) ) {
 				_errHandler.recoverInline(this);
+				} else {
+					consume();
 				}
-				consume();
 				}
 				}
 				setState(90);
 				_errHandler.sync(this);
 				_la = _input.LA(1);
 			}
-			setState(91); match(RPAREN);
+			setState(91);
+			match(RPAREN);
 			}
 		}
 		catch (RecognitionException re) {

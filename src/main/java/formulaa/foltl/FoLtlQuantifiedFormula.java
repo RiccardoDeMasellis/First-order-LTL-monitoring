@@ -30,8 +30,8 @@ public abstract class FoLtlQuantifiedFormula implements FoLtlFormula, Quantified
 	}
 
 	@Override
-	public FoLtlFormula substitute(HashSet<FoLtlConstant> domain, FoLtlAssignment assignment){
-		return this.formulaFactory(this.getFormulaType(), this.getNestedFormula().substitute(domain, assignment),
+	public FoLtlFormula substitute(FoLtlAssignment assignment){
+		return this.formulaFactory(this.getFormulaType(), this.getNestedFormula().substitute(assignment),
 				(FoLtlVariable) this.getQuantifiedVariable().clone());
 	}
 

@@ -1,4 +1,5 @@
 import formulaa.foltl.*;
+import formulaa.foltl.semantics.FoLtlAssignment;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -7,7 +8,7 @@ import static util.ParsingUtils.*;
 /**
  * Created by Simone Calciolari on 19/08/15.
  */
-public class FoltlSortTest {
+public class FoLtlStructuresTest {
 
 	@Test
 	public void testSortOperations(){
@@ -131,6 +132,28 @@ public class FoltlSortTest {
 		Assert.assertTrue(qvar.getSort() == ((FoLtlVariable) atom.getArguments().getFirst()).getSort());
 		assertEquals("", qvar.getSort(), ((FoLtlVariable) atom.getArguments().getFirst()).getSort());
 
+	}
+
+	@Test
+	public void	testAssignmentParsing(){
+		System.out.println("*** TEST ASSIGNMENT PARSING ***\n");
+
+		FoLtlAssignment computed = parseFoltlAssignment("");
+		FoLtlAssignment expected = new FoLtlAssignment();
+		assertEquals("", expected, computed);
+
+		computed = parseFoltlAssignment("?x <- a; ?y <- b;");
+		expected = new FoLtlAssignment();
+		expected.put(new FoLtlVariable("x"), new FoLtlConstant("a"));
+		expected.put(new FoLtlVariable("y"), new FoLtlConstant("b"));
+		assertEquals("", expected, computed);
+
+		computed = parseFoltlAssignment("?x <- a; ?y <- b; ?x <- b;");
+		expected = new FoLtlAssignment();
+		expected.put(new FoLtlVariable("x"), new FoLtlConstant("a"));
+		expected.put(new FoLtlVariable("y"), new FoLtlConstant("b"));
+		expected.put(new FoLtlVariable("x"), new FoLtlConstant("b"));
+		assertEquals("", expected, computed);
 	}
 
 	//<editor-fold desc="assertEquals" defaultstate="collapsed">

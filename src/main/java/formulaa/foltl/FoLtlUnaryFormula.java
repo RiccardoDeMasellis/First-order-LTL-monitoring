@@ -26,8 +26,8 @@ public abstract class FoLtlUnaryFormula implements FoLtlFormula, UnaryFormula {
 	}
 
 	@Override
-	public FoLtlFormula substitute(HashSet<FoLtlConstant> domain, FoLtlAssignment assignment){
-		return this.formulaFactory(this.getFormulaType(), this.getNestedFormula().substitute(domain, assignment));
+	public FoLtlFormula substitute(FoLtlAssignment assignment){
+		return this.formulaFactory(this.getFormulaType(), this.getNestedFormula().substitute(assignment));
 	}
 
 	@Override

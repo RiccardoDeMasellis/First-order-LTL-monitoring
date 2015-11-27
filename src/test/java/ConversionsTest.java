@@ -7,16 +7,14 @@ import formulaa.foltl.semantics.FoLtlAssignment;
 import net.sf.tweety.logics.commons.syntax.Constant;
 import net.sf.tweety.logics.fol.syntax.FolFormula;
 import net.sf.tweety.logics.fol.syntax.FolSignature;
-import net.sf.tweety.logics.pl.syntax.Conjunction;
-import net.sf.tweety.logics.pl.syntax.Disjunction;
-import net.sf.tweety.logics.pl.syntax.Proposition;
 import net.sf.tweety.logics.pl.syntax.PropositionalFormula;
-import org.junit.Assert;
-import org.junit.Test;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedHashSet;
-import java.util.LinkedList;
+
+//import static org.junit.Assert.*;
+import org.junit.Assert;
+import org.junit.Test;
 
 /**
  * Created by Simone Calciolari on 31/08/15.
@@ -144,7 +142,6 @@ public class ConversionsTest {
 		computed.assignSort(new FoLtlVariable("x"), sortAB);
 		expected = parseLTLfFormula("(pbc || pbb || pba) || (pac || pab || paa)");
 		assertEquals("", expected, computed.propositionalize(domain, assignment));
-
 	}
 
 	@Test
@@ -159,61 +156,61 @@ public class ConversionsTest {
 
 		//Atom conversions
 		FoLtlLocalFormula computed = (FoLtlLocalFormula) parseFoLtlFormula("P(a)");
-		PropositionalFormula expected = parseTweetyFormula("pa");
+		PropositionalFormula expected = parseTweetyPropFormula("pa");
 		assertEquals("", expected, computed.propositionalize(domain, assignment).toTweetyProp());
 
 		computed = (FoLtlLocalFormula) parseFoLtlFormula("TRUE");
-		expected = parseTweetyFormula("+");
+		expected = parseTweetyPropFormula("+");
 		assertEquals("", expected, computed.propositionalize(domain, assignment).toTweetyProp());
 
 		computed = (FoLtlLocalFormula) parseFoLtlFormula("FALSE");
-		expected = parseTweetyFormula("-");
+		expected = parseTweetyPropFormula("-");
 		assertEquals("", expected, computed.propositionalize(domain, assignment).toTweetyProp());
 
 		computed = (FoLtlLocalFormula) parseFoLtlFormula("a = b");
-		expected = parseTweetyFormula("-");
+		expected = parseTweetyPropFormula("-");
 		assertEquals("", expected, computed.propositionalize(domain, assignment).toTweetyProp());
 
 		computed = (FoLtlLocalFormula) parseFoLtlFormula("a = a");
-		expected = parseTweetyFormula("+");
+		expected = parseTweetyPropFormula("+");
 		assertEquals("", expected, computed.propositionalize(domain, assignment).toTweetyProp());
 
 		//Simple boolean conversions
 		computed = (FoLtlLocalFormula) parseFoLtlFormula("! P(b)");
-		expected = parseTweetyFormula("! pb");
+		expected = parseTweetyPropFormula("! pb");
 		assertEquals("", expected, computed.propositionalize(domain, assignment).toTweetyProp());
 
 		computed = (FoLtlLocalFormula) parseFoLtlFormula("P(a) && P(b)");
-		expected = parseTweetyFormula("pa && pb");
+		expected = parseTweetyPropFormula("pa && pb");
 		assertEquals("", expected, computed.propositionalize(domain, assignment).toTweetyProp());
 
 		computed = (FoLtlLocalFormula) parseFoLtlFormula("P(a) | P(b)");
-		expected = parseTweetyFormula("pa || pb");
+		expected = parseTweetyPropFormula("pa || pb");
 		assertEquals("", expected, computed.propositionalize(domain, assignment).toTweetyProp());
 
 		computed = (FoLtlLocalFormula) parseFoLtlFormula("P(a) -> P(b)");
-		expected = parseTweetyFormula("!pa || pb");
+		expected = parseTweetyPropFormula("!pa || pb");
 		assertEquals("", expected, computed.propositionalize(domain, assignment).toTweetyProp());
 
 		computed = (FoLtlLocalFormula) parseFoLtlFormula("P(a) <-> P(b)");
-		expected = parseTweetyFormula("(!pa || pb) && (!pb || pa)");
+		expected = parseTweetyPropFormula("(!pa || pb) && (!pb || pa)");
 		assertEquals("", expected, computed.propositionalize(domain, assignment).toTweetyProp());
 
 		//More intricate boolean conversions
 		computed = (FoLtlLocalFormula) parseFoLtlFormula("P(p) || Q(a) && ! V(r) -> J(s)");
-		expected = parseTweetyFormula("(!pp && (!qa || vr)) || js");
+		expected = parseTweetyPropFormula("(!pp && (!qa || vr)) || js");
 		assertEquals("", expected, computed.propositionalize(domain, assignment).toTweetyProp());
 
 		computed = (FoLtlLocalFormula) parseFoLtlFormula("P(a) -> (P(a) -> (P(a) -> P(a)))");
-		expected = parseTweetyFormula("!pa || (!pa || (!pa || (pa)))");
+		expected = parseTweetyPropFormula("!pa || (!pa || (!pa || (pa)))");
 		assertEquals("", expected, computed.propositionalize(domain, assignment).toTweetyProp());
 
 		computed = (FoLtlLocalFormula) parseFoLtlFormula("!(!(!P(a)))");
-		expected = parseTweetyFormula("! (!(! pa))");
+		expected = parseTweetyPropFormula("! (!(! pa))");
 		assertEquals("", expected, computed.propositionalize(domain, assignment).toTweetyProp());
 
 		computed = (FoLtlLocalFormula) parseFoLtlFormula("P(a) && (P(c) || P(b) || P(d)) -> P(s) && P(rst)");
-		expected = parseTweetyFormula("(!pa || !pc && (!pb && !pd)) || ps && prst");
+		expected = parseTweetyPropFormula("(!pa || !pc && (!pb && !pd)) || ps && prst");
 		assertEquals("", expected, computed.propositionalize(domain, assignment).toTweetyProp());
 
 		//Testing quantifiers and substitutions
@@ -221,23 +218,23 @@ public class ConversionsTest {
 		domain.add(new FoLtlConstant("b"));
 
 		computed = (FoLtlLocalFormula) parseFoLtlFormula("Exists ?x P(?x)");
-		expected = parseTweetyFormula("pa || pb");
+		expected = parseTweetyPropFormula("pa || pb");
 		assertEquals("", expected, computed.propositionalize(domain, assignment).toTweetyProp());
 
 		computed = (FoLtlLocalFormula) parseFoLtlFormula("Forall ?x P(?x)");
-		expected = parseTweetyFormula("pa && pb");
+		expected = parseTweetyPropFormula("pa && pb");
 		assertEquals("", expected, computed.propositionalize(domain, assignment).toTweetyProp());
 
 		computed = (FoLtlLocalFormula) parseFoLtlFormula("Exists ?x P(?x) && P(d)");
-		expected = parseTweetyFormula("pa && pd || pb && pd");
+		expected = parseTweetyPropFormula("pa && pd || pb && pd");
 		assertEquals("", expected, computed.propositionalize(domain, assignment).toTweetyProp());
 
 		computed = (FoLtlLocalFormula) parseFoLtlFormula("Forall ?x P(?x) -> P(d)");
-		expected = parseTweetyFormula("(!pa || pd) && (!pb || pd)");
+		expected = parseTweetyPropFormula("(!pa || pd) && (!pb || pd)");
 		assertEquals("", expected, computed.propositionalize(domain, assignment).toTweetyProp());
 
 		computed = (FoLtlLocalFormula) parseFoLtlFormula("Exists ?x (Exists ?y (P(?x) && P(?y)))");
-		expected = parseTweetyFormula("(pa && pa || pa && pb) || (pb && pa || pb && pb)");
+		expected = parseTweetyPropFormula("(pa && pa || pa && pb) || (pb && pa || pb && pb)");
 		assertEquals("", expected, computed.propositionalize(domain, assignment).toTweetyProp());
 
 	}
@@ -313,12 +310,10 @@ public class ConversionsTest {
 		expected = parseTweetyFolFormula("(!P(a) || !P(c) && (!P(b) && !P(d))) || P(c) && P(a)", signature, "type (P (Thing))");
 		assertEquals("", expected, computed.toTweetyFol());
 
-
-
 	}
 
 	@Test
-	public void testVeriableRetrieve(){
+	public void testVariableRetrieve(){
 		//Used only to get parser's warning messages out of the way
 		parseFoLtlFormula("P(a)");
 
@@ -359,20 +354,43 @@ public class ConversionsTest {
 		//Used only to get parser's warning messages out of the way
 		parseFoLtlFormula("P(abcd)");
 		parseLTLfFormula("a");
-		System.out.println();
+		System.out.println("\n\nTEST TWEETY PROP TO LTLf TRANSLATION\n");
 
-		LinkedList<PropositionalFormula> props = new LinkedList<>();
-		props.add(new Proposition("a"));
-		props.add(new Proposition("b"));
-		props.add(new Proposition("c"));
-		props.add(new Proposition("d"));
-		props.add(new Proposition("e"));
+		PropositionalFormula computed = parseTweetyPropFormula("+");
+		LTLfFormula expected = parseLTLfFormula("TRUE");
+		assertEquals("Original: " + computed, tweetyPropToLTLf(computed), expected);
 
-		PropositionalFormula pf = new Conjunction(props);
-		System.out.println(tweetyPropToLTLf(pf));
+		computed = parseTweetyPropFormula("-");
+		expected = parseLTLfFormula("false");
+		assertEquals("Original: " + computed, tweetyPropToLTLf(computed), expected);
 
-		pf = new Disjunction(props);
-		System.out.println(tweetyPropToLTLf(pf));
+		computed = parseTweetyPropFormula("asdaluba");
+		expected = parseLTLfFormula("asdaluba");
+		assertEquals("Original: " + computed, tweetyPropToLTLf(computed), expected);
+
+		computed = parseTweetyPropFormula("Pand_123");
+		expected = parseLTLfFormula("Pand_123");
+		assertEquals("Original: " + computed, tweetyPropToLTLf(computed), expected);
+
+		computed = parseTweetyPropFormula("a && b");
+		expected = parseLTLfFormula("a && b");
+		assertEquals("Original: " + computed, tweetyPropToLTLf(computed), expected);
+
+		computed = parseTweetyPropFormula("a && b && c && d");
+		expected = parseLTLfFormula("a && b && c && d");
+		assertEquals("Original: " + computed, tweetyPropToLTLf(computed), expected);
+
+		computed = parseTweetyPropFormula("a || b || c");
+		expected = parseLTLfFormula("a || b || c");
+		assertEquals("Original: " + computed, tweetyPropToLTLf(computed), expected);
+
+		computed = parseTweetyPropFormula("!a || b");
+		expected = parseLTLfFormula("a -> b");
+		assertEquals("Original: " + computed, tweetyPropToLTLf(computed), expected.nnf());
+
+		computed = parseTweetyPropFormula("(!a || b) && (!b || a)");
+		expected = parseLTLfFormula("a <-> b");
+		assertEquals("Original: " + computed, tweetyPropToLTLf(computed), expected.nnf());
 
 	}
 
@@ -655,6 +673,52 @@ public class ConversionsTest {
 			System.out.println(description + ": SUCCESS");
 			System.out.println("\t> Expected: " + expected.toString());
 			System.out.println("\t> Computed: " + computed.toString());
+			System.out.println();
+		} catch (AssertionError e){
+			throw e;
+		}
+
+	}
+	//</editor-fold>
+
+	//<editor-fold desc="assertTrue" defaultstate="collapsed">
+	/**
+	 * Wrapper for the Assert.assertTrue method, used to print some description also in case of success
+	 * @param description brief description of the current test case
+	 * @param condition boolean condition to be tested
+	 */
+	private static void assertTrue(String description, boolean condition) {
+
+		if (description.equals("")){
+			description = "assertTrue";
+		}
+
+		try {
+			Assert.assertTrue(description, condition);
+			System.out.println(description + ": SUCCESS");
+			System.out.println();
+		} catch (AssertionError e){
+			throw e;
+		}
+
+	}
+	//</editor-fold>
+
+	//<editor-fold desc="assertFalse" defaultstate="collapsed">
+	/**
+	 * Wrapper for the Assert.assertFalse method, used to print some description also in case of success
+	 * @param description brief description of the current test case
+	 * @param condition boolean condition to be tested
+	 */
+	private static void assertFalse(String description, boolean condition) {
+
+		if (description.equals("")){
+			description = "assertFalse";
+		}
+
+		try {
+			Assert.assertFalse(description, condition);
+			System.out.println(description + ": SUCCESS");
 			System.out.println();
 		} catch (AssertionError e){
 			throw e;

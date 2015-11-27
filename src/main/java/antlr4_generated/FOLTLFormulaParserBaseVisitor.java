@@ -1,4 +1,4 @@
-// Generated from FOLTLFormulaParser.g4 by ANTLR 4.3
+// Generated from FOLTLFormulaParser.g4 by ANTLR 4.5
 
     package antlr4_generated;
 
@@ -20,197 +20,173 @@ public class FOLTLFormulaParserBaseVisitor<T> extends AbstractParseTreeVisitor<T
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitNext(@NotNull FOLTLFormulaParserParser.NextContext ctx) { return visitChildren(ctx); }
-
+	@Override public T visitStart(FOLTLFormulaParserParser.StartContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitLocalNegation(@NotNull FOLTLFormulaParserParser.LocalNegationContext ctx) { return visitChildren(ctx); }
-
+	@Override public T visitFoltlFormula(FOLTLFormulaParserParser.FoltlFormulaContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitFolAtom(@NotNull FOLTLFormulaParserParser.FolAtomContext ctx) { return visitChildren(ctx); }
-
+	@Override public T visitAcrossQuantifiedFormula(FOLTLFormulaParserParser.AcrossQuantifiedFormulaContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitTemporalImplication(@NotNull FOLTLFormulaParserParser.TemporalImplicationContext ctx) { return visitChildren(ctx); }
-
+	@Override public T visitTemporalDoubleImplication(FOLTLFormulaParserParser.TemporalDoubleImplicationContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitRelease(@NotNull FOLTLFormulaParserParser.ReleaseContext ctx) { return visitChildren(ctx); }
-
+	@Override public T visitTemporalImplication(FOLTLFormulaParserParser.TemporalImplicationContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitGlobally(@NotNull FOLTLFormulaParserParser.GloballyContext ctx) { return visitChildren(ctx); }
-
+	@Override public T visitTemporalDisjunction(FOLTLFormulaParserParser.TemporalDisjunctionContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitTemporalConjunction(@NotNull FOLTLFormulaParserParser.TemporalConjunctionContext ctx) { return visitChildren(ctx); }
-
+	@Override public T visitTemporalConjunction(FOLTLFormulaParserParser.TemporalConjunctionContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitEventually(@NotNull FOLTLFormulaParserParser.EventuallyContext ctx) { return visitChildren(ctx); }
-
+	@Override public T visitWeakUntil(FOLTLFormulaParserParser.WeakUntilContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitLocalDisjunction(@NotNull FOLTLFormulaParserParser.LocalDisjunctionContext ctx) { return visitChildren(ctx); }
-
+	@Override public T visitRelease(FOLTLFormulaParserParser.ReleaseContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitLocalImplication(@NotNull FOLTLFormulaParserParser.LocalImplicationContext ctx) { return visitChildren(ctx); }
-
+	@Override public T visitUntil(FOLTLFormulaParserParser.UntilContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitLocalDoubleImplication(@NotNull FOLTLFormulaParserParser.LocalDoubleImplicationContext ctx) { return visitChildren(ctx); }
-
+	@Override public T visitGlobally(FOLTLFormulaParserParser.GloballyContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitPredicate(@NotNull FOLTLFormulaParserParser.PredicateContext ctx) { return visitChildren(ctx); }
-
+	@Override public T visitEventually(FOLTLFormulaParserParser.EventuallyContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitTemporalNegation(@NotNull FOLTLFormulaParserParser.TemporalNegationContext ctx) { return visitChildren(ctx); }
-
+	@Override public T visitWeakNext(FOLTLFormulaParserParser.WeakNextContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitWeakNext(@NotNull FOLTLFormulaParserParser.WeakNextContext ctx) { return visitChildren(ctx); }
-
+	@Override public T visitNext(FOLTLFormulaParserParser.NextContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitWeakUntil(@NotNull FOLTLFormulaParserParser.WeakUntilContext ctx) { return visitChildren(ctx); }
-
+	@Override public T visitTemporalNegation(FOLTLFormulaParserParser.TemporalNegationContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitLocalConjunction(@NotNull FOLTLFormulaParserParser.LocalConjunctionContext ctx) { return visitChildren(ctx); }
-
+	@Override public T visitLtlfAtom(FOLTLFormulaParserParser.LtlfAtomContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitEquality(@NotNull FOLTLFormulaParserParser.EqualityContext ctx) { return visitChildren(ctx); }
-
+	@Override public T visitLocalQuantifiedFormula(FOLTLFormulaParserParser.LocalQuantifiedFormulaContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitAcrossQuantifiedFormula(@NotNull FOLTLFormulaParserParser.AcrossQuantifiedFormulaContext ctx) { return visitChildren(ctx); }
-
+	@Override public T visitLocalDoubleImplication(FOLTLFormulaParserParser.LocalDoubleImplicationContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitStart(@NotNull FOLTLFormulaParserParser.StartContext ctx) { return visitChildren(ctx); }
-
+	@Override public T visitLocalImplication(FOLTLFormulaParserParser.LocalImplicationContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitLtlfAtom(@NotNull FOLTLFormulaParserParser.LtlfAtomContext ctx) { return visitChildren(ctx); }
-
+	@Override public T visitLocalDisjunction(FOLTLFormulaParserParser.LocalDisjunctionContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitFoltlFormula(@NotNull FOLTLFormulaParserParser.FoltlFormulaContext ctx) { return visitChildren(ctx); }
-
+	@Override public T visitLocalConjunction(FOLTLFormulaParserParser.LocalConjunctionContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitTemporalDisjunction(@NotNull FOLTLFormulaParserParser.TemporalDisjunctionContext ctx) { return visitChildren(ctx); }
-
+	@Override public T visitLocalNegation(FOLTLFormulaParserParser.LocalNegationContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitTemporalDoubleImplication(@NotNull FOLTLFormulaParserParser.TemporalDoubleImplicationContext ctx) { return visitChildren(ctx); }
-
+	@Override public T visitFolAtom(FOLTLFormulaParserParser.FolAtomContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitUntil(@NotNull FOLTLFormulaParserParser.UntilContext ctx) { return visitChildren(ctx); }
-
+	@Override public T visitEquality(FOLTLFormulaParserParser.EqualityContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitLocalQuantifiedFormula(@NotNull FOLTLFormulaParserParser.LocalQuantifiedFormulaContext ctx) { return visitChildren(ctx); }
+	@Override public T visitPredicate(FOLTLFormulaParserParser.PredicateContext ctx) { return visitChildren(ctx); }
 }

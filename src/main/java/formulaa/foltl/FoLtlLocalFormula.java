@@ -6,8 +6,11 @@ import formulaa.LocalFormula;
 import formula.ltlf.LTLfLocalFormula;
 import formulaa.foltl.semantics.FoLtlAssignment;
 import net.sf.tweety.logics.fol.syntax.FolFormula;
+import net.sf.tweety.logics.pl.sat.Sat4jSolver;
+import net.sf.tweety.logics.pl.syntax.PropositionalFormula;
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.LinkedHashSet;
 
 /**
@@ -26,6 +29,50 @@ public interface FoLtlLocalFormula extends FoLtlFormula, LocalFormula {
 	 * @return a LTLfLocalFormula equivalent to this formula.
 	 */
 	LTLfLocalFormula propositionalize(LinkedHashSet<FoLtlConstant> domain, FoLtlAssignment assignment);
+
+	/**
+	 *
+	 * Given the domain and an assignment, tranforms this formula into an equivalent one
+	 * where the quantifiers are expanded as conjunctions (Forall) or Disjunctions(Exists)
+	 * @param domain the domain
+	 * @param assignment the given assignment
+	 * @return a FoLtlLocalFormula equivalent to this formula.
+	 */
+	FoLtlLocalFormula quantifierExpansion(LinkedHashSet<FoLtlConstant> domain, FoLtlAssignment assignment);
+
+	/**
+	 *
+	 * Given the domain and an assignment, tranforms this formula into an equivalent one
+	 * where the quantifiers are expanded as conjunctions (Forall) or Disjunctions(Exists)
+	 * @param domain the domain
+	 * @return a FoLtlLocalFormula equivalent to this formula.
+	 */
+	default FoLtlLocalFormula quantifierExpansion(LinkedHashSet<FoLtlConstant> domain){
+		return this.quantifierExpansion(domain, new FoLtlAssignment());
+	}
+
+	/**
+	 * Given the domain and an assignment, transforms this formula into an equivalent propositional
+	 * formula, and tells whether such formula is satisfiable or not
+	 * @param domain the domain
+	 * @param assignment an assignment
+	 * @return true if the formula is satisfiable, false otherwise
+	 */
+	default boolean isSatisfiable(LinkedHashSet<FoLtlConstant> domain, FoLtlAssignment assignment){
+		//Expand the local quantifiers (if any)
+		FoLtlFormula expFormula = this.quantifierExpansion(domain);
+		//Compute the substitution
+		FoLtlLocalFormula subsFormula = (FoLtlLocalFormula) expFormula.substitute(assignment);
+		//Transform in propositional
+		PropositionalFormula propFormula = subsFormula.propositionalize(domain, assignment).toTweetyProp();
+
+		//Call Sat4jSolver
+		Sat4jSolver sjs = new Sat4jSolver();
+		HashSet<PropositionalFormula> propFormulaSet = new HashSet<>();
+		propFormulaSet.add(propFormula);
+
+		return sjs.isSatisfiable(propFormulaSet);
+	}
 
 	@Override
 	default LTLfFormula toLTLf(HashMap<FoLtlFormula, LTLfFormula> foltlTOltlf,

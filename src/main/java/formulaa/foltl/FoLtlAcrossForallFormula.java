@@ -52,7 +52,7 @@ public class FoLtlAcrossForallFormula extends FoLtlQuantifiedFormula implements 
 			if (nested instanceof FoLtlTemporalFormula){
 				temp = ((FoLtlTemporalFormula) nested).temporalExpansion(domain, assignment);
 			} else {
-				temp = nested.substitute(domain, assignment);
+				temp = nested.substitute(assignment);
 			}
 
 			if (res == null){

@@ -2,9 +2,11 @@ package util;
 
 import antlr4_generated.*;
 import formulaa.fol.FolFormula;
+import formulaa.foltl.FoLtlConstant;
 import formulaa.foltl.FoLtlFormula;
 import formula.ltlf.LTLfFormula;
 import formulaa.foltl.FoLtlVariable;
+import formulaa.foltl.semantics.FoLtlAssignment;
 import net.sf.tweety.commons.Formula;
 import net.sf.tweety.logics.fol.parser.FolParser;
 import net.sf.tweety.logics.fol.syntax.FolSignature;
@@ -13,6 +15,7 @@ import net.sf.tweety.logics.pl.syntax.PropositionalFormula;
 import org.antlr.v4.runtime.ANTLRInputStream;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.tree.ParseTree;
+import visitors.AssignmentVisitors.AssignmentVisitor;
 import visitors.FOLTLVisitors.*;
 import visitors.FOLVisitors.*;
 import visitors.LTLfVisitors.LTLfVisitor;
@@ -21,6 +24,7 @@ import java.io.IOException;
 import java.io.Reader;
 import java.io.StringReader;
 import java.util.HashSet;
+import java.util.LinkedHashSet;
 
 /**
  * Class that packs methods to encapsulates the parsing functionalities.
@@ -237,7 +241,7 @@ public class ParsingUtils {
 	 * @param input the input formula
 	 * @return the parsed formula
 	 */
-	public static PropositionalFormula parseTweetyFormula(String input){
+	public static PropositionalFormula parseTweetyPropFormula(String input){
 		PropositionalFormula output;
 
 		PlParser parser = new PlParser();
@@ -286,6 +290,33 @@ public class ParsingUtils {
 		return (net.sf.tweety.logics.fol.syntax.FolFormula) output;
 	}
 
+	public static FoLtlAssignment parseFoltlAssignment(String input){
+		FoLtlAssignment output;
+
+		//Instantiates default lexer and parser
+		FoLtlAssignmentLexer lexer = new FoLtlAssignmentLexer(new ANTLRInputStream(input));
+		FoLtlAssignmentParser parser = new FoLtlAssignmentParser(new CommonTokenStream(lexer));
+
+		//Gets the parsing tree
+		ParseTree tree = parser.assignmentDefinition();
+
+		if (DEBUG){
+			System.out.println("\n");
+			String o = tree.toStringTree(parser);
+			System.out.println("> Default parsing tree:\n> " + o + "\n");
+		}
+
+		//Calling our own visitor
+		AssignmentVisitor visitor = new AssignmentVisitor();
+		output = visitor.visit(tree);
+
+		if(DEBUG) {
+			System.out.println("\n> Parsed Assignment: " + output.toString());
+		}
+
+		return output;
+	}
+
 	/**
 	 * Simple method to quickly build a set of variables
 	 * @param vars the variable names list
@@ -301,4 +332,44 @@ public class ParsingUtils {
 		return res;
 	}
 
+	/**
+	 * Simple method to quickly build a set of constants
+	 * @param cons the constants names list
+	 * @return the set containing constants with the given name
+	 */
+	public static LinkedHashSet<FoLtlConstant> parseConstantSet(String... cons){
+		LinkedHashSet<FoLtlConstant> res = new LinkedHashSet<>();
+
+		for (String c : cons){
+			res.add(new FoLtlConstant(c));
+		}
+
+		return res;
+	}
+
+	/**
+	 * Simple method that takes a string (ideally an expression with round parenthesis) and
+	 * returns a new string consisting of the input string, with a new line underneath with
+	 * matching numbers on corresponding open and close parenthesis
+	 * @param input the input string
+	 * @return the output string
+	 */
+	public static String parenthesisMatcher(String input){
+		String output = "";
+		int count = 0;
+
+		for (int i = 0; i < input.length(); i++){
+			if (input.charAt(i) == '('){
+				output = output + count;
+				count++;
+			} else if (input.charAt(i) == ')'){
+				count--;
+				output = output + count;
+			} else {
+				output = output + " ";
+			}
+		}
+
+		return input + "\n" + output;
+	}
 }

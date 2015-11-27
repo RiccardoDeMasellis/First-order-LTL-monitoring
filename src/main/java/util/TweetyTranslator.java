@@ -1,5 +1,6 @@
 package util;
 
+import evaluations.PropositionLast;
 import formula.ltlf.*;
 import formulaa.foltl.*;
 import net.sf.tweety.logics.pl.semantics.PossibleWorld;
@@ -24,15 +25,6 @@ public class TweetyTranslator {
 	protected TweetyTranslator(){}
 
 	/**
-	 * Translates a given tweety Proposition into a LTLfLocalVar.
-	 * @param prop the tweety Proposition.
-	 * @return a LTLfLocalVar with the same name.
-	 */
-	public static LTLfLocalVar tweetyPropToLTLfVar(Proposition prop){
-		return new LTLfLocalVar(prop.getName());
-	}
-
-	/**
 	 * Translates a given Tweety propositional formula into a LTLf(Local)Formula
 	 * @param propformula the formula to be translated
 	 * @return a LTLfFormula equivalent to the original
@@ -47,7 +39,8 @@ public class TweetyTranslator {
 
 			for (int i = size-2; i>=0; i--){
 				PropositionalFormula pf = ((Conjunction) propformula).get(i);
-				res = new LTLfTempAndFormula(tweetyPropToLTLf(pf), res);
+				LTLfFormula ltlff = tweetyPropToLTLf(pf);
+				res = new LTLfLocalAndFormula(ltlff, res);
 			}
 
 		} else if (propformula instanceof Disjunction){
@@ -57,16 +50,17 @@ public class TweetyTranslator {
 
 			for (int i = size-2; i>=0; i--){
 				PropositionalFormula pf = ((Disjunction) propformula).get(i);
-				res = new LTLfTempOrFormula(tweetyPropToLTLf(pf), res);
+				LTLfFormula ltlff = tweetyPropToLTLf(pf);
+				res = new LTLfLocalOrFormula(ltlff, res);
 			}
 
 		} else if (propformula instanceof Negation){
 			PropositionalFormula pNested = ((Negation) propformula).getFormula();
 			LTLfFormula nested = tweetyPropToLTLf(pNested);
-			res = new LTLfTempNotFormula(nested);
+			res = new LTLfLocalNotFormula(nested);
 
 		} else if (propformula instanceof Proposition){
-			res = tweetyPropToLTLfVar((Proposition) propformula);
+			res = new LTLfLocalVar((Proposition) propformula);
 
 		} else if (propformula instanceof Tautology){
 			res = new LTLfLocalTrueFormula();
@@ -93,66 +87,93 @@ public class TweetyTranslator {
 		if (ltlff instanceof LTLfLocalVar){
 			res = map.get(ltlff);
 
-		} else if (ltlff instanceof LTLfTempDoubleImplFormula) {
+		} else if (ltlff instanceof LTLfTempDoubleImplFormula){
 			FoLtlFormula left = ltlfToFoLtl(((LTLfTempDoubleImplFormula) ltlff).getLeftFormula(), map);
 			FoLtlFormula right = ltlfToFoLtl(((LTLfTempDoubleImplFormula) ltlff).getRightFormula(), map);
 			res = new FoLtlTempDoubleImplFormula(left, right);
 
-		} else if (ltlff instanceof LTLfTempImplFormula) {
+		} else if (ltlff instanceof LTLfTempImplFormula){
 			FoLtlFormula left = ltlfToFoLtl(((LTLfTempImplFormula) ltlff).getLeftFormula(), map);
 			FoLtlFormula right = ltlfToFoLtl(((LTLfTempImplFormula) ltlff).getRightFormula(), map);
 			res = new FoLtlTempImplFormula(left, right);
 
-		} else if (ltlff instanceof LTLfTempOrFormula) {
+		} else if (ltlff instanceof LTLfTempOrFormula){
 			FoLtlFormula left = ltlfToFoLtl(((LTLfTempOrFormula) ltlff).getLeftFormula(), map);
 			FoLtlFormula right = ltlfToFoLtl(((LTLfTempOrFormula) ltlff).getRightFormula(), map);
 			res = new FoLtlTempOrFormula(left, right);
 
-		} else if (ltlff instanceof LTLfTempAndFormula) {
+		} else if (ltlff instanceof LTLfTempAndFormula){
 			FoLtlFormula left = ltlfToFoLtl(((LTLfTempAndFormula) ltlff).getLeftFormula(), map);
 			FoLtlFormula right = ltlfToFoLtl(((LTLfTempAndFormula) ltlff).getRightFormula(), map);
 			res = new FoLtlTempAndFormula(left, right);
 
-		} else if (ltlff instanceof LTLfWeakUntilFormula) {
+		} else if (ltlff instanceof LTLfWeakUntilFormula){
 			FoLtlFormula left = ltlfToFoLtl(((LTLfWeakUntilFormula) ltlff).getLeftFormula(), map);
 			FoLtlFormula right = ltlfToFoLtl(((LTLfWeakUntilFormula) ltlff).getRightFormula(), map);
 			res = new FoLtlWeakUntilFormula(left, right);
 
-		} else if (ltlff instanceof LTLfReleaseFormula) {
+		} else if (ltlff instanceof LTLfReleaseFormula){
 			FoLtlFormula left = ltlfToFoLtl(((LTLfReleaseFormula) ltlff).getLeftFormula(), map);
 			FoLtlFormula right = ltlfToFoLtl(((LTLfReleaseFormula) ltlff).getRightFormula(), map);
 			res = new FoLtlReleaseFormula(left, right);
 
-		} else if (ltlff instanceof LTLfUntilFormula) {
+		} else if (ltlff instanceof LTLfUntilFormula){
 			FoLtlFormula left = ltlfToFoLtl(((LTLfUntilFormula) ltlff).getLeftFormula(), map);
 			FoLtlFormula right = ltlfToFoLtl(((LTLfUntilFormula) ltlff).getRightFormula(), map);
 			res = new FoLtlUntilFormula(left, right);
 
-		} else if (ltlff instanceof LTLfGloballyFormula) {
+		} else if (ltlff instanceof LTLfGloballyFormula){
 			FoLtlFormula nested = ltlfToFoLtl(((LTLfGloballyFormula) ltlff).getNestedFormula(), map);
 			res = new FoLtlGloballyFormula(nested);
 
-		} else if (ltlff instanceof LTLfEventuallyFormula) {
+		} else if (ltlff instanceof LTLfEventuallyFormula){
 			FoLtlFormula nested = ltlfToFoLtl(((LTLfEventuallyFormula) ltlff).getNestedFormula(), map);
 			res = new FoLtlEventuallyFormula(nested);
 
-		} else if (ltlff instanceof LTLfWeakNextFormula) {
+		} else if (ltlff instanceof LTLfWeakNextFormula){
 			FoLtlFormula nested = ltlfToFoLtl(((LTLfWeakNextFormula) ltlff).getNestedFormula(), map);
 			res = new FoLtlWeakNextFormula(nested);
 
-		} else if (ltlff instanceof LTLfNextFormula) {
+		} else if (ltlff instanceof LTLfNextFormula){
 			FoLtlFormula nested = ltlfToFoLtl(((LTLfNextFormula) ltlff).getNestedFormula(), map);
 			res = new FoLtlNextFormula(nested);
 
-		} else if (ltlff instanceof LTLfTempNotFormula) {
+		} else if (ltlff instanceof LTLfTempNotFormula){
 			FoLtlFormula nested = ltlfToFoLtl(((LTLfTempNotFormula) ltlff).getNestedFormula(), map);
 			res = new FoLtlTempNotFormula(nested);
 
-		} else if (ltlff instanceof LTLfLocalFormula) {
-			res = map.get(ltlff);
+		} else if (ltlff instanceof LTLfLocalDoubleImplFormula){
+			FoLtlFormula left = ltlfToFoLtl(((LTLfLocalDoubleImplFormula) ltlff).getLeftFormula(), map);
+			FoLtlFormula right = ltlfToFoLtl(((LTLfLocalDoubleImplFormula) ltlff).getRightFormula(), map);
+			res = new FoLtlLocalDoubleImplFormula(left, right);
+
+		} else if (ltlff instanceof LTLfLocalImplFormula){
+			FoLtlFormula left = ltlfToFoLtl(((LTLfLocalImplFormula) ltlff).getLeftFormula(), map);
+			FoLtlFormula right = ltlfToFoLtl(((LTLfLocalImplFormula) ltlff).getRightFormula(), map);
+			res = new FoLtlLocalImplFormula(left, right);
+
+		} else if (ltlff instanceof LTLfLocalOrFormula){
+			FoLtlFormula left = ltlfToFoLtl(((LTLfLocalOrFormula) ltlff).getLeftFormula(), map);
+			FoLtlFormula right = ltlfToFoLtl(((LTLfLocalOrFormula) ltlff).getRightFormula(), map);
+			res = new FoLtlLocalOrFormula(left, right);
+
+		} else if (ltlff instanceof LTLfLocalAndFormula){
+			FoLtlFormula left = ltlfToFoLtl(((LTLfLocalAndFormula) ltlff).getLeftFormula(), map);
+			FoLtlFormula right = ltlfToFoLtl(((LTLfLocalAndFormula) ltlff).getRightFormula(), map);
+			res = new FoLtlLocalAndFormula(left, right);
+
+		} else if (ltlff instanceof LTLfLocalNotFormula){
+			FoLtlFormula nested = ltlfToFoLtl(((LTLfLocalNotFormula) ltlff).getNestedFormula(), map);
+			res = new FoLtlLocalNotFormula(nested);
+
+		} else if (ltlff instanceof LTLfLocalTrueFormula){
+			res = new FoLtlLocalTrueAtom();
+
+		} else if (ltlff instanceof LTLfLocalFalseFormula){
+			res = new FoLtlLocalFalseAtom();
 
 		} else {
-			throw new RuntimeException("Unknown LTLfFormula type");
+			throw new RuntimeException("Unknown LTLfFormula type: " + ltlff);
 		}
 
 		return res;
@@ -181,7 +202,7 @@ public class TweetyTranslator {
 	 * Given a map from LTLfFormula to FoLtlFormula (used during automata translation),
 	 * computes the corresponding Propositional Signature in Tweety data structures.
 	 * @param ltlfTOfoltl the map.
-	 * @return the computed PRopositionalSignature.
+	 * @return the computed PropositionalSignature.
 	 */
 	public static PropositionalSignature getPropSignature(HashMap<LTLfFormula, FoLtlFormula> ltlfTOfoltl){
 		Iterator<LTLfFormula> ltlffs = ltlfTOfoltl.keySet().iterator();
@@ -194,8 +215,16 @@ public class TweetyTranslator {
 				PropositionalFormula pf = ((LTLfLocalFormula) next).toTweetyProp();
 
 				if (pf instanceof Proposition){
-					res.add((Proposition) pf);
+					if (pf instanceof PropositionLast){
+						res.add((PropositionLast) pf);
+					} else {
+						res.add((Proposition) pf);
+					}
+				} else {
+					throw new RuntimeException("Tweety Proposition expected");
 				}
+			} else {
+				throw new RuntimeException("Wrong LTLf formula type");
 			}
 		}
 

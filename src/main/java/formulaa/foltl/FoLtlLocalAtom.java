@@ -151,8 +151,8 @@ public class FoLtlLocalAtom extends FoLtlAtomicFormula implements FoLtlLocalForm
 	}
 
 	@Override
-	public FoLtlFormula substitute(HashSet<FoLtlConstant> domain, FoLtlAssignment assignment){
-		FoLtlLocalAtom res = new FoLtlLocalAtom(this.getPredicate());
+	public FoLtlFormula substitute(FoLtlAssignment assignment){
+		FoLtlLocalAtom res = new FoLtlLocalAtom(this.getPredicate().clone());
 
 		Iterator<FoLtlTerm> i = this.getArguments().iterator();
 
@@ -255,7 +255,7 @@ public class FoLtlLocalAtom extends FoLtlAtomicFormula implements FoLtlLocalForm
 	public LTLfLocalFormula propositionalize(LinkedHashSet<FoLtlConstant> domain, FoLtlAssignment assignment){
 		String name = this.getPredicate().toString().toLowerCase();
 
-		FoLtlLocalAtom sub = (FoLtlLocalAtom) this.substitute(domain, assignment);
+		FoLtlLocalAtom sub = (FoLtlLocalAtom) this.substitute(assignment);
 		Iterator<FoLtlTerm> i = sub.getArguments().iterator();
 
 		while (i.hasNext()){

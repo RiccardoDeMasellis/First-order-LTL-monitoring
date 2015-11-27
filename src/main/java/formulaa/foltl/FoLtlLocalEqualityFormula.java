@@ -11,7 +11,6 @@ import net.sf.tweety.logics.commons.syntax.Variable;
 import net.sf.tweety.logics.fol.syntax.FOLAtom;
 import net.sf.tweety.logics.fol.syntax.FolFormula;
 
-import java.util.HashSet;
 import java.util.LinkedHashSet;
 
 /**
@@ -42,8 +41,9 @@ public class FoLtlLocalEqualityFormula extends FoLtlAtomicFormula implements FoL
 	public formulaa.FormulaType getFormulaType(){
 		return formulaa.FormulaType.LOCAL_EQUALITY;
 	}
+
 	@Override
-	public FoLtlFormula substitute(HashSet<FoLtlConstant> domain, FoLtlAssignment assignment){
+	public FoLtlFormula substitute(FoLtlAssignment assignment){
 		FoLtlTerm left = this.getLeftTerm();
 		FoLtlTerm right = this.getRightTerm();
 
@@ -66,7 +66,7 @@ public class FoLtlLocalEqualityFormula extends FoLtlAtomicFormula implements FoL
 
 	@Override
 	public LTLfLocalFormula propositionalize(LinkedHashSet<FoLtlConstant> domain, FoLtlAssignment assignment){
-		FoLtlLocalEqualityFormula sub = (FoLtlLocalEqualityFormula) this.substitute(domain, assignment);
+		FoLtlLocalEqualityFormula sub = (FoLtlLocalEqualityFormula) this.substitute(assignment);
 		FoLtlTerm left = sub.getLeftTerm();
 		FoLtlTerm right = sub.getRightTerm();
 

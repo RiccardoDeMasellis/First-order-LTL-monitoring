@@ -2,13 +2,11 @@ package automata;
 
 import static util.TweetyTranslator.*;
 
+import automaton.EmptyTrace;
+import automaton.PossibleWorldWrap;
+import automaton.TransitionLabel;
 import formula.ltlf.LTLfFormula;
-import formula.ltlf.LTLfLocalVar;
 import formulaa.foltl.FoLtlFormula;
-import formulaa.foltl.FoLtlLocalTrueAtom;
-import formulaa.foltl.FoLtlNextFormula;
-import formulaa.foltl.FoLtlTempNotFormula;
-import net.sf.tweety.logics.pl.semantics.PossibleWorld;
 import net.sf.tweety.logics.pl.syntax.PropositionalSignature;
 import rationals.Automaton;
 import rationals.NoSuchStateException;
@@ -41,6 +39,16 @@ public class AutomataTranslator {
 	public static Automaton ldlfAutomataToFoLtl(Automaton original, HashMap<LTLfFormula, FoLtlFormula> ltlfTOfoltl){
 		Automaton res = new Automaton();
 
+		/*We now ignore last atom
+		//Update the map to handle last atoms (still to be improved)
+		//TODO put in a better place
+		ltlfTOfoltl.put(new LTLfLocalVar(new PropositionLast()),
+				new FoLtlTempNotFormula(new FoLtlNextFormula(new FoLtlLocalTrueAtom())));
+		*/
+
+		//Get the signature
+		PropositionalSignature sig = getPropSignature(ltlfTOfoltl);
+
 		//ADD STATES TO THE NEW AUTOMATON
 		//Original states iterator
 		Iterator<State> originalStates = original.states().iterator();
@@ -65,36 +73,37 @@ public class AutomataTranslator {
 		while (originalStates.hasNext()){
 
 			State oldStart = originalStates.next();
-			Iterator<Transition<PossibleWorld>> oldTransitions = original.delta(oldStart).iterator();
+			Iterator<Transition<TransitionLabel>> oldTransitions = original.delta(oldStart).iterator();
 
 			//Iterate over all transition starting from the current (old) state.
 			while (oldTransitions.hasNext()){
 				//Get next transition
-				Transition<PossibleWorld> oldt = oldTransitions.next();
+				Transition<TransitionLabel> oldt = oldTransitions.next();
+
 				//Get its end state
 				State oldEnd = oldt.end();
 
 				//Get original label
-				PossibleWorld pw = oldt.label();
+				TransitionLabel oldLabel = oldt.label();
 
 				//Translate original label
+				FoLtlLabel newLabel;
 
-				//Get the signature
-				PropositionalSignature sig = getPropSignature(ltlfTOfoltl);
-
-				//Update the map to handle last atoms (still to be improved)
-				ltlfTOfoltl.put(new LTLfLocalVar("last"),
-						new FoLtlTempNotFormula(new FoLtlNextFormula(new FoLtlLocalTrueAtom())));
-
-				//Get the new label
-				FoLtlFormula newLabel = tweetyPwToFoLtl(pw, sig, ltlfTOfoltl);
+				if (oldLabel instanceof EmptyTrace){
+					newLabel = new FoLtlEmptyTrace();
+				} else if (oldLabel instanceof PossibleWorldWrap) {
+					//Get the new label
+					newLabel = tweetyPwToFoLtl((PossibleWorldWrap) oldLabel, sig, ltlfTOfoltl);
+				} else {
+					throw new RuntimeException("Unknown transition label type");
+				}
 
 				//Create new transition
 				//Get start and end states
 				State newStart = oldToNewStates.get(oldStart);
 				State newEnd = oldToNewStates.get(oldEnd);
 
-				Transition<FoLtlFormula> newt = new Transition<>(newStart, newLabel, newEnd);
+				Transition<FoLtlLabel> newt = new Transition<>(newStart, newLabel, newEnd);
 
 				//Add it to translated automaton
 				try {

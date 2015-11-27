@@ -60,20 +60,15 @@ public class FoLtlOperationTest {
 		FoLtlAtomicFormula fab = new FoLtlLocalFalseAtom();
 		FoLtlAtomicFormula ta = new FoLtlLocalTrueAtom();
 		FoLtlAtomicFormula tab = new FoLtlLocalTrueAtom();
-		FoLtlAtomicFormula la = new FoLtlTempLastAtom();
-		FoLtlAtomicFormula lab = new FoLtlTempLastAtom();
 
 		System.out.println("\nAtom comparisons\n");
 
 		assertEquals("True local atoms", ta, tab);
 		assertEquals("False local atoms", fa, fab);
-		assertEquals("Last temporal atoms", la, lab);
 
 		System.out.println();
 
 		assertNotEquals("True and false atoms", fa, ta);
-		assertNotEquals("True and last atoms", ta, la);
-		assertNotEquals("False and last atoms", la, fa);
 
 
 		//Atomic formula comparisons
@@ -460,14 +455,11 @@ public class FoLtlOperationTest {
 		FoLtlAtomicFormula fab = new FoLtlLocalFalseAtom();
 		FoLtlAtomicFormula ta = new FoLtlLocalTrueAtom();
 		FoLtlAtomicFormula tab = new FoLtlLocalTrueAtom();
-		FoLtlAtomicFormula la = new FoLtlTempLastAtom();
-		FoLtlAtomicFormula lab = new FoLtlTempLastAtom();
 
 		System.out.println("\nAtom comparisons\n");
 
 		assertEquals("True local atoms", ta.hashCode(), tab.hashCode());
 		assertEquals("False local atoms", fa.hashCode(), fab.hashCode());
-		assertEquals("Last temporal atoms", la.hashCode(), lab.hashCode());
 
 
 		//Atomic formula comparisons
@@ -722,7 +714,6 @@ public class FoLtlOperationTest {
 		//Atom comparisons
 		FoLtlAtomicFormula fa = new FoLtlLocalFalseAtom();
 		FoLtlAtomicFormula ta = new FoLtlLocalTrueAtom();
-		FoLtlAtomicFormula la = new FoLtlTempLastAtom();
 
 		System.out.println("\nAtom comparisons\n");
 
@@ -731,9 +722,6 @@ public class FoLtlOperationTest {
 
 		assertEquals("True", ta, ta.clone());
 		Assert.assertFalse(ta == ta.clone());
-
-		assertEquals("Last", la, la.clone());
-		Assert.assertFalse(la == la.clone());
 
 
 		//Atomic formula comparisons
@@ -1051,12 +1039,6 @@ public class FoLtlOperationTest {
 		target = forallX;
 
 		assertEquals("Forall ?x (Forall ?y P(?x) & Q(?x, ?x) | FALSE U Q(?y, ?y))", target, target.clone());
-		Assert.assertFalse(target == target.clone());
-
-		//G P(a) U LAST
-		target = new FoLtlUntilFormula(new FoLtlGloballyFormula(Pa), new FoLtlTempLastAtom());
-
-		assertEquals("G P(a) U LAST", target, target.clone());
 		Assert.assertFalse(target == target.clone());
 
 	}
