@@ -22,12 +22,12 @@ public class FoLtlSortAssignmentVisitor extends FoLtlSortAssignmentBaseVisitor<H
 
 	private HashSet<FoLtlVariable> variables;
 	private LinkedHashSet<FoLtlSort> sorts;
-	//private HashSet<FoLtlVariable> sortedVariables;
+	private HashSet<FoLtlVariable> sortedVariables;
 
 	public FoLtlSortAssignmentVisitor(HashSet<FoLtlVariable> variables, LinkedHashSet<FoLtlSort> sorts){
 		this.variables = variables;
 		this.sorts = sorts;
-		//this.sortedVariables = new HashSet<>();
+		this.sortedVariables = new HashSet<>();
 	}
 
 	@Override
@@ -43,7 +43,7 @@ public class FoLtlSortAssignmentVisitor extends FoLtlSortAssignmentBaseVisitor<H
 			res.putAll(visit(ctx.getChild(i)));
 		}
 
-		if (!res.keySet().equals(variables)){
+		if (!this.sortedVariables.equals(variables)){
 			throw new RuntimeException("Not all variables were sorted");
 		}
 
@@ -66,12 +66,13 @@ public class FoLtlSortAssignmentVisitor extends FoLtlSortAssignmentBaseVisitor<H
 
 		for (FoLtlVariable v : this.variables){
 			if (v.getName().equals(name)){
+				this.sortedVariables.add(v);
 				res = v;
 			}
 		}
 
 		if (res == null){
-			throw new RuntimeException("Variable ?" + name + "was not specified");
+			throw new RuntimeException("Variable ?" + name + " was not specified");
 		}
 
 		return res;
@@ -87,7 +88,7 @@ public class FoLtlSortAssignmentVisitor extends FoLtlSortAssignmentBaseVisitor<H
 		}
 
 		if (res == null){
-			throw new RuntimeException("Sort " + name + "was not specified");
+			throw new RuntimeException("Sort " + name + " was not specified");
 		}
 
 		return res;
