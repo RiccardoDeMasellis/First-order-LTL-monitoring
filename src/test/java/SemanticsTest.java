@@ -374,7 +374,7 @@ public class SemanticsTest {
 		assertTrue(computed.substitute(assignment) + " is satisfiable", computed.isSatisfiable(domain, assignment));
 		//</editor-fold>
 
-		//<editor-fold desc="Satisfiable formulas with assignments" defaultstate="collapsed">
+		//<editor-fold desc="Unsatisfiable formulas with assignments" defaultstate="collapsed">
 		computed = (FoLtlLocalFormula) parseFoLtlFormula("Forall ?x (P(?x) && !P(?y))");
 		assignment = parseFoltlAssignment("?y <- b;");
 		assertFalse(computed.substitute(assignment) + " is unsatisfiable", computed.isSatisfiable(domain, assignment));

@@ -5,6 +5,7 @@ import formulaa.fol.FolFormula;
 import formulaa.foltl.FoLtlConstant;
 import formulaa.foltl.FoLtlFormula;
 import formula.ltlf.LTLfFormula;
+import formulaa.foltl.FoLtlSort;
 import formulaa.foltl.FoLtlVariable;
 import formulaa.foltl.semantics.FoLtlAssignment;
 import net.sf.tweety.commons.Formula;
@@ -19,6 +20,8 @@ import visitors.AssignmentVisitors.AssignmentVisitor;
 import visitors.FOLTLVisitors.*;
 import visitors.FOLVisitors.*;
 import visitors.LTLfVisitors.LTLfVisitor;
+import visitors.SortVisitors.*;
+import visitors.SortVisitors.FoLtlSortDefinitionVisitor;
 
 import java.io.IOException;
 import java.io.Reader;
@@ -312,6 +315,33 @@ public class ParsingUtils {
 
 		if(DEBUG) {
 			System.out.println("\n> Parsed Assignment: " + output.toString());
+		}
+
+		return output;
+	}
+
+	public static LinkedHashSet<FoLtlSort> parseSortDefinition(String input, LinkedHashSet<FoLtlConstant> domain){
+		LinkedHashSet<FoLtlSort> output;
+
+		//Instantiates default lexer and parser
+		FoLtlSortDefinitionLexer lexer = new FoLtlSortDefinitionLexer(new ANTLRInputStream(input));
+		FoLtlSortDefinitionParser parser = new FoLtlSortDefinitionParser(new CommonTokenStream(lexer));
+
+		//Gets the parsing tree
+		ParseTree tree = parser.sortDefinition();
+
+		if (DEBUG){
+			System.out.println("\n");
+			String o = tree.toStringTree(parser);
+			System.out.println("> Default parsing tree:\n> " + o + "\n");
+		}
+
+		//Calling our own visitor
+		FoLtlSortDefinitionVisitor visitor = new FoLtlSortDefinitionVisitor(domain);
+		output = visitor.visit(tree);
+
+		if(DEBUG) {
+			System.out.println("\n> Parsed Sorts: " + output.toString());
 		}
 
 		return output;
