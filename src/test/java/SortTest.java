@@ -67,7 +67,6 @@ public class SortTest {
 			System.out.println("\t> Thrown: " + e.getMessage() + "\n");
 		}
 
-		domain = parseConstantSet("a", "b");
 		input = "Sort1 := {a, b}; Sort2 := {b};";
 		try {
 			parseSortDefinition(input, domain);
@@ -79,13 +78,23 @@ public class SortTest {
 			System.out.println("\t> Thrown: " + e.getMessage() + "\n");
 		}
 
-		domain = parseConstantSet("a", "b");
 		input = "Sort1 := {a};";
 		try {
 			parseSortDefinition(input, domain);
 			Assert.fail(input + "\n" +
 					"FAIL: Exception not thrown\n" +
 					"Expected: RuntimeException: Constant not sorted\n");
+		} catch (RuntimeException e){
+			System.out.println(input);
+			System.out.println("\t> Thrown: " + e.getMessage() + "\n");
+		}
+
+		input = "Sort1 := {a}; Sort1 := {b};";
+		try {
+			parseSortDefinition(input, domain);
+			Assert.fail(input + "\n" +
+					"FAIL: Exception not thrown\n" +
+					"Expected: RuntimeException: Sort1 has already been defined\n");
 		} catch (RuntimeException e){
 			System.out.println(input);
 			System.out.println("\t> Thrown: " + e.getMessage() + "\n");
@@ -97,10 +106,52 @@ public class SortTest {
 		System.out.println("*** SORT ASSIGNMENT PARSING TEST *** \n");
 
 		LinkedHashSet<FoLtlConstant> domain = parseConstantSet("a", "b");
-		HashSet<FoLtlVariable> variables = parseVariableSet("x", "y", "z");
+		HashSet<FoLtlVariable> variables = parseVariableSet("x", "y");
 		LinkedHashSet<FoLtlSort> sorts = parseSortDefinition("Sort1 := {a}; Sort2 := {b};", domain);
 
-		System.out.println(parseSortAssignment("?x <- Sort1; ?y <- Sort1; ?z <- Sort2;", variables, sorts));
+		String input = "?x <- Sort1; ?y <-Sort1;";
+		HashMap<FoLtlVariable, FoLtlSort> computed = parseSortAssignment(input, variables, sorts);
+		HashMap<FoLtlVariable, FoLtlSort> expected = new HashMap<>();
+		FoLtlSort sort = new FoLtlSort("Sort1");
+		sort.add(new FoLtlConstant("a"));
+		expected.put(new FoLtlVariable("x"), sort);
+		expected.put(new FoLtlVariable("y"), sort);
+		assertEquals(input, expected, computed);
+
+
+		input = "?x <- Sort1;";
+		try {
+			parseSortAssignment(input, variables, sorts);
+			Assert.fail(input + "\n" +
+					"FAIL: Exception not thrown\n" +
+					"Expected: RuntimeException: Not all variables were sorted\n");
+		} catch (RuntimeException e){
+			System.out.println(input);
+			System.out.println("\t> Thrown: " + e.getMessage() + "\n");
+		}
+
+		input = "?x <- Sort1; ?y <-Sort1; ?z <- Sort2;";
+		try {
+			parseSortAssignment(input, variables, sorts);
+			Assert.fail(input + "\n" +
+					"FAIL: Exception not thrown\n" +
+					"Expected: RuntimeException: Variable ?z was not specified\n");
+		} catch (RuntimeException e){
+			System.out.println(input);
+			System.out.println("\t> Thrown: " + e.getMessage() + "\n");
+		}
+
+		input = "?x <- Sort1; ?y <- Sort3;";
+		try {
+			parseSortAssignment(input, variables, sorts);
+			Assert.fail(input + "\n" +
+					"FAIL: Exception not thrown\n" +
+					"Expected: RuntimeException: Sort Sort3 was not specified\n");
+		} catch (RuntimeException e){
+			System.out.println(input);
+			System.out.println("\t> Thrown: " + e.getMessage() + "\n");
+		}
+
 
 	}
 
