@@ -1,4 +1,6 @@
 import formulaa.foltl.FoLtlConstant;
+import formulaa.foltl.FoLtlSort;
+import org.fest.assertions.ThrowableAssert;
 import org.junit.Assert;
 import org.junit.Test;
 import java.util.LinkedHashSet;
@@ -19,7 +21,72 @@ public class SortTest {
 
 		LinkedHashSet<FoLtlConstant> domain = parseConstantSet("a", "b");
 
-		System.out.println(parseSortDefinition("Sort1 := {a}; Sort2 := {b};", domain));
+		String input = "Sort1 := {a}; Sort2 := {b};";
+		LinkedHashSet<FoLtlSort> computed = parseSortDefinition(input, domain);
+		LinkedHashSet<FoLtlSort> expected = new LinkedHashSet<>();
+		FoLtlSort sort = new FoLtlSort("Sort1");
+		sort.addAll(parseConstantSet("a"));
+		expected.add(sort);
+		sort = new FoLtlSort("Sort2");
+		sort.addAll(parseConstantSet("b"));
+		expected.add(sort);
+		assertEquals(input, expected, computed);
+
+		domain = parseConstantSet("a", "b", "c", "d");
+		input = "Sort1 := {a, c}; Sort2 := {b}; Sort3 := {d};";
+		computed = parseSortDefinition(input, domain);
+		expected = new LinkedHashSet<>();
+		sort = new FoLtlSort("Sort1");
+		sort.addAll(parseConstantSet("a", "c"));
+		expected.add(sort);
+		sort = new FoLtlSort("Sort2");
+		sort.addAll(parseConstantSet("b"));
+		expected.add(sort);
+		sort = new FoLtlSort("Sort3");
+		sort.addAll(parseConstantSet("d"));
+		expected.add(sort);
+		assertEquals(input, expected, computed);
+
+
+		//Testing exceptions
+		System.out.println("\nTesting exceptions\n");
+
+		domain = parseConstantSet("a", "b");
+		input = "Sort1 := {a, c}; Sort2 := {b};";
+		try {
+			parseSortDefinition(input, domain);
+			Assert.fail(input + "\n" +
+					"FAIL: Exception not thrown\n" +
+					"Expected: RuntimeException: Constant not in domain\n");
+		} catch (RuntimeException e){
+			System.out.println(input);
+			System.out.println("\t> Thrown: " + e.getMessage() + "\n");
+		}
+
+		domain = parseConstantSet("a", "b");
+		input = "Sort1 := {a, b}; Sort2 := {b};";
+		try {
+			parseSortDefinition(input, domain);
+			Assert.fail(input + "\n" +
+					"FAIL: Exception not thrown\n" +
+					"Expected: RuntimeException: Constant already sorted\n");
+		} catch (RuntimeException e){
+			System.out.println(input);
+			System.out.println("\t> Thrown: " + e.getMessage() + "\n");
+		}
+
+		domain = parseConstantSet("a", "b");
+		input = "Sort1 := {a};";
+		try {
+			parseSortDefinition(input, domain);
+			Assert.fail(input + "\n" +
+					"FAIL: Exception not thrown\n" +
+					"Expected: RuntimeException: Constant not sorted\n");
+		} catch (RuntimeException e){
+			System.out.println(input);
+			System.out.println("\t> Thrown: " + e.getMessage() + "\n");
+		}
+
 	}
 
 
