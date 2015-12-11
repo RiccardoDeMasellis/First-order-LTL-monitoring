@@ -4,11 +4,8 @@ import antlr4_generated.FoLtlSortDefinitionBaseVisitor;
 import antlr4_generated.FoLtlSortDefinitionParser;
 import formulaa.foltl.FoLtlConstant;
 import formulaa.foltl.FoLtlSort;
-import formulaa.foltl.FoLtlVariable;
-import org.antlr.v4.runtime.tree.ParseTree;
 
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.LinkedHashSet;
 
 /**
@@ -22,12 +19,16 @@ public class FoLtlSortDefinitionVisitor extends FoLtlSortDefinitionBaseVisitor<L
 	//Variable to activate debug mode (Displays extra info during the parsing process)
 	private static final boolean DEBUG = false;
 
-	private LinkedHashSet<FoLtlConstant> domain = new LinkedHashSet<>();
+	private LinkedHashSet<FoLtlConstant> domain;
 	//Set of constants already assigned to some sort
-	private LinkedHashSet<FoLtlConstant> sortedConstants = new LinkedHashSet<>();
+	private LinkedHashSet<FoLtlConstant> sortedConstants;
+	//Set of already used sort names
+	private HashSet<String> sortNames;
 
 	public FoLtlSortDefinitionVisitor(LinkedHashSet<FoLtlConstant> domain){
 		this.domain = domain;
+		this.sortedConstants = new LinkedHashSet<>();
+		this.sortNames = new HashSet<>();
 	}
 
 	@Override
@@ -53,7 +54,16 @@ public class FoLtlSortDefinitionVisitor extends FoLtlSortDefinitionBaseVisitor<L
 	@Override
 	public LinkedHashSet<FoLtlSort> visitSortDeclaration(FoLtlSortDefinitionParser.SortDeclarationContext ctx) {
 		LinkedHashSet<FoLtlSort> res = new LinkedHashSet<>();
-		FoLtlSort sort = new FoLtlSort(ctx.getChild(0).getText());
+
+		FoLtlSort sort;
+		String sortName = ctx.getChild(0).getText();
+
+		if (this.sortNames.contains(sortName)){
+			throw new RuntimeException("Sort " + sortName + " has already been defined");
+		} else {
+			sort = new FoLtlSort(sortName);
+			this.sortNames.add(sortName);
+		}
 
 		for (int i = 3; i < ctx.getChildCount(); i++){
 			String txt = ctx.getChild(i).getText();
@@ -74,10 +84,8 @@ public class FoLtlSortDefinitionVisitor extends FoLtlSortDefinitionBaseVisitor<L
 
 	private FoLtlConstant getConstant(String name){
 		FoLtlConstant res = null;
-		Iterator<FoLtlConstant> i = this.domain.iterator();
 
-		while(i.hasNext()){
-			FoLtlConstant c = i.next();
+		for (FoLtlConstant c : this.domain){
 			if (c.getName().equals(name)){
 
 				if (this.sortedConstants.contains(c)){
