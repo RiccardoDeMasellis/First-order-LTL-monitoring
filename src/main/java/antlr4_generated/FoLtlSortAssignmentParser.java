@@ -19,7 +19,7 @@ public class FoLtlSortAssignmentParser extends Parser {
 	protected static final PredictionContextCache _sharedContextCache =
 		new PredictionContextCache();
 	public static final int
-		T__0=1, T__1=2, VARIABLE=3, CONSTANT=4, SORTNAME=5, WS=6;
+		T__0=1, T__1=2, VARIABLE=3, SORTNAME=4, WS=5;
 	public static final int
 		RULE_start = 0, RULE_sortAssignments = 1, RULE_sortAssignment = 2;
 	public static final String[] ruleNames = {
@@ -30,7 +30,7 @@ public class FoLtlSortAssignmentParser extends Parser {
 		null, "'<-'", "';'"
 	};
 	private static final String[] _SYMBOLIC_NAMES = {
-		null, null, null, "VARIABLE", "CONSTANT", "SORTNAME", "WS"
+		null, null, null, "VARIABLE", "SORTNAME", "WS"
 	};
 	public static final Vocabulary VOCABULARY = new VocabularyImpl(_LITERAL_NAMES, _SYMBOLIC_NAMES);
 
@@ -214,12 +214,12 @@ public class FoLtlSortAssignmentParser extends Parser {
 	}
 
 	public static final String _serializedATN =
-		"\3\u0430\ud6d1\u8206\uad2d\u4417\uaef1\u8d80\uaadd\3\b\27\4\2\t\2\4\3"+
+		"\3\u0430\ud6d1\u8206\uad2d\u4417\uaef1\u8d80\uaadd\3\7\27\4\2\t\2\4\3"+
 		"\t\3\4\4\t\4\3\2\3\2\3\2\3\3\7\3\r\n\3\f\3\16\3\20\13\3\3\4\3\4\3\4\3"+
 		"\4\3\4\3\4\2\2\5\2\4\6\2\2\24\2\b\3\2\2\2\4\16\3\2\2\2\6\21\3\2\2\2\b"+
 		"\t\5\4\3\2\t\n\7\2\2\3\n\3\3\2\2\2\13\r\5\6\4\2\f\13\3\2\2\2\r\20\3\2"+
 		"\2\2\16\f\3\2\2\2\16\17\3\2\2\2\17\5\3\2\2\2\20\16\3\2\2\2\21\22\7\5\2"+
-		"\2\22\23\7\3\2\2\23\24\7\7\2\2\24\25\7\4\2\2\25\7\3\2\2\2\3\16";
+		"\2\22\23\7\3\2\2\23\24\7\6\2\2\24\25\7\4\2\2\25\7\3\2\2\2\3\16";
 	public static final ATN _ATN =
 		new ATNDeserializer().deserialize(_serializedATN.toCharArray());
 	static {

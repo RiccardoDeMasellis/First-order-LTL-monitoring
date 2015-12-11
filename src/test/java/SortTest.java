@@ -1,8 +1,12 @@
 import formulaa.foltl.FoLtlConstant;
 import formulaa.foltl.FoLtlSort;
+import formulaa.foltl.FoLtlVariable;
 import org.fest.assertions.ThrowableAssert;
 import org.junit.Assert;
 import org.junit.Test;
+
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.LinkedHashSet;
 
 import static util.ParsingUtils.*;
@@ -86,6 +90,17 @@ public class SortTest {
 			System.out.println(input);
 			System.out.println("\t> Thrown: " + e.getMessage() + "\n");
 		}
+	}
+
+	@Test
+	public void testSortAssignmentParsing(){
+		System.out.println("*** SORT ASSIGNMENT PARSING TEST *** \n");
+
+		LinkedHashSet<FoLtlConstant> domain = parseConstantSet("a", "b");
+		HashSet<FoLtlVariable> variables = parseVariableSet("x", "y", "z");
+		LinkedHashSet<FoLtlSort> sorts = parseSortDefinition("Sort1 := {a}; Sort2 := {b};", domain);
+
+		System.out.println(parseSortAssignment("?x <- Sort1; ?y <- Sort1; ?z <- Sort2;", variables, sorts));
 
 	}
 

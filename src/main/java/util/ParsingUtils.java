@@ -21,11 +21,13 @@ import visitors.FOLTLVisitors.*;
 import visitors.FOLVisitors.*;
 import visitors.LTLfVisitors.LTLfVisitor;
 import visitors.SortVisitors.*;
+import visitors.SortVisitors.FoLtlSortAssignmentVisitor;
 import visitors.SortVisitors.FoLtlSortDefinitionVisitor;
 
 import java.io.IOException;
 import java.io.Reader;
 import java.io.StringReader;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedHashSet;
 
@@ -338,6 +340,34 @@ public class ParsingUtils {
 
 		//Calling our own visitor
 		FoLtlSortDefinitionVisitor visitor = new FoLtlSortDefinitionVisitor(domain);
+		output = visitor.visit(tree);
+
+		if(DEBUG) {
+			System.out.println("\n> Parsed Sorts: " + output.toString());
+		}
+
+		return output;
+	}
+
+	public static HashMap<FoLtlVariable, FoLtlSort> parseSortAssignment(String input, HashSet<FoLtlVariable> variables,
+																																			LinkedHashSet<FoLtlSort> sorts){
+		HashMap<FoLtlVariable, FoLtlSort> output;
+
+		//Instantiates default lexer and parser
+		FoLtlSortAssignmentLexer lexer = new FoLtlSortAssignmentLexer(new ANTLRInputStream(input));
+		FoLtlSortAssignmentParser parser = new FoLtlSortAssignmentParser(new CommonTokenStream(lexer));
+
+		//Gets the parsing tree
+		ParseTree tree = parser.sortAssignments();
+
+		if (DEBUG){
+			System.out.println("\n");
+			String o = tree.toStringTree(parser);
+			System.out.println("> Default parsing tree:\n> " + o + "\n");
+		}
+
+		//Calling our own visitor
+		FoLtlSortAssignmentVisitor visitor = new FoLtlSortAssignmentVisitor(variables, sorts);
 		output = visitor.visit(tree);
 
 		if(DEBUG) {
