@@ -1,9 +1,8 @@
-import formulaa.foltl.FoLtlConstant;
-import formulaa.foltl.FoLtlSort;
-import formulaa.foltl.FoLtlVariable;
+import formulaa.foltl.*;
 import org.fest.assertions.ThrowableAssert;
 import org.junit.Assert;
 import org.junit.Test;
+import util.FoLtlSortManager;
 
 import java.util.HashMap;
 import java.util.HashSet;
@@ -178,6 +177,154 @@ public class SortTest {
 			assertEquals(input, "RuntimeException: Sort Sort3 was not specified",
 					"RuntimeException: " + e.getMessage());
 		}
+
+	}
+
+	@Test
+	public void testSortManagerDefinition(){
+		System.out.println("*** SORT MANAGER DEFINITION TEST *** \n");
+
+		LinkedHashSet<FoLtlConstant> domain = parseConstantSet("a", "b");
+
+		FoLtlSortManager sortManager = new FoLtlSortManager(domain);
+
+		String input = "Sort1 := {a}; Sort2 := {b};";
+		LinkedHashSet<FoLtlSort> computed = sortManager.parseSortDefinition(input);
+		LinkedHashSet<FoLtlSort> expected = new LinkedHashSet<>();
+		FoLtlSort sort = new FoLtlSort("Sort1");
+		sort.addAll(parseConstantSet("a"));
+		expected.add(sort);
+		sort = new FoLtlSort("Sort2");
+		sort.addAll(parseConstantSet("b"));
+		expected.add(sort);
+		assertEquals(input, expected, computed);
+
+		domain = parseConstantSet("a", "b", "c", "d");
+		input = "Sort1 := {a, c}; Sort2 := {b}; Sort3 := {d};";
+		sortManager.setDomain(domain);
+		computed = sortManager.parseSortDefinition(input);
+		expected = new LinkedHashSet<>();
+		sort = new FoLtlSort("Sort1");
+		sort.addAll(parseConstantSet("a", "c"));
+		expected.add(sort);
+		sort = new FoLtlSort("Sort2");
+		sort.addAll(parseConstantSet("b"));
+		expected.add(sort);
+		sort = new FoLtlSort("Sort3");
+		sort.addAll(parseConstantSet("d"));
+		expected.add(sort);
+		assertEquals(input, expected, computed);
+
+
+		//Testing exceptions
+		System.out.println("\nTesting exceptions\n");
+
+		domain = parseConstantSet("a", "b");
+		sortManager.setDomain(domain);
+
+		input = "Sort1 := {a, c}; Sort2 := {b};";
+		try {
+			sortManager.parseSortDefinition(input);
+			Assert.fail(input + "\n" +
+					"FAIL: Exception not thrown\n" +
+					"Expected: RuntimeException: Constant c does not belong to the specified domain\n");
+		} catch (RuntimeException e){
+			assertEquals(input, "RuntimeException: Constant c does not belong to the specified domain",
+					"RuntimeException: " + e.getMessage());
+		}
+
+		input = "Sort1 := {a, b}; Sort2 := {b};";
+		try {
+			sortManager.parseSortDefinition(input);
+			Assert.fail(input + "\n" +
+					"FAIL: Exception not thrown\n" +
+					"Expected: RuntimeException: Constant b has already been assigned to some other sort\n");
+		} catch (RuntimeException e){
+			assertEquals(input, "RuntimeException: Constant b has already been assigned to some other sort",
+					"RuntimeException: " + e.getMessage());
+		}
+
+		input = "Sort1 := {a};";
+		try {
+			sortManager.parseSortDefinition(input);
+			Assert.fail(input + "\n" +
+					"FAIL: Exception not thrown\n" +
+					"Expected: RuntimeException: Some constants of the domain were not assigned to any sort\n");
+		} catch (RuntimeException e){
+			assertEquals(input, "RuntimeException: Some constants of the domain were not assigned to any sort",
+					"RuntimeException: " + e.getMessage());
+		}
+
+		input = "Sort1 := {a}; Sort1 := {b};";
+		try {
+			sortManager.parseSortDefinition(input);
+			Assert.fail(input + "\n" +
+					"FAIL: Exception not thrown\n" +
+					"Expected: RuntimeException: Sort Sort1 has already been defined\n");
+		} catch (RuntimeException e){
+			assertEquals(input, "RuntimeException: Sort Sort1 has already been defined",
+					"RuntimeException: " + e.getMessage());
+		}
+	}
+
+	@Test
+	public void testSortManagerAssignment(){
+		System.out.println("*** TEST SORT MANAGER ASSIGNMENT ***\n");
+
+		LinkedHashSet<FoLtlConstant> domain = parseConstantSet("a", "b", "c");
+
+		//Declaring stuff
+		FoLtlSortManager sortManager = new FoLtlSortManager(domain);
+		sortManager.parseSortDefinition("Sort1 := {a, b}; Sort2 := {c};");
+		FoLtlSort sort1 = new FoLtlSort("Sort1");
+		sort1.add(new FoLtlConstant("a"));
+		sort1.add(new FoLtlConstant("b"));
+
+		FoLtlSort sort2 = new FoLtlSort("Sort2");
+		sort2.add(new FoLtlConstant("c"));
+
+		String finput = "Forall ?x (P(?x))";
+		String sinput = "?x <- Sort1;";
+		FoLtlFormula formula = parseFoLtlFormula(finput);
+		sortManager.assignSort(formula, sinput);
+		HashMap<FoLtlVariable, FoLtlSort> sortAssignment = new HashMap<>();
+		sortAssignment.put(new FoLtlVariable("x"), sort1);
+		for (FoLtlVariable v : formula.getLocalVariables()){
+			assertEquals("Formula: " + finput + "; SortAssignment: " + sinput + " Variable: " + v.toString(), sortAssignment.get(v), v.getSort());
+		}
+		for (FoLtlVariable v : formula.getAcrossVariables()){
+			assertEquals("Formula: " + finput + "; SortAssignment: " + sinput + " Variable: " + v.toString(), sortAssignment.get(v), v.getSort());
+		}
+
+		finput = "Forall ?x (Exists ?y (P(?x, ?y)))";
+		sinput = "?x <- Sort1; ?y <- Sort2;";
+		formula = parseFoLtlFormula(finput);
+		sortManager.assignSort(formula, sinput);
+		sortAssignment = new HashMap<>();
+		sortAssignment.put(new FoLtlVariable("x"), sort1);
+		sortAssignment.put(new FoLtlVariable("y"), sort2);
+		for (FoLtlVariable v : formula.getLocalVariables()){
+			assertEquals("Formula: " + finput + "; SortAssignment: " + sinput + " Variable: " + v.toString(), sortAssignment.get(v), v.getSort());
+		}
+		for (FoLtlVariable v : formula.getAcrossVariables()){
+			assertEquals("Formula: " + finput + "; SortAssignment: " + sinput + " Variable: " + v.toString(), sortAssignment.get(v), v.getSort());
+		}
+
+		finput = "Forall ?x (G (Exists ?y (P(?x, ?y))))";
+		sinput = "?x <- Sort1; ?y <- Sort2;";
+		formula = parseFoLtlFormula(finput);
+		sortManager.assignSort(formula, sinput);
+		sortAssignment = new HashMap<>();
+		sortAssignment.put(new FoLtlVariable("x"), sort1);
+		sortAssignment.put(new FoLtlVariable("y"), sort2);
+		for (FoLtlVariable v : formula.getLocalVariables()){
+			assertEquals("Formula: " + finput + "; SortAssignment: " + sinput + " Variable: " + v.toString(), sortAssignment.get(v), v.getSort());
+		}
+		for (FoLtlVariable v : formula.getAcrossVariables()){
+			assertEquals("Formula: " + finput + "; SortAssignment: " + sinput + " Variable: " + v.toString(), sortAssignment.get(v), v.getSort());
+		}
+
+
 
 	}
 
