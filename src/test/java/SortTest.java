@@ -271,11 +271,12 @@ public class SortTest {
 	public void testSortManagerAssignment(){
 		System.out.println("*** TEST SORT MANAGER ASSIGNMENT ***\n");
 
+		//Declaring stuff
 		LinkedHashSet<FoLtlConstant> domain = parseConstantSet("a", "b", "c");
 
-		//Declaring stuff
 		FoLtlSortManager sortManager = new FoLtlSortManager(domain);
 		sortManager.parseSortDefinition("Sort1 := {a, b}; Sort2 := {c};");
+
 		FoLtlSort sort1 = new FoLtlSort("Sort1");
 		sort1.add(new FoLtlConstant("a"));
 		sort1.add(new FoLtlConstant("b"));
@@ -327,6 +328,52 @@ public class SortTest {
 			assertEquals("Variable: " + v.toString(), sortAssignment.get(v), v.getSort());
 		}
 
+	}
+
+	@Test
+	public void testSortExpansion(){
+		System.out.println("*** TEST SORT EXPANSION ***\n");
+
+		//Declaring stuff
+		LinkedHashSet<FoLtlConstant> domain = parseConstantSet("a", "b", "c");
+
+		FoLtlSortManager sortManager = new FoLtlSortManager(domain);
+		sortManager.parseSortDefinition("Sort1 := {a, b}; Sort2 := {c};");
+
+		FoLtlSort sort1 = new FoLtlSort("Sort1");
+		sort1.add(new FoLtlConstant("a"));
+		sort1.add(new FoLtlConstant("b"));
+
+		FoLtlSort sort2 = new FoLtlSort("Sort2");
+		sort2.add(new FoLtlConstant("c"));
+
+		String finput = "Forall ?x (P(?x))";
+		String sinput = "?x <- Sort1;";
+		FoLtlLocalFormula formula = (FoLtlLocalFormula) parseFoLtlFormula(finput);
+		sortManager.assignSort(formula, sinput);
+		assertEquals("Formula: " + formula + "; SortAssignment: " + sinput, parseFoLtlFormula("P(b) && P(a)"),
+				formula.quantifierExpansion(domain));
+
+		finput = "Exists ?x (P(?x))";
+		sinput = "?x <- Sort1;";
+		formula = (FoLtlLocalFormula) parseFoLtlFormula(finput);
+		sortManager.assignSort(formula, sinput);
+		assertEquals("Formula: " + formula + "; SortAssignment: " + sinput, parseFoLtlFormula("P(b) || P(a)"),
+				formula.quantifierExpansion(domain));
+
+		finput = "Forall ?x (P(?x))";
+		sinput = "?x <- Sort2;";
+		formula = (FoLtlLocalFormula) parseFoLtlFormula(finput);
+		sortManager.assignSort(formula, sinput);
+		assertEquals("Formula: " + formula + "; SortAssignment: " + sinput, parseFoLtlFormula("P(c)"),
+				formula.quantifierExpansion(domain));
+
+		finput = "Exists ?x (P(?x))";
+		sinput = "?x <- Sort2;";
+		formula = (FoLtlLocalFormula) parseFoLtlFormula(finput);
+		sortManager.assignSort(formula, sinput);
+		assertEquals("Formula: " + formula + "; SortAssignment: " + sinput, parseFoLtlFormula("P(c)"),
+				formula.quantifierExpansion(domain));
 
 
 	}
