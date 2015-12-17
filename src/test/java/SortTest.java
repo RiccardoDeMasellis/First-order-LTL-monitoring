@@ -105,19 +105,46 @@ public class SortTest {
 	public void testSortAssignmentParsing(){
 		System.out.println("*** SORT ASSIGNMENT PARSING TEST *** \n");
 
+		//Declaring stuff
 		LinkedHashSet<FoLtlConstant> domain = parseConstantSet("a", "b");
-		HashSet<FoLtlVariable> variables = parseVariableSet("x", "y");
-		LinkedHashSet<FoLtlSort> sorts = parseSortDefinition("Sort1 := {a}; Sort2 := {b};", domain);
+		FoLtlConstant a = new FoLtlConstant("a");
+		FoLtlConstant b = new FoLtlConstant("b");
 
-		String input = "?x <- Sort1; ?y <-Sort1;";
+		HashSet<FoLtlVariable> variables = parseVariableSet("x", "y");
+		FoLtlVariable x = new FoLtlVariable("x");
+		FoLtlVariable y = new FoLtlVariable("y");
+		FoLtlVariable z = new FoLtlVariable("z");
+
+		LinkedHashSet<FoLtlSort> sorts = parseSortDefinition("Sort1 := {a}; Sort2 := {b};", domain);
+		FoLtlSort sort1 = new FoLtlSort("Sort1");
+		sort1.add(a);
+
+		FoLtlSort sort2 = new FoLtlSort("Sort2");
+		sort2.add(b);
+
+		String input = "?x <- Sort1; ?y <-Sort2;";
 		HashMap<FoLtlVariable, FoLtlSort> computed = parseSortAssignment(input, variables, sorts);
 		HashMap<FoLtlVariable, FoLtlSort> expected = new HashMap<>();
-		FoLtlSort sort = new FoLtlSort("Sort1");
-		sort.add(new FoLtlConstant("a"));
-		expected.put(new FoLtlVariable("x"), sort);
-		expected.put(new FoLtlVariable("y"), sort);
+		expected.put(x, sort1);
+		expected.put(y, sort2);
 		assertEquals(input, expected, computed);
 
+		input = "?x <- Sort1; ?y <-Sort1;";
+		computed = parseSortAssignment(input, variables, sorts);
+		expected = new HashMap<>();
+		expected.put(x, sort1);
+		expected.put(y, sort1);
+		assertEquals(input, expected, computed);
+
+		input = "?x <- Sort1; ?y <-Sort1; ?x <- Sort2;";
+		computed = parseSortAssignment(input, variables, sorts);
+		expected = new HashMap<>();
+		expected.put(x, sort2);
+		expected.put(y, sort1);
+		assertEquals(input, expected, computed);
+
+
+		System.out.println("Testing exceptions\n");
 
 		input = "?x <- Sort1;";
 		try {
