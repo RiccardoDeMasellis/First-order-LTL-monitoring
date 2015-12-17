@@ -61,10 +61,10 @@ public class SortTest {
 			parseSortDefinition(input, domain);
 			Assert.fail(input + "\n" +
 					"FAIL: Exception not thrown\n" +
-					"Expected: RuntimeException: Constant not in domain\n");
+					"Expected: RuntimeException: Constant c does not belong to the specified domain\n");
 		} catch (RuntimeException e){
-			System.out.println(input);
-			System.out.println("\t> Thrown: " + e.getMessage() + "\n");
+			assertEquals(input, "RuntimeException: Constant c does not belong to the specified domain",
+					"RuntimeException: " + e.getMessage());
 		}
 
 		input = "Sort1 := {a, b}; Sort2 := {b};";
@@ -72,10 +72,10 @@ public class SortTest {
 			parseSortDefinition(input, domain);
 			Assert.fail(input + "\n" +
 					"FAIL: Exception not thrown\n" +
-					"Expected: RuntimeException: Constant already sorted\n");
+					"Expected: RuntimeException: Constant b has already been assigned to some other sort\n");
 		} catch (RuntimeException e){
-			System.out.println(input);
-			System.out.println("\t> Thrown: " + e.getMessage() + "\n");
+			assertEquals(input, "RuntimeException: Constant b has already been assigned to some other sort",
+					"RuntimeException: " + e.getMessage());
 		}
 
 		input = "Sort1 := {a};";
@@ -83,10 +83,10 @@ public class SortTest {
 			parseSortDefinition(input, domain);
 			Assert.fail(input + "\n" +
 					"FAIL: Exception not thrown\n" +
-					"Expected: RuntimeException: Constant not sorted\n");
+					"Expected: RuntimeException: Some constants of the domain were not assigned to any sort\n");
 		} catch (RuntimeException e){
-			System.out.println(input);
-			System.out.println("\t> Thrown: " + e.getMessage() + "\n");
+			assertEquals(input, "RuntimeException: Some constants of the domain were not assigned to any sort",
+					"RuntimeException: " + e.getMessage());
 		}
 
 		input = "Sort1 := {a}; Sort1 := {b};";
@@ -94,10 +94,10 @@ public class SortTest {
 			parseSortDefinition(input, domain);
 			Assert.fail(input + "\n" +
 					"FAIL: Exception not thrown\n" +
-					"Expected: RuntimeException: Sort1 has already been defined\n");
+					"Expected: RuntimeException: Sort Sort1 has already been defined\n");
 		} catch (RuntimeException e){
-			System.out.println(input);
-			System.out.println("\t> Thrown: " + e.getMessage() + "\n");
+			assertEquals(input, "RuntimeException: Sort Sort1 has already been defined",
+					"RuntimeException: " + e.getMessage());
 		}
 	}
 
@@ -126,8 +126,8 @@ public class SortTest {
 					"FAIL: Exception not thrown\n" +
 					"Expected: RuntimeException: Not all variables were sorted\n");
 		} catch (RuntimeException e){
-			System.out.println(input);
-			System.out.println("\t> Thrown: " + e.getMessage() + "\n");
+			assertEquals(input, "RuntimeException: Not all variables were sorted",
+					"RuntimeException: " + e.getMessage());
 		}
 
 		input = "?x <- Sort1; ?y <-Sort1; ?z <- Sort2;";
@@ -137,8 +137,8 @@ public class SortTest {
 					"FAIL: Exception not thrown\n" +
 					"Expected: RuntimeException: Variable ?z was not specified\n");
 		} catch (RuntimeException e){
-			System.out.println(input);
-			System.out.println("\t> Thrown: " + e.getMessage() + "\n");
+			assertEquals(input, "RuntimeException: Variable ?z was not specified",
+					"RuntimeException: " + e.getMessage());
 		}
 
 		input = "?x <- Sort1; ?y <- Sort3;";
@@ -148,10 +148,9 @@ public class SortTest {
 					"FAIL: Exception not thrown\n" +
 					"Expected: RuntimeException: Sort Sort3 was not specified\n");
 		} catch (RuntimeException e){
-			System.out.println(input);
-			System.out.println("\t> Thrown: " + e.getMessage() + "\n");
+			assertEquals(input, "RuntimeException: Sort Sort3 was not specified",
+					"RuntimeException: " + e.getMessage());
 		}
-
 
 	}
 
