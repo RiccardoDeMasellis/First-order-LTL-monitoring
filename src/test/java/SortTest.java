@@ -289,11 +289,12 @@ public class SortTest {
 		sortManager.assignSort(formula, sinput);
 		HashMap<FoLtlVariable, FoLtlSort> sortAssignment = new HashMap<>();
 		sortAssignment.put(new FoLtlVariable("x"), sort1);
+		System.out.println("Formula: " + formula + "; SortAssignment: " + sinput + "\n");
 		for (FoLtlVariable v : formula.getLocalVariables()){
-			assertEquals("Formula: " + finput + "; SortAssignment: " + sinput + " Variable: " + v.toString(), sortAssignment.get(v), v.getSort());
+			assertEquals("Variable: " + v.toString(), sortAssignment.get(v), v.getSort());
 		}
 		for (FoLtlVariable v : formula.getAcrossVariables()){
-			assertEquals("Formula: " + finput + "; SortAssignment: " + sinput + " Variable: " + v.toString(), sortAssignment.get(v), v.getSort());
+			assertEquals("Variable: " + v.toString(), sortAssignment.get(v), v.getSort());
 		}
 
 		finput = "Forall ?x (Exists ?y (P(?x, ?y)))";
@@ -303,11 +304,12 @@ public class SortTest {
 		sortAssignment = new HashMap<>();
 		sortAssignment.put(new FoLtlVariable("x"), sort1);
 		sortAssignment.put(new FoLtlVariable("y"), sort2);
+		System.out.println("Formula: " + formula + "; SortAssignment: " + sinput + "\n");
 		for (FoLtlVariable v : formula.getLocalVariables()){
-			assertEquals("Formula: " + finput + "; SortAssignment: " + sinput + " Variable: " + v.toString(), sortAssignment.get(v), v.getSort());
+			assertEquals("Variable: " + v.toString(), sortAssignment.get(v), v.getSort());
 		}
 		for (FoLtlVariable v : formula.getAcrossVariables()){
-			assertEquals("Formula: " + finput + "; SortAssignment: " + sinput + " Variable: " + v.toString(), sortAssignment.get(v), v.getSort());
+			assertEquals("Variable: " + v.toString(), sortAssignment.get(v), v.getSort());
 		}
 
 		finput = "Forall ?x (G (Exists ?y (P(?x, ?y))))";
@@ -317,11 +319,12 @@ public class SortTest {
 		sortAssignment = new HashMap<>();
 		sortAssignment.put(new FoLtlVariable("x"), sort1);
 		sortAssignment.put(new FoLtlVariable("y"), sort2);
+		System.out.println("Formula: " + formula + "; SortAssignment: " + sinput + "\n");
 		for (FoLtlVariable v : formula.getLocalVariables()){
-			assertEquals("Formula: " + finput + "; SortAssignment: " + sinput + " Variable: " + v.toString(), sortAssignment.get(v), v.getSort());
+			assertEquals("Variable: " + v.toString(), sortAssignment.get(v), v.getSort());
 		}
 		for (FoLtlVariable v : formula.getAcrossVariables()){
-			assertEquals("Formula: " + finput + "; SortAssignment: " + sinput + " Variable: " + v.toString(), sortAssignment.get(v), v.getSort());
+			assertEquals("Variable: " + v.toString(), sortAssignment.get(v), v.getSort());
 		}
 
 
