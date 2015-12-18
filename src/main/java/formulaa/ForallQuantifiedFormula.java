@@ -17,14 +17,14 @@ public interface ForallQuantifiedFormula extends QuantifiedFormula {
 	@Override
 	default Formula nnf(){
 		Formula nested = this.getNestedFormula().nnf();
-		Variable qvar = (Variable) this.getQuantifiedVariable().clone();
+		Variable qvar = this.getQuantifiedVariable();
 		return this.quantifiedFormulaFactory(this.getQuantifierType(), nested, qvar);
 	}
 
 	@Override
 	default Formula negate(){
 		Formula nested = this.getNestedFormula().negate();
-		Variable qvar = (Variable) this.getQuantifiedVariable().clone();
+		Variable qvar = this.getQuantifiedVariable();
 		return this.quantifiedFormulaFactory(OperatorType.EXISTS, nested, qvar);
 	}
 

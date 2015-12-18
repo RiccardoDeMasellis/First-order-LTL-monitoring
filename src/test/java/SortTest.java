@@ -379,6 +379,29 @@ public class SortTest {
 		assertEquals("Formula: " + formula + "; SortAssignment: " + sinput, parseFoLtlFormula("P(c)"),
 				formula.quantifierExpansion(domain));
 
+		finput = "Exists ?x (P(?x) && P(c))";
+		sinput = "?x <- Sort1;";
+		formula = (FoLtlLocalFormula) parseFoLtlFormula(finput);
+		sortManager.assignSort(formula, sinput);
+		assertEquals("Formula: " + formula + "; SortAssignment: " + sinput, parseFoLtlFormula("(P(b) && P(c)) || (P(a) && P(c))"),
+				formula.quantifierExpansion(domain));
+
+		finput = "Exists ?x P(?x)";
+		sinput = "?x <- Sort1;";
+		formula = (FoLtlLocalFormula) parseFoLtlFormula(finput);
+		sortManager.assignSort(formula, sinput);
+		FoLtlLocalFormula nnf = (FoLtlLocalFormula) formula.nnf();
+		assertEquals("Formula: " + formula + "; SortAssignment: " + sinput, parseFoLtlFormula("P(b) | P(a)"),
+				nnf.quantifierExpansion(domain));
+
+		finput = "!(Exists ?x P(?x))";
+		sinput = "?x <- Sort1;";
+		formula = (FoLtlLocalFormula) parseFoLtlFormula(finput);
+		sortManager.assignSort(formula, sinput);
+		nnf = (FoLtlLocalFormula) formula.nnf();
+		assertEquals("Formula: " + formula + "; SortAssignment: " + sinput, parseFoLtlFormula("!P(b) && !P(a)"),
+				nnf.quantifierExpansion(domain));
+
 
 	}
 
