@@ -135,13 +135,6 @@ public class SortTest {
 		expected.put(y, sort1);
 		assertEquals(input, expected, computed);
 
-		input = "?x <- Sort1; ?y <-Sort1; ?x <- Sort2;";
-		computed = parseSortAssignment(input, variables, sorts);
-		expected = new HashMap<>();
-		expected.put(x, sort2);
-		expected.put(y, sort1);
-		assertEquals(input, expected, computed);
-
 
 		System.out.println("Testing exceptions\n");
 
@@ -175,6 +168,17 @@ public class SortTest {
 					"Expected: RuntimeException: Sort Sort3 was not specified\n");
 		} catch (RuntimeException e){
 			assertEquals(input, "RuntimeException: Sort Sort3 was not specified",
+					"RuntimeException: " + e.getMessage());
+		}
+
+		input = "?x <- Sort1; ?y <-Sort1; ?x <- Sort2;";
+		try {
+			parseSortAssignment(input, variables, sorts);
+			Assert.fail(input + "\n" +
+					"FAIL: Exception not thrown\n" +
+					"Expected: RuntimeException: Variable ?x has already been sorted\n");
+		} catch (RuntimeException e){
+			assertEquals(input, "RuntimeException: Variable ?x has already been sorted",
 					"RuntimeException: " + e.getMessage());
 		}
 

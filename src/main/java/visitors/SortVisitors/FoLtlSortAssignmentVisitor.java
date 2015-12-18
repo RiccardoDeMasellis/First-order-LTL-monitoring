@@ -66,13 +66,16 @@ public class FoLtlSortAssignmentVisitor extends FoLtlSortAssignmentBaseVisitor<H
 
 		for (FoLtlVariable v : this.variables){
 			if (v.getName().equals(name)){
-				this.sortedVariables.add(v);
 				res = v;
 			}
 		}
 
 		if (res == null){
 			throw new RuntimeException("Variable ?" + name + " was not specified");
+		} else if (this.sortedVariables.contains(res)){
+			throw new RuntimeException("Variable " + res + " has already been sorted");
+		} else {
+			this.sortedVariables.add(res);
 		}
 
 		return res;
