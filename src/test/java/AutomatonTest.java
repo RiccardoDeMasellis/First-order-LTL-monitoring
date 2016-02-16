@@ -87,6 +87,10 @@ public class AutomatonTest {
 
 		System.out.println(ea.getAssignments());
 
+		System.out.println("\n\n");
+
+		System.out.println(ea.getSatisfiabilityMap());
+
 	}
 
 	//<editor-fold desc="assertEquals" defaultstate="collapsed">
