@@ -1,5 +1,4 @@
 import formulaa.foltl.*;
-import org.fest.assertions.ThrowableAssert;
 import org.junit.Assert;
 import org.junit.Test;
 import util.FoLtlSortManager;
@@ -383,7 +382,8 @@ public class SortTest {
 		sinput = "?x <- Sort1;";
 		formula = (FoLtlLocalFormula) parseFoLtlFormula(finput);
 		sortManager.assignSort(formula, sinput);
-		assertEquals("Formula: " + formula + "; SortAssignment: " + sinput, parseFoLtlFormula("(P(b) && P(c)) || (P(a) && P(c))"),
+		assertEquals("Formula: " + formula + "; SortAssignment: " + sinput,
+				parseFoLtlFormula("(P(b) && P(c)) || (P(a) && P(c))"),
 				formula.quantifierExpansion(domain));
 
 		finput = "Exists ?x P(?x)";
@@ -402,6 +402,14 @@ public class SortTest {
 		assertEquals("Formula: " + formula + "; SortAssignment: " + sinput, parseFoLtlFormula("!P(b) && !P(a)"),
 				nnf.quantifierExpansion(domain));
 
+		finput = "!(Exists ?x (Forall ?y (P(?x) && Q(?y))))";
+		sinput = "?x <- Sort1; ?y <- Sort2;";
+		formula = (FoLtlLocalFormula) parseFoLtlFormula(finput);
+		sortManager.assignSort(formula, sinput);
+		nnf = (FoLtlLocalFormula) formula.nnf();
+		assertEquals("Formula: " + nnf + "; SortAssignment: " + sinput,
+				parseFoLtlFormula("(!P(b) | !Q(c)) && (!P(a) | !Q(c))"),
+				nnf.quantifierExpansion(domain));
 
 	}
 
