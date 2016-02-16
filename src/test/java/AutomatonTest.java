@@ -32,7 +32,8 @@ public class AutomatonTest {
 	public void testAutomaton(){
 		System.out.println("TEST AUTOMATA TRANSLATION\n");
 
-		FoLtlFormula inputFormula = parseFoLtlFormula("Forall ?x (P(a) U (P(b) && P(?x)))");
+		FoLtlFormula inputFormula = parseFoLtlFormula("Forall ?x ((Exists ?y Q(?y)) U (P(b) && P(?x)))");
+		LinkedHashSet<FoLtlConstant> domain = parseConstantSet("a", "b");
 
 		HashMap<FoLtlFormula, LTLfFormula> foltlTOltlf = new HashMap<>();
 		HashMap<LTLfFormula, FoLtlFormula> ltlfTOfoltl = new HashMap<>();
@@ -41,7 +42,7 @@ public class AutomatonTest {
 		LDLfFormula ldlfFormula = ltlfFormula.toLDLf();
 
 		Automaton original = AutomatonUtils.ldlf2Automaton(ldlfFormula, ldlfFormula.getSignature());
-		Automaton computed = ldlfAutomataToFoLtl(original, ltlfTOfoltl);
+		Automaton computed = ldlfAutomataToFoLtl(original, ltlfTOfoltl, domain);
 
 		//<editor-fold desc="Writes graphs to disk" defaultstate="collapsed">
 

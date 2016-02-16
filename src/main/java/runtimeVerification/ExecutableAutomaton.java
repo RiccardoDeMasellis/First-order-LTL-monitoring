@@ -5,6 +5,7 @@ import formulaa.foltl.FoLtlFormula;
 import formulaa.foltl.FoLtlVariable;
 import formulaa.foltl.semantics.FoLtlAssignment;
 import rationals.Automaton;
+import rationals.State;
 import util.AutomataUtils;
 import utils.AutomatonUtils;
 
@@ -20,16 +21,19 @@ import java.util.LinkedHashSet;
 public class ExecutableAutomaton {
 
 	private Automaton automaton;
+
 	private LinkedHashSet<FoLtlConstant> domain;
 	private FoLtlFormula formula;
 	private LinkedHashSet<FoLtlAssignment> assignments;
+
+	private State currentState;
 
 	public ExecutableAutomaton(FoLtlFormula formula, LinkedHashSet<FoLtlConstant> domain){
 		this.domain = domain;
 		this.formula = formula;
 
 		//Build the automaton from the given formula
-		this.automaton = AutomataUtils.buildFoLtlAutomaton(formula);
+		this.automaton = AutomataUtils.buildFoLtlAutomaton(formula, domain);
 
 		if (automaton.initials().size() > 1){
 			throw new RuntimeException("Built Automaton has more than one initial state");
@@ -38,6 +42,8 @@ public class ExecutableAutomaton {
 		//Compute all possible assignments
 		this.assignments = this.computeAllAssignments(formula, domain);
 
+		//Init current state
+		this.currentState = (State) automaton.initials().iterator().next();
 	}
 
 	private LinkedHashSet<FoLtlAssignment> computeAllAssignments(FoLtlFormula formula, LinkedHashSet<FoLtlConstant> domain){

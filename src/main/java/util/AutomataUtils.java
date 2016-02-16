@@ -2,11 +2,13 @@ package util;
 
 import formula.ldlf.LDLfFormula;
 import formula.ltlf.LTLfFormula;
+import formulaa.foltl.FoLtlConstant;
 import formulaa.foltl.FoLtlFormula;
 import rationals.Automaton;
 import utils.AutomatonUtils;
 
 import java.util.HashMap;
+import java.util.LinkedHashSet;
 
 import static automata.AutomataTranslator.ldlfAutomataToFoLtl;
 
@@ -18,7 +20,7 @@ import static automata.AutomataTranslator.ldlfAutomataToFoLtl;
  */
 public class AutomataUtils {
 
-	public static Automaton buildFoLtlAutomaton(FoLtlFormula formula){
+	public static Automaton buildFoLtlAutomaton(FoLtlFormula formula, LinkedHashSet<FoLtlConstant> domain){
 
 		HashMap<FoLtlFormula, LTLfFormula> foltlTOltlf = new HashMap<>();
 		HashMap<LTLfFormula, FoLtlFormula> ltlfTOfoltl = new HashMap<>();
@@ -27,7 +29,7 @@ public class AutomataUtils {
 		LDLfFormula ldlfFormula = ltlfFormula.toLDLf();
 
 		Automaton ldlAutomaton = AutomatonUtils.ldlf2Automaton(ldlfFormula, ldlfFormula.getSignature());
-		return ldlfAutomataToFoLtl(ldlAutomaton, ltlfTOfoltl);
+		return ldlfAutomataToFoLtl(ldlAutomaton, ltlfTOfoltl, domain);
 	}
 
 }
