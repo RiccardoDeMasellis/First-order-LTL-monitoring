@@ -5,12 +5,14 @@ import org.junit.Assert;
 import org.junit.Ignore;
 import org.junit.Test;
 import rationals.Automaton;
+import runtimeVerification.ExecutableAutomaton;
 import utils.AutomatonUtils;
 
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.PrintStream;
 import java.util.HashMap;
+import java.util.LinkedHashSet;
 
 import static util.ParsingUtils.*;
 import static automata.AutomataTranslator.*;
@@ -71,6 +73,19 @@ public class AutomatonTest {
 		ps.flush();
 		ps.close();
 		//</editor-fold>
+	}
+
+	@Test
+	public void testExecutableAutomaton(){
+
+		//Test assignments
+		FoLtlFormula formula = parseFoLtlFormula("Exists ?z (Forall ?x ((P(?x)) U (Exists ?y (Q(?y)))))");
+		LinkedHashSet<FoLtlConstant> domain = parseConstantSet("a", "b");
+
+		ExecutableAutomaton ea = new ExecutableAutomaton(formula, domain);
+
+		System.out.println(ea.getAssignments());
+
 	}
 
 	//<editor-fold desc="assertEquals" defaultstate="collapsed">
