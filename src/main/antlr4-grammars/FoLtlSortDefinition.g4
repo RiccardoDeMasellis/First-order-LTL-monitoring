@@ -1,4 +1,4 @@
-grammar SortDefinition;
+grammar FoLtlSortDefinition;
 
 @header{
 	package antlr4_generated;
@@ -9,25 +9,18 @@ start
 	;
 
 sortDefinition
-	: sortDeclaration* sortAssignment*
+	: sortDeclaration*
 	;
 
 sortDeclaration
-	: SORTNAME ':=' '{'CONSTANT (',' CONSTANT)* '}' LS
-	;
-
-sortAssignment
-	: VARIABLE '<-' SORTNAME LS
+	: SORTNAME ':=' '{'CONSTANT (',' CONSTANT)* '}' ';'
 	;
 
 
-LS : ';' ;
-
-VARIABLE : '?' (('a'..'z') | ('0'..'9')) CHARACTER* ;
 
 CONSTANT : (('a'..'z') | ('0'..'9')) CHARACTER* ;
 
-PREPOSITION : ('A'..'Z') CHARACTER* ;
+SORTNAME : ('A'..'Z') CHARACTER* ;
 
 fragment CHARACTER : ('0'..'9' | 'a'..'z' | 'A'..'Z' | '_') ;
 

@@ -5,12 +5,14 @@ import org.junit.Assert;
 import org.junit.Ignore;
 import org.junit.Test;
 import rationals.Automaton;
+import runtimeVerification.ExecutableAutomaton;
 import utils.AutomatonUtils;
 
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.PrintStream;
 import java.util.HashMap;
+import java.util.LinkedHashSet;
 
 import static util.ParsingUtils.*;
 import static automata.AutomataTranslator.*;
@@ -30,7 +32,8 @@ public class AutomatonTest {
 	public void testAutomaton(){
 		System.out.println("TEST AUTOMATA TRANSLATION\n");
 
-		FoLtlFormula inputFormula = parseFoLtlFormula("Forall ?x (P(a) U (P(b) && P(?x)))");
+		FoLtlFormula inputFormula = parseFoLtlFormula("Forall ?x ((Exists ?y Q(?y)) U (P(b) && P(?x)))");
+		LinkedHashSet<FoLtlConstant> domain = parseConstantSet("a", "b");
 
 		HashMap<FoLtlFormula, LTLfFormula> foltlTOltlf = new HashMap<>();
 		HashMap<LTLfFormula, FoLtlFormula> ltlfTOfoltl = new HashMap<>();
@@ -39,7 +42,7 @@ public class AutomatonTest {
 		LDLfFormula ldlfFormula = ltlfFormula.toLDLf();
 
 		Automaton original = AutomatonUtils.ldlf2Automaton(ldlfFormula, ldlfFormula.getSignature());
-		Automaton computed = ldlfAutomataToFoLtl(original, ltlfTOfoltl);
+		Automaton computed = ldlfAutomataToFoLtl(original, ltlfTOfoltl, domain);
 
 		//<editor-fold desc="Writes graphs to disk" defaultstate="collapsed">
 
@@ -71,6 +74,22 @@ public class AutomatonTest {
 		ps.flush();
 		ps.close();
 		//</editor-fold>
+	}
+
+	@Test
+	public void testExecutableAutomaton(){
+
+		FoLtlFormula formula = parseFoLtlFormula("Exists ?z (Forall ?x ((P(?x) && !P(?z)) U (Exists ?y (Q(?y)))))");
+		LinkedHashSet<FoLtlConstant> domain = parseConstantSet("a", "b");
+
+		ExecutableAutomaton ea = new ExecutableAutomaton(formula, domain);
+
+		//System.out.println(ea.getAssignments());
+		//System.out.println();
+		//System.out.println(ea.getSatisfiabilityMap());
+		//System.out.println();
+		System.out.println(ea.getReachabilityMap());
+
 	}
 
 	//<editor-fold desc="assertEquals" defaultstate="collapsed">

@@ -6,7 +6,9 @@ import automaton.EmptyTrace;
 import automaton.PossibleWorldWrap;
 import automaton.TransitionLabel;
 import formula.ltlf.LTLfFormula;
+import formulaa.foltl.FoLtlConstant;
 import formulaa.foltl.FoLtlFormula;
+import formulaa.foltl.FoLtlLocalFormula;
 import net.sf.tweety.logics.pl.syntax.PropositionalSignature;
 import rationals.Automaton;
 import rationals.NoSuchStateException;
@@ -15,6 +17,7 @@ import rationals.Transition;
 
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.LinkedHashSet;
 
 /**
  * Class that packs static methods to translate automata.
@@ -36,7 +39,8 @@ public class AutomataTranslator {
 	 * @param ltlfTOfoltl a map to translate LTLfLocalVar into open FoLtlLocalFormula.
 	 * @return the translated Automaton.
 	 */
-	public static Automaton ldlfAutomataToFoLtl(Automaton original, HashMap<LTLfFormula, FoLtlFormula> ltlfTOfoltl){
+	public static Automaton ldlfAutomataToFoLtl(Automaton original, HashMap<LTLfFormula, FoLtlFormula> ltlfTOfoltl,
+																							LinkedHashSet<FoLtlConstant> domain){
 		Automaton res = new Automaton();
 
 		/*We now ignore last atom
@@ -94,6 +98,7 @@ public class AutomataTranslator {
 				} else if (oldLabel instanceof PossibleWorldWrap) {
 					//Get the new label
 					newLabel = tweetyPwToFoLtl((PossibleWorldWrap) oldLabel, sig, ltlfTOfoltl);
+					newLabel = ((FoLtlLocalFormula) newLabel).quantifierExpansion(domain);
 				} else {
 					throw new RuntimeException("Unknown transition label type");
 				}

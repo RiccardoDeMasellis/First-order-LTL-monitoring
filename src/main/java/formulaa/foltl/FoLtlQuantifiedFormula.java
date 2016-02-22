@@ -99,7 +99,7 @@ public abstract class FoLtlQuantifiedFormula implements FoLtlFormula, Quantified
 	@Override
 	public FoLtlFormula clone(){
 		return this.formulaFactory(this.getFormulaType(), this.getNestedFormula().clone(),
-				(FoLtlVariable) this.getQuantifiedVariable().clone());
+				this.getQuantifiedVariable());
 	}
 
 	/**
