@@ -126,39 +126,30 @@ public class ExecutableAutomaton {
 
 
 	private void reachabilityFloydWarshall(FoLtlAssignment assignment){
-		HashMap<State, HashMap<State, Boolean>> adjMatrix = new HashMap<>();
 		ArrayList<State> states = new ArrayList<>();
 		states.addAll(this.automaton.states());
+		boolean [][] adjMatrix = new boolean[states.size()][states.size()];
 
 		//Init
 		for (int i = 0; i < states.size(); i++){
-			State si = states.get(i);
-			adjMatrix.put(si, new HashMap<>());
-
 			for (int j = 0; j < states.size(); j++){
-				State sj = states.get(j);
-				Set<Transition<FoLtlLabel>> transitions = this.automaton.deltaFrom(si, sj);
-
-				adjMatrix.get(si).put(sj, false);
+				adjMatrix[i][j] = false;
+				Set<Transition<FoLtlLabel>> transitions = this.automaton.deltaFrom(states.get(i), states.get(j));
 
 				for (Transition<FoLtlLabel> t : transitions){
-					adjMatrix.get(si).put(sj, this.satisfiabilityMap.get(new Pair<>(t.label(), assignment)));
+					adjMatrix[i][j] = this.satisfiabilityMap.get(new Pair<>(t.label(), assignment));
 				}
 			}
 
-			adjMatrix.get(si).put(si, true);
+			adjMatrix[i][i] = true;
 		}
 
 		//Floyd-Warshall algorithm
 		for (int k = 0; k < states.size(); k++){
 			for (int i = 0; i < states.size(); i++){
 				for (int j = 0; j < states.size(); j++){
-					State si = states.get(i);
-					State sj = states.get(j);
-					State sk = states.get(k);
-
-					if (adjMatrix.get(si).get(sk) && adjMatrix.get(sk).get(sj)){
-						adjMatrix.get(si).put(sj, true);
+					if (adjMatrix[i][k] && adjMatrix[k][j]){
+						adjMatrix[i][j] = true ;
 					}
 				}
 			}
