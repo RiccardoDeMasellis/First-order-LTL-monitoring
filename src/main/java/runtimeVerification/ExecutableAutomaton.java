@@ -119,6 +119,8 @@ public class ExecutableAutomaton {
 	}
 
 	private void computeReachability(){
+		this.reachabilityMap = new ReachabilityMap();
+
 		for (FoLtlAssignment assignment : this.assignments){
 			this.reachabilityFloydWarshall(assignment);
 		}
@@ -154,6 +156,23 @@ public class ExecutableAutomaton {
 				}
 			}
 		}
+
+		//Fill reachability map
+		for (int i = 0; i < states.size(); i++){
+			State si = states.get(i);
+			Pair<State, FoLtlAssignment> key = new Pair<>(si, assignment);
+			HashSet<State> reachableStates = new HashSet<>();
+
+			for (int j = 0; j < states.size(); j++){
+				if (adjMatrix[i][j]){
+					State sj = states.get(j);
+					reachableStates.add(sj);
+				}
+			}
+
+			this.reachabilityMap.put(key, reachableStates);
+		}
+
 	}
 
 
@@ -163,5 +182,9 @@ public class ExecutableAutomaton {
 
 	public LinkedHashSet<FoLtlAssignment> getAssignments() {
 		return assignments;
+	}
+
+	public ReachabilityMap getReachabilityMap() {
+		return reachabilityMap;
 	}
 }

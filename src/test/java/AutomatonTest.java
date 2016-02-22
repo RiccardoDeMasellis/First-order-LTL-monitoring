@@ -84,11 +84,11 @@ public class AutomatonTest {
 
 		ExecutableAutomaton ea = new ExecutableAutomaton(formula, domain);
 
-		System.out.println(ea.getAssignments());
-
-		System.out.println();
-
-		System.out.println(ea.getSatisfiabilityMap());
+		//System.out.println(ea.getAssignments());
+		//System.out.println();
+		//System.out.println(ea.getSatisfiabilityMap());
+		//System.out.println();
+		System.out.println(ea.getReachabilityMap());
 
 	}
 
