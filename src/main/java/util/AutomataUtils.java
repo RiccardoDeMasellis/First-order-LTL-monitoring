@@ -5,6 +5,7 @@ import formula.ltlf.LTLfFormula;
 import formulaa.foltl.FoLtlConstant;
 import formulaa.foltl.FoLtlFormula;
 import rationals.Automaton;
+import rationals.transformations.ToDFA;
 import utils.AutomatonUtils;
 
 import java.util.HashMap;
@@ -29,6 +30,10 @@ public class AutomataUtils {
 		LDLfFormula ldlfFormula = ltlfFormula.toLDLf();
 
 		Automaton ldlAutomaton = AutomatonUtils.ldlf2Automaton(ldlfFormula, ldlfFormula.getSignature());
+
+		//Minimization
+		ldlAutomaton = new ToDFA<>().transform(ldlAutomaton);
+
 		return ldlfAutomataToFoLtl(ldlAutomaton, ltlfTOfoltl, domain);
 	}
 

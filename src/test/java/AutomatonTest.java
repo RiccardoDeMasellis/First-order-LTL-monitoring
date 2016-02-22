@@ -79,8 +79,7 @@ public class AutomatonTest {
 	@Test
 	public void testExecutableAutomaton(){
 
-		//Test assignments
-		FoLtlFormula formula = parseFoLtlFormula("Exists ?z (Forall ?x ((P(?x)) U (Exists ?y (Q(?y)))))");
+		FoLtlFormula formula = parseFoLtlFormula("Exists ?z (Forall ?x ((P(?x) && !P(?z)) U (Exists ?y (Q(?y)))))");
 		LinkedHashSet<FoLtlConstant> domain = parseConstantSet("a", "b");
 
 		ExecutableAutomaton ea = new ExecutableAutomaton(formula, domain);

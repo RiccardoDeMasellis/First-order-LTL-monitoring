@@ -2,6 +2,7 @@ package runtimeVerification;
 
 import automata.FoLtlEmptyTrace;
 import automata.FoLtlLabel;
+import com.sun.org.apache.xpath.internal.operations.Bool;
 import formulaa.foltl.FoLtlConstant;
 import formulaa.foltl.FoLtlFormula;
 import formulaa.foltl.FoLtlLocalFormula;
@@ -12,12 +13,8 @@ import rationals.State;
 import rationals.Transition;
 import util.AutomataUtils;
 import util.Pair;
-import utils.AutomatonUtils;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.LinkedHashSet;
-import java.util.Set;
+import java.util.*;
 
 /**
  * ExecutableAutomaton
@@ -33,6 +30,8 @@ public class ExecutableAutomaton {
 	private FoLtlFormula formula;
 	private LinkedHashSet<FoLtlAssignment> assignments;
 	private SatisfiabilityMap satisfiabilityMap;
+	private ReachabilityMap reachabilityMap;
+	private StateRVTruthValueMap truthValueMap;
 
 	private State currentState;
 
@@ -53,6 +52,9 @@ public class ExecutableAutomaton {
 		//Compute satisfiability of labels x assignments
 		this.satisfiabilityMap = new SatisfiabilityMap();
 		this.computeSatisfiabilityMap();
+
+		//Compute RVTruthValues
+		this.computeReachability();
 
 		//Init current state
 		this.currentState = (State) automaton.initials().iterator().next();
@@ -101,19 +103,68 @@ public class ExecutableAutomaton {
 			if (label instanceof FoLtlLocalFormula){
 				for (FoLtlAssignment ass : this.assignments){
 					Pair<FoLtlLabel, FoLtlAssignment> p = new Pair<>(label, ass);
-
 					FoLtlLocalFormula f = (FoLtlLocalFormula) label;
-
 					this.satisfiabilityMap.put(p, f.isSatisfiable(this.domain, ass));
-
 				}
 			} else if (label instanceof FoLtlEmptyTrace){
-				//TODO che famo?
+				//TODO are we sure about this?
+				for (FoLtlAssignment ass : this.assignments){
+					Pair<FoLtlLabel, FoLtlAssignment> p = new Pair<>(label, ass);
+					this.satisfiabilityMap.put(p, true);
+				}
 			} else {
 				throw new RuntimeException("Unknown label type");
 			}
 		}
 	}
+
+	private void computeReachability(){
+		for (FoLtlAssignment assignment : this.assignments){
+			this.reachabilityFloydWarshall(assignment);
+		}
+	}
+
+
+	private void reachabilityFloydWarshall(FoLtlAssignment assignment){
+		HashMap<State, HashMap<State, Boolean>> adjMatrix = new HashMap<>();
+		ArrayList<State> states = new ArrayList<>();
+		states.addAll(this.automaton.states());
+
+		//Init
+		for (int i = 0; i < states.size(); i++){
+			State si = states.get(i);
+			adjMatrix.put(si, new HashMap<>());
+
+			for (int j = 0; j < states.size(); j++){
+				State sj = states.get(j);
+				Set<Transition<FoLtlLabel>> transitions = this.automaton.deltaFrom(si, sj);
+
+				adjMatrix.get(si).put(sj, false);
+
+				for (Transition<FoLtlLabel> t : transitions){
+					adjMatrix.get(si).put(sj, this.satisfiabilityMap.get(new Pair<>(t.label(), assignment)));
+				}
+			}
+
+			adjMatrix.get(si).put(si, true);
+		}
+
+		//Floyd-Warshall algorithm
+		for (int k = 0; k < states.size(); k++){
+			for (int i = 0; i < states.size(); i++){
+				for (int j = 0; j < states.size(); j++){
+					State si = states.get(i);
+					State sj = states.get(j);
+					State sk = states.get(k);
+
+					if (adjMatrix.get(si).get(sk) && adjMatrix.get(sk).get(sj)){
+						adjMatrix.get(si).put(sj, true);
+					}
+				}
+			}
+		}
+	}
+
 
 	public SatisfiabilityMap getSatisfiabilityMap() {
 		return satisfiabilityMap;
