@@ -1,5 +1,9 @@
 package runtimeVerification;
 
+import RuntimeVerification.RVFalse;
+import RuntimeVerification.RVTempFalse;
+import RuntimeVerification.RVTempTrue;
+import RuntimeVerification.RVTrue;
 import automata.FoLtlEmptyTrace;
 import automata.FoLtlLabel;
 import com.sun.org.apache.xpath.internal.operations.Bool;
@@ -53,8 +57,11 @@ public class ExecutableAutomaton {
 		this.satisfiabilityMap = new SatisfiabilityMap();
 		this.computeSatisfiabilityMap();
 
-		//Compute RVTruthValues
+		//Compute reachability
 		this.computeReachability();
+
+		//Compute RVTruthValues
+		this.computeRVTruthValues();
 
 		//Init current state
 		this.currentState = (State) automaton.initials().iterator().next();
@@ -126,7 +133,6 @@ public class ExecutableAutomaton {
 		}
 	}
 
-
 	private void reachabilityFloydWarshall(FoLtlAssignment assignment){
 		ArrayList<State> states = new ArrayList<>();
 		states.addAll(this.automaton.states());
@@ -175,16 +181,53 @@ public class ExecutableAutomaton {
 
 	}
 
+	private void computeRVTruthValues(){
+		this.truthValueMap = new StateRVTruthValueMap();
+
+		for (Pair<State, FoLtlAssignment> key : this.reachabilityMap.keySet()){
+			boolean allTerminals = true;
+			boolean allNonTerminals = true;
+			HashSet<State> accessibleStates = this.reachabilityMap.get(key);
+
+			for (State s : accessibleStates){
+				if (!s.isTerminal()){
+					allTerminals = false;
+				} else {
+					allNonTerminals = false;
+				}
+			}
+
+			if (key.getFirst().isTerminal()){
+				if (allTerminals){
+					this.truthValueMap.put(key, new RVTrue());
+				} else {
+					this.truthValueMap.put(key, new RVTempTrue());
+				}
+			} else {
+				if (allNonTerminals){
+					this.truthValueMap.put(key, new RVFalse());
+				} else {
+					this.truthValueMap.put(key, new RVTempFalse());
+				}
+			}
+		}
+	}
+
+
+
+
+	//SETTER-GETTER methods
 
 	public SatisfiabilityMap getSatisfiabilityMap() {
 		return satisfiabilityMap;
 	}
-
 	public LinkedHashSet<FoLtlAssignment> getAssignments() {
 		return assignments;
 	}
-
 	public ReachabilityMap getReachabilityMap() {
 		return reachabilityMap;
+	}
+	public StateRVTruthValueMap getTruthValueMap() {
+		return truthValueMap;
 	}
 }
