@@ -2,6 +2,9 @@ package formulaa.foltl;
 
 import formulaa.ForallQuantifiedFormula;
 import formulaa.foltl.semantics.FoLtlAssignment;
+import formulaa.rv.RVAndFormula;
+import formulaa.rv.RVFormula;
+import formulaa.rv.RVOrFormula;
 
 import java.util.HashSet;
 import java.util.Iterator;
@@ -27,6 +30,38 @@ public class FoLtlAcrossForallFormula extends FoLtlQuantifiedFormula implements 
 	@Override
 	public String stringOperator(){
 		return "xsForall";
+	}
+
+	@Override
+	public RVFormula expandToRVFormula(HashSet<FoLtlConstant> domain, FoLtlAssignment assignment){
+		RVFormula res = null;
+		FoLtlFormula nested = this.getNestedFormula();
+		FoLtlVariable v = this.getQuantifiedVariable();
+
+		Iterator<FoLtlConstant> i;
+
+		if (!v.getSort().isEmpty()){
+			i = v.getSort().iterator();
+		} else {
+			i = domain.iterator();
+		}
+
+		while (i.hasNext()){
+			FoLtlConstant c = i.next();
+			assignment.put(v, c);
+
+			RVFormula temp = nested.expandToRVFormula(domain, assignment);
+
+			if (res == null){
+				res = temp;
+			} else {
+				res = new RVAndFormula(temp, res);
+			}
+
+			assignment.remove(v);
+		}
+
+		return res;
 	}
 
 	@Override

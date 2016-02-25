@@ -4,6 +4,8 @@ import automata.FoLtlLabel;
 import formula.ltlf.LTLfFormula;
 import formulaa.Formula;
 import formulaa.foltl.semantics.FoLtlAssignment;
+import formulaa.rv.RVAssignmentFormula;
+import formulaa.rv.RVFormula;
 
 import java.util.HashMap;
 import java.util.HashSet;
@@ -42,6 +44,10 @@ public interface FoLtlFormula extends Formula, FoLtlLabel {
 
 	//Both the following methods ignore open variables
 	//(which shouldn't be there at all btw)
+
+	default RVFormula expandToRVFormula(HashSet<FoLtlConstant> domain, FoLtlAssignment assignment){
+		return new RVAssignmentFormula(assignment);
+	}
 
 	/**
 	 * Returns all the variables quantified by across state quantifiers.
