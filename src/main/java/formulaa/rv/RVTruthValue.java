@@ -6,10 +6,13 @@ package formulaa.rv;
  * Created by Simone Calciolari on 25/02/16.
  * @author Simone Calciolari.
  */
-public abstract class RVTruthValue implements RVAtomicFormula{
+public abstract class RVTruthValue implements RVAtomicFormula {
 
 	@Override
 	public boolean equals(Object o) {
 		return (o != null && this.getClass().equals(o.getClass()));
 	}
+
+	@Override
+	public abstract RVFormula clone();
 }

@@ -30,6 +30,9 @@ public abstract class RVBinaryFormula implements RVFormula {
 	}
 
 	@Override
+	public abstract RVFormula clone();
+
+	@Override
 	public int hashCode(){
 		int res;
 		res = this.getLeftFormula() != null ? this.getLeftFormula().hashCode() : 0;
