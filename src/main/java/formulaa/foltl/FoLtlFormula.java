@@ -51,7 +51,7 @@ public interface FoLtlFormula extends Formula, FoLtlLabel {
 	}
 
 	default RVFormula expandToRVFormula(LinkedHashSet<FoLtlConstant> domain, FoLtlAssignment assignment){
-		return new RVAssignmentFormula(assignment);
+		return new RVAssignmentFormula((FoLtlAssignment) assignment.clone());
 	}
 
 	/**
