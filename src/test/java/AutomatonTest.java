@@ -1,11 +1,13 @@
 import formula.ldlf.LDLfFormula;
 import formula.ltlf.LTLfFormula;
 import formulaa.foltl.*;
+import formulaa.foltl.semantics.FoLtlAssignment;
 import org.junit.Assert;
 import org.junit.Ignore;
 import org.junit.Test;
 import rationals.Automaton;
 import runtimeVerification.ExecutableAutomaton;
+import util.FoLtlSortManager;
 import utils.AutomatonUtils;
 
 import java.io.FileNotFoundException;
@@ -88,6 +90,19 @@ public class AutomatonTest {
 		//System.out.println(ea.getSatisfiabilityMap());
 		//System.out.println(ea.getReachabilityMap());
 		System.out.println(ea.getTruthValueMap());
+
+	}
+
+	@Test
+	public void testRVExpansion(){
+		LinkedHashSet<FoLtlConstant> domain = parseConstantSet("a", "b", "c");
+		FoLtlFormula formula = parseFoLtlFormula("Exists ?x (Forall ?y (Q(x) U P(y)))");
+		FoLtlSortManager sm = new FoLtlSortManager(domain);
+
+		sm.parseSortDefinition("SortAB := {a, b}; SortC := {c};");
+		sm.assignSort(formula, "?x <- SortAB; ?y <- SortC;");
+
+		System.out.println(formula.expandToRVFormula(domain));
 
 	}
 
