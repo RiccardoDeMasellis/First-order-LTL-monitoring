@@ -17,6 +17,11 @@ public class RVAssignmentFormula implements RVAtomicFormula {
 	}
 
 	@Override
+	public RVTruthValue evaluate() {
+		throw new RuntimeException("Cannot evaluate this assignment");
+	}
+
+	@Override
 	public String toString() {
 		return "(" + this.assignment.toString() + ")";
 	}

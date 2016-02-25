@@ -10,6 +10,11 @@ package formulaa.rv;
 public class RVTrue extends RVTruthValue {
 
 	@Override
+	public int ordinalValue() {
+		return 0;
+	}
+
+	@Override
 	public RVFormula clone(){
 		return new RVTrue();
 	}

@@ -13,6 +13,19 @@ public class RVOrFormula extends RVBinaryFormula {
 	}
 
 	@Override
+	public RVTruthValue evaluate(){
+
+		RVTruthValue left = this.getLeftFormula().evaluate();
+		RVTruthValue right = this.getRightFormula().evaluate();
+
+		if (left.ordinalValue() < right.ordinalValue()){
+			return left;
+		} else {
+			return right;
+		}
+	}
+
+	@Override
 	public RVFormula clone(){
 		return new RVOrFormula(this.getLeftFormula().clone(),
 				this.getRightFormula().clone());

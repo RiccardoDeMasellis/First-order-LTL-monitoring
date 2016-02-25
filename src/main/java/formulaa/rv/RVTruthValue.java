@@ -9,6 +9,32 @@ package formulaa.rv;
 public abstract class RVTruthValue implements RVAtomicFormula {
 
 	@Override
+	public RVTruthValue evaluate(){
+		return this;
+	}
+
+	public abstract int ordinalValue();
+
+	public static RVTruthValue getByOrdinal(int ordinal){
+		switch (ordinal){
+			case 0:
+				return new RVTrue();
+
+			case 1:
+				return new RVTempTrue();
+
+			case 2:
+				return new RVTempFalse();
+
+			case 3:
+				return new RVFalse();
+
+			default:
+				throw new RuntimeException("Unknown RVTruthValue ordinal number");
+		}
+	}
+
+	@Override
 	public boolean equals(Object o) {
 		return (o != null && this.getClass().equals(o.getClass()));
 	}

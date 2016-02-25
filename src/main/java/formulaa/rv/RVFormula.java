@@ -8,6 +8,8 @@ package formulaa.rv;
  */
 public interface RVFormula extends Cloneable {
 
+	RVTruthValue evaluate();
+
 	@Override
 	String toString();
 
