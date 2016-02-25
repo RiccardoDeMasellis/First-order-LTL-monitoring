@@ -46,7 +46,7 @@ public interface FoLtlFormula extends Formula, FoLtlLabel {
 	//Both the following methods ignore open variables
 	//(which shouldn't be there at all btw)
 
-	default RVFormula expandTRVFormula(LinkedHashSet<FoLtlConstant> domain){
+	default RVFormula expandToRVFormula(LinkedHashSet<FoLtlConstant> domain){
 		return this.expandToRVFormula(domain, new FoLtlAssignment());
 	}
 
