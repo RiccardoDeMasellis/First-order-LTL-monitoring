@@ -9,6 +9,7 @@ import formulaa.rv.RVFormula;
 
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.LinkedHashSet;
 
 /**
  * Interface that represents the generic FO-LTL formula.
@@ -45,7 +46,11 @@ public interface FoLtlFormula extends Formula, FoLtlLabel {
 	//Both the following methods ignore open variables
 	//(which shouldn't be there at all btw)
 
-	default RVFormula expandToRVFormula(HashSet<FoLtlConstant> domain, FoLtlAssignment assignment){
+	default RVFormula expandTRVFormula(LinkedHashSet<FoLtlConstant> domain){
+		return this.expandToRVFormula(domain, new FoLtlAssignment());
+	}
+
+	default RVFormula expandToRVFormula(LinkedHashSet<FoLtlConstant> domain, FoLtlAssignment assignment){
 		return new RVAssignmentFormula(assignment);
 	}
 

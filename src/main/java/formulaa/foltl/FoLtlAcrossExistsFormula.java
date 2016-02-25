@@ -7,6 +7,7 @@ import formulaa.rv.RVOrFormula;
 
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.LinkedHashSet;
 
 /**
  * Class that represents a FOLTL across-state existential formula.
@@ -32,7 +33,7 @@ public class FoLtlAcrossExistsFormula extends FoLtlQuantifiedFormula implements 
 	}
 
 	@Override
-	public RVFormula expandToRVFormula(HashSet<FoLtlConstant> domain, FoLtlAssignment assignment){
+	public RVFormula expandToRVFormula(LinkedHashSet<FoLtlConstant> domain, FoLtlAssignment assignment){
 		RVFormula res = null;
 		FoLtlFormula nested = this.getNestedFormula();
 		FoLtlVariable v = this.getQuantifiedVariable();
