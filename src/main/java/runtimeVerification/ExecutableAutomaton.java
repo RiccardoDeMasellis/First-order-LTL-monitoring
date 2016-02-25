@@ -1,17 +1,16 @@
 package runtimeVerification;
 
-import RuntimeVerification.RVFalse;
-import RuntimeVerification.RVTempFalse;
-import RuntimeVerification.RVTempTrue;
-import RuntimeVerification.RVTrue;
 import automata.FoLtlEmptyTrace;
 import automata.FoLtlLabel;
-import com.sun.org.apache.xpath.internal.operations.Bool;
 import formulaa.foltl.FoLtlConstant;
 import formulaa.foltl.FoLtlFormula;
 import formulaa.foltl.FoLtlLocalFormula;
 import formulaa.foltl.FoLtlVariable;
 import formulaa.foltl.semantics.FoLtlAssignment;
+import formulaa.rv.RVFalse;
+import formulaa.rv.RVTempFalse;
+import formulaa.rv.RVTempTrue;
+import formulaa.rv.RVTrue;
 import rationals.Automaton;
 import rationals.State;
 import rationals.Transition;
