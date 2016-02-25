@@ -1,11 +1,14 @@
 import formula.ldlf.LDLfFormula;
 import formula.ltlf.LTLfFormula;
 import formulaa.foltl.*;
+import formulaa.foltl.semantics.FoLtlAssignment;
+import formulaa.rv.*;
 import org.junit.Assert;
 import org.junit.Ignore;
 import org.junit.Test;
 import rationals.Automaton;
 import runtimeVerification.ExecutableAutomaton;
+import util.FoLtlSortManager;
 import utils.AutomatonUtils;
 
 import java.io.FileNotFoundException;
@@ -85,10 +88,129 @@ public class AutomatonTest {
 		ExecutableAutomaton ea = new ExecutableAutomaton(formula, domain);
 
 		//System.out.println(ea.getAssignments());
-		//System.out.println();
 		//System.out.println(ea.getSatisfiabilityMap());
-		//System.out.println();
-		System.out.println(ea.getReachabilityMap());
+		//System.out.println(ea.getReachabilityMap());
+		System.out.println(ea.getTruthValueMap());
+
+	}
+
+	@Test
+	public void testRVExpansion(){
+		LinkedHashSet<FoLtlConstant> domain = parseConstantSet("a", "b", "c");
+		FoLtlFormula formula = parseFoLtlFormula("Exists ?x (Forall ?y (Q(x) U P(y)))");
+		FoLtlSortManager sm = new FoLtlSortManager(domain);
+
+		sm.parseSortDefinition("SortAB := {a, b}; SortC := {c};");
+		sm.assignSort(formula, "?x <- SortAB; ?y <- SortC;");
+
+		System.out.println(formula.expandToRVFormula(domain));
+
+	}
+
+	@Test
+	public void testRVEvaluation(){
+
+		RVFormula t = new RVTrue();
+		RVFormula tt = new RVTempTrue();
+		RVFormula tf = new RVTempFalse();
+		RVFormula f = new RVFalse();
+
+		RVFormula formula = new RVAndFormula(t, t);
+		assertEquals("", new RVTrue(), formula.evaluate());
+
+		formula = new RVAndFormula(t, tt);
+		assertEquals("", new RVTempTrue(), formula.evaluate());
+
+		formula = new RVAndFormula(t, tf);
+		assertEquals("", new RVTempFalse(), formula.evaluate());
+
+		formula = new RVAndFormula(t, f);
+		assertEquals("", new RVFalse(), formula.evaluate());
+
+		formula = new RVAndFormula(tt, t);
+		assertEquals("", new RVTempTrue(), formula.evaluate());
+
+		formula = new RVAndFormula(tt, tt);
+		assertEquals("", new RVTempTrue(), formula.evaluate());
+
+		formula = new RVAndFormula(tt, tf);
+		assertEquals("", new RVTempFalse(), formula.evaluate());
+
+		formula = new RVAndFormula(tt, f);
+		assertEquals("", new RVFalse(), formula.evaluate());
+
+		formula = new RVAndFormula(tf, t);
+		assertEquals("", new RVTempFalse(), formula.evaluate());
+
+		formula = new RVAndFormula(tf, tt);
+		assertEquals("", new RVTempFalse(), formula.evaluate());
+
+		formula = new RVAndFormula(tf, tf);
+		assertEquals("", new RVTempFalse(), formula.evaluate());
+
+		formula = new RVAndFormula(tf, f);
+		assertEquals("", new RVFalse(), formula.evaluate());
+
+		formula = new RVAndFormula(f, t);
+		assertEquals("", new RVFalse(), formula.evaluate());
+
+		formula = new RVAndFormula(f, tt);
+		assertEquals("", new RVFalse(), formula.evaluate());
+
+		formula = new RVAndFormula(f, tf);
+		assertEquals("", new RVFalse(), formula.evaluate());
+
+		formula = new RVAndFormula(f, f);
+		assertEquals("", new RVFalse(), formula.evaluate());
+
+
+		formula = new RVOrFormula(t, t);
+		assertEquals("", new RVTrue(), formula.evaluate());
+
+		formula = new RVOrFormula(t, tt);
+		assertEquals("", new RVTrue(), formula.evaluate());
+
+		formula = new RVOrFormula(t, tf);
+		assertEquals("", new RVTrue(), formula.evaluate());
+
+		formula = new RVOrFormula(t, f);
+		assertEquals("", new RVTrue(), formula.evaluate());
+
+		formula = new RVOrFormula(tt, t);
+		assertEquals("", new RVTrue(), formula.evaluate());
+
+		formula = new RVOrFormula(tt, tt);
+		assertEquals("", new RVTempTrue(), formula.evaluate());
+
+		formula = new RVOrFormula(tt, tf);
+		assertEquals("", new RVTempTrue(), formula.evaluate());
+
+		formula = new RVOrFormula(tt, f);
+		assertEquals("", new RVTempTrue(), formula.evaluate());
+
+		formula = new RVOrFormula(tf, t);
+		assertEquals("", new RVTrue(), formula.evaluate());
+
+		formula = new RVOrFormula(tf, tt);
+		assertEquals("", new RVTempTrue(), formula.evaluate());
+
+		formula = new RVOrFormula(tf, tf);
+		assertEquals("", new RVTempFalse(), formula.evaluate());
+
+		formula = new RVOrFormula(tf, f);
+		assertEquals("", new RVTempFalse(), formula.evaluate());
+
+		formula = new RVOrFormula(f, t);
+		assertEquals("", new RVTrue(), formula.evaluate());
+
+		formula = new RVOrFormula(f, tt);
+		assertEquals("", new RVTempTrue(), formula.evaluate());
+
+		formula = new RVOrFormula(f, tf);
+		assertEquals("", new RVTempFalse(), formula.evaluate());
+
+		formula = new RVOrFormula(f, f);
+		assertEquals("", new RVFalse(), formula.evaluate());
 
 	}
 

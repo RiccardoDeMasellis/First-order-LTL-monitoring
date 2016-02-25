@@ -2,9 +2,12 @@ package formulaa.foltl;
 
 import formulaa.ExistsQuantifiedFormula;
 import formulaa.foltl.semantics.FoLtlAssignment;
+import formulaa.rv.RVFormula;
+import formulaa.rv.RVOrFormula;
 
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.LinkedHashSet;
 
 /**
  * Class that represents a FOLTL across-state existential formula.
@@ -27,6 +30,38 @@ public class FoLtlAcrossExistsFormula extends FoLtlQuantifiedFormula implements 
 	@Override
 	public String stringOperator(){
 		return "xsExists";
+	}
+
+	@Override
+	public RVFormula expandToRVFormula(LinkedHashSet<FoLtlConstant> domain, FoLtlAssignment assignment){
+		RVFormula res = null;
+		FoLtlFormula nested = this.getNestedFormula();
+		FoLtlVariable v = this.getQuantifiedVariable();
+
+		Iterator<FoLtlConstant> i;
+
+		if (!v.getSort().isEmpty()){
+			i = v.getSort().iterator();
+		} else {
+			i = domain.iterator();
+		}
+
+		while (i.hasNext()){
+			FoLtlConstant c = i.next();
+			assignment.put(v, c);
+
+			RVFormula temp = nested.expandToRVFormula(domain, assignment);
+
+			if (res == null){
+				res = temp;
+			} else {
+				res = new RVOrFormula(temp, res);
+			}
+
+			assignment.remove(v);
+		}
+
+		return res;
 	}
 
 	@Override
