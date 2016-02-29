@@ -62,7 +62,9 @@ public class ExecutableAutomaton {
 		//Compute RVTruthValues
 		this.computeRVTruthValues();
 
-		//Init current state
+		//Init movement map
+		this.movementMap = new HashMap<>();
+
 		for (Object o : this.automaton.states()){
 			this.movementMap.put((State) o, new HashSet<>());
 		}
@@ -80,13 +82,9 @@ public class ExecutableAutomaton {
 	private LinkedHashSet<FoLtlAssignment> allAssignments(int i, ArrayList<FoLtlVariable> variables){
 		LinkedHashSet<FoLtlAssignment> res = new LinkedHashSet<>();
 
-		if (i == variables.size() - 1){
+		if (i == variables.size()){
 			//Base case
-			for (FoLtlConstant c : this.domain){
-				FoLtlAssignment assignment = new FoLtlAssignment();
-				assignment.put(variables.get(i), c);
-				res.add(assignment);
-			}
+			res.add(new FoLtlAssignment());
 
 		} else {
 			LinkedHashSet<FoLtlAssignment> old = allAssignments(i+1, variables);
@@ -219,20 +217,30 @@ public class ExecutableAutomaton {
 
 
 	public void step(FoLtlInterpretation interpretation){
-
 		for (Object o : this.automaton.states()){
-			State state = (State) o;
-			Set<Transition<FoLtlLabel>> transitions = this.automaton.delta(state);
+			State from = (State) o;
+			Set<Transition<FoLtlLabel>> transitions = this.automaton.delta(from);
 
 			for (Transition<FoLtlLabel> t : transitions){
-				for (FoLtlAssignment assignment : this.movementMap.get(state)){
-					
+				State to = t.end();
+				FoLtlLabel label = t.label();
 
+				if (label instanceof FoLtlFormula){
+					FoLtlLocalFormula formula = (FoLtlLocalFormula) label;
 
+					for (FoLtlAssignment assignment : this.movementMap.get(from)){
+						if (interpretation.satisfies(formula)){
+							this.movementMap.get(from).remove(assignment);
+							this.movementMap.get(to).add(assignment);
+						}
+					}
+				} else if (label instanceof FoLtlEmptyTrace){
+					//TODO
+				} else {
+					throw new RuntimeException("Unknown label type");
 				}
 			}
 		}
-
 	}
 
 
