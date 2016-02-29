@@ -4,6 +4,7 @@ import static util.TweetyTranslator.*;
 import formula.ltlf.*;
 import formulaa.foltl.*;
 import formulaa.foltl.semantics.FoLtlAssignment;
+import formulaa.foltl.semantics.FoLtlInterpretation;
 import net.sf.tweety.logics.commons.syntax.Constant;
 import net.sf.tweety.logics.fol.syntax.FolFormula;
 import net.sf.tweety.logics.fol.syntax.FolSignature;
@@ -380,6 +381,27 @@ public class SemanticsTest {
 		assertFalse(computed.substitute(assignment) + " is unsatisfiable", computed.isSatisfiable(domain, assignment));
 		//</editor-fold>
 
+	}
+
+	@Test
+	public void testInterpretation(){
+		HashSet<FoLtlConstant> domain = parseConstantSet("a", "b", "c", "d");
+
+		FoLtlFormula formula = parseFoLtlFormula("P(a) & P(b) & (c = c) & (c = d) & true & !false");
+		FoLtlInterpretation interpretation = new FoLtlInterpretation(domain);
+		interpretation.add(new FoLtlLocalAtom(new FoLtlPredicate("P", 1), new FoLtlConstant("a")));
+		interpretation.add(new FoLtlLocalAtom(new FoLtlPredicate("P", 1), new FoLtlConstant("b")));
+		interpretation.add(new FoLtlLocalEqualityFormula(new FoLtlConstant("c"), new FoLtlConstant("d")));
+
+		assertTrue("", interpretation.toTweetyInterpretation().satisfies(((FoLtlLocalFormula) formula).toTweetyFol()));
+
+		formula = parseFoLtlFormula("P(a) && (P(b) -> P(c)) -> P(d)");
+		interpretation = new FoLtlInterpretation(domain);
+		interpretation.add(new FoLtlLocalAtom(new FoLtlPredicate("P", 1), new FoLtlConstant("a")));
+		interpretation.add(new FoLtlLocalAtom(new FoLtlPredicate("P", 1), new FoLtlConstant("b")));
+		interpretation.add(new FoLtlLocalAtom(new FoLtlPredicate("P", 1), new FoLtlConstant("c")));
+
+		assertFalse("", interpretation.toTweetyInterpretation().satisfies(((FoLtlLocalFormula) formula).toTweetyFol()));
 	}
 
 

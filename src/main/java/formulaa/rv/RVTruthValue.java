@@ -1,5 +1,9 @@
 package formulaa.rv;
 
+import formulaa.foltl.semantics.FoLtlAssignment;
+
+import java.util.HashMap;
+
 /**
  * RVTruthValue
  * <br>
@@ -9,7 +13,7 @@ package formulaa.rv;
 public abstract class RVTruthValue implements RVAtomicFormula {
 
 	@Override
-	public RVTruthValue evaluate(){
+	public RVTruthValue evaluate(HashMap<FoLtlAssignment, RVTruthValue> assignmentRVTruthMap){
 		return this;
 	}
 

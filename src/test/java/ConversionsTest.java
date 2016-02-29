@@ -627,6 +627,36 @@ public class ConversionsTest {
 
 		foltlTOltlf.clear();
 		ltlfTOfoltl.clear();
+
+
+		//Test possible ambiguous translations
+
+		original = parseFoLtlFormula("(P(a) & (P(b) | P(c))) U ((P(a) & P(b)) | P(c))");
+		translated = original.toLTLf(foltlTOltlf, ltlfTOfoltl);
+		ltlfExpected = parseLTLfFormula("P_a_AND_P_b_OR_P_c U P_a_AND_P_b_OR_Pc0");
+
+		System.out.println("Original formula: " + original);
+		System.out.println("\nTranslation maps: ");
+		System.out.println("FO-LTL -> LTLf: " + foltlTOltlf);
+		System.out.println("LTLf -> FO-LTL: " + ltlfTOfoltl);
+		System.out.println();
+
+		//assertEquals("Translation", ltlfExpected, translated);
+
+		reverse = ltlfToFoLtl(ltlfExpected, ltlfTOfoltl);
+		foltlExpected = original;
+
+		//Get rid of across-state quantifiers
+		while (foltlExpected instanceof FoLtlAcrossQuantifiedFormula){
+			foltlExpected = (FoLtlFormula) ((FoLtlAcrossQuantifiedFormula) foltlExpected).getNestedFormula();
+		}
+
+		//assertEquals("Reverse translation", foltlExpected, reverse);
+
+		System.out.println();
+
+		foltlTOltlf.clear();
+		ltlfTOfoltl.clear();
 	}
 
 	//<editor-fold desc="assertEquals" defaultstate="collapsed">

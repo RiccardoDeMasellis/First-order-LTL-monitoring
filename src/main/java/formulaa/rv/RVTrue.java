@@ -15,6 +15,11 @@ public class RVTrue extends RVTruthValue {
 	}
 
 	@Override
+	public String toString(){
+		return "RVTrue";
+	}
+
+	@Override
 	public RVFormula clone(){
 		return new RVTrue();
 	}

@@ -7,6 +7,7 @@ import formulaa.foltl.FoLtlFormula;
 import formulaa.foltl.FoLtlLocalFormula;
 import formulaa.foltl.FoLtlVariable;
 import formulaa.foltl.semantics.FoLtlAssignment;
+import formulaa.foltl.semantics.FoLtlInterpretation;
 import formulaa.rv.RVFalse;
 import formulaa.rv.RVTempFalse;
 import formulaa.rv.RVTempTrue;
@@ -16,7 +17,11 @@ import rationals.State;
 import rationals.Transition;
 import util.AutomataUtils;
 import util.Pair;
+import utils.AutomatonUtils;
 
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.PrintStream;
 import java.util.*;
 
 /**
@@ -35,8 +40,7 @@ public class ExecutableAutomaton {
 	private SatisfiabilityMap satisfiabilityMap;
 	private ReachabilityMap reachabilityMap;
 	private StateRVTruthValueMap truthValueMap;
-
-	private State currentState;
+	private HashMap<State, HashSet<FoLtlAssignment>> movementMap;
 
 	public ExecutableAutomaton(FoLtlFormula formula, LinkedHashSet<FoLtlConstant> domain){
 		this.domain = domain;
@@ -62,8 +66,31 @@ public class ExecutableAutomaton {
 		//Compute RVTruthValues
 		this.computeRVTruthValues();
 
-		//Init current state
-		this.currentState = (State) automaton.initials().iterator().next();
+		//Init movement map
+		this.movementMap = new HashMap<>();
+
+		for (Object o : this.automaton.states()){
+			this.movementMap.put((State) o, new HashSet<>());
+		}
+
+		State i = (State) this.automaton.initials().iterator().next();
+		this.movementMap.get(i).addAll(this.assignments);
+
+		//<editor-fold desc="Write graph to disk" defaultstate="collapsed">
+		FileOutputStream fos = null;
+
+		try {
+			fos = new FileOutputStream("foltlAutomaton.gv");
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		PrintStream ps = new PrintStream(fos);
+		ps.println(AutomatonUtils.toDot(this.automaton));
+		ps.flush();
+		ps.close();
+		//</editor-fold>
 	}
 
 	private LinkedHashSet<FoLtlAssignment> computeAllAssignments(){
@@ -75,13 +102,9 @@ public class ExecutableAutomaton {
 	private LinkedHashSet<FoLtlAssignment> allAssignments(int i, ArrayList<FoLtlVariable> variables){
 		LinkedHashSet<FoLtlAssignment> res = new LinkedHashSet<>();
 
-		if (i == variables.size() - 1){
+		if (i == variables.size()){
 			//Base case
-			for (FoLtlConstant c : this.domain){
-				FoLtlAssignment assignment = new FoLtlAssignment();
-				assignment.put(variables.get(i), c);
-				res.add(assignment);
-			}
+			res.add(new FoLtlAssignment());
 
 		} else {
 			LinkedHashSet<FoLtlAssignment> old = allAssignments(i+1, variables);
@@ -213,6 +236,38 @@ public class ExecutableAutomaton {
 	}
 
 
+	public void step(FoLtlInterpretation interpretation){
+		HashMap<State, HashSet<FoLtlAssignment>> newMovementMap =
+				(HashMap<State, HashSet<FoLtlAssignment>>) this.movementMap.clone();
+
+		for (Object o : this.automaton.states()){
+			State from = (State) o;
+			Set<Transition<FoLtlLabel>> transitions = this.automaton.delta(from);
+
+			for (Transition<FoLtlLabel> t : transitions){
+				State to = t.end();
+				FoLtlLabel label = t.label();
+
+				if (label instanceof FoLtlFormula){
+					FoLtlFormula formula = (FoLtlFormula) label;
+					HashSet<FoLtlAssignment> stateAssignments = (HashSet<FoLtlAssignment>) this.movementMap.get(from).clone();
+
+					for (FoLtlAssignment assignment : stateAssignments){
+						if (interpretation.satisfies((FoLtlLocalFormula) formula.substitute(assignment))){
+							newMovementMap.get(from).remove(assignment);
+							newMovementMap.get(to).add(assignment);
+						}
+					}
+				} else if (label instanceof FoLtlEmptyTrace){
+					//TODO
+				} else {
+					throw new RuntimeException("Unknown label type");
+				}
+			}
+		}
+
+		this.movementMap = newMovementMap;
+	}
 
 
 	//SETTER-GETTER methods
@@ -228,5 +283,8 @@ public class ExecutableAutomaton {
 	}
 	public StateRVTruthValueMap getTruthValueMap() {
 		return truthValueMap;
+	}
+	public HashMap<State, HashSet<FoLtlAssignment>> getMovementMap() {
+		return movementMap;
 	}
 }

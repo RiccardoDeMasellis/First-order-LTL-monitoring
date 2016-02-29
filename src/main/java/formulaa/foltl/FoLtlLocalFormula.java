@@ -77,7 +77,22 @@ public interface FoLtlLocalFormula extends FoLtlFormula, LocalFormula {
 	@Override
 	default LTLfFormula toLTLf(HashMap<FoLtlFormula, LTLfFormula> foltlTOltlf,
 														 HashMap<LTLfFormula, FoLtlFormula> ltlfTOfoltl){
-		LTLfFormula res = new LTLfLocalVar(this.getAtomicName());
+
+		String atomicName = this.getAtomicName();
+		LTLfFormula res = new LTLfLocalVar(atomicName);
+		int i = 0;
+		boolean exit = false;
+
+		do {
+			FoLtlFormula prev = ltlfTOfoltl.get(res);
+			if (prev != null && !prev.equals(res)){
+				res = new LTLfLocalVar(atomicName + i);
+				i++;
+			} else {
+				exit = true;
+			}
+		} while (!exit);
+
 		foltlTOltlf.put(this, res);
 		ltlfTOfoltl.put(res, this);
 		return res;

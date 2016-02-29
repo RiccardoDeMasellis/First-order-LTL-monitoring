@@ -2,6 +2,8 @@ package formulaa.rv;
 
 import formulaa.foltl.semantics.FoLtlAssignment;
 
+import java.util.HashMap;
+
 /**
  * RVAssignmentFormula
  * <br>
@@ -17,8 +19,14 @@ public class RVAssignmentFormula implements RVAtomicFormula {
 	}
 
 	@Override
-	public RVTruthValue evaluate() {
-		throw new RuntimeException("Cannot evaluate this assignment");
+	public RVTruthValue evaluate(HashMap<FoLtlAssignment, RVTruthValue> assignmentRVTruthMap){
+		RVTruthValue res = assignmentRVTruthMap.get(this.assignment);
+
+		if (res == null){
+			throw new RuntimeException("Cannot evaluate this assignment");
+		}
+
+		return res;
 	}
 
 	@Override
