@@ -215,8 +215,13 @@ public class AutomatonTest {
 
 	@Test
 	public void testExecution(){
-		FoLtlFormula formula = parseFoLtlFormula("Forall ?x (P(?x) U P(b))");
-		LinkedHashSet<FoLtlConstant> domain = parseConstantSet("a", "b");
+		FoLtlFormula formula =
+				parseFoLtlFormula("Forall ?z (Forall ?x ( (G(P(?x) -> F (Exists ?y (Q(?x, ?y))))) " +
+				"& (G(S(?z) -> F (Exists ?w (T(?z, ?w))))) ))");
+
+		System.out.println(formula.toLTLf(new HashMap<>(), new HashMap<>()));
+
+		LinkedHashSet<FoLtlConstant> domain = parseConstantSet("a", "b", "c", "d");
 		ExecutableAutomaton ea = new ExecutableAutomaton(formula, domain);
 
 		System.out.println(ea.getMovementMap());
