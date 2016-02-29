@@ -1,5 +1,9 @@
 package formulaa.rv;
 
+import formulaa.foltl.semantics.FoLtlAssignment;
+
+import java.util.HashMap;
+
 /**
  * RVOrFormula
  * <br>
@@ -13,10 +17,9 @@ public class RVOrFormula extends RVBinaryFormula {
 	}
 
 	@Override
-	public RVTruthValue evaluate(){
-
-		RVTruthValue left = this.getLeftFormula().evaluate();
-		RVTruthValue right = this.getRightFormula().evaluate();
+	public RVTruthValue evaluate(HashMap<FoLtlAssignment, RVTruthValue> assignmentRVTruthMap){
+		RVTruthValue left = this.getLeftFormula().evaluate(assignmentRVTruthMap);
+		RVTruthValue right = this.getRightFormula().evaluate(assignmentRVTruthMap);
 
 		if (left.ordinalValue() < right.ordinalValue()){
 			return left;

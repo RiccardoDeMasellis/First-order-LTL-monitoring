@@ -1,5 +1,8 @@
 package formulaa.rv;
 
+import formulaa.foltl.semantics.FoLtlAssignment;
+import java.util.HashMap;
+
 /**
  * RVFormula
  * <br>
@@ -8,7 +11,11 @@ package formulaa.rv;
  */
 public interface RVFormula extends Cloneable {
 
-	RVTruthValue evaluate();
+	default RVTruthValue evaluate(){
+		return this.evaluate(new HashMap<>());
+	}
+
+	RVTruthValue evaluate(HashMap<FoLtlAssignment, RVTruthValue> assignmentRVTruthMap);
 
 	@Override
 	String toString();
