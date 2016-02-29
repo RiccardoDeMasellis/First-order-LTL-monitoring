@@ -217,6 +217,9 @@ public class ExecutableAutomaton {
 
 
 	public void step(FoLtlInterpretation interpretation){
+		HashMap<State, HashSet<FoLtlAssignment>> newMovementMap =
+				(HashMap<State, HashSet<FoLtlAssignment>>) this.movementMap.clone();
+
 		for (Object o : this.automaton.states()){
 			State from = (State) o;
 			Set<Transition<FoLtlLabel>> transitions = this.automaton.delta(from);
@@ -226,12 +229,13 @@ public class ExecutableAutomaton {
 				FoLtlLabel label = t.label();
 
 				if (label instanceof FoLtlFormula){
-					FoLtlLocalFormula formula = (FoLtlLocalFormula) label;
+					FoLtlFormula formula = (FoLtlFormula) label;
+					HashSet<FoLtlAssignment> stateAssignments = (HashSet<FoLtlAssignment>) this.movementMap.get(from).clone();
 
-					for (FoLtlAssignment assignment : this.movementMap.get(from)){
-						if (interpretation.satisfies(formula)){
-							this.movementMap.get(from).remove(assignment);
-							this.movementMap.get(to).add(assignment);
+					for (FoLtlAssignment assignment : stateAssignments){
+						if (interpretation.satisfies((FoLtlLocalFormula) formula.substitute(assignment))){
+							newMovementMap.get(from).remove(assignment);
+							newMovementMap.get(to).add(assignment);
 						}
 					}
 				} else if (label instanceof FoLtlEmptyTrace){
@@ -241,6 +245,8 @@ public class ExecutableAutomaton {
 				}
 			}
 		}
+
+		this.movementMap = newMovementMap;
 	}
 
 
@@ -257,5 +263,8 @@ public class ExecutableAutomaton {
 	}
 	public StateRVTruthValueMap getTruthValueMap() {
 		return truthValueMap;
+	}
+	public HashMap<State, HashSet<FoLtlAssignment>> getMovementMap() {
+		return movementMap;
 	}
 }

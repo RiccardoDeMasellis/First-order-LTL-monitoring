@@ -2,6 +2,7 @@ import formula.ldlf.LDLfFormula;
 import formula.ltlf.LTLfFormula;
 import formulaa.foltl.*;
 import formulaa.foltl.semantics.FoLtlAssignment;
+import formulaa.foltl.semantics.FoLtlInterpretation;
 import formulaa.rv.*;
 import org.junit.Assert;
 import org.junit.Ignore;
@@ -81,16 +82,14 @@ public class AutomatonTest {
 
 	@Test
 	public void testExecutableAutomaton(){
-
 		FoLtlFormula formula = parseFoLtlFormula("Exists ?z (Forall ?x ((P(?x) && !P(?z)) U (Exists ?y (Q(?y)))))");
 		LinkedHashSet<FoLtlConstant> domain = parseConstantSet("a", "b");
-
 		ExecutableAutomaton ea = new ExecutableAutomaton(formula, domain);
 
-		//System.out.println(ea.getAssignments());
+		System.out.println(ea.getAssignments());
 		//System.out.println(ea.getSatisfiabilityMap());
 		//System.out.println(ea.getReachabilityMap());
-		System.out.println(ea.getTruthValueMap());
+		//System.out.println(ea.getTruthValueMap());
 
 	}
 
@@ -211,6 +210,22 @@ public class AutomatonTest {
 
 		formula = new RVOrFormula(f, f);
 		assertEquals("", new RVFalse(), formula.evaluate());
+
+	}
+
+	@Test
+	public void testExecution(){
+		FoLtlFormula formula = parseFoLtlFormula("Forall ?x (P(?x) U P(b))");
+		LinkedHashSet<FoLtlConstant> domain = parseConstantSet("a", "b");
+		ExecutableAutomaton ea = new ExecutableAutomaton(formula, domain);
+
+		System.out.println(ea.getMovementMap());
+
+		FoLtlInterpretation interpretation = new FoLtlInterpretation(domain);
+		interpretation.add((FoLtlLocalAtom) parseFoLtlFormula("P(a)"));
+		ea.step(interpretation);
+
+		System.out.println(ea.getMovementMap());
 
 	}
 
