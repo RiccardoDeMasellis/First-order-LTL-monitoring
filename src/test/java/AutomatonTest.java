@@ -36,7 +36,7 @@ public class AutomatonTest {
 	public void testAutomaton(){
 		System.out.println("TEST AUTOMATA TRANSLATION\n");
 
-		FoLtlFormula inputFormula = parseFoLtlFormula("Forall ?x ((Exists ?y Q(?y)) U (P(b) && P(?x)))");
+		FoLtlFormula inputFormula = parseFoLtlFormula("Forall ?x (P(?x) U P(b))");
 		LinkedHashSet<FoLtlConstant> domain = parseConstantSet("a", "b");
 
 		HashMap<FoLtlFormula, LTLfFormula> foltlTOltlf = new HashMap<>();

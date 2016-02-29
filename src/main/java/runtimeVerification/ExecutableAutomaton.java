@@ -17,7 +17,11 @@ import rationals.State;
 import rationals.Transition;
 import util.AutomataUtils;
 import util.Pair;
+import utils.AutomatonUtils;
 
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.PrintStream;
 import java.util.*;
 
 /**
@@ -71,6 +75,22 @@ public class ExecutableAutomaton {
 
 		State i = (State) this.automaton.initials().iterator().next();
 		this.movementMap.get(i).addAll(this.assignments);
+
+		//<editor-fold desc="Write graph to disk" defaultstate="collapsed">
+		FileOutputStream fos = null;
+
+		try {
+			fos = new FileOutputStream("foltlAutomaton.gv");
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		PrintStream ps = new PrintStream(fos);
+		ps.println(AutomatonUtils.toDot(this.automaton));
+		ps.flush();
+		ps.close();
+		//</editor-fold>
 	}
 
 	private LinkedHashSet<FoLtlAssignment> computeAllAssignments(){
