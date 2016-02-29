@@ -40,4 +40,8 @@ public class FoLtlInterpretation extends HashSet<FoLtlAtomicFormula> {
 
 		return hi;
 	}
+
+	public boolean satisfies(FoLtlLocalFormula formula){
+		return this.toTweetyInterpretation().satisfies(formula.toTweetyFol());
+	}
 }

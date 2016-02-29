@@ -7,6 +7,7 @@ import formulaa.foltl.FoLtlFormula;
 import formulaa.foltl.FoLtlLocalFormula;
 import formulaa.foltl.FoLtlVariable;
 import formulaa.foltl.semantics.FoLtlAssignment;
+import formulaa.foltl.semantics.FoLtlInterpretation;
 import formulaa.rv.RVFalse;
 import formulaa.rv.RVTempFalse;
 import formulaa.rv.RVTempTrue;
@@ -35,8 +36,7 @@ public class ExecutableAutomaton {
 	private SatisfiabilityMap satisfiabilityMap;
 	private ReachabilityMap reachabilityMap;
 	private StateRVTruthValueMap truthValueMap;
-
-	private State currentState;
+	private HashMap<State, HashSet<FoLtlAssignment>> movementMap;
 
 	public ExecutableAutomaton(FoLtlFormula formula, LinkedHashSet<FoLtlConstant> domain){
 		this.domain = domain;
@@ -63,7 +63,12 @@ public class ExecutableAutomaton {
 		this.computeRVTruthValues();
 
 		//Init current state
-		this.currentState = (State) automaton.initials().iterator().next();
+		for (Object o : this.automaton.states()){
+			this.movementMap.put((State) o, new HashSet<>());
+		}
+
+		State i = (State) this.automaton.initials().iterator().next();
+		this.movementMap.get(i).addAll(this.assignments);
 	}
 
 	private LinkedHashSet<FoLtlAssignment> computeAllAssignments(){
@@ -213,6 +218,22 @@ public class ExecutableAutomaton {
 	}
 
 
+	public void step(FoLtlInterpretation interpretation){
+
+		for (Object o : this.automaton.states()){
+			State state = (State) o;
+			Set<Transition<FoLtlLabel>> transitions = this.automaton.delta(state);
+
+			for (Transition<FoLtlLabel> t : transitions){
+				for (FoLtlAssignment assignment : this.movementMap.get(state)){
+					
+
+
+				}
+			}
+		}
+
+	}
 
 
 	//SETTER-GETTER methods
