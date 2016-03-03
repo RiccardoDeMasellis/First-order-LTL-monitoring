@@ -2,10 +2,10 @@ package util;
 
 import formula.ldlf.LDLfFormula;
 import formula.ltlf.LTLfFormula;
-import formulaa.foltl.FoLtlConstant;
-import formulaa.foltl.FoLtlFormula;
+import language.foltl.FoLtlConstant;
+import language.foltl.FoLtlFormula;
 import rationals.Automaton;
-import rationals.transformations.ToDFA;
+import rationals.transformations.Reducer;
 import utils.AutomatonUtils;
 
 import java.util.HashMap;
@@ -32,7 +32,8 @@ public class AutomataUtils {
 		Automaton ldlAutomaton = AutomatonUtils.ldlf2Automaton(ldlfFormula, ldlfFormula.getSignature());
 
 		//Minimization
-		ldlAutomaton = new ToDFA<>().transform(ldlAutomaton);
+		//ldlAutomaton = new ToDFA<>().transform(ldlAutomaton);
+		ldlAutomaton = new Reducer<>().transform(ldlAutomaton);
 
 		return ldlfAutomataToFoLtl(ldlAutomaton, ltlfTOfoltl, domain);
 	}

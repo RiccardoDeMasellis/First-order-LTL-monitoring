@@ -1,14 +1,13 @@
 import formula.ldlf.LDLfFormula;
 import formula.ltlf.LTLfFormula;
-import formulaa.foltl.*;
-import formulaa.foltl.semantics.FoLtlAssignment;
-import formulaa.foltl.semantics.FoLtlInterpretation;
-import formulaa.rv.*;
+import language.foltl.*;
+import language.foltl.semantics.FoLtlInterpretation;
+import language.rv.*;
 import org.junit.Assert;
-import org.junit.Ignore;
 import org.junit.Test;
 import rationals.Automaton;
 import runtimeVerification.ExecutableAutomaton;
+import runtimeVerification.FoLtlEmptyTraceInput;
 import util.FoLtlSortManager;
 import utils.AutomatonUtils;
 
@@ -215,17 +214,46 @@ public class AutomatonTest {
 
 	@Test
 	public void testExecution(){
-		FoLtlFormula formula = parseFoLtlFormula("Forall ?x (P(?x) U P(b))");
-		LinkedHashSet<FoLtlConstant> domain = parseConstantSet("a", "b");
+		FoLtlFormula formula =
+				parseFoLtlFormula("Forall ?z (Forall ?x ( (G(P(?x) -> F (Exists ?y (Q(?x, ?y))))) " +
+				"& (G(S(?z) -> F (Exists ?w (T(?z, ?w))))) ))");
+
+		LinkedHashSet<FoLtlConstant> domain = parseConstantSet("a", "b", "c", "d");
+
+		FoLtlSortManager sm = new FoLtlSortManager(domain);
+		sm.parseSortDefinition("SortAB := {a, b}; SortC := {c}; SortD := {d};");
+		sm.assignSort(formula, "?z <- SortAB; ?x <- SortD; ?y <- SortAB; ?w <- SortC;");
+
 		ExecutableAutomaton ea = new ExecutableAutomaton(formula, domain);
 
 		System.out.println(ea.getMovementMap());
+		System.out.println(ea.getReverseMovementMap());
+		System.out.println(ea.computeFormulaRVTruthValue());
+		System.out.println();
 
 		FoLtlInterpretation interpretation = new FoLtlInterpretation(domain);
 		interpretation.add((FoLtlLocalAtom) parseFoLtlFormula("P(a)"));
-		ea.step(interpretation);
 
+		ea.step(interpretation);
 		System.out.println(ea.getMovementMap());
+		System.out.println(ea.getReverseMovementMap());
+		System.out.println(ea.computeFormulaRVTruthValue());
+		System.out.println();
+
+		interpretation = new FoLtlInterpretation(domain);
+		interpretation.add((FoLtlLocalAtom) parseFoLtlFormula("P(d)"));
+
+		ea.step(interpretation);
+		System.out.println(ea.getMovementMap());
+		System.out.println(ea.getReverseMovementMap());
+		System.out.println(ea.computeFormulaRVTruthValue());
+		System.out.println();
+
+		ea.step(new FoLtlEmptyTraceInput());
+		System.out.println(ea.getMovementMap());
+		System.out.println(ea.getReverseMovementMap());
+		System.out.println(ea.computeFormulaRVTruthValue());
+		System.out.println();
 
 	}
 

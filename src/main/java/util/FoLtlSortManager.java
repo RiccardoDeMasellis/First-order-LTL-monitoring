@@ -1,9 +1,9 @@
 package util;
 
-import formulaa.foltl.FoLtlConstant;
-import formulaa.foltl.FoLtlFormula;
-import formulaa.foltl.FoLtlSort;
-import formulaa.foltl.FoLtlVariable;
+import language.foltl.FoLtlConstant;
+import language.foltl.FoLtlFormula;
+import language.foltl.FoLtlSort;
+import language.foltl.FoLtlVariable;
 
 import java.util.HashMap;
 import java.util.HashSet;

@@ -1,13 +1,13 @@
 package util;
 
 import antlr4_generated.*;
-import formulaa.fol.FolFormula;
-import formulaa.foltl.FoLtlConstant;
-import formulaa.foltl.FoLtlFormula;
+import language.fol.FolFormula;
+import language.foltl.FoLtlConstant;
+import language.foltl.FoLtlFormula;
 import formula.ltlf.LTLfFormula;
-import formulaa.foltl.FoLtlSort;
-import formulaa.foltl.FoLtlVariable;
-import formulaa.foltl.semantics.FoLtlAssignment;
+import language.foltl.FoLtlSort;
+import language.foltl.FoLtlVariable;
+import language.foltl.semantics.FoLtlAssignment;
 import net.sf.tweety.commons.Formula;
 import net.sf.tweety.logics.fol.parser.FolParser;
 import net.sf.tweety.logics.fol.syntax.FolSignature;
@@ -20,7 +20,6 @@ import visitors.AssignmentVisitors.AssignmentVisitor;
 import visitors.FOLTLVisitors.*;
 import visitors.FOLVisitors.*;
 import visitors.LTLfVisitors.LTLfVisitor;
-import visitors.SortVisitors.*;
 import visitors.SortVisitors.FoLtlSortAssignmentVisitor;
 import visitors.SortVisitors.FoLtlSortDefinitionVisitor;
 

@@ -4,7 +4,7 @@ import antlr4_generated.FOFormulaParserLexer;
 import antlr4_generated.FOFormulaParserParser;
 import antlr4_generated.FOLTLFormulaParserBaseVisitor;
 import antlr4_generated.FOLTLFormulaParserParser;
-import formulaa.foltl.*;
+import language.foltl.*;
 import org.antlr.v4.runtime.ANTLRInputStream;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.misc.Interval;

@@ -2,8 +2,8 @@ package visitors.SortVisitors;
 
 import antlr4_generated.FoLtlSortAssignmentBaseVisitor;
 import antlr4_generated.FoLtlSortAssignmentParser;
-import formulaa.foltl.FoLtlSort;
-import formulaa.foltl.FoLtlVariable;
+import language.foltl.FoLtlSort;
+import language.foltl.FoLtlVariable;
 
 import java.util.HashMap;
 import java.util.HashSet;

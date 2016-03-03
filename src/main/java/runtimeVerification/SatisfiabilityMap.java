@@ -1,10 +1,9 @@
 package runtimeVerification;
 
-import automata.FoLtlEmptyTrace;
 import automata.FoLtlLabel;
-import formulaa.foltl.FoLtlFormula;
-import formulaa.foltl.FoLtlVariable;
-import formulaa.foltl.semantics.FoLtlAssignment;
+import language.foltl.FoLtlFormula;
+import language.foltl.FoLtlVariable;
+import language.foltl.semantics.FoLtlAssignment;
 import util.Pair;
 
 import java.util.HashMap;

@@ -1,15 +1,9 @@
 import static util.ParsingUtils.*;
-import static util.TweetyTranslator.*;
 
-import formula.ltlf.*;
-import formulaa.foltl.*;
-import formulaa.foltl.semantics.FoLtlAssignment;
-import formulaa.foltl.semantics.FoLtlInterpretation;
-import net.sf.tweety.logics.commons.syntax.Constant;
-import net.sf.tweety.logics.fol.syntax.FolFormula;
-import net.sf.tweety.logics.fol.syntax.FolSignature;
-import net.sf.tweety.logics.pl.syntax.PropositionalFormula;
-import java.util.HashMap;
+import language.foltl.*;
+import language.foltl.semantics.FoLtlAssignment;
+import language.foltl.semantics.FoLtlInterpretation;
+
 import java.util.HashSet;
 import java.util.LinkedHashSet;
 
