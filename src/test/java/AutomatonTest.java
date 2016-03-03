@@ -227,14 +227,15 @@ public class AutomatonTest {
 
 		ExecutableAutomaton ea = new ExecutableAutomaton(formula, domain);
 
-		System.out.println(ea.getAssignments());
 		System.out.println(ea.getMovementMap());
+		System.out.println(ea.getReverseMovementMap());
 
 		FoLtlInterpretation interpretation = new FoLtlInterpretation(domain);
 		interpretation.add((FoLtlLocalAtom) parseFoLtlFormula("P(a)"));
 		ea.step(interpretation);
 
 		System.out.println(ea.getMovementMap());
+		System.out.println(ea.getReverseMovementMap());
 
 	}
 

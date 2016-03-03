@@ -41,6 +41,7 @@ public class ExecutableAutomaton {
 	private ReachabilityMap reachabilityMap;
 	private StateRVTruthValueMap truthValueMap;
 	private HashMap<State, HashSet<FoLtlAssignment>> movementMap;
+	private HashMap<FoLtlAssignment, HashSet<State>> reverseMovementMap;
 
 	public ExecutableAutomaton(FoLtlFormula formula, LinkedHashSet<FoLtlConstant> domain){
 		this.domain = domain;
@@ -75,6 +76,13 @@ public class ExecutableAutomaton {
 
 		State i = (State) this.automaton.initials().iterator().next();
 		this.movementMap.get(i).addAll(this.assignments);
+
+		//Init reverse movement map
+		this.reverseMovementMap = new HashMap<>();
+		for (FoLtlAssignment assignment: this.assignments){
+			this.reverseMovementMap.put(assignment, new HashSet<>());
+			this.reverseMovementMap.get(assignment).add(i);
+		}
 
 		//<editor-fold desc="Write graph to disk" defaultstate="collapsed">
 		FileOutputStream fos = null;
@@ -236,8 +244,7 @@ public class ExecutableAutomaton {
 		}
 	}
 
-
-	public void step(FoLtlInterpretation interpretation){
+	public void step(FoLtlTraceInput traceInput){
 		HashMap<State, HashSet<FoLtlAssignment>> newMovementMap =
 				(HashMap<State, HashSet<FoLtlAssignment>>) this.movementMap.clone();
 
@@ -248,26 +255,39 @@ public class ExecutableAutomaton {
 			for (Transition<FoLtlLabel> t : transitions){
 				State to = t.end();
 				FoLtlLabel label = t.label();
+				HashSet<FoLtlAssignment> stateAssignments = (HashSet<FoLtlAssignment>) this.movementMap.get(from).clone();
 
-				if (label instanceof FoLtlFormula){
+				if (label instanceof FoLtlFormula && traceInput instanceof FoLtlInterpretation){
 					FoLtlFormula formula = (FoLtlFormula) label;
-					HashSet<FoLtlAssignment> stateAssignments = (HashSet<FoLtlAssignment>) this.movementMap.get(from).clone();
+					FoLtlInterpretation interpretation = (FoLtlInterpretation) traceInput;
 
 					for (FoLtlAssignment assignment : stateAssignments){
 						if (interpretation.satisfies((FoLtlLocalFormula) formula.substitute(assignment))){
-							newMovementMap.get(from).remove(assignment);
-							newMovementMap.get(to).add(assignment);
+							this.moveAssignment(newMovementMap, this.reverseMovementMap, assignment, from, to);
 						}
 					}
-				} else if (label instanceof FoLtlEmptyTrace){
-					//TODO
+				} else if (label instanceof FoLtlEmptyTrace && traceInput instanceof FoLtlEmptyTraceInput){
+					//TODO ?
+					for (FoLtlAssignment assignment: stateAssignments){
+						this.moveAssignment(newMovementMap, this.reverseMovementMap, assignment, from, to);
+					}
 				} else {
-					throw new RuntimeException("Unknown label type");
+					//Do nothing
 				}
 			}
 		}
 
 		this.movementMap = newMovementMap;
+	}
+
+	private void moveAssignment(HashMap<State, HashSet<FoLtlAssignment>> movementMap,
+															HashMap<FoLtlAssignment, HashSet<State>> reverseMovementMap,
+															FoLtlAssignment assignment, State from, State to){
+
+		movementMap.get(from).remove(assignment);
+		movementMap.get(to).add(assignment);
+		reverseMovementMap.get(assignment).remove(from);
+		reverseMovementMap.get(assignment).add(to);
 	}
 
 
@@ -287,5 +307,8 @@ public class ExecutableAutomaton {
 	}
 	public HashMap<State, HashSet<FoLtlAssignment>> getMovementMap() {
 		return movementMap;
+	}
+	public HashMap<FoLtlAssignment, HashSet<State>> getReverseMovementMap() {
+		return reverseMovementMap;
 	}
 }

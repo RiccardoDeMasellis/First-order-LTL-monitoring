@@ -3,6 +3,7 @@ package formulaa.foltl.semantics;
 import formulaa.foltl.*;
 import net.sf.tweety.logics.fol.semantics.HerbrandInterpretation;
 import net.sf.tweety.logics.fol.syntax.FOLAtom;
+import runtimeVerification.FoLtlTraceInput;
 
 import java.util.HashSet;
 
@@ -12,7 +13,7 @@ import java.util.HashSet;
  * Created by Simone Calciolari on 29/02/16.
  * @author Simone Calciolari.
  */
-public class FoLtlInterpretation extends HashSet<FoLtlAtomicFormula> {
+public class FoLtlInterpretation extends HashSet<FoLtlAtomicFormula> implements FoLtlTraceInput {
 
 	private HashSet<FoLtlConstant> domain;
 
