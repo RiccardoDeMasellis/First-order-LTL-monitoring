@@ -2,8 +2,8 @@ import static util.ParsingUtils.*;
 import static util.TweetyTranslator.*;
 
 import formula.ltlf.*;
-import formulaa.foltl.*;
-import formulaa.foltl.semantics.FoLtlAssignment;
+import language.foltl.*;
+import language.foltl.semantics.FoLtlAssignment;
 import net.sf.tweety.logics.commons.syntax.Constant;
 import net.sf.tweety.logics.fol.syntax.FolFormula;
 import net.sf.tweety.logics.fol.syntax.FolSignature;

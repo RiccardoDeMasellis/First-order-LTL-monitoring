@@ -1,5 +1,5 @@
-import formulaa.foltl.*;
-import formulaa.foltl.semantics.FoLtlAssignment;
+import language.foltl.*;
+import language.foltl.semantics.FoLtlAssignment;
 import org.junit.Assert;
 import org.junit.Test;
 

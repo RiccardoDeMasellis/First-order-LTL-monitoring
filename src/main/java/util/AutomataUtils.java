@@ -2,11 +2,10 @@ package util;
 
 import formula.ldlf.LDLfFormula;
 import formula.ltlf.LTLfFormula;
-import formulaa.foltl.FoLtlConstant;
-import formulaa.foltl.FoLtlFormula;
+import language.foltl.FoLtlConstant;
+import language.foltl.FoLtlFormula;
 import rationals.Automaton;
 import rationals.transformations.Reducer;
-import rationals.transformations.ToDFA;
 import utils.AutomatonUtils;
 
 import java.util.HashMap;

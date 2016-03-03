@@ -2,13 +2,13 @@ package runtimeVerification;
 
 import automata.FoLtlEmptyTrace;
 import automata.FoLtlLabel;
-import formulaa.foltl.FoLtlConstant;
-import formulaa.foltl.FoLtlFormula;
-import formulaa.foltl.FoLtlLocalFormula;
-import formulaa.foltl.FoLtlVariable;
-import formulaa.foltl.semantics.FoLtlAssignment;
-import formulaa.foltl.semantics.FoLtlInterpretation;
-import formulaa.rv.*;
+import language.foltl.FoLtlConstant;
+import language.foltl.FoLtlFormula;
+import language.foltl.FoLtlLocalFormula;
+import language.foltl.FoLtlVariable;
+import language.foltl.semantics.FoLtlAssignment;
+import language.foltl.semantics.FoLtlInterpretation;
+import language.rv.*;
 import rationals.Automaton;
 import rationals.State;
 import rationals.Transition;
@@ -264,7 +264,6 @@ public class ExecutableAutomaton {
 						}
 					}
 				} else if (label instanceof FoLtlEmptyTrace && traceInput instanceof FoLtlEmptyTraceInput){
-					//TODO ?
 					for (FoLtlAssignment assignment: stateAssignments){
 						this.moveAssignment(newMovementMap, this.reverseMovementMap, assignment, from, to);
 					}

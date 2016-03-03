@@ -1,6 +1,6 @@
 package runtimeVerification;
 
-import formulaa.foltl.semantics.FoLtlAssignment;
+import language.foltl.semantics.FoLtlAssignment;
 import rationals.State;
 import util.Pair;
 

@@ -1,4 +1,4 @@
-import formulaa.fol.*;
+import language.fol.*;
 import org.junit.Assert;
 import org.junit.Test;
 

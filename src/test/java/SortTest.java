@@ -1,4 +1,4 @@
-import formulaa.foltl.*;
+import language.foltl.*;
 import org.junit.Assert;
 import org.junit.Test;
 import util.FoLtlSortManager;

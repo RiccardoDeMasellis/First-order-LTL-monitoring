@@ -2,9 +2,9 @@ package visitors.AssignmentVisitors;
 
 import antlr4_generated.FoLtlAssignmentBaseVisitor;
 import antlr4_generated.FoLtlAssignmentParser;
-import formulaa.foltl.FoLtlConstant;
-import formulaa.foltl.FoLtlVariable;
-import formulaa.foltl.semantics.FoLtlAssignment;
+import language.foltl.FoLtlConstant;
+import language.foltl.FoLtlVariable;
+import language.foltl.semantics.FoLtlAssignment;
 
 import java.util.HashSet;
 import java.util.Iterator;

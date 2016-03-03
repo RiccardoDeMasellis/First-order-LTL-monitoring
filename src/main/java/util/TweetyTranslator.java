@@ -2,13 +2,12 @@ package util;
 
 import evaluations.PropositionLast;
 import formula.ltlf.*;
-import formulaa.foltl.*;
+import language.foltl.*;
 import net.sf.tweety.logics.pl.semantics.PossibleWorld;
 import net.sf.tweety.logics.pl.syntax.*;
 
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.Set;
 
 /**
  * Class that packs static methods to translate tweety formulas back.

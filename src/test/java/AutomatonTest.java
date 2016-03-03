@@ -1,11 +1,9 @@
 import formula.ldlf.LDLfFormula;
 import formula.ltlf.LTLfFormula;
-import formulaa.foltl.*;
-import formulaa.foltl.semantics.FoLtlAssignment;
-import formulaa.foltl.semantics.FoLtlInterpretation;
-import formulaa.rv.*;
+import language.foltl.*;
+import language.foltl.semantics.FoLtlInterpretation;
+import language.rv.*;
 import org.junit.Assert;
-import org.junit.Ignore;
 import org.junit.Test;
 import rationals.Automaton;
 import runtimeVerification.ExecutableAutomaton;
@@ -228,22 +226,33 @@ public class AutomatonTest {
 
 		ExecutableAutomaton ea = new ExecutableAutomaton(formula, domain);
 
-		System.out.println(ea.computeFormulaRVTruthValue());
 		System.out.println(ea.getMovementMap());
 		System.out.println(ea.getReverseMovementMap());
+		System.out.println(ea.computeFormulaRVTruthValue());
 		System.out.println();
 
 		FoLtlInterpretation interpretation = new FoLtlInterpretation(domain);
 		interpretation.add((FoLtlLocalAtom) parseFoLtlFormula("P(a)"));
 
-		System.out.println(ea.step(interpretation));
+		ea.step(interpretation);
 		System.out.println(ea.getMovementMap());
 		System.out.println(ea.getReverseMovementMap());
+		System.out.println(ea.computeFormulaRVTruthValue());
 		System.out.println();
 
-		System.out.println(ea.step(new FoLtlEmptyTraceInput()));
+		interpretation = new FoLtlInterpretation(domain);
+		interpretation.add((FoLtlLocalAtom) parseFoLtlFormula("P(d)"));
+
+		ea.step(interpretation);
 		System.out.println(ea.getMovementMap());
 		System.out.println(ea.getReverseMovementMap());
+		System.out.println(ea.computeFormulaRVTruthValue());
+		System.out.println();
+
+		ea.step(new FoLtlEmptyTraceInput());
+		System.out.println(ea.getMovementMap());
+		System.out.println(ea.getReverseMovementMap());
+		System.out.println(ea.computeFormulaRVTruthValue());
 		System.out.println();
 
 	}
