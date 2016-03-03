@@ -107,12 +107,13 @@ public class ExecutableAutomaton {
 			res.add(new FoLtlAssignment());
 
 		} else {
-			LinkedHashSet<FoLtlAssignment> old = allAssignments(i+1, variables);
+			LinkedHashSet<FoLtlAssignment> old = allAssignments(i + 1, variables);
+			FoLtlVariable v = variables.get(i);
 
 			for (FoLtlAssignment assignment : old) {
-				for (FoLtlConstant c : this.domain) {
+				for (FoLtlConstant c : v.getSort()) {
 					FoLtlAssignment ass = (FoLtlAssignment) assignment.clone();
-					ass.put(variables.get(i), c);
+					ass.put(v, c);
 					res.add(ass);
 				}
 			}
