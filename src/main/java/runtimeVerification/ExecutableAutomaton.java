@@ -8,10 +8,7 @@ import formulaa.foltl.FoLtlLocalFormula;
 import formulaa.foltl.FoLtlVariable;
 import formulaa.foltl.semantics.FoLtlAssignment;
 import formulaa.foltl.semantics.FoLtlInterpretation;
-import formulaa.rv.RVFalse;
-import formulaa.rv.RVTempFalse;
-import formulaa.rv.RVTempTrue;
-import formulaa.rv.RVTrue;
+import formulaa.rv.*;
 import rationals.Automaton;
 import rationals.State;
 import rationals.Transition;
@@ -244,7 +241,7 @@ public class ExecutableAutomaton {
 		}
 	}
 
-	public void step(FoLtlTraceInput traceInput){
+	public RVTruthValue step(FoLtlTraceInput traceInput){
 		HashMap<State, HashSet<FoLtlAssignment>> newMovementMap =
 				(HashMap<State, HashSet<FoLtlAssignment>>) this.movementMap.clone();
 
@@ -278,6 +275,7 @@ public class ExecutableAutomaton {
 		}
 
 		this.movementMap = newMovementMap;
+		return this.computeFormulaRVTruthValue();
 	}
 
 	private void moveAssignment(HashMap<State, HashSet<FoLtlAssignment>> movementMap,
@@ -290,6 +288,30 @@ public class ExecutableAutomaton {
 		reverseMovementMap.get(assignment).add(to);
 	}
 
+	public RVTruthValue computeFormulaRVTruthValue(){
+		RVFormula rvFormula = this.formula.expandToRVFormula(domain);
+		HashMap<FoLtlAssignment, RVTruthValue> rvValueMap = new HashMap<>();
+
+		for (FoLtlAssignment assignment : this.assignments){
+			rvValueMap.put(assignment, this.computeAssignmentTruthValue(assignment));
+		}
+
+		return rvFormula.evaluate(rvValueMap);
+	}
+
+	private RVTruthValue computeAssignmentTruthValue(FoLtlAssignment assignment){
+		RVFormula rvFormula = null;
+
+		for (State s: this.reverseMovementMap.get(assignment)){
+			if (rvFormula == null){
+				rvFormula = this.truthValueMap.get(new Pair<>(s, assignment));
+			} else {
+				rvFormula = new RVOrFormula(rvFormula, this.truthValueMap.get(new Pair<>(s, assignment)));
+			}
+		}
+
+		return rvFormula.evaluate();
+	}
 
 	//SETTER-GETTER methods
 

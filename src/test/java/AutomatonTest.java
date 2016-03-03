@@ -9,6 +9,7 @@ import org.junit.Ignore;
 import org.junit.Test;
 import rationals.Automaton;
 import runtimeVerification.ExecutableAutomaton;
+import runtimeVerification.FoLtlEmptyTraceInput;
 import util.FoLtlSortManager;
 import utils.AutomatonUtils;
 
@@ -227,15 +228,23 @@ public class AutomatonTest {
 
 		ExecutableAutomaton ea = new ExecutableAutomaton(formula, domain);
 
+		System.out.println(ea.computeFormulaRVTruthValue());
 		System.out.println(ea.getMovementMap());
 		System.out.println(ea.getReverseMovementMap());
+		System.out.println();
 
 		FoLtlInterpretation interpretation = new FoLtlInterpretation(domain);
 		interpretation.add((FoLtlLocalAtom) parseFoLtlFormula("P(a)"));
-		ea.step(interpretation);
 
+		System.out.println(ea.step(interpretation));
 		System.out.println(ea.getMovementMap());
 		System.out.println(ea.getReverseMovementMap());
+		System.out.println();
+
+		System.out.println(ea.step(new FoLtlEmptyTraceInput()));
+		System.out.println(ea.getMovementMap());
+		System.out.println(ea.getReverseMovementMap());
+		System.out.println();
 
 	}
 
