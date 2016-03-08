@@ -40,6 +40,12 @@ public class ExecutableAutomaton {
 	private HashMap<State, HashSet<FoLtlAssignment>> movementMap;
 	private HashMap<FoLtlAssignment, HashSet<State>> reverseMovementMap;
 
+	/**
+	 * Initializes the Executable Automaton data structures
+	 * <b>WARNING!</b> Performs time consuming operations; may require some time
+	 * @param formula the formula to be turned into the automaton
+	 * @param domain the domain of the formula
+	 */
 	public ExecutableAutomaton(FoLtlFormula formula, LinkedHashSet<FoLtlConstant> domain){
 		this.domain = domain;
 		this.formula = formula;
@@ -241,6 +247,11 @@ public class ExecutableAutomaton {
 		}
 	}
 
+	/**
+	 * Performs a step in the execution of the automaton monitoring
+	 * @param traceInput the input for the next step of execution
+	 * @return the RV Truth Value of the formula after the step is performed
+	 */
 	public RVTruthValue step(FoLtlTraceInput traceInput){
 		HashMap<State, HashSet<FoLtlAssignment>> newMovementMap =
 				(HashMap<State, HashSet<FoLtlAssignment>>) this.movementMap.clone();
@@ -287,6 +298,10 @@ public class ExecutableAutomaton {
 		reverseMovementMap.get(assignment).add(to);
 	}
 
+	/**
+	 * returns the current RV Truth Value of the formula at the current state of the execution
+	 * @return
+	 */
 	public RVTruthValue computeFormulaRVTruthValue(){
 		RVFormula rvFormula = this.formula.expandToRVFormula(domain);
 		HashMap<FoLtlAssignment, RVTruthValue> rvValueMap = new HashMap<>();
@@ -312,7 +327,7 @@ public class ExecutableAutomaton {
 		return rvFormula.evaluate();
 	}
 
-	//SETTER-GETTER methods
+	//GETTER methods
 
 	public SatisfiabilityMap getSatisfiabilityMap() {
 		return satisfiabilityMap;
