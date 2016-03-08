@@ -1,13 +1,11 @@
 package main;
 
-import language.foltl.FoLtlAtomicFormula;
 import language.foltl.FoLtlConstant;
 import language.foltl.FoLtlFormula;
 import language.foltl.FoLtlLocalAtom;
 import language.foltl.semantics.FoLtlInterpretation;
 import runtimeVerification.ExecutableAutomaton;
 import runtimeVerification.FoLtlEmptyTraceInput;
-import runtimeVerification.FoLtlTraceInput;
 import util.FoLtlSortManager;
 
 import java.util.LinkedHashSet;
