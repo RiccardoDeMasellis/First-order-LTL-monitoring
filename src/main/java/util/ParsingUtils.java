@@ -294,6 +294,11 @@ public class ParsingUtils {
 		return (net.sf.tweety.logics.fol.syntax.FolFormula) output;
 	}
 
+	/**
+	 * Encapsulates instructions to parse an assignment
+	 * @param input input for the parser
+	 * @return the parsed assignment
+	 */
 	public static FoLtlAssignment parseFoltlAssignment(String input){
 		FoLtlAssignment output;
 
@@ -321,6 +326,12 @@ public class ParsingUtils {
 		return output;
 	}
 
+	/**
+	 * Encapsulates the instructions needed to parse a sort definition
+	 * @param input input for the parser
+	 * @param domain domain of the current problem
+	 * @return the parsed list of sorts
+	 */
 	public static LinkedHashSet<FoLtlSort> parseSortDefinition(String input, LinkedHashSet<FoLtlConstant> domain){
 		LinkedHashSet<FoLtlSort> output;
 
@@ -348,6 +359,13 @@ public class ParsingUtils {
 		return output;
 	}
 
+	/**
+	 * Encapsulates the instructions to parse a sort assignment
+	 * @param input the string input for the parser
+	 * @param variables the set of variables to be sorted
+	 * @param sorts the set of possible sorts
+	 * @return a map that assigns to each variable the desired sort
+	 */
 	public static HashMap<FoLtlVariable, FoLtlSort> parseSortAssignment(String input, HashSet<FoLtlVariable> variables,
 																																			LinkedHashSet<FoLtlSort> sorts){
 		HashMap<FoLtlVariable, FoLtlSort> output;
