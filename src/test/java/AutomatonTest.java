@@ -218,10 +218,10 @@ public class AutomatonTest {
 				parseFoLtlFormula("Forall ?z (Forall ?x ( (G(P(?x) -> F (Exists ?y (Q(?x, ?y))))) " +
 				"& (G(S(?z) -> F (Exists ?w (T(?z, ?w))))) ))");
 
-		LinkedHashSet<FoLtlConstant> domain = parseConstantSet("a", "b", "c", "d");
+		LinkedHashSet<FoLtlConstant> domain = parseConstantSet("a", "b", "c", "d", "e", "f", "g");
 
 		FoLtlSortManager sm = new FoLtlSortManager(domain);
-		sm.parseSortDefinition("SortAB := {a, b}; SortC := {c}; SortD := {d};");
+		sm.parseSortDefinition("SortAB := {a, b, e}; SortC := {c, f}; SortD := {d, g};");
 		sm.assignSort(formula, "?z <- SortAB; ?x <- SortD; ?y <- SortAB; ?w <- SortC;");
 
 		ExecutableAutomaton ea = new ExecutableAutomaton(formula, domain);

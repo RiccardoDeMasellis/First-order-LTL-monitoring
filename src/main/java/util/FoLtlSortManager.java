@@ -20,21 +20,40 @@ public class FoLtlSortManager {
 	private LinkedHashSet<FoLtlConstant> domain;
 	private LinkedHashSet<FoLtlSort> sorts;
 
-	public FoLtlSortManager(){
+	/**
+	 * Empty constructor
+	 * Initializes an empty domain
+	 */
+	protected FoLtlSortManager(){
 		this.domain = new LinkedHashSet<>();
 		this.sorts = new LinkedHashSet<>();
 	}
 
+	/**
+	 * Constructor
+	 * @param domain the domain of the current problem
+	 */
 	public FoLtlSortManager(LinkedHashSet<FoLtlConstant> domain){
 		this.domain = domain;
 		this.sorts = new LinkedHashSet<>();
 	}
 
+	/**
+	 * Parse the sort definition;
+	 * @param input string input for the parser
+	 * @return the parsed list of sorts
+	 */
 	public LinkedHashSet<FoLtlSort> parseSortDefinition(String input){
-		this.sorts = ParsingUtils.parseSortDefinition(input, this.domain);;
+		this.sorts = ParsingUtils.parseSortDefinition(input, this.domain);
 		return this.sorts;
 	}
 
+	/**
+	 * Assigns the current sorts to the given formula
+	 * @param formula the formula to which the sorts are to be assigned
+	 * @param input string input for the parser;
+	 * @return the formula with sorts assigned to its variables
+	 */
 	public FoLtlFormula assignSort(FoLtlFormula formula, String input){
 		HashSet<FoLtlVariable> variables = new HashSet<>();
 		variables.addAll(formula.getAcrossVariables());
